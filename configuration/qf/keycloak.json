@@ -1,0 +1,6 @@
+{
+  "realm": "agents-insee-interne",
+  "auth-server-url": "https://auth.insee.test/auth",
+  "ssl-required": "none",
+  "resource": "pearl-frontend"
+}
