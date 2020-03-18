@@ -16,7 +16,7 @@
   "scripts": {
     "start": "webpack-dev-server --env.NODE_ENV=local --config ./webpack.config.js --mode development --port 5000",
     "build": "yarn clean-build && webpack --env.NODE_ENV=local --config ./webpack.config.js  && copy-and-watch configuration/local/*.json build",
-    "build-innovation": "yarn clean-build && webpack --env.NODE_ENV=innovation --config ./webpack.config.js  && copy-and-watch configuration/innovation/*.json build",
+    "build-docker": "yarn clean-build && webpack --env.NODE_ENV=docker --config ./webpack.config.js  && copy-and-watch configuration/docker/*.json build",
     "clean-build": "rm -rf build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

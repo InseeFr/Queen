@@ -1,0 +1,6 @@
+{
+  "urlQueenComment": "Final URL of the Queen application",
+  "urlQueen": "http://localhost:5000",
+  "urlQueenApiComment": "URL of the back-office of Queen application",
+  "urlQueenApi": ""
+}
