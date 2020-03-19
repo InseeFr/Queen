@@ -1,0 +1,83 @@
+/*
+ * Override Lunatic component style
+*/
+@import './variables.scss';
+
+// Declaration's style
+.components .declaration-lunatic {
+  color: $declaration-color;
+}
+
+.body-container {
+  margin-top: 1em;
+  background-color: $background-header-color;
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
+.components {
+  .lunatic-component {
+    height: 60vh;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+  }
+}
+
+// Checkbox's style
+
+fieldset.checkbox-group {
+  padding: 0;
+  margin: 0;
+  border: none;
+
+  $border-checkbox-color: #aaaaaa;
+
+  // Style of containing of checkboxes
+  .checkbox-modality {
+    border-radius: 5px;
+    border: 1px solid $border-checkbox-color;
+    background-color: #d6d6d6;
+    padding: 0.8em;
+    margin: 8px;
+    width: 45%;
+  }
+
+  .code {
+    position: relative;
+    left: -1em;
+    padding: 0.3em 0.5em 0.3em 0.5em;
+    color: black;
+    font-weight: bold;
+    border: 1px solid $border-checkbox-color;
+    background-color: white;
+    border-radius: 5px;
+  }
+
+  .checkbox-lunatic {
+    opacity: 0;
+
+    &:checked + label::after {
+      float: right;
+      content: '✓';
+    }
+    &:focus + label,
+    &:hover + label {
+      .code {
+        color: white;
+        background-color: $declaration-color;
+        border-color: $declaration-color;
+      }
+    }
+
+    &:checked + label {
+      color: #1d63a0;
+      font-weight: bold;
+      .code {
+        color: white;
+        background-color: $declaration-color;
+        border-color: $declaration-color;
+      }
+    }
+  }
+}

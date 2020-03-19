@@ -1,0 +1,32 @@
+.navigation {
+  vertical-align: middle;
+  padding: 1em;
+  width: 35px;
+  display: table-cell;
+}
+
+.menu-icon {
+  background-color: transparent;
+  border: none;
+}
+
+.menu {
+  position: absolute;
+  top: 4em;
+  left: -1em;
+  z-index: 5;
+}
+
+.subnav-content {
+  background-color: whitesmoke;
+  position: relative;
+}
+
+a {
+  color: black;
+  cursor: default;
+}
+a.active {
+  color: green;
+  cursor: pointer;
+}

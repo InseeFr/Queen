@@ -1,0 +1,17 @@
+.Breadcrumb {
+  color: black;
+  font-style: underline;
+  margin-top: 1em;
+
+  .breadcrumb-lunatic {
+    height: auto;
+    font-weight: bold;
+    font-size: 100%;
+    padding-left: 10px;
+    align-items: center;
+  }
+  .breadcrumb-element-lunatic {
+    display: block;
+    font-size: 130%;
+  }
+}

@@ -1,0 +1,90 @@
+import React from 'react';
+
+const Icon = ({ width = 388, color = '#000000', ...props }) => (
+  <svg
+    {...props}
+    xmlns="http://www.w3.org/2000/svg"
+    version="1.1"
+    width={width}
+    viewBox="-0.5 -0.5 388 385"
+  >
+    <defs />
+    <g>
+      <rect x="2" y="0" width="102" height="102" fill={color} stroke={color} pointerEvents="all" />
+      <rect
+        x="144"
+        y="0"
+        width="102"
+        height="102"
+        fill={color}
+        stroke={color}
+        pointerEvents="all"
+      />
+      <rect
+        x="1"
+        y="140"
+        width="102"
+        height="102"
+        fill={color}
+        stroke={color}
+        pointerEvents="all"
+      />
+      <rect
+        x="143"
+        y="140"
+        width="102"
+        height="102"
+        fill={color}
+        stroke={color}
+        pointerEvents="all"
+      />
+      <rect
+        x="0"
+        y="280"
+        width="102"
+        height="102"
+        fill={color}
+        stroke={color}
+        pointerEvents="all"
+      />
+      <rect
+        x="142"
+        y="280"
+        width="102"
+        height="102"
+        fill={color}
+        stroke={color}
+        pointerEvents="all"
+      />
+      <rect
+        x="284"
+        y="1"
+        width="102"
+        height="102"
+        fill={color}
+        stroke={color}
+        pointerEvents="all"
+      />
+      <rect
+        x="283"
+        y="141"
+        width="102"
+        height="102"
+        fill={color}
+        stroke={color}
+        pointerEvents="all"
+      />
+      <rect
+        x="282"
+        y="281"
+        width="102"
+        height="102"
+        fill={color}
+        stroke={color}
+        pointerEvents="all"
+      />
+    </g>
+  </svg>
+);
+
+export default Icon;
