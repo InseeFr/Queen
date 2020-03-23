@@ -1,6 +1,6 @@
 {
   "urlQueenComment": "Final URL of the Queen application",
-  "urlQueen": "http://localhost:5000",
+  "urlQueen": "https://queen.demo.dev.sspcloud.fr",
   "urlQueenApiComment": "URL of the back-office of Queen application",
   "urlQueenApi": ""
 }
