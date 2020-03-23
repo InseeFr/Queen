@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: queen
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: queen
+  template:
+    metadata:
+      labels:
+        app: queen
+    spec:
+      containers:
+        - name: queen
+          image: bwerquin/queen:latest
