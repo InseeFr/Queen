@@ -92,6 +92,18 @@ module.exports = env => {
       }),
 
       /**
+       * Create assets.json file with js file generated.
+       * This file will be fetched by an app that integrates Queen to then add the Queen scripts.
+       */
+      new AssetsPlugin({
+        filename: 'assets.json',
+        path: __dirname + '/build',
+        entrypoints: true,
+        prettyPrint: true,
+        manifestFirst: true,
+      }),
+
+      /**
        * Copy file from public folder to build folder (ignoring by webpack)
        */
       new CopyPlugin([
@@ -99,24 +111,25 @@ module.exports = env => {
         { from: 'public/index.css', to: 'index.css' },
         { from: 'public/favicon.ico', to: 'favicon.ico' },
         { from: 'public/static/images/icons/*.png', to: 'static/images/icons/[name].[ext]' },
+        { from: `configuration/${env.NODE_ENV}/configuration.json`, to: 'configuration.json' },
       ]),
 
       /**
        * Create Custom service-worker from sw.js and workbox
        */
       new InjectManifest({
-        swSrc: './src/sw.js',
-        swDest: './service-worker.js',
-        include: [/\.html$/, /\.js$/, /\.css$/, /\.woff2$/, /\.jpg$/, /\.png$/],
+        precacheManifestFilename: 'queen-precache-manifest-[manifestHash].js',
+        swSrc: './src/internal-sw.js',
+        swDest: 'service-worker.js',
+      }),
+      new InjectManifest({
+        precacheManifestFilename: 'queen-precache-manifest-[manifestHash].js',
+        swSrc: './src/external-sw.js',
+        swDest: 'queen-service-worker.js',
       }),
 
       /**
-       * Create assets.json file with js file generated. This file will fetch by Pearl to add script from Queen
-       */
-      new AssetsPlugin({ filename: 'build/assets.json', entrypoints: true }),
-
-      /**
-       * For developpement only (refresh build when we save a file)
+       * For development only (refresh build when we save a file)
        */
       new webpack.HotModuleReplacementPlugin(),
     ],

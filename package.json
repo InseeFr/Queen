@@ -15,8 +15,8 @@
   },
   "scripts": {
     "start": "webpack-dev-server --env.NODE_ENV=local --config ./webpack.config.js --mode development --port 5000",
-    "build": "yarn clean-build && webpack --env.NODE_ENV=local --config ./webpack.config.js  && copy-and-watch configuration/local/*.json build",
-    "build-docker": "yarn clean-build && webpack --env.NODE_ENV=docker --config ./webpack.config.js  && copy-and-watch configuration/docker/*.json build",
+    "build": "yarn clean-build && webpack --env.NODE_ENV=local --config ./webpack.config.js",
+    "build-docker": "yarn clean-build && webpack --env.NODE_ENV=docker --config ./webpack.config.js",
     "clean-build": "rm -rf build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -65,6 +65,6 @@
     "webpack": "^4.42.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
-    "workbox-webpack-plugin": "^5.0.0"
+    "workbox-webpack-plugin": "^4.3.1"
   }
 }
