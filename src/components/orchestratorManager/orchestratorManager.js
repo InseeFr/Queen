@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Preloader from 'utils/preloader';
+import Preloader from 'components/shared/preloader';
 import D from 'i18n';
 import { getQuestionnaireById, getResourceById, getDataSurveyUnitById } from 'utils/api';
 import Orchestrator from '../orchestrator';

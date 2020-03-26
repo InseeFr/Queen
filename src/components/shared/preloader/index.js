@@ -1,8 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import imgPreloader from 'img/preloader.svg';
+import D from 'i18n';
 import styles from './preloader.scss';
-import imgPreloader from '../../img/preloader.svg';
-import D from '../../i18n';
 
 const Preloader = ({ message = '' }) => (
   <>
