@@ -10,6 +10,10 @@ const dictionary = {
     fr: 'Page non trouvée',
     en: 'Page not found',
   },
+  pageNotFoundHelp: {
+    fr: "Veuillez vérifier l'URL",
+    en: 'Please check the URL',
+  },
   example: {
     fr: 'Exemple :',
     en: 'Example:',

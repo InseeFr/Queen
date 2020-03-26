@@ -34,6 +34,7 @@ const Root = ({ isStandalone, authenticationMode }) => {
                 />
               )}
             />
+            <Route path="/queen" component={NotFound} />
           </Switch>
         </Router>
       </root.div>
