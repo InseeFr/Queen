@@ -45,40 +45,42 @@ const Navigation = ({ components, bindings, setPage, viewedPages, setNavOpen }) 
                   if (comp.componentType === 'Sequence') {
                     const refSequenceContent = React.createRef();
                     return (
-                      <>
-                        <div className="subnab">
-                          <button
-                            type="button"
-                            key={comp.id}
-                            className="subnav-btn"
-                            onClick={() => console.log('hello')}
-                          >
-                            {getVtlLabel(comp.labelNav)}
-                          </button>
-                          <div className="subnav-content" ref={refSequenceContent}>
-                            {components.map(comp2 => {
-                              if (
-                                comp2.componentType === 'Subsequence' &&
-                                comp2.idSequence === comp.id
-                              ) {
-                                return (
-                                  <div className="subnab">
-                                    <button
-                                      type="button"
-                                      key={comp2.id}
-                                      className="subnav-btn"
-                                      onClick={() => console.log('hello')}
-                                    >
-                                      {getVtlLabel(comp2.labelNav)}
-                                    </button>
-                                  </div>
-                                );
-                              }
-                              return null;
-                            })}
-                          </div>
+                      <div className="subnav" key={`subnav-${comp.id}`}>
+                        <button
+                          type="button"
+                          key={comp.id}
+                          className="subnav-btn"
+                          onClick={() => console.log('hello')}
+                        >
+                          {getVtlLabel(comp.labelNav)}
+                        </button>
+                        <div
+                          className="subnav-content"
+                          ref={refSequenceContent}
+                          key={`subnav-content-${comp.id}`}
+                        >
+                          {components.map(comp2 => {
+                            if (
+                              comp2.componentType === 'Subsequence' &&
+                              comp2.idSequence === comp.id
+                            ) {
+                              return (
+                                <div className="subnav" key={`subnav-${comp2.id}`}>
+                                  <button
+                                    type="button"
+                                    key={comp2.id}
+                                    className="subnav-btn"
+                                    onClick={() => console.log('hello')}
+                                  >
+                                    {getVtlLabel(comp2.labelNav)}
+                                  </button>
+                                </div>
+                              );
+                            }
+                            return null;
+                          })}
                         </div>
-                      </>
+                      </div>
                     );
                   }
                 })}
@@ -93,7 +95,7 @@ const Navigation = ({ components, bindings, setPage, viewedPages, setNavOpen }) 
 };
 
 Navigation.propTypes = {
-  components: PropTypes.arrayOf(Object()).isRequired,
+  components: PropTypes.arrayOf(PropTypes.any).isRequired,
   setNavOpen: PropTypes.func.isRequired,
 };
 

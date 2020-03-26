@@ -1,3 +1,6 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-undef */
+/* eslint-disable no-restricted-globals */
 console.log('QUEEN sw :loading');
 
 self.addEventListener('message', event => {

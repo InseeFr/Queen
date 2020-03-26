@@ -33,7 +33,7 @@ export function register(config) {
       fetch(`${publicUrl.origin}/configuration.json`)
         .then(res => res.json())
         .then(data => {
-          const urlQueen = data.urlQueen;
+          const { urlQueen } = data;
           const swUrl = `${publicUrl.origin}/service-worker.js`;
           if (urlQueen === publicUrl.origin) {
             if (isLocalhost) {

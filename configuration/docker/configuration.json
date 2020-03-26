@@ -2,5 +2,7 @@
   "urlQueenComment": "Final URL of the Queen application",
   "urlQueen": "https://queen.demo.dev.sspcloud.fr",
   "urlQueenApiComment": "URL of the back-office of Queen application",
-  "urlQueenApi": ""
+  "urlQueenApi": "",
+  "authenticationModeComment": "The mode of authentication. Currently, Queen is supporting 'anonymous'",
+  "authenticationMode": "anonymous"
 }

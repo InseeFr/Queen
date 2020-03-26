@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import insee from '../../../img/insee.png';
+import insee from 'img/insee.png';
+import sendEvent from 'utils/event';
 import Navigation from '../navigation';
 import CloseIcon from './quit.icon';
-import sendEvent from '../../../utils/event';
 import BreadcrumbQueen from '../breadcrumb';
 import styles from './header.scss';
 

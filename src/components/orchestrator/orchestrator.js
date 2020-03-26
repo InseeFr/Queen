@@ -1,19 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import * as lunatic from '@inseefr/lunatic';
-import simpsons from '../../utils/fake-survey/simpsons copy.json';
-import alphabet from '../../utils/alphabet';
-import * as UQ from '../../utils/questionnaire';
+import alphabet from 'utils/alphabet';
+import * as UQ from 'utils/questionnaire';
 import Header from './header';
 import Buttons from './buttons';
 import NavBar from './rightNavbar';
 
-const Orchestrator = ({
-  savingType = 'COLLECTED',
-  preferences = ['COLLECTED'],
-  source = simpsons,
-  data = {},
-}) => {
+const Orchestrator = ({ savingType, preferences, source, data, filterDescription }) => {
   const [navOpen, setNavOpen] = useState(false);
 
   const [questionnaire, setQuestionnaire] = useState(
@@ -92,6 +86,7 @@ const Orchestrator = ({
                 preferences={preferences}
                 features={['VTL']}
                 bindings={bindings}
+                filterDescription={filterDescription}
                 focused
               />
             </div>
@@ -117,8 +112,9 @@ const Orchestrator = ({
 Orchestrator.propTypes = {
   savingType: PropTypes.oneOf(['COLLECTED', 'FORCED', 'EDITED']).isRequired,
   preferences: PropTypes.arrayOf(PropTypes.string).isRequired,
-  source: PropTypes.objectOf(PropTypes.object()).isRequired,
-  data: PropTypes.objectOf(PropTypes.object()).isRequired,
+  filterDescription: PropTypes.bool.isRequired,
+  source: PropTypes.objectOf(PropTypes.any).isRequired,
+  data: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default Orchestrator;

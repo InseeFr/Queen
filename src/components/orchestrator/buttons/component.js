@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@inseefr/lunatic';
-import D from '../../../i18n';
+import D from 'i18n';
 import styles from './buttons.scss';
 
 const Buttons = ({ nbModules, page, pageUp, pageDown, save }) => {

@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import root from 'react-shadow';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Orchestrator from '../orchestrator';
+import OrchestratorManager from '../orchestratorManager';
 import styles from '../style/style.scss';
 import NotFound from '../shared/not-found';
 
-const Root = () => {
+const Root = ({ isStandalone, authenticationMode }) => {
   const customStyle = {
     margin: 'auto',
     height: '100vh',
@@ -23,12 +24,26 @@ const Root = () => {
         <style type="text/css">{styles}</style>
         <Router>
           <Switch>
-            <Route path="/queen/questionnaire/:id" component={Orchestrator} />
+            <Route
+              path="/queen/questionnaire/:idQ/survey-unit/:idSU"
+              component={routeProps => (
+                <OrchestratorManager
+                  {...routeProps}
+                  standalone={isStandalone}
+                  authenticationMode={authenticationMode}
+                />
+              )}
+            />
           </Switch>
         </Router>
       </root.div>
     </>
   );
+};
+
+Root.propTypes = {
+  isStandalone: PropTypes.bool.isRequired,
+  authenticationMode: PropTypes.oneOf(['anonymous']).isRequired,
 };
 
 export default Root;
