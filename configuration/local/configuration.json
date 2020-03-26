@@ -1,5 +1,5 @@
 {
   "urlQueen": "http://localhost:5000",
-  "urlQueenApi_commentaire": "url du l'api de Queen",
-  "urlQueenApi": ""
+  "urlQueenApi": "",
+  "authenticationMode": "anonymous"
 }

@@ -33,7 +33,7 @@ export function register(config) {
       fetch(`${publicUrl.origin}/configuration.json`)
         .then(res => res.json())
         .then(data => {
-          const urlQueen = data.urlQueen;
+          const { urlQueen } = data;
           const swUrl = `${publicUrl.origin}/service-worker.js`;
           if (urlQueen === publicUrl.origin) {
             if (isLocalhost) {
@@ -60,7 +60,7 @@ export function register(config) {
 
 function registerValidSW(swUrl, config) {
   navigator.serviceWorker
-    .register(swUrl, { scope: '/queen/' })
+    .register(swUrl)
     .then(registration => {
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;

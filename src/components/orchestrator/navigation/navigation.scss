@@ -1,0 +1,57 @@
+.navigation {
+  padding: 1em;
+  justify-self: center;
+  align-self: center;
+  width: 35px;
+}
+
+.menu-icon {
+  position: relative;
+  z-index: 10;
+  background-color: transparent;
+  border: none;
+}
+
+.menu.slideIn {
+  visibility: visible;
+  transform: translateX(60px);
+}
+.menu.slideOut {
+  visibility: hidden;
+  transform: translateX(-60px);
+}
+
+.menu {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 5; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: -60px;
+  background-color: whitesmoke; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: transform 200ms ease;
+}
+
+.background-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: grey;
+  opacity: 0.5;
+}
+
+.subnav-content {
+  background-color: whitesmoke;
+  position: relative;
+}
+
+a {
+  color: black;
+  cursor: default;
+}
+a.active {
+  color: green;
+  cursor: pointer;
+}

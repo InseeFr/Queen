@@ -1,5 +1,0 @@
-{
-  "urlQueen": "https://localhost-${BRANCHNAME}-queen-sic.dev.innovation.insee.eu",
-  "urlQueenApi_commentaire": "url du l'api de Queen",
-  "urlQueenApi": ""
-}

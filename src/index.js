@@ -6,10 +6,10 @@ import * as serviceWorker from './serviceWorker';
 class QueenApp extends HTMLElement {
   mountPoint;
   componentAttributes = {};
-  componentProperties = { questionnaire: '' };
+  componentProperties = { isStandalone: false, authenticationMode: 'anonymous' };
 
   connectedCallback() {
-    this.mountReactApp();
+    this.setStandalone();
   }
 
   disconnectedCallback() {
@@ -17,7 +17,7 @@ class QueenApp extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['questionnaire'];
+    return ['standalone'];
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
@@ -25,13 +25,26 @@ class QueenApp extends HTMLElement {
     this.mountReactApp();
   }
 
-  get questionnaire() {
-    return this.componentProperties.questionnaire;
+  get isStandalone() {
+    return this.componentProperties.isStandalone;
   }
 
-  set questionnaire(newValue) {
-    this.componentProperties.questionnaire = newValue;
+  set isStandalone(newValue) {
+    this.componentProperties.isStandalone = newValue;
+    this.mountReactApp();
+  }
 
+  async setStandalone() {
+    const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
+    const response = await fetch(`${publicUrl.origin}/configuration.json`);
+    const data = await response.json();
+    const { urlQueen, authenticationMode } = data;
+    if (urlQueen === publicUrl.origin) {
+      this.componentProperties.isStandalone = true;
+    } else {
+      this.componentProperties.isStandalone = false;
+    }
+    this.componentProperties.authenticationMode = authenticationMode;
     this.mountReactApp();
   }
 
@@ -41,12 +54,9 @@ class QueenApp extends HTMLElement {
 
   mountReactApp() {
     this.mountPoint = document.createElement('div');
-    ReactDOM.render(<Root />, this.mountPoint);
+    ReactDOM.render(<Root {...this.reactProps()} />, this.mountPoint);
     this.appendChild(this.mountPoint);
   }
 }
-
-//ReactDOM.render(<Root />, document.getElementById('root'));
-
 window.customElements.define('queen-app', QueenApp);
 serviceWorker.register();
