@@ -3,14 +3,11 @@ import PropTypes from 'prop-types';
 import { Breadcrumb } from '@inseefr/lunatic';
 import styles from './breadcrumb.scss';
 
-const BreadcrumbQueen = ({
-  sequence = 'Default sequence',
-  subsequence = 'Default subsequence',
-}) => {
+const BreadcrumbQueen = ({ sequence, subsequence }) => {
   return (
     <>
       <style type="text/css">{styles}</style>
-      <div className={'Breadcrumb'}>
+      <div className={`Breadcrumb ${!subsequence ? 'sequence' : ''}`}>
         <Breadcrumb elements={[sequence, subsequence]} />
       </div>
     </>

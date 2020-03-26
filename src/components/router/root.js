@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import root from 'react-shadow';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Questionnaire from '../questionnaire';
+import Orchestrator from '../orchestrator';
 import styles from '../style/style.scss';
 import NotFound from '../shared/not-found';
 
@@ -23,7 +23,7 @@ const Root = () => {
         <style type="text/css">{styles}</style>
         <Router>
           <Switch>
-            <Route path="/queen/questionnaire/:id" component={Questionnaire} />
+            <Route path="/queen/questionnaire/:id" component={Orchestrator} />
           </Switch>
         </Router>
       </root.div>

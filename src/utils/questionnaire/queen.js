@@ -23,12 +23,26 @@ export const buildQueenQuestionnaire = components => {
           seq = label;
           subseq = '';
           idSubseq = '';
-          return [..._, { ...component, page: _.length + 1 }];
+          return [
+            ..._,
+            { ...component, labelNav: label, label: '', sequence: seq, page: _.length + 1 },
+          ];
         }
         if (componentType === 'Subsequence') {
           idSubseq = id;
           subseq = label;
-          return [..._, { ...component, idSequence: idSeq, page: _.length + 1 }];
+          return [
+            ..._,
+            {
+              ...component,
+              labelNav: label,
+              label: '',
+              sequence: seq,
+              subsequence: subseq,
+              idSequence: idSeq,
+              page: _.length + 1,
+            },
+          ];
         }
         return _;
       }, [])

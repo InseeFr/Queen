@@ -13,6 +13,10 @@
   background-color: $background-header-color;
   padding-top: 2em;
   padding-bottom: 2em;
+  display: grid;
+  grid-template-columns: 90% auto;
+  grid-template-rows: 90% auto;
+  height: 75%;
 }
 
 .components {
@@ -31,26 +35,39 @@ fieldset.checkbox-group {
   margin: 0;
   border: none;
 
-  $border-checkbox-color: #aaaaaa;
+  $border-color-checkbox: #aaaaaa;
+  $border-color-checkbox-checked: #aaaaaa;
+
+  $background-color-checkbox: #d6d6d6;
+  $background-color-checkbox-checked: #b7d6f1;
+
+  $modality-label-color: black;
+  $modality-label-color-checked: #1d63a0;
+
+  $modality-code-background-color: white;
 
   // Style of containing of checkboxes
   .checkbox-modality {
     border-radius: 5px;
-    border: 1px solid $border-checkbox-color;
-    background-color: #d6d6d6;
+    border: 1px solid $border-color-checkbox;
+    background-color: $background-color-checkbox;
     padding: 0.8em;
     margin: 8px;
     width: 45%;
+
+    &.content-checked {
+      background-color: $background-color-checkbox-checked;
+    }
   }
 
   .code {
     position: relative;
     left: -1em;
     padding: 0.3em 0.5em 0.3em 0.5em;
-    color: black;
+    color: $modality-label-color;
     font-weight: bold;
-    border: 1px solid $border-checkbox-color;
-    background-color: white;
+    border: 1px solid $border-color-checkbox;
+    background-color: $modality-code-background-color;
     border-radius: 5px;
   }
 
@@ -62,19 +79,12 @@ fieldset.checkbox-group {
       content: '✓';
     }
     &:focus + label,
-    &:hover + label {
-      .code {
-        color: white;
-        background-color: $declaration-color;
-        border-color: $declaration-color;
-      }
-    }
-
+    &:hover + label,
     &:checked + label {
-      color: #1d63a0;
+      color: $modality-label-color-checked;
       font-weight: bold;
       .code {
-        color: white;
+        color: $modality-code-background-color;
         background-color: $declaration-color;
         border-color: $declaration-color;
       }
