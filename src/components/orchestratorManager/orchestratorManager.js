@@ -17,7 +17,7 @@ const OrchestratorManager = ({ match, standalone, authenticationMode }) => {
         setWaitingMessage(D.waitingQuestionnaire);
         const fetchedQuestionnaire = await getQuestionnaireById(match.params.idQ);
         setWaitingMessage(D.waitingResources);
-        const fetchedResources = await getResourceById(match.params.idQ);
+        await getResourceById(match.params.idQ);
         setWaitingMessage(D.waitingDataSU);
         const fetchedData = await getDataSurveyUnitById(match.params.idSU);
 
