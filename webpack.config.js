@@ -1,21 +1,23 @@
+/* eslint-disable import/no-dynamic-require */
+/* eslint-disable global-require */
 const webpack = require('webpack');
-const package = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const AssetsPlugin = require('assets-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const { InjectManifest } = require('workbox-webpack-plugin');
+const { InjectManifest, GenerateSW } = require('workbox-webpack-plugin');
+const packageAPP = require('./package.json');
 
 module.exports = env => {
   console.log('Environnement : ', env.NODE_ENV);
   /**
-   * Loading the correct conf file according to env.NODE_ENV (local,innovation,dv,qf,pre-prod,prod)
+   * Loading the correct configuration file according to env.NODE_ENV (local,docker,...)
    */
   const conf = require(`./configuration/${env.NODE_ENV}/configuration.json`);
   /**
    * PUBLIC_PATH : absolute URL (ex: not ./index.js but http://url.insee.fr/index.js)
    * This configuration is necessary to ensure the proper functioning of the micro-frontend.
    */
-  const PUBLIC_PATH = conf.urlQueen + '/';
+  const PUBLIC_PATH = `${conf.urlQueen}/`;
   return {
     // Entry point
     entry: './src/index.js',
@@ -74,9 +76,9 @@ module.exports = env => {
     },
 
     output: {
-      path: __dirname + '/build',
+      path: `${__dirname}/build`,
       publicPath: PUBLIC_PATH,
-      filename: `${package.name}.${package.version}.js`,
+      filename: `${packageAPP.name}.${packageAPP.version}.js`,
     },
 
     node: {
@@ -92,15 +94,24 @@ module.exports = env => {
       }),
 
       /**
-       * Create assets.json file with js file generated.
+       * Create asset-manifest.json file with js file generated.
        * This file will be fetched by an app that integrates Queen to then add the Queen scripts.
        */
-      new AssetsPlugin({
-        filename: 'assets.json',
-        path: __dirname + '/build',
-        entrypoints: true,
-        prettyPrint: true,
-        manifestFirst: true,
+
+      new ManifestPlugin({
+        fileName: 'asset-manifest.json',
+        publicPath: PUBLIC_PATH,
+        generate: (seed, files, entrypoints) => {
+          const manifestFiles = files.reduce((manifest, file) => {
+            manifest[file.name] = file.path;
+            return manifest;
+          }, seed);
+
+          return {
+            files: manifestFiles,
+            entrypoints,
+          };
+        },
       }),
 
       /**
@@ -115,12 +126,22 @@ module.exports = env => {
       ]),
 
       /**
-       * Create Custom service-worker from sw.js and workbox
+       * Create Custom service-worker (same as CRA)
        */
-      new InjectManifest({
-        precacheManifestFilename: 'queen-precache-manifest-[manifestHash].js',
-        swSrc: './src/internal-sw.js',
-        swDest: 'service-worker.js',
+      new GenerateSW({
+        clientsClaim: true,
+        exclude: [/\.map$/, /asset-manifest\.json$/],
+        importWorkboxFrom: 'cdn',
+        navigateFallback: `${PUBLIC_PATH}index.html`,
+        navigateFallbackBlacklist: [
+          // Exclude URLs starting with /_, as they're likely an API call
+          new RegExp('^/_'),
+          // Exclude any URLs whose last part seems to be a file extension
+          // as they're likely a resource and not a SPA route.
+          // URLs containing a "?" character won't be blacklisted as they're likely
+          // a route with query params (e.g. auth callbacks).
+          new RegExp('/[^/?]+\\.[^/]+$'),
+        ],
       }),
       new InjectManifest({
         precacheManifestFilename: 'queen-precache-manifest-[manifestHash].js',
