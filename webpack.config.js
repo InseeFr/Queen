@@ -106,10 +106,11 @@ module.exports = env => {
             manifest[file.name] = file.path;
             return manifest;
           }, seed);
+          const entrypointFiles = entrypoints.main.map(url => PUBLIC_PATH + url);
 
           return {
             files: manifestFiles,
-            entrypoints,
+            entrypoints: entrypointFiles,
           };
         },
       }),
