@@ -8,11 +8,13 @@ const OrchestratorManager = ({ match, standalone, authenticationMode }) => {
   const [questionnaire, setQuestionnaire] = useState(undefined);
   const [data, setData] = useState(undefined);
   const [waiting, setWaiting] = useState(false);
+  const [error, setError] = useState(false);
   const [waitingMessage, setWaitingMessage] = useState('');
 
   useEffect(() => {
     if (!questionnaire) {
       const init = async () => {
+        // Promise.all
         setWaiting(true);
         setWaitingMessage(D.waitingQuestionnaire);
         const fetchedQuestionnaire = await getQuestionnaireById(match.params.idQ);
@@ -25,13 +27,16 @@ const OrchestratorManager = ({ match, standalone, authenticationMode }) => {
         setData(fetchedData);
         setWaiting(false);
       };
-      init();
+      if (standalone) {
+        init();
+      }
     }
   }, [questionnaire]);
 
   return (
     <>
       {waiting && <Preloader message={waitingMessage} />}
+      {error && <Error message={erroMessage} />}
       {!waiting && questionnaire && (
         <Orchestrator
           savingType="COLLECTED"

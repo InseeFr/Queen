@@ -1,5 +1,6 @@
 import buttonMessage from './buttonMessage';
 import waitingMessage from './waitingMessage';
+import errorMessage from './errorMessage';
 
 const dictionary = {
   survey: {
@@ -25,6 +26,7 @@ const dictionary = {
   },
   ...buttonMessage,
   ...waitingMessage,
+  ...errorMessage,
 };
 
 export default dictionary;
