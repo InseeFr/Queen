@@ -19,6 +19,8 @@ const Root = ({ configuration }) => {
     console.log(`Queen : receive event queen :${e.detail.action}`);
   });
 
+  const notFoundPath = configuration.standalone ? '/' : '/queen';
+
   return (
     <>
       <root.div id="queen-container" style={customStyle}>
@@ -31,7 +33,7 @@ const Root = ({ configuration }) => {
                 <OrchestratorManager {...routeProps} configuration={configuration} />
               )}
             />
-            <Route path="/queen" component={NotFound} />
+            <Route path={notFoundPath} component={NotFound} />
           </Switch>
         </Router>
       </root.div>
