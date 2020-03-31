@@ -9,6 +9,7 @@ export const getQuestionnaireById = (urlQueenApi, id, token) => {
     : null;
 
   return new Promise((resolve, reject) => {
+    /*
     Axios.get(`${urlQueenApi}/${id}`, {
       headers: {
         ...secureHeader,
@@ -16,8 +17,8 @@ export const getQuestionnaireById = (urlQueenApi, id, token) => {
       },
     })
       .then(res => resolve(res))
-      .catch(e => console.log('fuck !! '));
-
+      .catch(e => console.log('get error !! '));
+*/
     setTimeout(() => resolve(simpsons), 1500);
   });
 };
