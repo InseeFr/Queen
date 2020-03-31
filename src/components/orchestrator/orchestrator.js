@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import * as lunatic from '@inseefr/lunatic';
-import alphabet from 'utils/alphabet';
+import alphabet from 'utils/constants/alphabet';
 import * as UQ from 'utils/questionnaire';
 import Header from './header';
 import Buttons from './buttons';
 import NavBar from './rightNavbar';
 
-const Orchestrator = ({ savingType, preferences, source, data, filterDescription }) => {
+const Orchestrator = ({
+  readonly,
+  savingType,
+  preferences,
+  source,
+  data,
+  filterDescription,
+  save,
+  close,
+}) => {
   const [navOpen, setNavOpen] = useState(false);
 
   const [questionnaire, setQuestionnaire] = useState(
@@ -20,9 +29,11 @@ const Orchestrator = ({ savingType, preferences, source, data, filterDescription
   const [viewedPages, setViewedPages] = useState([1]);
 
   const onChange = updatedValue => {
-    setQuestionnaire(
-      lunatic.updateQuestionnaire(savingType)(questionnaire)(preferences)(updatedValue)
-    );
+    if (!readonly) {
+      setQuestionnaire(
+        lunatic.updateQuestionnaire(savingType)(questionnaire)(preferences)(updatedValue)
+      );
+    }
   };
 
   const bindings = lunatic.getBindings(questionnaire);
@@ -49,7 +60,7 @@ const Orchestrator = ({ savingType, preferences, source, data, filterDescription
     myOptions = options.map((option, index) => {
       const myLabel = (
         <span>
-          <span className="code">{myOptions.length > 10 ? alphabet[index] : index}</span>
+          <span className="code">{options.length > 10 ? alphabet[index] : index}</span>
           {lunatic.interpret(['VTL'])(bindings)(option.label)}
         </span>
       );
@@ -59,7 +70,7 @@ const Orchestrator = ({ savingType, preferences, source, data, filterDescription
       };
     });
   } else {
-    myOptions = options;
+    myOptions = options || [];
   }
   return (
     <>
@@ -76,7 +87,12 @@ const Orchestrator = ({ savingType, preferences, source, data, filterDescription
         />
         <div className="body-container">
           <div className="components">
-            <div className="lunatic lunatic-component" key={`component-${id}`}>
+            <div
+              className={`lunatic lunatic-component ${
+                myOptions.length >= 8 ? 'split-fieldset' : ''
+              }`}
+              key={`component-${id}`}
+            >
               <Component
                 id={id}
                 {...props}
@@ -87,6 +103,8 @@ const Orchestrator = ({ savingType, preferences, source, data, filterDescription
                 features={['VTL']}
                 bindings={bindings}
                 filterDescription={filterDescription}
+                readOnly={readonly}
+                disabled={readonly}
                 focused
               />
             </div>
@@ -94,14 +112,11 @@ const Orchestrator = ({ savingType, preferences, source, data, filterDescription
           <NavBar nbModules={queenComponents.length} page={currentPage} />
           <Buttons
             nbModules={filteredComponents.length}
-            save={() => {
-              console.log(lunatic.getCollectedStateByValueType(questionnaire)(savingType));
-            }}
             page={UQ.findPageIndex(filteredComponents)(currentPage)}
-            pageDown={() => goPrevious()}
-            pageUp={() => {
-              goNext();
-            }}
+            pagePrevious={goPrevious}
+            pageNext={goNext}
+            save={() => save(lunatic.getState(questionnaire))}
+            quit={close}
           />
         </div>
       </div>
@@ -110,11 +125,14 @@ const Orchestrator = ({ savingType, preferences, source, data, filterDescription
 };
 
 Orchestrator.propTypes = {
+  readonly: PropTypes.bool.isRequired,
   savingType: PropTypes.oneOf(['COLLECTED', 'FORCED', 'EDITED']).isRequired,
   preferences: PropTypes.arrayOf(PropTypes.string).isRequired,
   filterDescription: PropTypes.bool.isRequired,
   source: PropTypes.objectOf(PropTypes.any).isRequired,
   data: PropTypes.objectOf(PropTypes.any).isRequired,
+  save: PropTypes.func.isRequired,
+  close: PropTypes.func.isRequired,
 };
 
 export default Orchestrator;
