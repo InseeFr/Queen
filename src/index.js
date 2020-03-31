@@ -37,13 +37,13 @@ class QueenApp extends HTMLElement {
   async setConfiguration() {
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     const response = await fetch(`${publicUrl.origin}/configuration.json`);
-    const data = await response.json();
-    const { urlQueen } = data;
-    const responseFromQueen = await fetch(`${urlQueen}/configuration.json`);
-    const configuration = await responseFromQueen.json();
+    const configuration = await response.json();
+    const { urlQueen } = configuration;
     if (urlQueen === publicUrl.origin) {
       configuration.standalone = true;
     } else {
+      const responseFromQueen = await fetch(`${urlQueen}/configuration.json`);
+      configuration = await responseFromQueen.json();
       configuration.standalone = false;
     }
     this.componentProperties.configuration = configuration;
