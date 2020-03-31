@@ -15,20 +15,28 @@
   padding-bottom: 2em;
   display: grid;
   grid-template-columns: 90% auto;
-  grid-template-rows: 90% auto;
-  height: 75%;
+  grid-template-rows: auto;
+  min-height: 75%;
 }
 
 .components {
   .lunatic-component {
-    height: 60vh;
+    min-height: 68vh;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
-    width: 80%;
   }
 }
 
 // Checkbox's style
+
+.split-fieldset fieldset.checkbox-group {
+  .checkbox-modality {
+    display: inline-block;
+    width: 40%;
+    margin: 4px;
+  }
+}
 
 fieldset.checkbox-group {
   padding: 0;
@@ -48,12 +56,14 @@ fieldset.checkbox-group {
 
   // Style of containing of checkboxes
   .checkbox-modality {
+    white-space: nowrap;
+    display: block;
     border-radius: 5px;
     border: 1px solid $border-color-checkbox;
     background-color: $background-color-checkbox;
     padding: 0.8em;
     margin: 8px;
-    width: 45%;
+    width: 60%;
 
     &.content-checked {
       background-color: $background-color-checkbox-checked;
@@ -88,6 +98,16 @@ fieldset.checkbox-group {
         background-color: $declaration-color;
         border-color: $declaration-color;
       }
+    }
+  }
+}
+@media (max-width: 460px) {
+  .split-fieldset fieldset.checkbox-group,
+  fieldset.checkbox-group {
+    .checkbox-modality {
+      display: block;
+      width: 70%;
+      margin: 8px;
     }
   }
 }
