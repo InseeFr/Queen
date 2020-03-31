@@ -1,4 +1,5 @@
 import buttonMessage from './buttonMessage';
+import navigationMessage from './navigationMessage';
 import waitingMessage from './waitingMessage';
 import errorMessage from './errorMessage';
 
@@ -24,7 +25,10 @@ const dictionary = {
     fr: 'Retour au carnet de tournée',
     en: 'Back to circuit book',
   },
+  closeWindow: { fr: 'Vous pouvez fermer cette fenêtre', en: 'You can close this window.' },
+
   ...buttonMessage,
+  ...navigationMessage,
   ...waitingMessage,
   ...errorMessage,
 };
