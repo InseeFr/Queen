@@ -6,10 +6,10 @@ import * as serviceWorker from './serviceWorker';
 class QueenApp extends HTMLElement {
   mountPoint;
   componentAttributes = {};
-  componentProperties = { isStandalone: false, authenticationMode: 'anonymous' };
+  componentProperties = { configuration: undefined };
 
   connectedCallback() {
-    this.setStandalone();
+    this.setConfiguration();
   }
 
   disconnectedCallback() {
@@ -34,17 +34,19 @@ class QueenApp extends HTMLElement {
     this.mountReactApp();
   }
 
-  async setStandalone() {
+  async setConfiguration() {
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     const response = await fetch(`${publicUrl.origin}/configuration.json`);
     const data = await response.json();
-    const { urlQueen, authenticationMode } = data;
+    const { urlQueen } = data;
+    const responseFromQueen = await fetch(`${urlQueen}/configuration.json`);
+    const configuration = await responseFromQueen.json();
     if (urlQueen === publicUrl.origin) {
-      this.componentProperties.isStandalone = true;
+      configuration.standalone = true;
     } else {
-      this.componentProperties.isStandalone = false;
+      configuration.standalone = false;
     }
-    this.componentProperties.authenticationMode = authenticationMode;
+    this.componentProperties.configuration = configuration;
     this.mountReactApp();
   }
 
