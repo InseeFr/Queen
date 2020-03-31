@@ -15,9 +15,8 @@ class SurveyUnitIdbService extends AbstractIdbService {
   async addOrUpdateSU(item) {
     const surveyUnit = await this.getByIdSU(item.idSU);
     /* prevent duplicated survey-unit */
-    const { id, ...content } = item;
     if (surveyUnit) {
-      return this.update({ id: surveyUnit.id, ...content });
+      return this.update({ ...item, id: surveyUnit.id });
     }
     return this.insert(item);
   }

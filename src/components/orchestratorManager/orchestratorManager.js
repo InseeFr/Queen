@@ -70,7 +70,7 @@ const OrchestratorManager = ({ match, configuration }) => {
       {![READ_ONLY, undefined].includes(match.params.readonly) && <NotFound />}
       {waiting && <Preloader message={waitingMessage} />}
       {error && <Error message={errorMessage} />}
-      {!waiting && !error && questionnaire && (
+      {!waiting && !error && questionnaire && surveyUnit && (
         <Orchestrator
           readonly={readonly}
           savingType="COLLECTED"
