@@ -33,12 +33,29 @@ export const buildQueenQuestionnaire = components => {
           subseq = '';
           idSubseq = '';
           /**
-           * if there is no declarations, we display another label : D.newSequence (cf Dictionary)
+           * if there is no declarations, we display a new declaration : D.newSequenceComment (cf Dictionary)
            */
-          const newLabel = !declarations || declarations.length === 0 ? D.newSequence : '';
+          const newDeclarations =
+            !declarations || declarations.length === 0
+              ? [
+                  {
+                    id: `${id}-d1`,
+                    declarationType: 'COMMENT',
+                    position: 'AFTER_QUESTION_TEXT',
+                    label: D.newSequenceComment,
+                  },
+                ]
+              : declarations;
           return [
             ..._,
-            { ...component, labelNav: label, label: newLabel, sequence: seq, page: _.length + 1 },
+            {
+              ...component,
+              labelNav: label,
+              label: '',
+              declarations: newDeclarations,
+              sequence: seq,
+              page: _.length + 1,
+            },
           ];
         }
         if (componentType === 'Subsequence') {
