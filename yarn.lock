@@ -1039,10 +1039,10 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@inseefr/lunatic@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-1.2.1.tgz#175fe1813f3f21e29f7a7d16d875d315fb2289e6"
-  integrity sha512-OmYeEnQt5ahtPWlhHGm7aklb+F+BVkEQvijpVt0XbhTWhZvNnTWV40/+WJwX4VbMRRHv0WPaVMHvTMWu2aLc0A==
+"@inseefr/lunatic@^1.2.2-rc1":
+  version "1.2.2-rc1"
+  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-1.2.2-rc1.tgz#3abffa933f0413e000a18bbef4e8b800abfeb935"
+  integrity sha512-QTW2ov1+PBVXg6ayOqQAeI83cqbH7JJmV+tgUBMCs3FOygdnyKqllbT4cXgtYQ0ddOgy5lMMqaYR6ZZAr8Uuww==
   dependencies:
     "@inseefr/vtl-tools" "^0.1.10"
     keycode "^2.2.0"
@@ -3810,6 +3810,11 @@ detect-port-alt@1.1.6:
   dependencies:
     address "^1.0.1"
     debug "^2.6.0"
+
+dexie@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/dexie/-/dexie-2.0.4.tgz#6027a5e05879424e8f9979d8c14e7420f27e3a11"
+  integrity sha512-aQ/s1U2wHxwBKRrt2Z/mwFNHMQWhESerFsMYzE+5P5OsIe5o1kgpFMWkzKTtkvkyyEni6mWr/T4HUJuY9xIHLA==
 
 diff-sequences@^24.9.0:
   version "24.9.0"
@@ -11262,21 +11267,6 @@ terser-webpack-plugin@^1.4.3:
     terser "^4.1.2"
     webpack-sources "^1.4.0"
     worker-farm "^1.7.0"
-
-terser-webpack-plugin@^2.3.5:
-  version "2.3.5"
-  resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-2.3.5.tgz#5ad971acce5c517440ba873ea4f09687de2f4a81"
-  integrity sha512-WlWksUoq+E4+JlJ+h+U+QUzXpcsMSSNXkDy9lBVkSqDn1w23Gg29L/ary9GeJVYCGiNJJX7LnVc4bwL1N3/g1w==
-  dependencies:
-    cacache "^13.0.1"
-    find-cache-dir "^3.2.0"
-    jest-worker "^25.1.0"
-    p-limit "^2.2.2"
-    schema-utils "^2.6.4"
-    serialize-javascript "^2.1.2"
-    source-map "^0.6.1"
-    terser "^4.4.3"
-    webpack-sources "^1.4.3"
 
 terser@^4.1.2, terser@^4.4.3, terser@^4.6.3:
   version "4.6.6"

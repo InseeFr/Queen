@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@inseefr/lunatic": "^1.2.1",
+    "@inseefr/lunatic": "^1.2.2-rc1",
     "axios": "^0.19.2",
+    "dexie": "^2.0.4",
     "node-sass": "^4.13.1",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
