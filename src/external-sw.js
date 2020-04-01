@@ -1,3 +1,6 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-undef */
+/* eslint-disable no-restricted-globals */
 if (workbox) {
   const { precaching } = workbox;
   console.log('Loading Queen SW into another SW');

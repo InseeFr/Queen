@@ -6,10 +6,10 @@ import * as serviceWorker from './serviceWorker';
 class QueenApp extends HTMLElement {
   mountPoint;
   componentAttributes = {};
-  componentProperties = { questionnaire: '' };
+  componentProperties = { configuration: undefined };
 
   connectedCallback() {
-    this.mountReactApp();
+    this.setConfiguration();
   }
 
   disconnectedCallback() {
@@ -17,7 +17,7 @@ class QueenApp extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['questionnaire'];
+    return ['standalone'];
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
@@ -25,13 +25,28 @@ class QueenApp extends HTMLElement {
     this.mountReactApp();
   }
 
-  get questionnaire() {
-    return this.componentProperties.questionnaire;
+  get isStandalone() {
+    return this.componentProperties.isStandalone;
   }
 
-  set questionnaire(newValue) {
-    this.componentProperties.questionnaire = newValue;
+  set isStandalone(newValue) {
+    this.componentProperties.isStandalone = newValue;
+    this.mountReactApp();
+  }
 
+  async setConfiguration() {
+    const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
+    const response = await fetch(`${publicUrl.origin}/configuration.json`);
+    const configuration = await response.json();
+    const { urlQueen } = configuration;
+    if (urlQueen === publicUrl.origin) {
+      configuration.standalone = true;
+    } else {
+      const responseFromQueen = await fetch(`${urlQueen}/configuration.json`);
+      configuration = await responseFromQueen.json();
+      configuration.standalone = false;
+    }
+    this.componentProperties.configuration = configuration;
     this.mountReactApp();
   }
 
@@ -41,12 +56,9 @@ class QueenApp extends HTMLElement {
 
   mountReactApp() {
     this.mountPoint = document.createElement('div');
-    ReactDOM.render(<Root />, this.mountPoint);
+    ReactDOM.render(<Root {...this.reactProps()} />, this.mountPoint);
     this.appendChild(this.mountPoint);
   }
 }
-
-//ReactDOM.render(<Root />, document.getElementById('root'));
-
 window.customElements.define('queen-app', QueenApp);
 serviceWorker.register();

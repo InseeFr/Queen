@@ -1,0 +1,29 @@
+@import '../../style/variables.scss';
+
+.header {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 8% 8% auto 10%;
+  grid-template-rows: 80px;
+  background-color: $background-header-color;
+  border-right: 0;
+  border-left: 0;
+
+  .header-title {
+    padding: 1em;
+  }
+
+  .header-logo {
+    // horizontal align
+    justify-self: center;
+    // vertical align
+    align-self: center;
+    height: 50px;
+    width: auto;
+  }
+
+  .close-icon {
+    background-color: transparent;
+    border: none;
+  }
+}

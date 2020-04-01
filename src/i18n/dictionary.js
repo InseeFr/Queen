@@ -1,3 +1,8 @@
+import buttonMessage from './buttonMessage';
+import navigationMessage from './navigationMessage';
+import waitingMessage from './waitingMessage';
+import errorMessage from './errorMessage';
+
 const dictionary = {
   survey: {
     fr: 'Questionnaire',
@@ -6,6 +11,10 @@ const dictionary = {
   pageNotFound: {
     fr: 'Page non trouvée',
     en: 'Page not found',
+  },
+  pageNotFoundHelp: {
+    fr: "Veuillez vérifier l'URL",
+    en: 'Please check the URL',
   },
   example: {
     fr: 'Exemple :',
@@ -16,10 +25,12 @@ const dictionary = {
     fr: 'Retour au carnet de tournée',
     en: 'Back to circuit book',
   },
-  closeSurvey: { fr: 'Fermer le questionnaire', en: 'Close questionnaire' },
-  saveAndQuit: { fr: 'Sauvegarder et quitter', en: 'Save and quit' },
-  nextContinue: { fr: 'Continuer', en: 'Continue' },
-  goBackReturn: { fr: 'Retour', en: 'Return' },
+  closeWindow: { fr: 'Vous pouvez fermer cette fenêtre', en: 'You can close this window.' },
+
+  ...buttonMessage,
+  ...navigationMessage,
+  ...waitingMessage,
+  ...errorMessage,
 };
 
 export default dictionary;

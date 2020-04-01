@@ -2,10 +2,9 @@
 
 .buttons {
   text-align: right;
-  margin-right: 5em;
 
   .button-lunatic {
-    background-color: $backgound-button-color;
+    background-color: $background-button-color;
     border: none;
     border-radius: 5px;
     color: white;
@@ -17,7 +16,7 @@
     &:focus {
       border: none;
       background-color: white;
-      color: $backgound-button-color;
+      color: $background-button-color;
     }
   }
 }

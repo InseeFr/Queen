@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import root from 'react-shadow';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Questionnaire from '../questionnaire';
+import { AUTHENTICATION_MODE_ENUM, READ_ONLY } from 'utils/constants';
+import OrchestratorManager from '../orchestratorManager';
 import styles from '../style/style.scss';
 import NotFound from '../shared/not-found';
 
-const Root = () => {
+const Root = ({ configuration }) => {
   const customStyle = {
     margin: 'auto',
     height: '100vh',
@@ -14,8 +16,10 @@ const Root = () => {
   };
 
   window.addEventListener('QUEEN', e => {
-    console.log('Queen : receive event queen :' + e.detail.action);
+    console.log(`Queen : receive event queen :${e.detail.action}`);
   });
+
+  const notFoundPath = configuration.standalone ? '/' : '/queen';
 
   return (
     <>
@@ -23,12 +27,27 @@ const Root = () => {
         <style type="text/css">{styles}</style>
         <Router>
           <Switch>
-            <Route path="/queen/questionnaire/:id" component={Questionnaire} />
+            <Route
+              path={`/queen/:${READ_ONLY}?/questionnaire/:idQ/survey-unit/:idSU`}
+              component={routeProps => (
+                <OrchestratorManager {...routeProps} configuration={configuration} />
+              )}
+            />
+            <Route path={notFoundPath} component={NotFound} />
           </Switch>
         </Router>
       </root.div>
     </>
   );
+};
+
+Root.propTypes = {
+  configuration: PropTypes.shape({
+    standalone: PropTypes.bool.isRequired,
+    urlQueen: PropTypes.string.isRequired,
+    urlQueenApi: PropTypes.string.isRequired,
+    authenticationMode: PropTypes.oneOf(AUTHENTICATION_MODE_ENUM).isRequired,
+  }).isRequired,
 };
 
 export default Root;
