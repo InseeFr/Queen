@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import * as lunatic from '@inseefr/lunatic';
 import alphabet from 'utils/constants/alphabet';
-import * as CST from 'utils/constants';
+import * as CONST from 'utils/constants';
 import * as UQ from 'utils/questionnaire';
 import Header from './header';
 import Buttons from './buttons';
@@ -33,7 +33,7 @@ const Orchestrator = ({
 
   const removeResponseToQueenData = responseName => {
     const newQueenData = { ...queenData };
-    CST.QUEEN_DATA_KEYS.map(key => {
+    CONST.QUEEN_DATA_KEYS.map(key => {
       newQueenData[key] = newQueenData[key].filter(name => name !== responseName);
       return null;
     });
@@ -74,7 +74,7 @@ const Orchestrator = ({
     responsesName.map(responseName => {
       const collectedResponse = UQ.getCollectedResponse(component);
       if (Object.keys(collectedResponse).length === 0) {
-        newQueenData = addResponseToQueenData(responseName)(CST.IGNORED_KEY);
+        newQueenData = addResponseToQueenData(responseName)(CONST.IGNORED_KEY);
       } else {
         newQueenData = removeResponseToQueenData(responseName);
       }

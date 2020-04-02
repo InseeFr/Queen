@@ -1,5 +1,5 @@
 import D from 'i18n';
-import * as CST from 'utils/constants';
+import * as CONST from 'utils/constants';
 import * as lunatic from '@inseefr/lunatic';
 
 /**
@@ -94,7 +94,7 @@ export const buildQueenData = data => {
   if (COLLECTED) {
     const collectedVarName = Object.keys(COLLECTED);
     collectedVarName.map(value => {
-      if ([CST.IGNORED, CST.DOESNT_KNOW, CST.REFUSAL].includes(COLLECTED[value].COLLECTED)) {
+      if ([CONST.IGNORED, CONST.DOESNT_KNOW, CONST.REFUSAL].includes(COLLECTED[value].COLLECTED)) {
         const temp = { ...COLLECTED[value] };
         temp.COLLECTED = null;
         newCOLLECTED[value] = temp;
@@ -102,14 +102,14 @@ export const buildQueenData = data => {
         newCOLLECTED[value] = COLLECTED[value];
       }
       switch (COLLECTED[value].COLLECTED) {
-        case CST.IGNORED:
-          queenData[CST.IGNORED_KEY] = [...queenData[CST.IGNORED_KEY], value];
+        case CONST.IGNORED:
+          queenData[CONST.IGNORED_KEY] = [...queenData[CONST.IGNORED_KEY], value];
           break;
-        case CST.DOESNT_KNOW:
-          queenData[CST.DOESNT_KNOW_KEY] = [...queenData[CST.DOESNT_KNOW_KEY], value];
+        case CONST.DOESNT_KNOW:
+          queenData[CONST.DOESNT_KNOW_KEY] = [...queenData[CONST.DOESNT_KNOW_KEY], value];
           break;
-        case CST.REFUSAL:
-          queenData[CST.REFUSAL_KEY] = [...queenData[CST.REFUSAL_KEY], value];
+        case CONST.REFUSAL:
+          queenData[CONST.REFUSAL_KEY] = [...queenData[CONST.REFUSAL_KEY], value];
           break;
         default:
           break;
@@ -125,15 +125,15 @@ export const getStateToSave = questionnaire => queenData => {
   const { IGNORED, DOESNT_KNOW, REFUSAL } = { ...queenData };
   const state = lunatic.getState(questionnaire);
   IGNORED.map(varName => {
-    state.COLLECTED[varName].COLLECTED = CST.IGNORED;
+    state.COLLECTED[varName].COLLECTED = CONST.IGNORED;
     return null;
   });
   DOESNT_KNOW.map(varName => {
-    state.COLLECTED[varName].COLLECTED = CST.DOESNT_KNOW;
+    state.COLLECTED[varName].COLLECTED = CONST.DOESNT_KNOW;
     return null;
   });
   REFUSAL.map(varName => {
-    state.COLLECTED[varName].COLLECTED = CST.REFUSAL;
+    state.COLLECTED[varName].COLLECTED = CONST.REFUSAL;
     return null;
   });
   return state;
