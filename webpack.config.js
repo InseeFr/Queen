@@ -146,6 +146,7 @@ module.exports = env => {
       }),
       new InjectManifest({
         precacheManifestFilename: 'queen-precache-manifest-[manifestHash].js',
+        exclude: [/\.map$/, /precache-manifest/, /service-worker\.js$/, /index\.html$/],
         swSrc: './src/external-sw.js',
         swDest: 'queen-service-worker.js',
       }),

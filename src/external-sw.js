@@ -10,15 +10,16 @@ const getUrlRegex = function(url) {
 };
 
 if (workbox) {
+  const queenCacheName = 'queen-cache';
   const { precaching, routing, strategies, cacheableResponse } = workbox;
   console.log('Loading Queen SW into another SW');
-  const queenPrecacheController = new workbox.precaching.PrecacheController('Queen');
+  const queenPrecacheController = new workbox.precaching.PrecacheController(queenCacheName);
   queenPrecacheController.addToCacheList(self.__precacheManifest);
 
   workbox.routing.registerRoute(
     new RegExp(getUrlRegex(self._urlQueen)),
     new workbox.strategies.CacheFirst({
-      cacheName: configurationCacheName,
+      cacheName: queenCacheName,
       plugins: [
         new workbox.cacheableResponse.Plugin({
           statuses: [0, 200],
