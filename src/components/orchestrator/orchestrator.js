@@ -102,7 +102,7 @@ const Orchestrator = ({
 
   const goFastForward = () => {
     saveQueen();
-    const fastForwardPage = UQ.getFastForwardPage(filteredComponents)(queenData);
+    const fastForwardPage = UQ.getFastForwardPage(filteredComponents)(updateQueenData());
     setCurrentPage(fastForwardPage);
   };
 
