@@ -26,7 +26,7 @@ const isInQueenData = queenData => response => {
   );
 };
 
-export const getFastForwardPage = filterComponents => queenData => {
+export const getFastForwardComponent = filterComponents => queenData => {
   const firstComponent = filterComponents.filter(component => {
     const { componentType } = component;
     const responsesName = getResponsesNameFromComponent(component);
@@ -38,6 +38,11 @@ export const getFastForwardPage = filterComponents => queenData => {
       keyResponses.length === 0
     );
   })[0];
+  return firstComponent;
+};
+
+export const getFastForwardPage = filterComponents => queenData => {
+  const firstComponent = getFastForwardComponent(filterComponents)(queenData);
   const lastPage = filterComponents[filterComponents.length - 1].page;
   const page = firstComponent ? firstComponent.page : lastPage;
   return page;
