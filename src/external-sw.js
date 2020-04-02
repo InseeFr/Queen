@@ -10,7 +10,7 @@ const getUrlRegex = function(url) {
 };
 
 if (workbox) {
-  const { precaching, routing } = workbox;
+  const { precaching, routing, strategies, cacheableResponse } = workbox;
   console.log('Loading Queen SW into another SW');
   const queenPrecacheController = new workbox.precaching.PrecacheController('Queen');
   queenPrecacheController.addToCacheList(self.__precacheManifest);
