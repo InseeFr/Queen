@@ -1,11 +1,31 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-undef */
 /* eslint-disable no-restricted-globals */
+
+const getUrlRegex = function(url) {
+  return url
+    .replace('http', '^http')
+    .replace('.', '\\\\.')
+    .concat('/(.*)((.json)|(.js)|(.png)|(.svg))');
+};
+
 if (workbox) {
-  const { precaching } = workbox;
+  const { precaching, routing } = workbox;
   console.log('Loading Queen SW into another SW');
   const queenPrecacheController = new workbox.precaching.PrecacheController('Queen');
   queenPrecacheController.addToCacheList(self.__precacheManifest);
+
+  workbox.routing.registerRoute(
+    new RegExp(getUrlRegex(self._urlQueen)),
+    new workbox.strategies.CacheFirst({
+      cacheName: configurationCacheName,
+      plugins: [
+        new workbox.cacheableResponse.Plugin({
+          statuses: [0, 200],
+        }),
+      ],
+    })
+  );
 
   self.addEventListener('install', event => {
     console.log('QUEEN sw : installing ...');
