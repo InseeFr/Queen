@@ -1,4 +1,6 @@
 import D from 'i18n';
+import * as CST from 'utils/constants';
+import * as lunatic from '@inseefr/lunatic';
 
 /**
  * Function to build Queen questionnaire.
@@ -83,4 +85,100 @@ export const buildQueenQuestionnaire = components => {
         return _;
       }, [])
     : [];
+};
+
+export const buildQueenData = data => {
+  const queenData = { IGNORED: [], DOESNT_KNOW: [], REFUSAL: [] };
+  const { COLLECTED, EXTERNAL, CALCULATED } = { ...data };
+  const newCOLLECTED = {};
+  if (COLLECTED) {
+    const collectedVarName = Object.keys(COLLECTED);
+    collectedVarName.map(value => {
+      if ([CST.IGNORED, CST.DOESNT_KNOW, CST.REFUSAL].includes(COLLECTED[value].COLLECTED)) {
+        const temp = { ...COLLECTED[value] };
+        temp.COLLECTED = null;
+        newCOLLECTED[value] = temp;
+      } else {
+        newCOLLECTED[value] = COLLECTED[value];
+      }
+      switch (COLLECTED[value].COLLECTED) {
+        case CST.IGNORED:
+          queenData[CST.IGNORED_KEY] = [...queenData[CST.IGNORED_KEY], value];
+          break;
+        case CST.DOESNT_KNOW:
+          queenData[CST.DOESNT_KNOW_KEY] = [...queenData[CST.DOESNT_KNOW_KEY], value];
+          break;
+        case CST.REFUSAL:
+          queenData[CST.REFUSAL_KEY] = [...queenData[CST.REFUSAL_KEY], value];
+          break;
+        default:
+          break;
+      }
+
+      return null;
+    });
+  }
+  return { data: { COLLECTED: newCOLLECTED, EXTERNAL, CALCULATED }, queenData };
+};
+
+export const getStateToSave = questionnaire => queenData => {
+  const { IGNORED, DOESNT_KNOW, REFUSAL } = { ...queenData };
+  const state = lunatic.getState(questionnaire);
+  IGNORED.map(varName => {
+    state.COLLECTED[varName].COLLECTED = CST.IGNORED;
+    return null;
+  });
+  DOESNT_KNOW.map(varName => {
+    state.COLLECTED[varName].COLLECTED = CST.DOESNT_KNOW;
+    return null;
+  });
+  REFUSAL.map(varName => {
+    state.COLLECTED[varName].COLLECTED = CST.REFUSAL;
+    return null;
+  });
+  return state;
+};
+
+export const getResponsesNameFromComponent = component => {
+  const { componentType } = component;
+  if (componentType && !['CheckboxGroup', 'Table'].includes(componentType)) {
+    const { response } = component;
+    return response ? [response['name']] : [];
+  }
+  if (componentType && componentType === 'CheckboxGroup') {
+    const { responses } = component;
+    return responses.reduce((_, response) => {
+      return [..._, response['response']['name']];
+    }, []);
+  }
+  if (componentType && componentType === 'Table') {
+    const { cells } = component;
+    return cells.reduce((_, line) => {
+      return [
+        ..._,
+        ...line.reduce((_line, cell) => {
+          return [..._line, ...getResponsesNameFromComponent(cell)];
+        }, []),
+      ];
+    }, []);
+  }
+  return [];
+};
+
+export const getCollectedResponse = component => {
+  const fakeQuestionnaire = { components: [component] };
+  return lunatic.getCollectedStateByValueType(fakeQuestionnaire)('COLLECTED');
+};
+
+export const getResponsesLinkWith = components => response => {
+  return components.reduce((_, component) => {
+    const { conditionFilter } = component;
+    if (conditionFilter) {
+      const responses = conditionFilter.includes(response)
+        ? getResponsesNameFromComponent(component)
+        : [];
+      return [..._, ...responses];
+    }
+    return _;
+  }, []);
 };
