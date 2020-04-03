@@ -78,10 +78,10 @@ describe('getStateToSave utils', () => {
 describe('updateQueenData utils', () => {
   describe('updateQueenData', () => {
     it('should return data {data,queenData} ', () => {
-      const queenData = { DOESNT_KNOW: [], REFUSAL: [] };
-      const transformedQueenData1 = updateQueenData(queenData)(currentComponent);
+      const initQueenData = { DOESNT_KNOW: [], REFUSAL: [] };
+      const transformedQueenData1 = updateQueenData(initQueenData)(currentComponent);
       expect(transformedQueenData1.DOESNT_KNOW.includes('VAR1')).toBe(true);
-      const transformedQueenData2 = updateQueenData(queenData)(currentComponentCheckboxBoolean);
+      const transformedQueenData2 = updateQueenData(initQueenData)(currentComponentCheckboxBoolean);
       expect(transformedQueenData2.DOESNT_KNOW.includes('VAR1')).toBe(false);
     });
   });
