@@ -171,3 +171,49 @@ export const getResponsesLinkWith = components => response => {
     return _;
   }, []);
 };
+
+export const updateResponseFiltered = questionnaire => currentComponent => {
+  let newQuestionnaire = { ...questionnaire };
+  const collectedResponses = getResponsesNameFromComponent(currentComponent);
+  collectedResponses.forEach(response => {
+    const linkedResponses = getResponsesLinkWith(newQuestionnaire.components)(response);
+    linkedResponses.forEach(linkedResponse => {
+      const updatedValue = {};
+      updatedValue[linkedResponse] = null;
+      newQuestionnaire = lunatic.updateQuestionnaire('COLLECTED')(newQuestionnaire)(['COLLECTED'])(
+        updatedValue
+      );
+    });
+  });
+  return newQuestionnaire;
+};
+
+const removeResponseToQueenData = queenData => responseName => {
+  const newQueenData = { ...queenData };
+  CONST.QUEEN_DATA_KEYS.forEach(key => {
+    newQueenData[key] = newQueenData[key].filter(name => name !== responseName);
+  });
+  return newQueenData;
+};
+
+const addResponseToQueenData = queenData => responseName => dataType => {
+  const newQueenData = { ...queenData };
+  if (!newQueenData[dataType].includes(responseName)) {
+    newQueenData[dataType] = [...newQueenData[dataType], responseName];
+  }
+  return newQueenData;
+};
+
+export const updateQueenData = queenData => currentComponent => {
+  let newQueenData = { ...queenData };
+  const responsesName = getResponsesNameFromComponent(currentComponent);
+  responsesName.forEach(responseName => {
+    const collectedResponse = getCollectedResponse(currentComponent);
+    if (Object.keys(collectedResponse).length === 0) {
+      newQueenData = addResponseToQueenData(newQueenData)(responseName)(CONST.DOESNT_KNOW);
+    } else {
+      newQueenData = removeResponseToQueenData(newQueenData)(responseName);
+    }
+  });
+  return newQueenData;
+};
