@@ -3,7 +3,8 @@
 .buttons {
   text-align: right;
 
-  .button-lunatic {
+  .button-lunatic,
+  .navigation-button {
     background-color: $background-button-color;
     border: none;
     border-radius: 5px;
