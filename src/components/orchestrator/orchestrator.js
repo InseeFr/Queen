@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import * as lunatic from '@inseefr/lunatic';
 import alphabet from 'utils/constants/alphabet';
+import * as CONST from 'utils/constants';
 import * as UQ from 'utils/questionnaire';
 import Header from './header';
 import Buttons from './buttons';
@@ -12,7 +13,7 @@ const Orchestrator = ({
   savingType,
   preferences,
   source,
-  data,
+  dataSU,
   filterDescription,
   save,
   close,
@@ -20,13 +21,34 @@ const Orchestrator = ({
   const [navOpen, setNavOpen] = useState(false);
 
   const [questionnaire, setQuestionnaire] = useState(
-    lunatic.mergeQuestionnaireAndData(source)(data)
+    lunatic.mergeQuestionnaireAndData(source)(dataSU.data)
   );
   const [currentPage, setCurrentPage] = useState(1);
   /**
    * viewedPages : list of page viewed by user
    */
   const [viewedPages, setViewedPages] = useState([1]);
+
+  const [queenData, setQueenData] = useState(dataSU.queenData);
+
+  const removeResponseToQueenData = responseName => {
+    const newQueenData = { ...queenData };
+    CONST.QUEEN_DATA_KEYS.map(key => {
+      newQueenData[key] = newQueenData[key].filter(name => name !== responseName);
+      return null;
+    });
+    setQueenData(newQueenData);
+    return newQueenData;
+  };
+
+  const addResponseToQueenData = responseName => dataType => {
+    const newQueenData = { ...queenData };
+    if (!newQueenData[dataType].includes(responseName)) {
+      newQueenData[dataType] = [...newQueenData[dataType], responseName];
+      setQueenData(newQueenData);
+    }
+    return newQueenData;
+  };
 
   const onChange = updatedValue => {
     if (!readonly) {
@@ -43,17 +65,52 @@ const Orchestrator = ({
     ({ conditionFilter }) => lunatic.interpret(['VTL'])(bindings)(conditionFilter) === 'normal'
   );
 
+  const component = filteredComponents.find(({ page }) => page === currentPage);
+  const { id, componentType, sequence, subsequence, options, ...props } = component;
+
+  const updateQueenData = () => {
+    let newQueenData = { ...queenData };
+    const responsesName = UQ.getResponsesNameFromComponent(component);
+    responsesName.map(responseName => {
+      const collectedResponse = UQ.getCollectedResponse(component);
+      if (Object.keys(collectedResponse).length === 0) {
+        newQueenData = addResponseToQueenData(responseName)(CONST.IGNORED_KEY);
+      } else {
+        newQueenData = removeResponseToQueenData(responseName);
+      }
+      return null;
+    });
+    return newQueenData;
+  };
+
+  const saveQueen = () => {
+    const lastQueenData = updateQueenData();
+    const dataToSave = UQ.getStateToSave(questionnaire)(lastQueenData);
+    save(dataToSave);
+  };
+
   const goPrevious = () => {
     setCurrentPage(UQ.getPreviousPage(filteredComponents)(currentPage));
   };
+
   const goNext = () => {
+    saveQueen();
     const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
     setViewedPages([...viewedPages, nextPage]);
     setCurrentPage(nextPage);
   };
 
-  const component = filteredComponents.find(({ page }) => page === currentPage);
-  const { id, componentType, sequence, subsequence, options, ...props } = component;
+  const goFastForward = () => {
+    saveQueen();
+    const fastForwardPage = UQ.getFastForwardPage(filteredComponents)(updateQueenData());
+    setCurrentPage(fastForwardPage);
+  };
+
+  const quit = () => {
+    saveQueen();
+    close();
+  };
+
   const Component = lunatic[componentType];
   let myOptions = [];
   if (componentType === 'CheckboxOne') {
@@ -115,8 +172,8 @@ const Orchestrator = ({
             page={UQ.findPageIndex(filteredComponents)(currentPage)}
             pagePrevious={goPrevious}
             pageNext={goNext}
-            save={() => save(lunatic.getState(questionnaire))}
-            quit={close}
+            pageFastForward={goFastForward}
+            quit={quit}
           />
         </div>
       </div>
@@ -130,7 +187,10 @@ Orchestrator.propTypes = {
   preferences: PropTypes.arrayOf(PropTypes.string).isRequired,
   filterDescription: PropTypes.bool.isRequired,
   source: PropTypes.objectOf(PropTypes.any).isRequired,
-  data: PropTypes.objectOf(PropTypes.any).isRequired,
+  dataSU: PropTypes.shape({
+    data: PropTypes.objectOf(PropTypes.any).isRequired,
+    queenData: PropTypes.objectOf(PropTypes.any).isRequired,
+  }).isRequired,
   save: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
 };

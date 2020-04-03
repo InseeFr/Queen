@@ -6,6 +6,7 @@ import { initialize } from 'utils/initializeOrchestrator';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import { AUTHENTICATION_MODE_ENUM, READ_ONLY } from 'utils/constants';
 import D from 'i18n';
+import * as UQ from 'utils/questionnaire';
 import Orchestrator from '../orchestrator';
 import NotFound from '../shared/not-found';
 
@@ -76,7 +77,7 @@ const OrchestratorManager = ({ match, configuration }) => {
           savingType="COLLECTED"
           preferences={['COLLECTED']}
           source={questionnaire}
-          data={surveyUnit.data}
+          dataSU={UQ.buildQueenData(surveyUnit.data)}
           filterDescription={false}
           save={saveDataSU}
           close={closeOrchestrator}

@@ -37,7 +37,7 @@ class QueenApp extends HTMLElement {
   async setConfiguration() {
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     const response = await fetch(`${publicUrl.origin}/configuration.json`);
-    const configuration = await response.json();
+    let configuration = await response.json();
     const { urlQueen } = configuration;
     if (urlQueen === publicUrl.origin) {
       configuration.standalone = true;

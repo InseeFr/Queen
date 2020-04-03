@@ -4,14 +4,10 @@ import { Button } from '@inseefr/lunatic';
 import D from 'i18n';
 import styles from './buttons.scss';
 
-const Buttons = ({ nbModules, page, pagePrevious, pageNext, save, quit }) => {
+const Buttons = ({ nbModules, page, pagePrevious, pageNext, pageFastForward, quit }) => {
   const btnDown = page === 0 ? '' : D.goBackReturn;
   const finalPage = nbModules - 1 === page ? D.saveAndQuit : `${D.nextContinue} \u2192`;
-  const btnNext = nbModules - 1 === page ? quit : pageNext;
-  const pageNextFunction = () => {
-    save();
-    btnNext();
-  };
+  const pageNextFunction = nbModules - 1 === page ? quit : pageNext;
 
   return (
     <>
@@ -19,6 +15,7 @@ const Buttons = ({ nbModules, page, pagePrevious, pageNext, save, quit }) => {
       <div id="buttons" className={`buttons ${!btnDown && 'btn-alone'}`}>
         {btnDown && <Button value={btnDown} onClick={pagePrevious} />}
         <Button value={finalPage} onClick={pageNextFunction} />
+        <Button value={`${D.fastForward} >>`} onClick={pageFastForward} />
       </div>
     </>
   );
@@ -28,7 +25,7 @@ Buttons.propTypes = {
   page: PropTypes.number.isRequired,
   pageNext: PropTypes.func.isRequired,
   pagePrevious: PropTypes.func.isRequired,
-  save: PropTypes.func.isRequired,
+  pageFastForward: PropTypes.func.isRequired,
   quit: PropTypes.func.isRequired,
 };
 
