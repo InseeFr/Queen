@@ -15,7 +15,7 @@ const Buttons = ({ nbModules, page, pagePrevious, pageNext, pageFastForward, qui
       <div id="buttons" className={`buttons ${!btnDown && 'btn-alone'}`}>
         {btnDown && <Button value={btnDown} onClick={pagePrevious} />}
         <Button value={finalPage} onClick={pageNextFunction} />
-        <Button value={`${D.fastForward} >>`} onClick={pageFastForward} />
+        <Button value={`${D.fastForward} \u21E5`} onClick={pageFastForward} />
       </div>
     </>
   );
