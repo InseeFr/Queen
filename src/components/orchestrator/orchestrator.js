@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import * as lunatic from '@inseefr/lunatic';
 import alphabet from 'utils/constants/alphabet';
-import * as CONST from 'utils/constants';
 import * as UQ from 'utils/questionnaire';
 import Header from './header';
 import Buttons from './buttons';
@@ -30,28 +29,13 @@ const Orchestrator = ({
   const [viewedPages, setViewedPages] = useState([1]);
 
   const [queenData, setQueenData] = useState(dataSU.queenData);
+  const [previousResponse, setPreviousResponse] = useState(null);
 
-  const removeResponseToQueenData = responseName => {
-    const newQueenData = { ...queenData };
-    CONST.QUEEN_DATA_KEYS.map(key => {
-      newQueenData[key] = newQueenData[key].filter(name => name !== responseName);
-      return null;
-    });
-    setQueenData(newQueenData);
-    return newQueenData;
-  };
-
-  const addResponseToQueenData = responseName => dataType => {
-    const newQueenData = { ...queenData };
-    if (!newQueenData[dataType].includes(responseName)) {
-      newQueenData[dataType] = [...newQueenData[dataType], responseName];
-      setQueenData(newQueenData);
-    }
-    return newQueenData;
-  };
-
-  const onChange = updatedValue => {
+  const onChange = component => updatedValue => {
     if (!readonly) {
+      if (!previousResponse) {
+        setPreviousResponse(UQ.getCollectedResponse(component));
+      }
       setQuestionnaire(
         lunatic.updateQuestionnaire(savingType)(questionnaire)(preferences)(updatedValue)
       );
@@ -68,33 +52,29 @@ const Orchestrator = ({
   const component = filteredComponents.find(({ page }) => page === currentPage);
   const { id, componentType, sequence, subsequence, options, ...props } = component;
 
-  const updateQueenData = () => {
-    let newQueenData = { ...queenData };
-    const responsesName = UQ.getResponsesNameFromComponent(component);
-    responsesName.map(responseName => {
-      const collectedResponse = UQ.getCollectedResponse(component);
-      if (Object.keys(collectedResponse).length === 0) {
-        newQueenData = addResponseToQueenData(responseName)(CONST.DOESNT_KNOW_KEY);
-      } else {
-        newQueenData = removeResponseToQueenData(responseName);
-      }
-      return null;
-    });
-    return newQueenData;
-  };
-
   const saveQueen = () => {
-    const lastQueenData = updateQueenData();
-    const dataToSave = UQ.getStateToSave(questionnaire)(lastQueenData);
+    let newQuestionnaire = questionnaire;
+    if (previousResponse) {
+      const newResponse = UQ.getCollectedResponse(component);
+      if (JSON.stringify(newResponse) !== JSON.stringify(previousResponse)) {
+        newQuestionnaire = UQ.updateResponseFiltered(newQuestionnaire)(component);
+      }
+      setQuestionnaire(newQuestionnaire);
+    }
+    const lastQueenData = UQ.updateQueenData(queenData)(component);
+    setQueenData(lastQueenData);
+    const dataToSave = UQ.getStateToSave(newQuestionnaire)(lastQueenData);
     save(dataToSave);
   };
 
   const goPrevious = () => {
+    setPreviousResponse(null);
     setCurrentPage(UQ.getPreviousPage(filteredComponents)(currentPage));
   };
 
   const goNext = () => {
     saveQueen();
+    setPreviousResponse(null);
     const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
     setViewedPages([...viewedPages, nextPage]);
     setCurrentPage(nextPage);
@@ -102,7 +82,10 @@ const Orchestrator = ({
 
   const goFastForward = () => {
     saveQueen();
-    const fastForwardPage = UQ.getFastForwardPage(filteredComponents)(updateQueenData());
+    setPreviousResponse(null);
+    const fastForwardPage = UQ.getFastForwardPage(filteredComponents)(
+      UQ.updateQueenData(queenData)(component)
+    );
     setCurrentPage(fastForwardPage);
   };
 
@@ -154,7 +137,7 @@ const Orchestrator = ({
                 id={id}
                 {...props}
                 options={myOptions}
-                handleChange={onChange}
+                handleChange={onChange(component)}
                 labelPosition="TOP"
                 preferences={preferences}
                 features={['VTL']}
