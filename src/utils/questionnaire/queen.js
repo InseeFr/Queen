@@ -93,8 +93,8 @@ export const buildQueenData = data => {
   const newCOLLECTED = {};
   if (COLLECTED) {
     const collectedVarName = Object.keys(COLLECTED);
-    collectedVarName.map(value => {
-      if ([CONST.DOESNT_KNOW, CONST.REFUSAL].includes(COLLECTED[value].COLLECTED)) {
+    collectedVarName.forEach(value => {
+      if ([CONST.DOESNT_KNOW_LABEL, CONST.REFUSAL_LABEL].includes(COLLECTED[value].COLLECTED)) {
         const temp = { ...COLLECTED[value] };
         temp.COLLECTED = null;
         newCOLLECTED[value] = temp;
@@ -102,17 +102,15 @@ export const buildQueenData = data => {
         newCOLLECTED[value] = COLLECTED[value];
       }
       switch (COLLECTED[value].COLLECTED) {
-        case CONST.DOESNT_KNOW:
-          queenData[CONST.DOESNT_KNOW_KEY] = [...queenData[CONST.DOESNT_KNOW_KEY], value];
+        case CONST.DOESNT_KNOW_LABEL:
+          queenData[CONST.DOESNT_KNOW] = [...queenData[CONST.DOESNT_KNOW], value];
           break;
-        case CONST.REFUSAL:
-          queenData[CONST.REFUSAL_KEY] = [...queenData[CONST.REFUSAL_KEY], value];
+        case CONST.REFUSAL_LABEL:
+          queenData[CONST.REFUSAL] = [...queenData[CONST.REFUSAL], value];
           break;
         default:
           break;
       }
-
-      return null;
     });
   }
   return { data: { COLLECTED: newCOLLECTED, EXTERNAL, CALCULATED }, queenData };
@@ -121,13 +119,11 @@ export const buildQueenData = data => {
 export const getStateToSave = questionnaire => queenData => {
   const { DOESNT_KNOW, REFUSAL } = { ...queenData };
   const state = lunatic.getState(questionnaire);
-  DOESNT_KNOW.map(varName => {
-    state.COLLECTED[varName].COLLECTED = CONST.DOESNT_KNOW;
-    return null;
+  DOESNT_KNOW.forEach(varName => {
+    state.COLLECTED[varName].COLLECTED = CONST.DOESNT_KNOW_LABEL;
   });
-  REFUSAL.map(varName => {
-    state.COLLECTED[varName].COLLECTED = CONST.REFUSAL;
-    return null;
+  REFUSAL.forEach(varName => {
+    state.COLLECTED[varName].COLLECTED = CONST.REFUSAL_LABEL;
   });
   return state;
 };

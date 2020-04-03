@@ -1,4 +1,4 @@
-import { DOESNT_KNOW_KEY, REFUSAL_KEY } from 'utils/constants';
+import { DOESNT_KNOW, REFUSAL } from 'utils/constants';
 import { getResponsesNameFromComponent, getCollectedResponse } from './queen';
 
 export const findPageIndex = components => page =>
@@ -20,8 +20,8 @@ export const getNextPage = components => currentPage => {
 
 const isInQueenData = queenData => response => {
   return (
-    queenData[DOESNT_KNOW_KEY].some(v => response.indexOf(v) !== -1) ||
-    queenData[REFUSAL_KEY].some(v => response.indexOf(v) !== -1)
+    queenData[DOESNT_KNOW].some(v => response.indexOf(v) !== -1) ||
+    queenData[REFUSAL].some(v => response.indexOf(v) !== -1)
   );
 };
 
