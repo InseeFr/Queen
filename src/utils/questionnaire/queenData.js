@@ -51,7 +51,7 @@ const removeResponseToQueenData = queenData => responseName => {
   return newQueenData;
 };
 
-const addResponseToQueenData = queenData => responseName => dataType => {
+export const addResponseToQueenData = queenData => responseName => dataType => {
   const newQueenData = { ...queenData };
   if (!newQueenData[dataType].includes(responseName)) {
     newQueenData[dataType] = [...newQueenData[dataType], responseName];
