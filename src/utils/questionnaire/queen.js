@@ -88,13 +88,13 @@ export const buildQueenQuestionnaire = components => {
 };
 
 export const buildQueenData = data => {
-  const queenData = { IGNORED: [], DOESNT_KNOW: [], REFUSAL: [] };
+  const queenData = { DOESNT_KNOW: [], REFUSAL: [] };
   const { COLLECTED, EXTERNAL, CALCULATED } = { ...data };
   const newCOLLECTED = {};
   if (COLLECTED) {
     const collectedVarName = Object.keys(COLLECTED);
     collectedVarName.map(value => {
-      if ([CONST.IGNORED, CONST.DOESNT_KNOW, CONST.REFUSAL].includes(COLLECTED[value].COLLECTED)) {
+      if ([CONST.DOESNT_KNOW, CONST.REFUSAL].includes(COLLECTED[value].COLLECTED)) {
         const temp = { ...COLLECTED[value] };
         temp.COLLECTED = null;
         newCOLLECTED[value] = temp;
@@ -102,9 +102,6 @@ export const buildQueenData = data => {
         newCOLLECTED[value] = COLLECTED[value];
       }
       switch (COLLECTED[value].COLLECTED) {
-        case CONST.IGNORED:
-          queenData[CONST.IGNORED_KEY] = [...queenData[CONST.IGNORED_KEY], value];
-          break;
         case CONST.DOESNT_KNOW:
           queenData[CONST.DOESNT_KNOW_KEY] = [...queenData[CONST.DOESNT_KNOW_KEY], value];
           break;
@@ -122,12 +119,8 @@ export const buildQueenData = data => {
 };
 
 export const getStateToSave = questionnaire => queenData => {
-  const { IGNORED, DOESNT_KNOW, REFUSAL } = { ...queenData };
+  const { DOESNT_KNOW, REFUSAL } = { ...queenData };
   const state = lunatic.getState(questionnaire);
-  IGNORED.map(varName => {
-    state.COLLECTED[varName].COLLECTED = CONST.IGNORED;
-    return null;
-  });
   DOESNT_KNOW.map(varName => {
     state.COLLECTED[varName].COLLECTED = CONST.DOESNT_KNOW;
     return null;

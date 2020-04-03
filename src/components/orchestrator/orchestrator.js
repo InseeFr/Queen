@@ -74,7 +74,7 @@ const Orchestrator = ({
     responsesName.map(responseName => {
       const collectedResponse = UQ.getCollectedResponse(component);
       if (Object.keys(collectedResponse).length === 0) {
-        newQueenData = addResponseToQueenData(responseName)(CONST.IGNORED_KEY);
+        newQueenData = addResponseToQueenData(responseName)(CONST.DOESNT_KNOW_KEY);
       } else {
         newQueenData = removeResponseToQueenData(responseName);
       }
