@@ -194,10 +194,14 @@ const Orchestrator = ({
           </div>
           <NavBar nbModules={queenComponents.length} page={currentPage} />
           <Buttons
+            canContinue={goNextCondition()}
+            previousClicked={clickPrevious}
+            componentType={componentType}
             nbModules={filteredComponents.length}
             page={UQ.findPageIndex(filteredComponents)(currentPage)}
             pagePrevious={goPrevious}
             pageNext={goNext}
+            setSpecialAnswer={setSpecialAnswer}
             pageFastForward={goFastForward}
             quit={quit}
           />

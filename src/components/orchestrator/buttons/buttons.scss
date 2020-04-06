@@ -1,9 +1,8 @@
 @import '../../style/variables.scss';
 
 .buttons {
-  text-align: right;
+  //text-align: right;
 
-  .button-lunatic,
   .navigation-button {
     background-color: $background-button-color;
     border: none;
@@ -18,6 +17,46 @@
       border: none;
       background-color: white;
       color: $background-button-color;
+    }
+
+    &:disabled {
+      background-color: grey;
+      color: white;
+    }
+  }
+
+  .specific-modality {
+    display: inline-block;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    background-color: grey;
+    padding: 0.8em 3em 0.8em 0.5em;
+    margin-left: 2em;
+
+    &.content-checked {
+      background-color: orange;
+    }
+
+    .shortcut {
+      padding: 0.3em 0.5em 0.3em 0.5em;
+      margin-right: 0.5em;
+      color: grey;
+      font-weight: bold;
+      border: 1px solid transparent;
+      background-color: white;
+      border-radius: 5px;
+    }
+
+    .unchecked {
+      position: relative;
+      left: 2em;
+      color: transparent;
+    }
+    .checked {
+      position: relative;
+      left: 2em;
+      color: white;
     }
   }
 }
