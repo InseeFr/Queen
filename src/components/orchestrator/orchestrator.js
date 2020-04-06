@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import * as lunatic from '@inseefr/lunatic';
 import alphabet from 'utils/constants/alphabet';
 import * as UQ from 'utils/questionnaire';
+import { DIRECT_CONTINUE_COMPONENTS, QUEEN_DATA_KEYS } from 'utils/constants';
 import Header from './header';
 import Buttons from './buttons';
 import NavBar from './rightNavbar';
@@ -95,6 +97,12 @@ const Orchestrator = ({
     saveQueen();
     close();
   };
+
+  useEffect(() => {
+    if (DIRECT_CONTINUE_COMPONENTS.includes(componentType)) {
+      goNext();
+    }
+  }, [questionnaire]);
 
   const Component = lunatic[componentType];
   let myOptions = [];
