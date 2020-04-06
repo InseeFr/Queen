@@ -1,12 +1,12 @@
 import D from 'i18n';
-import * as CONST from 'utils/constants';
 import * as lunatic from '@inseefr/lunatic';
 
 /**
  * Function to build Queen questionnaire.
- * We add attribute to components
+ * It adds attribute to components
  *   - page : the queen page
- *   -
+ * It removes empty subsequence
+ * It changes declarations of empty sequence to 'Changing the sequence'
  * @param {*} components
  */
 export const buildQueenQuestionnaire = components => {
@@ -87,6 +87,11 @@ export const buildQueenQuestionnaire = components => {
     : [];
 };
 
+/**
+ * This function returns the list of variables collected by a component
+ * (regardless of their state).
+ * @param component (single Component)
+ */
 export const getResponsesNameFromComponent = component => {
   const { componentType } = component;
   if (componentType && !['CheckboxGroup', 'Table'].includes(componentType)) {
@@ -118,11 +123,19 @@ export const getCollectedResponse = component => {
   return lunatic.getCollectedStateByValueType(fakeQuestionnaire)('COLLECTED');
 };
 
+/**
+ * This function returns the list of variables that must be reset to "null"
+ * because they depend on a filter that has been updated.
+ * @param components (list of component)
+ * @param response (the response name)
+ * @returns list of collectedVariables
+ */
 export const getResponsesLinkWith = components => response => {
+  const regexpTest = new RegExp(`\\b${response}\\b`);
   return components.reduce((_, component) => {
     const { conditionFilter } = component;
     if (conditionFilter) {
-      const responses = conditionFilter.includes(response)
+      const responses = regexpTest.test(conditionFilter)
         ? getResponsesNameFromComponent(component)
         : [];
       return [..._, ...responses];
@@ -131,6 +144,13 @@ export const getResponsesLinkWith = components => response => {
   }, []);
 };
 
+/**
+ * This function sets to "null" the collected variables that depend on a filter
+ * that depends on the variables collected by the current component.
+ * @param questionnaire
+ * @param currentComponents
+ * @returns newQuestionnaire
+ */
 export const updateResponseFiltered = questionnaire => currentComponent => {
   let newQuestionnaire = { ...questionnaire };
   const collectedResponses = getResponsesNameFromComponent(currentComponent);
