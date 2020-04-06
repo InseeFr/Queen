@@ -1,4 +1,9 @@
-import { getQuestionnaireById, getResourceById, getDataSurveyUnitById } from 'utils/api';
+import {
+  getQuestionnaireById,
+  getResourceById,
+  getDataSurveyUnitById,
+  getCommentSurveyUnitById,
+} from 'utils/api';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import D from 'i18n';
 
@@ -38,7 +43,12 @@ export const initialize = ({
     setWaitingMessage(D.waitingDataSU);
     if (standalone) {
       const fetchedData = await getDataSurveyUnitById(idSurveyUnit);
-      await surveyUnitIdbService.addOrUpdateSU({ idSU: idSurveyUnit, data: fetchedData });
+      const fetchedComment = await getCommentSurveyUnitById(idSurveyUnit);
+      await surveyUnitIdbService.addOrUpdateSU({
+        idSU: idSurveyUnit,
+        data: fetchedData,
+        comment: fetchedComment,
+      });
     }
     const surveyUnit = await surveyUnitIdbService.getByIdSU(idSurveyUnit);
     // set survey unit data to orchestrator
