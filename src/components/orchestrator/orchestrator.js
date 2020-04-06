@@ -8,6 +8,7 @@ import Buttons from './buttons';
 import NavBar from './rightNavbar';
 
 const Orchestrator = ({
+  surveyUnit,
   readonly,
   savingType,
   preferences,
@@ -29,6 +30,7 @@ const Orchestrator = ({
   const [viewedPages, setViewedPages] = useState([1]);
 
   const [queenData, setQueenData] = useState(dataSU.queenData);
+  const [comment, setComment] = useState(surveyUnit.comment);
   const [previousResponse, setPreviousResponse] = useState(null);
 
   const onChange = component => updatedValue => {
@@ -64,7 +66,7 @@ const Orchestrator = ({
     const lastQueenData = UQ.updateQueenData(queenData)(component);
     setQueenData(lastQueenData);
     const dataToSave = UQ.getStateToSave(newQuestionnaire)(lastQueenData);
-    save(dataToSave);
+    save({ ...surveyUnit, data: dataToSave, comment });
   };
 
   const goPrevious = () => {
@@ -165,6 +167,7 @@ const Orchestrator = ({
 };
 
 Orchestrator.propTypes = {
+  surveyUnit: PropTypes.objectOf(PropTypes.any).isRequired,
   readonly: PropTypes.bool.isRequired,
   savingType: PropTypes.oneOf(['COLLECTED', 'FORCED', 'EDITED']).isRequired,
   preferences: PropTypes.arrayOf(PropTypes.string).isRequired,

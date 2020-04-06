@@ -53,10 +53,8 @@ const OrchestratorManager = ({ match, configuration }) => {
     }
   }, [init]);
 
-  const saveDataSU = data => {
-    const surveyUnitTemp = surveyUnit;
-    surveyUnitTemp.data = data;
-    surveyUnitIdbService.addOrUpdateSU(surveyUnitTemp);
+  const saveSU = unit => {
+    surveyUnitIdbService.addOrUpdateSU(unit);
   };
 
   const closeOrchestrator = () => {
@@ -73,13 +71,14 @@ const OrchestratorManager = ({ match, configuration }) => {
       {error && <Error message={errorMessage} />}
       {!waiting && !error && questionnaire && surveyUnit && (
         <Orchestrator
+          surveyUnit={surveyUnit}
           readonly={readonly}
           savingType="COLLECTED"
           preferences={['COLLECTED']}
           source={questionnaire}
           dataSU={UQ.buildQueenData(surveyUnit.data)}
           filterDescription={false}
-          save={saveDataSU}
+          save={saveSU}
           close={closeOrchestrator}
         />
       )}
