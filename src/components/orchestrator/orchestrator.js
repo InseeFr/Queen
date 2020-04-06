@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import * as lunatic from '@inseefr/lunatic';
@@ -33,6 +32,7 @@ const Orchestrator = ({
 
   const [queenData, setQueenData] = useState(dataSU.queenData);
   const [comment, setComment] = useState(surveyUnit.comment);
+  const [clickPrevious, setClickPrevious] = useState(false);
   const [previousResponse, setPreviousResponse] = useState(null);
 
   const onChange = component => updatedValue => {
@@ -72,25 +72,58 @@ const Orchestrator = ({
   };
 
   const goPrevious = () => {
+    setClickPrevious(true);
     setPreviousResponse(null);
     setCurrentPage(UQ.getPreviousPage(filteredComponents)(currentPage));
   };
 
+  const goNextCondition = () => {
+    const responseKeys = Object.keys(UQ.getCollectedResponse(component));
+    const allResponses = UQ.getResponsesNameFromComponent(component);
+    return (
+      ['Sequence', 'Subsequence'].includes(componentType) ||
+      responseKeys.length !== 0 ||
+      UQ.isInQueenData(queenData)(allResponses)
+    );
+  };
+
   const goNext = () => {
-    saveQueen();
-    setPreviousResponse(null);
-    const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
-    setViewedPages([...viewedPages, nextPage]);
-    setCurrentPage(nextPage);
+    if (goNextCondition()) {
+      saveQueen();
+      setClickPrevious(false);
+      setPreviousResponse(null);
+      const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
+      setViewedPages([...viewedPages, nextPage]);
+      setCurrentPage(nextPage);
+    } else {
+      console.log('veuillez répondre !');
+    }
+  };
+
+  const setSpecialAnswer = specialType => {
+    if (QUEEN_DATA_KEYS.includes(specialType)) {
+      let newQueenData = { ...queenData };
+      const responseNames = UQ.getResponsesNameFromComponent(component);
+      responseNames.forEach(name => {
+        newQueenData = UQ.addResponseToQueenData(queenData)(name)(specialType);
+      });
+
+      console.log('new queen Data');
+      console.log(newQueenData);
+      setQueenData(newQueenData);
+    }
   };
 
   const goFastForward = () => {
-    saveQueen();
-    setPreviousResponse(null);
-    const fastForwardPage = UQ.getFastForwardPage(filteredComponents)(
-      UQ.updateQueenData(queenData)(component)
-    );
-    setCurrentPage(fastForwardPage);
+    if (goNextCondition()) {
+      saveQueen();
+      setClickPrevious(false);
+      setPreviousResponse(null);
+      const fastForwardPage = UQ.getFastForwardPage(filteredComponents)(
+        UQ.updateQueenData(queenData)(component)
+      );
+      setCurrentPage(fastForwardPage);
+    }
   };
 
   const quit = () => {
