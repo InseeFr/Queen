@@ -1,5 +1,5 @@
-import { DOESNT_KNOW, REFUSAL } from 'utils/constants';
 import { getResponsesNameFromComponent, getCollectedResponse } from './queen';
+import { isInQueenData } from './queenData';
 
 export const findPageIndex = components => page =>
   components ? components.findIndex(c => c.page === page) : -1;
@@ -16,13 +16,6 @@ export const getNextPage = components => currentPage => {
   const index = findPageIndex(components)(currentPage);
   if (index < 0 || index >= components.length - 1) return 1;
   return components[index + 1].page || 1;
-};
-
-const isInQueenData = queenData => response => {
-  return (
-    queenData[DOESNT_KNOW].some(v => response.indexOf(v) !== -1) ||
-    queenData[REFUSAL].some(v => response.indexOf(v) !== -1)
-  );
 };
 
 export const getFastForwardComponent = filterComponents => queenData => {

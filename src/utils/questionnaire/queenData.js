@@ -52,7 +52,7 @@ const removeResponseToQueenData = queenData => responseName => {
 };
 
 export const addResponseToQueenData = queenData => responseName => dataType => {
-  const newQueenData = { ...queenData };
+  const newQueenData = removeResponseToQueenData(queenData)(responseName);
   if (!newQueenData[dataType].includes(responseName)) {
     newQueenData[dataType] = [...newQueenData[dataType], responseName];
   }
@@ -61,18 +61,18 @@ export const addResponseToQueenData = queenData => responseName => dataType => {
 
 export const updateQueenData = queenData => currentComponent => {
   let newQueenData = { ...queenData };
-  const { componentType } = currentComponent;
   const responsesName = getResponsesNameFromComponent(currentComponent);
+  const collectedResponse = getCollectedResponse(currentComponent);
   responsesName.forEach(responseName => {
-    const collectedResponse = getCollectedResponse(currentComponent);
-    if (
-      Object.keys(collectedResponse).length === 0 &&
-      !['CheckboxBoolean'].includes(componentType)
-    ) {
-      newQueenData = addResponseToQueenData(newQueenData)(responseName)(CONST.DOESNT_KNOW);
-    } else {
+    if (Object.keys(collectedResponse).length !== 0)
       newQueenData = removeResponseToQueenData(newQueenData)(responseName);
-    }
   });
   return newQueenData;
+};
+
+export const isInQueenData = queenData => response => {
+  return (
+    queenData[CONST.DOESNT_KNOW].some(v => response.indexOf(v) !== -1) ||
+    queenData[CONST.REFUSAL].some(v => response.indexOf(v) !== -1)
+  );
 };
