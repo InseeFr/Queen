@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import * as lunatic from '@inseefr/lunatic';
 import alphabet from 'utils/constants/alphabet';
 import * as UQ from 'utils/questionnaire';
-import { DIRECT_CONTINUE_COMPONENTS, QUEEN_DATA_KEYS } from 'utils/constants';
+import { DIRECT_CONTINUE_COMPONENTS } from 'utils/constants';
 import Header from './header';
 import Buttons from './buttons';
 import NavBar from './rightNavbar';
@@ -21,9 +21,7 @@ const Orchestrator = ({
 }) => {
   const [navOpen, setNavOpen] = useState(false);
 
-  const [questionnaire, setQuestionnaire] = useState(
-    lunatic.mergeQuestionnaireAndData(source)(dataSU.data)
-  );
+  const [questionnaire, setQuestionnaire] = useState(source);
   const [currentPage, setCurrentPage] = useState(1);
   /**
    * viewedPages : list of page viewed by user
@@ -35,6 +33,12 @@ const Orchestrator = ({
   const [clickPrevious, setClickPrevious] = useState(false);
   const [previousResponse, setPreviousResponse] = useState(null);
 
+  /**
+   * This function updates the values of the questionnaire responses
+   * from the data entered by the user.
+   * This function is disabled when app is in readonly mode.
+   * @param {*} component the current component
+   */
   const onChange = component => updatedValue => {
     if (!readonly) {
       if (!previousResponse) {
@@ -48,7 +52,11 @@ const Orchestrator = ({
 
   const bindings = lunatic.getBindings(questionnaire);
 
-  const queenComponents = UQ.buildQueenQuestionnaire(questionnaire.components);
+  /**
+   * queenComponents = all components expect empty Subsequence.
+   * (Empty Subsequence hasn't page attribute)
+   */
+  const queenComponents = questionnaire.components.filter(c => c.page);
   const filteredComponents = queenComponents.filter(
     ({ conditionFilter }) => lunatic.interpret(['VTL'])(bindings)(conditionFilter) === 'normal'
   );
@@ -56,74 +64,55 @@ const Orchestrator = ({
   const component = filteredComponents.find(({ page }) => page === currentPage);
   const { id, componentType, sequence, subsequence, options, ...props } = component;
 
-  const saveQueen = () => {
+  /**
+   *  This function update response values in questionnaire and queenData.
+   *  At the end, it calls the saving method of its parent (saving into indexdb)
+   * @param {*} lastQueenData (queenData update by "Refusal" and "doesn't know" buttons )
+   */
+  const saveQueen = (lastQueenData = queenData) => {
     let newQuestionnaire = questionnaire;
     if (previousResponse) {
       const newResponse = UQ.getCollectedResponse(component);
       if (JSON.stringify(newResponse) !== JSON.stringify(previousResponse)) {
         newQuestionnaire = UQ.updateResponseFiltered(newQuestionnaire)(component);
+        setQuestionnaire(newQuestionnaire); // update questionnaire with updated values
       }
-      setQuestionnaire(newQuestionnaire);
     }
-    const lastQueenData = UQ.updateQueenData(queenData)(component);
-    setQueenData(lastQueenData);
+    setQueenData(lastQueenData); // update queenData according to selected buttons
     const dataToSave = UQ.getStateToSave(newQuestionnaire)(lastQueenData);
     save({ ...surveyUnit, data: dataToSave, comment });
   };
 
-  const goPrevious = () => {
+  /**
+   * @return boolean if user has entered at least one value in current component.
+   */
+  const goNextCondition = () => {
+    const responseKeys = Object.keys(UQ.getCollectedResponse(component));
+    return ['Sequence', 'Subsequence'].includes(componentType) || responseKeys.length !== 0;
+  };
+
+  const goPrevious = (lastQueenData = queenData) => {
+    saveQueen(lastQueenData);
     setClickPrevious(true);
     setPreviousResponse(null);
     setCurrentPage(UQ.getPreviousPage(filteredComponents)(currentPage));
   };
 
-  const goNextCondition = () => {
-    const responseKeys = Object.keys(UQ.getCollectedResponse(component));
-    const allResponses = UQ.getResponsesNameFromComponent(component);
-    return (
-      ['Sequence', 'Subsequence'].includes(componentType) ||
-      responseKeys.length !== 0 ||
-      UQ.isInQueenData(queenData)(allResponses)
-    );
+  const goNext = (lastQueenData = queenData) => {
+    saveQueen(lastQueenData);
+    setClickPrevious(false);
+    setPreviousResponse(null);
+    const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
+    setViewedPages([...viewedPages, nextPage]);
+    setCurrentPage(nextPage);
   };
 
-  const goNext = () => {
-    if (goNextCondition()) {
-      saveQueen();
-      setClickPrevious(false);
-      setPreviousResponse(null);
-      const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
-      setViewedPages([...viewedPages, nextPage]);
-      setCurrentPage(nextPage);
-    } else {
-      console.log('veuillez répondre !');
-    }
-  };
-
-  const setSpecialAnswer = specialType => {
-    if (QUEEN_DATA_KEYS.includes(specialType)) {
-      let newQueenData = { ...queenData };
-      const responseNames = UQ.getResponsesNameFromComponent(component);
-      responseNames.forEach(name => {
-        newQueenData = UQ.addResponseToQueenData(queenData)(name)(specialType);
-      });
-
-      console.log('new queen Data');
-      console.log(newQueenData);
-      setQueenData(newQueenData);
-    }
-  };
-
-  const goFastForward = () => {
-    if (goNextCondition()) {
-      saveQueen();
-      setClickPrevious(false);
-      setPreviousResponse(null);
-      const fastForwardPage = UQ.getFastForwardPage(filteredComponents)(
-        UQ.updateQueenData(queenData)(component)
-      );
-      setCurrentPage(fastForwardPage);
-    }
+  const goFastForward = (lastQueenData = queenData) => {
+    saveQueen(lastQueenData);
+    setClickPrevious(false);
+    setPreviousResponse(null);
+    const fastForwardPage = UQ.getFastForwardPage(filteredComponents)(lastQueenData);
+    setCurrentPage(fastForwardPage);
   };
 
   const quit = () => {
@@ -194,14 +183,14 @@ const Orchestrator = ({
           </div>
           <NavBar nbModules={queenComponents.length} page={currentPage} />
           <Buttons
-            canContinue={goNextCondition()}
-            previousClicked={clickPrevious}
-            componentType={componentType}
-            nbModules={filteredComponents.length}
+            currentComponent={component}
             page={UQ.findPageIndex(filteredComponents)(currentPage)}
+            canContinue={goNextCondition()}
+            queenData={queenData}
+            previousClicked={clickPrevious}
+            nbModules={filteredComponents.length}
             pagePrevious={goPrevious}
             pageNext={goNext}
-            setSpecialAnswer={setSpecialAnswer}
             pageFastForward={goFastForward}
             quit={quit}
           />

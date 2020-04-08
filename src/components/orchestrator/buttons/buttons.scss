@@ -1,7 +1,7 @@
 @import '../../style/variables.scss';
 
 .buttons {
-  //text-align: right;
+  text-align: right;
 
   .navigation-button {
     background-color: $background-button-color;
@@ -20,43 +20,63 @@
     }
 
     &:disabled {
-      background-color: grey;
+      background-color: #414c5c;
       color: white;
     }
   }
-
   .specific-modality {
     display: inline-block;
     border-radius: 5px;
     border: none;
     color: white;
-    background-color: grey;
-    padding: 0.8em 3em 0.8em 0.5em;
+    vertical-align: middle;
+    background-color: #666666;
+    padding: 0.7em;
     margin-left: 2em;
-
-    &.content-checked {
-      background-color: orange;
-    }
 
     .shortcut {
       padding: 0.3em 0.5em 0.3em 0.5em;
       margin-right: 0.5em;
-      color: grey;
+      color: #666666;
       font-weight: bold;
       border: 1px solid transparent;
       background-color: white;
       border-radius: 5px;
     }
-
-    .unchecked {
-      position: relative;
-      left: 2em;
-      color: transparent;
-    }
     .checked {
-      position: relative;
-      left: 2em;
-      color: white;
+      display: inline-block;
+      width: 1em;
+      margin-left: 1em;
+      font-size: 85%;
+      font-weight: bold;
+    }
+
+    &.doesntknow.content-checked,
+    &.doesntknow:hover,
+    &.doesntknow:focus {
+      background-color: #f9cb9c;
+      color: #b45f06;
+      .shortcut {
+        color: white;
+        background-color: #b45f06;
+      }
+      .checked {
+        color: #b45f06;
+      }
+    }
+
+    &.refusal.content-checked,
+    &.refusal:hover,
+    &.refusal:focus {
+      background-color: #ea9999;
+      color: #990000;
+      .shortcut {
+        color: white;
+        background-color: #990000;
+      }
+      .checked {
+        color: #990000;
+      }
     }
   }
 }
