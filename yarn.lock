@@ -1139,10 +1139,10 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@inseefr/lunatic@^1.2.2-rc1":
-  version "1.2.2-rc1"
-  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-1.2.2-rc1.tgz#3abffa933f0413e000a18bbef4e8b800abfeb935"
-  integrity sha512-QTW2ov1+PBVXg6ayOqQAeI83cqbH7JJmV+tgUBMCs3FOygdnyKqllbT4cXgtYQ0ddOgy5lMMqaYR6ZZAr8Uuww==
+"@inseefr/lunatic@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-1.2.2.tgz#1c2b4293b052a1dc5b309bf4c799f56ded3bddae"
+  integrity sha512-LeH11D5xIuBC/BnaAthc6CkoqR0mzj+vbOgqZearVGGNZUAAfS7Hev5CpLH4Re/OLz7dkf0Kmz9/oELi6O+LRg==
   dependencies:
     "@inseefr/vtl-tools" "^0.1.10"
     keycode "^2.2.0"
@@ -10538,6 +10538,11 @@ react-is@^16.12.0, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-i
   version "16.13.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.0.tgz#0f37c3613c34fe6b37cd7f763a0d6293ab15c527"
   integrity sha512-GFMtL0vHkiBv9HluwNZTggSn/sCyEt9n02aM0dSAjGGyqyNlAyftYm4phPxdvCigG15JreC5biwxCgTAJZ7yAA==
+
+react-keyboard-event-handler@^1.5.4:
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/react-keyboard-event-handler/-/react-keyboard-event-handler-1.5.4.tgz#bd0ccafbf62a96f605ddac78828f22efc54181f0"
+  integrity sha512-MSOxU/sQ5q9XWNHhXAJxzh4xVLZjKORGNC2Pzvx3qUo24TQeztGB0tq8oSArwX6vfKSIVijiw8wBmkN5pJOB4w==
 
 react-lifecycles-compat@^3.0.4:
   version "3.0.4"
