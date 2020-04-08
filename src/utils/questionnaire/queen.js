@@ -7,17 +7,19 @@ import * as lunatic from '@inseefr/lunatic';
  *   - page : the queen page
  * It removes empty subsequence
  * It changes declarations of empty sequence to 'Changing the sequence'
- * @param {*} components
+ * @param {Array} components
  */
 export const buildQueenQuestionnaire = components => {
   let seq;
   let idSeq;
   let subseq;
   let idSubseq;
+  let currentPage = 0;
   return Array.isArray(components)
     ? components.reduce((_, component) => {
         const { componentType, label, id, declarations } = component;
-        if (componentType && !['Sequence', 'Subsequence'].includes(componentType))
+        if (componentType && !['Sequence', 'Subsequence'].includes(componentType)) {
+          currentPage += 1;
           return [
             ..._,
             {
@@ -26,10 +28,12 @@ export const buildQueenQuestionnaire = components => {
               idSubsequence: idSubseq,
               sequence: seq,
               subsequence: subseq,
-              page: _.length + 1,
+              page: currentPage,
             },
           ];
+        }
         if (componentType === 'Sequence') {
+          currentPage += 1;
           idSeq = id;
           seq = label;
           subseq = '';
@@ -56,7 +60,7 @@ export const buildQueenQuestionnaire = components => {
               label: '',
               declarations: newDeclarations,
               sequence: seq,
-              page: _.length + 1,
+              page: currentPage,
             },
           ];
         }
@@ -64,11 +68,12 @@ export const buildQueenQuestionnaire = components => {
           idSubseq = id;
           subseq = label;
           /**
-           * if there is no declarations, we delete this component
+           * if there is no declarations, we "delete" this component
            */
           if (!declarations || declarations.length === 0) {
-            return _;
+            return [..._, { ...component, goToPage: currentPage + 1 }];
           }
+          currentPage += 1;
           return [
             ..._,
             {
@@ -78,7 +83,7 @@ export const buildQueenQuestionnaire = components => {
               sequence: seq,
               subsequence: subseq,
               idSequence: idSeq,
-              page: _.length + 1,
+              page: currentPage,
             },
           ];
         }
@@ -90,18 +95,18 @@ export const buildQueenQuestionnaire = components => {
 /**
  * This function returns the list of variables collected by a component
  * (regardless of their state).
- * @param component (single Component)
+ * @param {*} component (single Component)
  */
 export const getResponsesNameFromComponent = component => {
   const { componentType } = component;
   if (componentType && !['CheckboxGroup', 'Table'].includes(componentType)) {
     const { response } = component;
-    return response ? [response['name']] : [];
+    return response ? [response.name] : [];
   }
   if (componentType && componentType === 'CheckboxGroup') {
     const { responses } = component;
     return responses.reduce((_, response) => {
-      return [..._, response['response']['name']];
+      return [..._, response.response.name];
     }, []);
   }
   if (componentType && componentType === 'Table') {
@@ -126,8 +131,8 @@ export const getCollectedResponse = component => {
 /**
  * This function returns the list of variables that must be reset to "null"
  * because they depend on a filter that has been updated.
- * @param components (list of component)
- * @param response (the response name)
+ * @param {Array} components (list of component)
+ * @param {String} response (the response name)
  * @returns list of collectedVariables
  */
 export const getResponsesLinkWith = components => response => {
@@ -147,8 +152,8 @@ export const getResponsesLinkWith = components => response => {
 /**
  * This function sets to "null" the collected variables that depend on a filter
  * that depends on the variables collected by the current component.
- * @param questionnaire
- * @param currentComponents
+ * @param {*} questionnaire
+ * @param {*} currentComponent
  * @returns newQuestionnaire
  */
 export const updateResponseFiltered = questionnaire => currentComponent => {
