@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
 import { DIRECT_CONTINUE_COMPONENTS, REFUSAL, DOESNT_KNOW, QUEEN_DATA_KEYS } from 'utils/constants';
@@ -29,6 +30,10 @@ const Buttons = ({
 
   const [refusalChecked, setRefusalChecked] = useState(false);
   const [doesntKnowChecked, setDoesntKnowChecked] = useState(false);
+
+  const keysToHandle = ['Sequence', 'Subsequence'].includes(componentType)
+    ? ['enter']
+    : ['f2', 'f4', 'enter'];
 
   useEffect(() => {
     setRefusalChecked(false);
@@ -92,6 +97,14 @@ const Buttons = ({
     setDoesntKnowChecked(!doesntKnowChecked);
   };
 
+  const keyboardShortcut = (key, e) => {
+    if (key === 'f2') updateDoesntKnow();
+    if (key === 'f4') updateRefusal();
+    if (key === 'enter') {
+      if (canContinue || refusalChecked || doesntKnowChecked) pageChange(pageNextFunction);
+    }
+  };
+
   return (
     <>
       <style type="text/css">{styles}</style>
@@ -152,6 +165,11 @@ const Buttons = ({
           {`${D.fastForward} \u21E5`}
         </button>
       </div>
+      <KeyboardEventHandler
+        handleKeys={keysToHandle}
+        onKeyEvent={keyboardShortcut}
+        handleFocusableElements
+      />
     </>
   );
 };
