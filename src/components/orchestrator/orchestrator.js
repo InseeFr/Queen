@@ -64,6 +64,9 @@ const Orchestrator = ({
 
   const component = filteredComponents.find(({ page }) => page === currentPage);
   const { id, componentType, sequence, subsequence, options, ...props } = component;
+  // TODO : get specialAnswer from component (specified in Pogues)
+  // to wait, set to false by default
+  const specialAnswer = { refusal: false, doesntKnow: false };
 
   /**
    *  This function update response values in questionnaire and queenData.
@@ -129,7 +132,7 @@ const Orchestrator = ({
 
   const Component = lunatic[componentType];
   const newOptions = UQ.buildQueenOptions(componentType, options, bindings);
-  const keyToHandle = ['alphanumeric'];
+  // const keyToHandle = ['alphanumeric'];
   return (
     <>
       <div id="queen-body" className={navOpen ? 'back' : ''}>
@@ -171,6 +174,7 @@ const Orchestrator = ({
           <NavBar nbModules={queenComponents.length} page={currentPage} />
           <Buttons
             currentComponent={component}
+            specialAnswer={specialAnswer}
             page={UQ.findPageIndex(filteredComponents)(currentPage)}
             canContinue={goNextCondition()}
             queenData={queenData}
@@ -181,7 +185,7 @@ const Orchestrator = ({
             pageFastForward={goFastForward}
             quit={quit}
           />
-          {KEYBOARD_SHORTCUT_COMPONENTS.includes(componentType) && (
+          {/* {KEYBOARD_SHORTCUT_COMPONENTS.includes(componentType) && (
             <KeyboardEventHandler
               handleKeys={keyToHandle}
               onKeyEvent={(key, e) => {
@@ -199,7 +203,7 @@ const Orchestrator = ({
               }}
               handleFocusableElements
             />
-          )}
+          )} */}
         </div>
       </div>
     </>

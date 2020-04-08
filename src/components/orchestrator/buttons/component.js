@@ -13,6 +13,7 @@ import styles from './buttons.scss';
 
 const Buttons = ({
   currentComponent,
+  specialAnswer,
   page,
   queenData,
   canContinue,
@@ -31,9 +32,10 @@ const Buttons = ({
   const [refusalChecked, setRefusalChecked] = useState(false);
   const [doesntKnowChecked, setDoesntKnowChecked] = useState(false);
 
-  const keysToHandle = ['Sequence', 'Subsequence'].includes(componentType)
-    ? ['enter']
-    : ['f2', 'f4', 'enter'];
+  // const keysToHandle = ['Sequence', 'Subsequence'].includes(componentType)
+  //   ? ['enter']
+  //   : ['f2', 'f4', 'enter'];
+  const keysToHandle = ['enter'];
 
   useEffect(() => {
     setRefusalChecked(false);
@@ -114,27 +116,30 @@ const Buttons = ({
             <button className="specific-modality" type="button">
               Commentaire
             </button>
-
-            <button
-              type="button"
-              className={`doesntknow specific-modality ${
-                doesntKnowChecked ? 'content-checked' : ''
-              }`}
-              onClick={updateDoesntKnow}
-            >
-              <span className="shortcut">F2</span>
-              {D.doesntKnowButton}
-              <span className="checked">{doesntKnowChecked ? '✓' : ''}</span>
-            </button>
-            <button
-              type="button"
-              className={`refusal specific-modality ${refusalChecked ? 'content-checked' : ''}`}
-              onClick={updateRefusal}
-            >
-              <span className="shortcut">F4</span>
-              {D.refusalButton}
-              <span className="checked">{refusalChecked ? '✓' : ''}</span>
-            </button>
+            {specialAnswer.doesntKnow && (
+              <button
+                type="button"
+                className={`doesntknow specific-modality ${
+                  doesntKnowChecked ? 'content-checked' : ''
+                }`}
+                onClick={updateDoesntKnow}
+              >
+                <span className="shortcut">F2</span>
+                {D.doesntKnowButton}
+                <span className="checked">{doesntKnowChecked ? '✓' : ''}</span>
+              </button>
+            )}
+            {specialAnswer.refusal && (
+              <button
+                type="button"
+                className={`refusal specific-modality ${refusalChecked ? 'content-checked' : ''}`}
+                onClick={updateRefusal}
+              >
+                <span className="shortcut">F4</span>
+                {D.refusalButton}
+                <span className="checked">{refusalChecked ? '✓' : ''}</span>
+              </button>
+            )}
           </>
         )}
         {returnLabel && (
@@ -176,6 +181,10 @@ const Buttons = ({
 
 Buttons.propTypes = {
   currentComponent: PropTypes.objectOf(PropTypes.any).isRequired,
+  specialAnswer: PropTypes.shape({
+    refusal: PropTypes.bool.isRequired,
+    doesntKnow: PropTypes.bool.isRequired,
+  }).isRequired,
   page: PropTypes.number.isRequired,
   queenData: PropTypes.objectOf(PropTypes.any).isRequired,
   canContinue: PropTypes.bool.isRequired,
