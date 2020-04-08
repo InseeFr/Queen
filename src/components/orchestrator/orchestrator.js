@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import KeyboardEventHandler from 'react-keyboard-event-handler';
 import * as lunatic from '@inseefr/lunatic';
 import alphabet from 'utils/constants/alphabet';
 import * as UQ from 'utils/questionnaire';
-import { DIRECT_CONTINUE_COMPONENTS } from 'utils/constants';
+import { DIRECT_CONTINUE_COMPONENTS, KEYBOARD_SHORTCUT_COMPONENTS } from 'utils/constants';
 import Header from './header';
 import Buttons from './buttons';
 import NavBar from './rightNavbar';
@@ -128,6 +129,7 @@ const Orchestrator = ({
 
   const Component = lunatic[componentType];
   const newOptions = UQ.buildQueenOptions(componentType, options, bindings);
+  const keyToHandle = ['alphanumeric'];
   return (
     <>
       <div id="queen-body" className={navOpen ? 'back' : ''}>
@@ -162,6 +164,7 @@ const Orchestrator = ({
                 readOnly={readonly}
                 disabled={readonly}
                 focused
+                keyboardSelection={componentType === 'CheckboxGroup'}
               />
             </div>
           </div>
@@ -178,6 +181,25 @@ const Orchestrator = ({
             pageFastForward={goFastForward}
             quit={quit}
           />
+          {KEYBOARD_SHORTCUT_COMPONENTS.includes(componentType) && (
+            <KeyboardEventHandler
+              handleKeys={keyToHandle}
+              onKeyEvent={(key, e) => {
+                const responses = UQ.getResponsesNameFromComponent(component);
+                const responsesCollected = UQ.getCollectedResponse(component);
+                const updatedValue = {};
+                if (componentType === 'CheckboxOne') {
+                  updatedValue[responses[0]] = key;
+                  onChange(component)(updatedValue);
+                } else if (componentType === 'CheckboxGroup') {
+                  const index = alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase());
+                  updatedValue[responses[index]] = !responsesCollected[responses[index]];
+                  onChange(component)(updatedValue);
+                }
+              }}
+              handleFocusableElements
+            />
+          )}
         </div>
       </div>
     </>
