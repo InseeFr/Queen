@@ -1,5 +1,7 @@
 import D from 'i18n';
+import React from 'react';
 import * as lunatic from '@inseefr/lunatic';
+import alphabet from 'utils/constants/alphabet';
 
 /**
  * Function to build Queen questionnaire.
@@ -170,4 +172,25 @@ export const updateResponseFiltered = questionnaire => currentComponent => {
     });
   });
   return newQuestionnaire;
+};
+
+export const buildQueenOptions = (componentType, options, bindings) => {
+  let newOptions;
+  if (componentType === 'CheckboxOne') {
+    newOptions = options.map((option, index) => {
+      const myLabel = (
+        <span>
+          <span className="code">{options.length > 9 ? alphabet[index] : index + 1}</span>
+          {lunatic.interpret(['VTL'])(bindings)(option.label)}
+        </span>
+      );
+      return {
+        value: option.value,
+        label: myLabel,
+      };
+    });
+  } else {
+    newOptions = options || [];
+  }
+  return newOptions;
 };

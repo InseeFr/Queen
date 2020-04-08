@@ -127,23 +127,7 @@ const Orchestrator = ({
   }, [questionnaire]);
 
   const Component = lunatic[componentType];
-  let myOptions = [];
-  if (componentType === 'CheckboxOne') {
-    myOptions = options.map((option, index) => {
-      const myLabel = (
-        <span>
-          <span className="code">{options.length > 10 ? alphabet[index] : index}</span>
-          {lunatic.interpret(['VTL'])(bindings)(option.label)}
-        </span>
-      );
-      return {
-        value: option.value,
-        label: myLabel,
-      };
-    });
-  } else {
-    myOptions = options || [];
-  }
+  const newOptions = UQ.buildQueenOptions(componentType, options, bindings);
   return (
     <>
       <div id="queen-body" className={navOpen ? 'back' : ''}>
@@ -161,14 +145,14 @@ const Orchestrator = ({
           <div className="components">
             <div
               className={`lunatic lunatic-component ${
-                myOptions.length >= 8 ? 'split-fieldset' : ''
+                newOptions.length >= 8 ? 'split-fieldset' : ''
               }`}
               key={`component-${id}`}
             >
               <Component
                 id={id}
                 {...props}
-                options={myOptions}
+                options={newOptions}
                 handleChange={onChange(component)}
                 labelPosition="TOP"
                 preferences={preferences}
