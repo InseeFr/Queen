@@ -43,7 +43,7 @@ export const getStateToSave = questionnaire => queenData => {
   return state;
 };
 
-const removeResponseToQueenData = queenData => responseName => {
+export const removeResponseToQueenData = queenData => responseName => {
   const newQueenData = { ...queenData };
   CONST.QUEEN_DATA_KEYS.forEach(key => {
     newQueenData[key] = newQueenData[key].filter(name => name !== responseName);
@@ -59,20 +59,28 @@ export const addResponseToQueenData = queenData => responseName => dataType => {
   return newQueenData;
 };
 
-export const updateQueenData = queenData => currentComponent => {
-  let newQueenData = { ...queenData };
-  const responsesName = getResponsesNameFromComponent(currentComponent);
-  const collectedResponse = getCollectedResponse(currentComponent);
-  responsesName.forEach(responseName => {
-    if (Object.keys(collectedResponse).length !== 0)
-      newQueenData = removeResponseToQueenData(newQueenData)(responseName);
-  });
-  return newQueenData;
+/**
+ * @param {*} queenData
+ * @param {Array} responses
+ */
+export const isInQueenDataRefusal = queenData => responses => {
+  return queenData[CONST.REFUSAL].some(v => responses.indexOf(v) !== -1);
 };
 
-export const isInQueenData = queenData => response => {
+/**
+ * @param {*} queenData
+ * @param {Array} responses
+ */
+export const isInQueenDataDoesntKnow = queenData => responses => {
+  return queenData[CONST.DOESNT_KNOW].some(v => responses.indexOf(v) !== -1);
+};
+
+/**
+ * @param {*} queenData
+ * @param {Array} responses
+ */
+export const isInQueenData = queenData => responses => {
   return (
-    queenData[CONST.DOESNT_KNOW].some(v => response.indexOf(v) !== -1) ||
-    queenData[CONST.REFUSAL].some(v => response.indexOf(v) !== -1)
+    isInQueenDataRefusal(queenData)(responses) || isInQueenDataDoesntKnow(queenData)(responses)
   );
 };
