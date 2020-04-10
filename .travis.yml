@@ -11,7 +11,7 @@ cache:
 
 script:
   - yarn
-  - yarn run-docker
+  - yarn build-docker
   - docker build -t inseefr/queen .
 
 deploy:
