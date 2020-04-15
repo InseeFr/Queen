@@ -21,7 +21,7 @@ deploy:
   on:
     branch: master
 
-k8s_restart:
+deploy:
   skip_cleanup: true
   provider: script
   script:
@@ -30,9 +30,3 @@ k8s_restart:
     && ./kubectl --token $K8S_TOKEN --server $K8S_SERVER --insecure-skip-tls-verify rollout restart deployment/queen -n queen
   on:
     branch: master
-
-env:
-  global:
-    - secure: 
-    - secure: 
-    - secure: 
