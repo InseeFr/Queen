@@ -9,7 +9,7 @@ cache: yarn
 
 script:
   - yarn install
-  - yarn run-docker
+  - yarn build-docker
   - docker build -t inseefr/queen .
 
 deploy:
