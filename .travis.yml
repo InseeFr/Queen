@@ -3,14 +3,21 @@ language: node_js
 services:
   - docker
 
+sudo: required
+
 node_js:
   - 12.16.1
+
 cache: yarn
 
 script:
   - yarn install
   - yarn build-docker
   - docker build -t inseefr/queen .
+
+before_script:
+  - curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.7.0/bin/linux/amd64/kubectl && \
+    chmod +x kubectl && sudo mv kubectl /usr/local/bin/
 
 deploy:
   - skip_cleanup: true
@@ -20,11 +27,10 @@ deploy:
       && docker push inseefr/queen
     on:
       branch: master
+
   - skip_cleanup: true
     provider: script
     script:
-      curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.7.0/bin/linux/amd64/  kubectl
-      && chmod +x kubectl
-      && ./kubectl --token $K8S_TOKEN --server $K8S_SERVER --insecure-skip-tls-verify rollout restart deployment/queen -n queen
+      kubectl --token $K8S_TOKEN --server $K8S_SERVER --insecure-skip-tls-verify rollout restart deployment/queen -n queen
     on:
       branch: master
