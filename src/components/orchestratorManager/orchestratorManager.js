@@ -62,7 +62,7 @@ const OrchestratorManager = ({ match, configuration }) => {
     if (!init && questionnaire && surveyUnit) {
       const { data, ...other } = surveyUnit;
       setSurveyUnit(other);
-      const newDataSU = UQ.buildQueenData(data);
+      const newDataSU = UQ.buildSpecialQueenData(data);
       const newQuestionnaire = lunatic.mergeQuestionnaireAndData(questionnaire)(newDataSU.data);
       newQuestionnaire.components = UQ.buildQueenQuestionnaire(newQuestionnaire.components);
       setQuestionnaire(newQuestionnaire);

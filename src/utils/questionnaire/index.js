@@ -1,3 +1,3 @@
 export * from './pages';
 export * from './queen';
-export * from './queenData';
+export * from './specialQueenData';

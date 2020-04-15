@@ -5,9 +5,9 @@ import D from 'i18n';
 import { DIRECT_CONTINUE_COMPONENTS, REFUSAL, DOESNT_KNOW, QUEEN_DATA_KEYS } from 'utils/constants';
 import {
   getResponsesNameFromComponent,
-  addResponseToQueenData,
-  isInQueenDataRefusal,
-  isInQueenDataDoesntKnow,
+  addResponseToSpecialQueenData,
+  isInSpecialQueenDataRefusal,
+  isInSpecialQueenDataDoesntKnow,
 } from 'utils/questionnaire';
 import styles from './buttons.scss';
 
@@ -15,7 +15,7 @@ const Buttons = ({
   currentComponent,
   specialAnswer,
   page,
-  queenData,
+  specialQueenData,
   canContinue,
   previousClicked,
   nbModules,
@@ -45,10 +45,10 @@ const Buttons = ({
   useEffect(() => {
     const responseNames = getResponsesNameFromComponent(currentComponent);
     if (responseNames) {
-      if (isInQueenDataRefusal(queenData)(responseNames)) {
+      if (isInSpecialQueenDataRefusal(specialQueenData)(responseNames)) {
         setRefusalChecked(true);
         setDoesntKnowChecked(false);
-      } else if (isInQueenDataDoesntKnow(queenData)(responseNames)) {
+      } else if (isInSpecialQueenDataDoesntKnow(specialQueenData)(responseNames)) {
         setRefusalChecked(false);
         setDoesntKnowChecked(true);
       } else {
@@ -59,14 +59,14 @@ const Buttons = ({
   }, [page]);
 
   const setSpecialAnswer = specialType => {
-    let newQueenData = { ...queenData };
+    let newSpecialQueenData = { ...specialQueenData };
     if (QUEEN_DATA_KEYS.includes(specialType)) {
       const responseNames = getResponsesNameFromComponent(currentComponent);
       responseNames.forEach(name => {
-        newQueenData = addResponseToQueenData(queenData)(name)(specialType);
+        newSpecialQueenData = addResponseToSpecialQueenData(specialQueenData)(name)(specialType);
       });
     }
-    return newQueenData;
+    return newSpecialQueenData;
   };
 
   const getSpecialAnswerType = () => {
@@ -81,8 +81,8 @@ const Buttons = ({
    * @param {String} specialAnswerType : the type of specialAnswer (REFUSAL or DOESNT_KNOW)
    */
   const pageChange = (func, specialAnswerType) => {
-    const newQueenData = setSpecialAnswer(specialAnswerType || getSpecialAnswerType());
-    func(newQueenData);
+    const newSpecialQueenData = setSpecialAnswer(specialAnswerType || getSpecialAnswerType());
+    func(newSpecialQueenData);
   };
 
   const updateRefusal = () => {
@@ -186,7 +186,7 @@ Buttons.propTypes = {
     doesntKnow: PropTypes.bool.isRequired,
   }).isRequired,
   page: PropTypes.number.isRequired,
-  queenData: PropTypes.objectOf(PropTypes.any).isRequired,
+  specialQueenData: PropTypes.objectOf(PropTypes.any).isRequired,
   canContinue: PropTypes.bool.isRequired,
   previousClicked: PropTypes.bool.isRequired,
   nbModules: PropTypes.number.isRequired,

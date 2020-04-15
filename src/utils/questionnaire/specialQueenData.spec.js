@@ -1,4 +1,4 @@
-import { buildQueenData, getStateToSave, updateQueenData } from './queenData';
+import { buildSpecialQueenData, getStateToSave, updateSpecialQueenData } from './specialQueenData';
 
 const initialData = {
   COLLECTED: {
@@ -16,7 +16,7 @@ const initialData = {
 };
 
 const dataExpected = {
-  queenData: {
+  specialQueenData: {
     DOESNT_KNOW: ['VAR1', 'VAR3', 'VAR5'],
     REFUSAL: ['VAR2', 'VAR4'],
   },
@@ -53,7 +53,7 @@ const currentComponentCheckboxBoolean = {
 };
 
 const questionnaire = { components: [currentComponent, currentComponentCheckboxBoolean] };
-const queenData = { DOESNT_KNOW: ['VAR2'], REFUSAL: ['VAR1'] };
+const specialQueenData = { DOESNT_KNOW: ['VAR2'], REFUSAL: ['VAR1'] };
 const expectedStateToSave = {
   COLLECTED: {
     VAR1: { COLLECTED: '__REFUSAL__' },
@@ -63,8 +63,8 @@ const expectedStateToSave = {
 
 describe('getStateToSave utils', () => {
   describe('getStateToSave', () => {
-    it('should return data {data,queenData} ', () => {
-      const stateToSave = getStateToSave(questionnaire)(queenData);
+    it('should return data {data,specialQueenData} ', () => {
+      const stateToSave = getStateToSave(questionnaire)(specialQueenData);
       expect(stateToSave.COLLECTED['VAR1'].COLLECTED).toBe(
         expectedStateToSave.COLLECTED['VAR1'].COLLECTED
       );
@@ -75,29 +75,33 @@ describe('getStateToSave utils', () => {
   });
 });
 
-describe('updateQueenData utils', () => {
-  describe('updateQueenData', () => {
-    it('should return data {data,queenData} ', () => {
-      const initQueenData = { DOESNT_KNOW: [], REFUSAL: [] };
-      const transformedQueenData1 = updateQueenData(initQueenData)(currentComponent);
-      expect(transformedQueenData1.DOESNT_KNOW.includes('VAR1')).toBe(true);
-      const transformedQueenData2 = updateQueenData(initQueenData)(currentComponentCheckboxBoolean);
-      expect(transformedQueenData2.DOESNT_KNOW.includes('VAR1')).toBe(false);
+describe('updateSpecialQueenData utils', () => {
+  describe('updateSpecialQueenData', () => {
+    it('should return data {data,specialQueenData} ', () => {
+      const initSpecialQueenData = { DOESNT_KNOW: [], REFUSAL: [] };
+      const transformedSpecialQueenData1 = updateSpecialQueenData(initSpecialQueenData)(
+        currentComponent
+      );
+      expect(transformedSpecialQueenData1.DOESNT_KNOW.includes('VAR1')).toBe(true);
+      const transformedSpecialQueenData2 = updateSpecialQueenData(initSpecialQueenData)(
+        currentComponentCheckboxBoolean
+      );
+      expect(transformedSpecialQueenData2.DOESNT_KNOW.includes('VAR1')).toBe(false);
     });
   });
 });
 
-describe('queenData utils', () => {
-  describe('buildQueenData', () => {
-    it('should return data {data,queenData} ', () => {
-      const transformedData = buildQueenData(initialData);
-      dataExpected.queenData.REFUSAL.forEach(name => {
-        expect(transformedData.queenData.DOESNT_KNOW.includes(name)).toBe(false);
-        expect(transformedData.queenData.REFUSAL.includes(name)).toBe(true);
+describe('specialQueenData utils', () => {
+  describe('buildSpecialQueenData', () => {
+    it('should return data {data,specialQueenData} ', () => {
+      const transformedData = buildSpecialQueenData(initialData);
+      dataExpected.specialQueenData.REFUSAL.forEach(name => {
+        expect(transformedData.specialQueenData.DOESNT_KNOW.includes(name)).toBe(false);
+        expect(transformedData.specialQueenData.REFUSAL.includes(name)).toBe(true);
       });
-      dataExpected.queenData.DOESNT_KNOW.forEach(name => {
-        expect(transformedData.queenData.DOESNT_KNOW.includes(name)).toBe(true);
-        expect(transformedData.queenData.REFUSAL.includes(name)).toBe(false);
+      dataExpected.specialQueenData.DOESNT_KNOW.forEach(name => {
+        expect(transformedData.specialQueenData.DOESNT_KNOW.includes(name)).toBe(true);
+        expect(transformedData.specialQueenData.REFUSAL.includes(name)).toBe(false);
       });
       expect(transformedData.data.COLLECTED['VAR1'].COLLECTED).toBe(
         dataExpected.data.COLLECTED['VAR1'].COLLECTED

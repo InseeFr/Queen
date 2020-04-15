@@ -29,7 +29,7 @@ const Orchestrator = ({
    */
   const [viewedPages, setViewedPages] = useState([1]);
 
-  const [queenData, setQueenData] = useState(dataSU.queenData);
+  const [specialQueenData, setSpecialQueenData] = useState(dataSU.specialQueenData);
   const [comment, setComment] = useState(surveyUnit.comment);
   const [clickPrevious, setClickPrevious] = useState(false);
   const [previousResponse, setPreviousResponse] = useState(null);
@@ -69,11 +69,11 @@ const Orchestrator = ({
   const specialAnswer = { refusal: false, doesntKnow: false };
 
   /**
-   *  This function update response values in questionnaire and queenData.
+   *  This function update response values in questionnaire and specialQueenData.
    *  At the end, it calls the saving method of its parent (saving into indexdb)
-   * @param {*} lastQueenData (queenData update by "Refusal" and "doesn't know" buttons )
+   * @param {*} lastSpecialQueenData (specialQueenData update by "Refusal" and "doesn't know" buttons )
    */
-  const saveQueen = (lastQueenData = queenData) => {
+  const saveQueen = (lastSpecialQueenData = specialQueenData) => {
     let newQuestionnaire = questionnaire;
     if (previousResponse) {
       const newResponse = UQ.getCollectedResponse(component);
@@ -82,8 +82,8 @@ const Orchestrator = ({
         setQuestionnaire(newQuestionnaire); // update questionnaire with updated values
       }
     }
-    setQueenData(lastQueenData); // update queenData according to selected buttons
-    const dataToSave = UQ.getStateToSave(newQuestionnaire)(lastQueenData);
+    setSpecialQueenData(lastSpecialQueenData); // update specialQueenData according to selected buttons
+    const dataToSave = UQ.getStateToSave(newQuestionnaire)(lastSpecialQueenData);
     save({ ...surveyUnit, data: dataToSave, comment });
   };
 
@@ -95,15 +95,15 @@ const Orchestrator = ({
     return ['Sequence', 'Subsequence'].includes(componentType) || responseKeys.length !== 0;
   };
 
-  const goPrevious = (lastQueenData = queenData) => {
-    saveQueen(lastQueenData);
+  const goPrevious = (lastSpecialQueenData = specialQueenData) => {
+    saveQueen(lastSpecialQueenData);
     setClickPrevious(true);
     setPreviousResponse(null);
     setCurrentPage(UQ.getPreviousPage(filteredComponents)(currentPage));
   };
 
-  const goNext = (lastQueenData = queenData) => {
-    saveQueen(lastQueenData);
+  const goNext = (lastSpecialQueenData = specialQueenData) => {
+    saveQueen(lastSpecialQueenData);
     setClickPrevious(false);
     setPreviousResponse(null);
     const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
@@ -111,11 +111,11 @@ const Orchestrator = ({
     setCurrentPage(nextPage);
   };
 
-  const goFastForward = (lastQueenData = queenData) => {
-    saveQueen(lastQueenData);
+  const goFastForward = (lastSpecialQueenData = specialQueenData) => {
+    saveQueen(lastSpecialQueenData);
     setClickPrevious(false);
     setPreviousResponse(null);
-    const fastForwardPage = UQ.getFastForwardPage(filteredComponents)(lastQueenData);
+    const fastForwardPage = UQ.getFastForwardPage(filteredComponents)(lastSpecialQueenData);
     setCurrentPage(fastForwardPage);
   };
 
@@ -177,7 +177,7 @@ const Orchestrator = ({
             specialAnswer={specialAnswer}
             page={UQ.findPageIndex(filteredComponents)(currentPage)}
             canContinue={goNextCondition()}
-            queenData={queenData}
+            specialQueenData={specialQueenData}
             previousClicked={clickPrevious}
             nbModules={filteredComponents.length}
             pagePrevious={goPrevious}
@@ -219,7 +219,7 @@ Orchestrator.propTypes = {
   source: PropTypes.objectOf(PropTypes.any).isRequired,
   dataSU: PropTypes.shape({
     data: PropTypes.objectOf(PropTypes.any).isRequired,
-    queenData: PropTypes.objectOf(PropTypes.any).isRequired,
+    specialQueenData: PropTypes.objectOf(PropTypes.any).isRequired,
   }).isRequired,
   save: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
