@@ -8,6 +8,7 @@ import { DIRECT_CONTINUE_COMPONENTS, KEYBOARD_SHORTCUT_COMPONENTS } from 'utils/
 import Header from './header';
 import Buttons from './buttons';
 import NavBar from './rightNavbar';
+import { sendCompletedEvent } from 'utils/communication';
 
 const Orchestrator = ({
   surveyUnit,
@@ -108,10 +109,6 @@ const Orchestrator = ({
     setPreviousResponse(null);
     const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
     setViewedPages([...viewedPages, nextPage]);
-    const queenEvent = new CustomEvent('PEARL', {
-      detail: { data: 'coucou' },
-    });
-    window.dispatchEvent(queenEvent);
     setCurrentPage(nextPage);
   };
 
@@ -125,6 +122,12 @@ const Orchestrator = ({
 
   const quit = () => {
     saveQueen();
+    close();
+  };
+
+  const finalQuit = () => {
+    saveQueen();
+    sendCompletedEvent(surveyUnit.idSU);
     close();
   };
 
@@ -142,6 +145,7 @@ const Orchestrator = ({
       <div id="queen-body" className={navOpen ? 'back' : ''}>
         <Header
           title={questionnaire.label}
+          quit={quit}
           sequence={lunatic.interpret(['VTL'])(bindings)(sequence)}
           components={filteredComponents}
           bindings={bindings}
@@ -187,7 +191,7 @@ const Orchestrator = ({
             pagePrevious={goPrevious}
             pageNext={goNext}
             pageFastForward={goFastForward}
-            quit={quit}
+            finalQuit={finalQuit}
           />
           {/* {KEYBOARD_SHORTCUT_COMPONENTS.includes(componentType) && (
             <KeyboardEventHandler

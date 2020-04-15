@@ -22,12 +22,12 @@ const Buttons = ({
   pagePrevious,
   pageNext,
   pageFastForward,
-  quit,
+  finalQuit,
 }) => {
   const { componentType } = currentComponent;
   const returnLabel = page === 0 ? '' : D.goBackReturn;
   const nextLabel = nbModules - 1 === page ? D.saveAndQuit : `${D.nextContinue} \u2192`;
-  const pageNextFunction = nbModules - 1 === page ? quit : pageNext;
+  const pageNextFunction = nbModules - 1 === page ? finalQuit : pageNext;
 
   const [refusalChecked, setRefusalChecked] = useState(false);
   const [doesntKnowChecked, setDoesntKnowChecked] = useState(false);
@@ -193,7 +193,7 @@ Buttons.propTypes = {
   pageNext: PropTypes.func.isRequired,
   pagePrevious: PropTypes.func.isRequired,
   pageFastForward: PropTypes.func.isRequired,
-  quit: PropTypes.func.isRequired,
+  finalQuit: PropTypes.func.isRequired,
 };
 
 export default Buttons;

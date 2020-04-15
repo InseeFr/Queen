@@ -8,6 +8,7 @@ import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-servic
 import { AUTHENTICATION_MODE_ENUM, READ_ONLY } from 'utils/constants';
 import D from 'i18n';
 import * as UQ from 'utils/questionnaire';
+import { sendCloseEvent } from 'utils/communication';
 import Orchestrator from '../orchestrator';
 import NotFound from '../shared/not-found';
 
@@ -79,7 +80,7 @@ const OrchestratorManager = ({ match, configuration }) => {
 
   const closeOrchestrator = () => {
     if (!configuration.standalone) {
-      console.log('sending event to close');
+      sendCloseEvent();
     } else {
       alert(D.closeWindow);
     }

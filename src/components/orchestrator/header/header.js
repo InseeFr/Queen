@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import insee from 'img/insee.png';
-import sendEvent from 'utils/event';
+import { sendCloseEvent } from 'utils/communication';
 import Navigation from '../navigation';
 import CloseIcon from './quit.icon';
 import BreadcrumbQueen from '../breadcrumb';
@@ -9,6 +9,7 @@ import styles from './header.scss';
 
 const Header = ({
   title,
+  quit,
   sequence,
   subsequence,
   components,
@@ -17,10 +18,6 @@ const Header = ({
   viewedPages,
   setNavOpen,
 }) => {
-  const quitQueen = () => {
-    console.log('quit queen ');
-    sendEvent({ action: 'close-queen' });
-  };
   return (
     <>
       <style type="text/css">{styles}</style>
@@ -37,7 +34,7 @@ const Header = ({
           <span id="header-title">{title}</span>
           {sequence && <BreadcrumbQueen sequence={sequence} subsequence={subsequence} />}
         </div>
-        <button type="button" className="close-icon" onClick={quitQueen}>
+        <button type="button" className="close-icon" onClick={quit}>
           <CloseIcon width={40} />
         </button>
       </div>

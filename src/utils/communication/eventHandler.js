@@ -4,7 +4,7 @@ const handleEventParentApp = event => {
   console.log('receive event');
   console.log(event.detail);
 
-  const worker = new Worker('./utils/synchronize', { type: 'module' });
+  const worker = new Worker('../synchronize', { type: 'module' });
   worker.onmessage = event => {
     console.log('pi: ' + event.data);
   };
