@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/extensions
+import { sendSynchronizeEvent } from './eventSender';
 
 const handleEventParentApp = event => {
   console.log('receive event');
@@ -6,9 +6,12 @@ const handleEventParentApp = event => {
 
   const worker = new Worker('../synchronize', { type: 'module' });
   worker.onmessage = event => {
-    console.log(event.data);
+    const { type, state } = event.data;
+    if (type === 'QUEEN_WORKER') {
+      sendSynchronizeEvent(state);
+    }
   };
-  worker.postMessage('test');
+  worker.postMessage({ type: 'QUEEN', command: 'SYNCHRONIZE' });
 };
 
 export const listenParentApp = () => {

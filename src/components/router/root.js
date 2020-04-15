@@ -15,10 +15,6 @@ const Root = ({ configuration }) => {
     backgroundColor: '#c3ddff',
   };
 
-  window.addEventListener('QUEEN', e => {
-    console.log(`Queen : receive event queen :${e.detail.action}`);
-  });
-
   const notFoundPath = configuration.standalone ? '/' : '/queen';
 
   return (

@@ -3,7 +3,6 @@
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 
 self.onmessage = e => {
-  console.log('receive :' + e.data);
   const test = async () => {
     const surveyUnits = await surveyUnitIdbService.getAll();
     console.log(surveyUnits);
@@ -13,16 +12,9 @@ self.onmessage = e => {
       return cache;
     });
 
-    self.postMessage('terminé  !!!');
+    self.postMessage({ type: 'QUEEN_WORKER', state: 'SUCCESS' });
   };
-
-  test();
+  if (e.data.type === 'QUEEN') {
+    test();
+  }
 };
-// self.addEventListener(
-//   'message',
-//   function(e) {
-//     console.log('message received in the worker');
-//     self.postMessage('pong');
-//   },
-//   false
-// );
