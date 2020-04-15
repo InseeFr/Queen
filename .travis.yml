@@ -1,17 +1,15 @@
 language: node_js
-node_js:
-  - "stable"
 
 services:
   - docker
 
-cache:
-  directories:
-    - node_modules
+node_js:
+  - 12.16.1
+cache: yarn
 
 script:
-  - yarn
-  - yarn build-docker
+  - yarn install
+  - yarn run-docker
   - docker build -t inseefr/queen .
 
 deploy:
