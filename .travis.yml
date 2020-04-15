@@ -13,20 +13,18 @@ script:
   - docker build -t inseefr/queen .
 
 deploy:
-  skip_cleanup: true
-  provider: script
-  script:
-    echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
-    && docker push inseefr/queen
-  on:
-    branch: master
-
-deploy:
-  skip_cleanup: true
-  provider: script
-  script:
-    curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.7.0/bin/linux/amd64/kubectl
-    && chmod +x kubectl
-    && ./kubectl --token $K8S_TOKEN --server $K8S_SERVER --insecure-skip-tls-verify rollout restart deployment/queen -n queen
-  on:
-    branch: master
+  - skip_cleanup: true
+    provider: script
+    script:
+      echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+      && docker push inseefr/queen
+    on:
+      branch: master
+  - skip_cleanup: true
+    provider: script
+    script:
+      curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.7.0/bin/linux/amd64/  kubectl
+      && chmod +x kubectl
+      && ./kubectl --token $K8S_TOKEN --server $K8S_SERVER --insecure-skip-tls-verify rollout restart deployment/queen -n queen
+    on:
+      branch: master
