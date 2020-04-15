@@ -5,10 +5,10 @@ import * as lunatic from '@inseefr/lunatic';
 import alphabet from 'utils/constants/alphabet';
 import * as UQ from 'utils/questionnaire';
 import { DIRECT_CONTINUE_COMPONENTS, KEYBOARD_SHORTCUT_COMPONENTS } from 'utils/constants';
+import { sendCompletedEvent, sendStartedEvent } from 'utils/communication';
 import Header from './header';
 import Buttons from './buttons';
 import NavBar from './rightNavbar';
-import { sendCompletedEvent } from 'utils/communication';
 
 const Orchestrator = ({
   surveyUnit,
@@ -21,6 +21,12 @@ const Orchestrator = ({
   save,
   close,
 }) => {
+  const [started, setStarted] = useState(() => {
+    if (dataSU.data.COLLECTED) {
+      return Object.keys(dataSU.data.COLLECTED).length > 0;
+    }
+    return false;
+  });
   const [navOpen, setNavOpen] = useState(false);
 
   const [questionnaire, setQuestionnaire] = useState(source);
@@ -104,6 +110,13 @@ const Orchestrator = ({
   };
 
   const goNext = (lastSpecialQueenData = specialQueenData) => {
+    if (!started) {
+      const newResponse = UQ.getCollectedResponse(component);
+      if (Object.keys(newResponse).length > 0) {
+        setStarted(true);
+        sendStartedEvent(surveyUnit.idSU);
+      }
+    }
     saveQueen(lastSpecialQueenData);
     setClickPrevious(false);
     setPreviousResponse(null);
