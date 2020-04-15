@@ -1,14 +1,12 @@
 export const buildData = queenData => {
   const data = {};
-  data.COLLECTED = queenData.COLLECTED.reduce((collectedObj, collectedVar) => {
+  data.COLLECTED = queenData.COLLECTED.reduce((collectedObj, { name, ...content }) => {
     const newCollected = collectedObj;
-    const { name, ...content } = collectedVar;
     newCollected[name] = { ...content };
     return newCollected;
   }, {});
-  data.EXTERNAL = queenData.EXTERNAL.reduce((externalObj, externalVar) => {
+  data.EXTERNAL = queenData.EXTERNAL.reduce((externalObj, { name, value }) => {
     const newExternal = externalObj;
-    const { name, value } = externalVar;
     newExternal[name] = value;
     return newExternal;
   }, {});
