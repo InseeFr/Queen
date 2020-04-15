@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const WorkerPlugin = require('worker-plugin');
 const { InjectManifest, GenerateSW } = require('workbox-webpack-plugin');
 const packageAPP = require('./package.json');
 
@@ -62,14 +63,21 @@ module.exports = env => {
     /**
      * Splitting js files to have multiple js file (minify js files)
      */
+
     optimization: {
+      concatenateModules: false,
       splitChunks: {
         chunks: 'all',
         cacheGroups: {
+          runtime: { enforce: true },
           // Split vendor code to its own chunk(s)
           vendors: {
             test: /[\\/]node_modules[\\/]/,
             chunks: 'all',
+            name(module) {
+              const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+              return `npm.${packageName.replace('@', '')}`;
+            },
           },
         },
       },
@@ -78,7 +86,7 @@ module.exports = env => {
     output: {
       path: `${__dirname}/build`,
       publicPath: PUBLIC_PATH,
-      filename: `${packageAPP.name}.${packageAPP.version}.js`,
+      filename: `${packageAPP.name}.${packageAPP.version}.[hash].js`,
     },
 
     node: {
@@ -92,6 +100,8 @@ module.exports = env => {
       new HtmlWebpackPlugin({
         template: 'public/index.html',
       }),
+
+      new WorkerPlugin(),
 
       /**
        * Create asset-manifest.json file with js file generated.
@@ -154,7 +164,7 @@ module.exports = env => {
       /**
        * For development only (refresh build when we save a file)
        */
-      new webpack.HotModuleReplacementPlugin(),
+      env.NODE_ENV ? new webpack.HotModuleReplacementPlugin() : null,
     ],
     // 3
     devServer: {

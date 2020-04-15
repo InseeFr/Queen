@@ -108,6 +108,10 @@ const Orchestrator = ({
     setPreviousResponse(null);
     const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
     setViewedPages([...viewedPages, nextPage]);
+    const queenEvent = new CustomEvent('PEARL', {
+      detail: { data: 'coucou' },
+    });
+    window.dispatchEvent(queenEvent);
     setCurrentPage(nextPage);
   };
 

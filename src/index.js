@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Root from './components/router';
 import * as serviceWorker from './serviceWorker';
+import * as eventHandler from './eventHandler';
 
 class QueenApp extends HTMLElement {
   mountPoint;
@@ -62,3 +63,4 @@ class QueenApp extends HTMLElement {
 }
 window.customElements.define('queen-app', QueenApp);
 serviceWorker.register();
+eventHandler.listenParentApp();
