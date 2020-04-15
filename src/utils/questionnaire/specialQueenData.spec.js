@@ -75,22 +75,6 @@ describe('getStateToSave utils', () => {
   });
 });
 
-describe('updateSpecialQueenData utils', () => {
-  describe('updateSpecialQueenData', () => {
-    it('should return data {data,specialQueenData} ', () => {
-      const initSpecialQueenData = { DOESNT_KNOW: [], REFUSAL: [] };
-      const transformedSpecialQueenData1 = updateSpecialQueenData(initSpecialQueenData)(
-        currentComponent
-      );
-      expect(transformedSpecialQueenData1.DOESNT_KNOW.includes('VAR1')).toBe(true);
-      const transformedSpecialQueenData2 = updateSpecialQueenData(initSpecialQueenData)(
-        currentComponentCheckboxBoolean
-      );
-      expect(transformedSpecialQueenData2.DOESNT_KNOW.includes('VAR1')).toBe(false);
-    });
-  });
-});
-
 describe('specialQueenData utils', () => {
   describe('buildSpecialQueenData', () => {
     it('should return data {data,specialQueenData} ', () => {
