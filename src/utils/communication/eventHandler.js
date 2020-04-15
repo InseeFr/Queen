@@ -6,9 +6,9 @@ const handleEventParentApp = event => {
 
   const worker = new Worker('../synchronize', { type: 'module' });
   worker.onmessage = event => {
-    console.log('pi: ' + event.data);
+    console.log(event.data);
   };
-  worker.postMessage('ping');
+  worker.postMessage('test');
 };
 
 export const listenParentApp = () => {
