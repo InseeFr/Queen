@@ -4,7 +4,6 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const WorkerPlugin = require('worker-plugin');
 const { InjectManifest, GenerateSW } = require('workbox-webpack-plugin');
 const packageAPP = require('./package.json');
 
@@ -100,8 +99,6 @@ module.exports = env => {
       new HtmlWebpackPlugin({
         template: 'public/index.html',
       }),
-
-      new WorkerPlugin({ globalObject: false }),
 
       /**
        * Create asset-manifest.json file with js file generated.

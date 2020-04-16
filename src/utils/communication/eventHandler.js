@@ -1,17 +1,23 @@
 import { sendSynchronizeEvent } from './eventSender';
+import { synchronize } from 'utils/synchronize';
 
 const handleEventParentApp = event => {
   if (event.detail) {
     const { command } = event.detail;
     if (command === 'SYNCHRONIZE') {
-      const worker = new Worker('../synchronize', { type: 'module' });
-      worker.onmessage = event => {
-        const { type, state } = event.data;
-        if (type === 'QUEEN_WORKER') {
-          sendSynchronizeEvent(state);
+      const launchSynchronize = async () => {
+        console.log('Queen synchronization : STARTED !');
+        try {
+          await synchronize();
+          sendSynchronizeEvent('SUCCESS');
+        } catch (e) {
+          console.log(e.message);
+          sendSynchronizeEvent('FAILURE');
+        } finally {
+          console.log('Queen synchronization : ENDED !');
         }
       };
-      worker.postMessage({ type: 'QUEEN', command: 'SYNCHRONIZE' });
+      launchSynchronize();
     }
   }
 };

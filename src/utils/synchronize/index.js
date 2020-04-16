@@ -1,5 +1,3 @@
-/* eslint-disable no-restricted-globals */
-/* eslint-disable no-undef */
 import {
   getOperations,
   getQuestionnaireById,
@@ -44,53 +42,22 @@ const putSurveyUnitsInDataBaseByOperationId = async (urlQueenApi, token, operati
   );
 };
 
-self.onmessage = event => {
-  const synchronize = async () => {
-    const { urlQueenApi, authenticationMode } = await getConfiguration();
-    let token = null;
+export const synchronize = async () => {
+  const { urlQueenApi, authenticationMode } = await getConfiguration();
+  let token = null;
 
-    if (authenticationMode === 'keycloak') {
-      token = undefined; // TODO get new keycloak token;
-    }
-
-    const operationsResponse = await getOperations(urlQueenApi, token);
-    const operations = await operationsResponse.data;
-
-    await Promise.all(
-      operations.map(async operation => {
-        const { id } = operation;
-        await putQuestionnaireInCache(urlQueenApi, token, id);
-        await putSurveyUnitsInDataBaseByOperationId(urlQueenApi, token, id);
-      })
-    );
-  };
-
-  if (event.data.type === 'QUEEN') {
-    const launchSynchronize = async () => {
-      console.log('Queen synchronization : STARTED !');
-      try {
-        await synchronize();
-        self.postMessage({ type: 'QUEEN_WORKER', state: 'SUCCESS' });
-      } catch (e) {
-        console.log(e.message);
-        self.postMessage({ type: 'QUEEN_WORKER', state: 'FAILURE' });
-      } finally {
-        console.log('Queen synchronization : ENDED !');
-      }
-    };
-    launchSynchronize();
+  if (authenticationMode === 'keycloak') {
+    token = undefined; // TODO get new keycloak token;
   }
+
+  const operationsResponse = await getOperations(urlQueenApi, token);
+  const operations = await operationsResponse.data;
+
+  await Promise.all(
+    operations.map(async operation => {
+      const { id } = operation;
+      await putQuestionnaireInCache(urlQueenApi, token, id);
+      await putSurveyUnitsInDataBaseByOperationId(urlQueenApi, token, id);
+    })
+  );
 };
-
-/*
-1 : auth
-2 : post des datas et comment
-3 : 
- - GET : operations /api/operations -> {idOP}
- - GET : questionnaire /api/operation/{idOP}/questionnaire pour chaque OP
- - GET : id survey-unit /api/operation/{idOP}/reporting-units pour chaque OP -> {surveyUnitID}
- -> pour chaque suveyUnitID
-      - GET : data  /api/reporting-unit/{surveyUnitID}/data
-      - GET : comment /api/reporting-unit/{surveyUnitID}/comment
-
-*/
