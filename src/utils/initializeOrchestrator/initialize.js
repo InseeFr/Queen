@@ -1,8 +1,9 @@
 import {
   getQuestionnaireById,
-  getResourceById,
+  getNomenclatureById,
   getDataSurveyUnitById,
   getCommentSurveyUnitById,
+  getListRequiredNomenclature,
 } from 'utils/api';
 import { KEYCLOAK } from 'utils/constants';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
@@ -39,7 +40,17 @@ export const initialize = ({
    */
   if (standalone) {
     setWaitingMessage(D.waitingResources);
-    await getResourceById(idQuestionnaire);
+    const resourcesResponse = await getListRequiredNomenclature(
+      urlQueenApi,
+      token
+    )(idQuestionnaire);
+    const resources = await resourcesResponse.data;
+    await Promise.all(
+      resources.map(async resource => {
+        const { id } = resource;
+        await getNomenclatureById(urlQueenApi, token)(id);
+      })
+    );
   }
   /**
    * Get survey-unit's data
