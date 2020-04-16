@@ -2,5 +2,5 @@ import Axios from 'axios';
 
 export const getResourceById = id =>
   new Promise((resolve, reject) => {
-    setTimeout(() => resolve({}), 2000);
+    setTimeout(() => resolve({ data: {} }), 2000);
   });

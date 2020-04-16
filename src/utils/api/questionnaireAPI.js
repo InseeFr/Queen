@@ -1,24 +1,17 @@
 import Axios from 'axios';
+import { getSecureHeader } from './utils';
 import simpsons from '../fake-survey/simpsons copy.json';
 
-export const getQuestionnaireById = (urlQueenApi, id, token) => {
-  const secureHeader = token
-    ? {
-        Authorization: `Bearer ${token}`,
-      }
-    : null;
+export const getQuestionnaireById = (urlQueenApi, token) => id =>
+  new Promise((resolve, reject) => {
+    // Axios.get(`${urlQueenApi}/api/operation/${id}/questionnaire`, {
+    //   headers: {
+    //     ...getSecureHeader(token),
+    //     Accept: 'application/json;charset=utf-8',
+    //   },
+    // })
+    //   .then(res => resolve(res))
+    //   .catch(e => reject(new Error(`Failed to fetch questionnaire (id:${id}): ${e.message}`)));
 
-  return new Promise((resolve, reject) => {
-    /*
-    Axios.get(`${urlQueenApi}/${id}`, {
-      headers: {
-        ...secureHeader,
-        Accept: 'application/json;charset=utf-8',
-      },
-    })
-      .then(res => resolve(res))
-      .catch(e => console.log('get error !! '));
-*/
-    setTimeout(() => resolve(simpsons), 1500);
+    setTimeout(() => resolve({ data: simpsons }), 1500);
   });
-};
