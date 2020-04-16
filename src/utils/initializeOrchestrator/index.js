@@ -1,6 +1,5 @@
-import { ANONYMOUS, KEYCLOAK } from 'utils/constants';
-import { initialize as initializeAnonymous } from './anonymous';
-import { initialize as initializeAuthenticated } from './authentication';
+import { AUTHENTICATION_MODE_ENUM } from 'utils/constants';
+import { initialize as init } from './initialize';
 
 export const initialize = (
   configuration,
@@ -19,24 +18,18 @@ export const initialize = (
     setSurveyUnit,
   };
   const { authenticationMode } = configuration;
-  let initializeStrategy;
-  switch (authenticationMode) {
-    case ANONYMOUS:
-      initializeStrategy = initializeAnonymous(params);
-      break;
-    case KEYCLOAK:
-      initializeStrategy = initializeAuthenticated(params);
-      break;
-    default:
-      initializeStrategy = () =>
-        new Promise((resolve, reject) =>
-          reject(
-            new Error(
-              `The current authentication mode is ${authenticationMode}. Expected one of "${KEYCLOAK}" or "${ANONYMOUS}".`
-            )
+  let initializeFunction;
+  if (AUTHENTICATION_MODE_ENUM.includes(authenticationMode)) {
+    initializeFunction = init(params);
+  } else {
+    initializeFunction = () =>
+      new Promise((resolve, reject) =>
+        reject(
+          new Error(
+            `The current authentication mode is ${authenticationMode}. Expected one of "${KEYCLOAK}" or "${ANONYMOUS}".`
           )
-        );
-      break;
+        )
+      );
   }
-  return initializeStrategy;
+  return initializeFunction;
 };

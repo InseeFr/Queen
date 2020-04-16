@@ -17,6 +17,7 @@ export const initialize = ({
   setSurveyUnit,
 }) => async () => {
   const { standalone, urlQueenApi, authenticationMode } = configuration;
+
   let token = null;
   if (authenticationMode === KEYCLOAK) {
     // TODO : get/update TOKEN
