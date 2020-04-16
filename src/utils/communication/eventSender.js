@@ -7,10 +7,11 @@ const dispatchQueenEventWithData = data => {
   console.log(event);
 };
 
-export const sendCloseEvent = () => {
+export const sendCloseEvent = idSU => {
   const data = {
     type: prefixEvent,
     command: 'CLOSE_QUEEN',
+    surveyUnit: idSU,
   };
   dispatchQueenEventWithData(data);
 };

@@ -80,7 +80,7 @@ const OrchestratorManager = ({ match, configuration }) => {
 
   const closeOrchestrator = () => {
     if (!configuration.standalone) {
-      sendCloseEvent();
+      sendCloseEvent(surveyUnit.idSU);
     } else {
       alert(D.closeWindow);
     }

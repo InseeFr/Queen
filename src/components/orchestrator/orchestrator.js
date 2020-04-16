@@ -139,8 +139,8 @@ const Orchestrator = ({
   };
 
   const finalQuit = () => {
-    saveQueen();
     sendCompletedEvent(surveyUnit.idSU);
+    saveQueen();
     close();
   };
 

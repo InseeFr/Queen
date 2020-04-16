@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import insee from 'img/insee.png';
-import { sendCloseEvent } from 'utils/communication';
 import Navigation from '../navigation';
 import CloseIcon from './quit.icon';
 import BreadcrumbQueen from '../breadcrumb';
