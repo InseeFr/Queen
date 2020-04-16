@@ -101,7 +101,7 @@ module.exports = env => {
         template: 'public/index.html',
       }),
 
-      new WorkerPlugin(),
+      new WorkerPlugin({ globalObject: false }),
 
       /**
        * Create asset-manifest.json file with js file generated.
