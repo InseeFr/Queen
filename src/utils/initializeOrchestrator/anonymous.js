@@ -4,6 +4,7 @@ import {
   getDataSurveyUnitById,
   getCommentSurveyUnitById,
 } from 'utils/api';
+import { KEYCLOAK } from 'utils/constants';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import D from 'i18n';
 
@@ -15,14 +16,18 @@ export const initialize = ({
   setQuestionnaire,
   setSurveyUnit,
 }) => async () => {
-  const { standalone, urlQueenApi } = configuration;
+  const { standalone, urlQueenApi, authenticationMode } = configuration;
+  let token = null;
+  if (authenticationMode === KEYCLOAK) {
+    // TODO : get/update TOKEN
+  }
   /**
    * Get questionnaire
    *    standalone mode : get from the API (always online)
    *    embedded mode   : get from the API or service-worker
    */
   setWaitingMessage(D.waitingQuestionnaire);
-  const response = await getQuestionnaireById(urlQueenApi, null)(idQuestionnaire);
+  const response = await getQuestionnaireById(urlQueenApi, token)(idQuestionnaire);
   const questionnaire = await response.data;
   // set questionnaire to orchestrator
   setQuestionnaire(questionnaire);
@@ -42,9 +47,9 @@ export const initialize = ({
    */
   setWaitingMessage(D.waitingDataSU);
   if (standalone) {
-    const dataResponse = await getDataSurveyUnitById(urlQueenApi, null)(idSurveyUnit);
+    const dataResponse = await getDataSurveyUnitById(urlQueenApi, token)(idSurveyUnit);
     const surveyUnitData = await dataResponse.data;
-    const commentResponse = await getCommentSurveyUnitById(urlQueenApi, null)(idSurveyUnit);
+    const commentResponse = await getCommentSurveyUnitById(urlQueenApi, token)(idSurveyUnit);
     const surveyUnitComment = await commentResponse.data;
     await surveyUnitIdbService.addOrUpdateSU({
       idSU: idSurveyUnit,
