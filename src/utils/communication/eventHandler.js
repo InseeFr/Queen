@@ -1,17 +1,19 @@
 import { sendSynchronizeEvent } from './eventSender';
 
 const handleEventParentApp = event => {
-  console.log('receive event');
-  console.log(event.detail);
-
-  const worker = new Worker('../synchronize', { type: 'module' });
-  worker.onmessage = event => {
-    const { type, state } = event.data;
-    if (type === 'QUEEN_WORKER') {
-      sendSynchronizeEvent(state);
+  if (event.detail) {
+    const { command } = event.detail;
+    if (command === 'SYNCHRONIZE') {
+      const worker = new Worker('../synchronize', { type: 'module' });
+      worker.onmessage = event => {
+        const { type, state } = event.data;
+        if (type === 'QUEEN_WORKER') {
+          sendSynchronizeEvent(state);
+        }
+      };
+      worker.postMessage({ type: 'QUEEN', command: 'SYNCHRONIZE' });
     }
-  };
-  worker.postMessage({ type: 'QUEEN', command: 'SYNCHRONIZE' });
+  }
 };
 
 export const listenParentApp = () => {
