@@ -10,6 +10,8 @@ class QueenApp extends HTMLElement {
   componentProperties = { configuration: undefined };
 
   connectedCallback() {
+    this.mountPoint = document.createElement('div');
+    this.mountReactAppLoadingConfiguration();
     this.setConfiguration();
   }
 
@@ -56,8 +58,12 @@ class QueenApp extends HTMLElement {
   }
 
   mountReactApp() {
-    this.mountPoint = document.createElement('div');
     ReactDOM.render(<Root {...this.reactProps()} />, this.mountPoint);
+    this.appendChild(this.mountPoint);
+  }
+
+  mountReactAppLoadingConfiguration() {
+    ReactDOM.render(<Root />, this.mountPoint);
     this.appendChild(this.mountPoint);
   }
 }
