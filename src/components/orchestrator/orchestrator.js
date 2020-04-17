@@ -103,7 +103,6 @@ const Orchestrator = ({
   };
 
   const goPrevious = (lastSpecialQueenData = specialQueenData) => {
-    saveQueen(lastSpecialQueenData);
     setClickPrevious(true);
     setPreviousResponse(null);
     setCurrentPage(UQ.getPreviousPage(filteredComponents)(currentPage));
