@@ -40,7 +40,11 @@ export const initialize = ({
   const response = await getQuestionnaireById(urlQueenApi, token)(idQuestionnaire);
   const questionnaire = await response.data;
   // set questionnaire to orchestrator
-  setQuestionnaire(questionnaire);
+  if (questionnaire) {
+    setQuestionnaire(questionnaire);
+  } else {
+    throw new Error(D.questionnaireNotFound);
+  }
 
   /**
    * Get resources for questionnaire
@@ -78,6 +82,10 @@ export const initialize = ({
     });
   }
   const surveyUnit = await surveyUnitIdbService.getByIdSU(idSurveyUnit);
-  // set survey unit data to orchestrator
-  setSurveyUnit(surveyUnit);
+  if (surveyUnit) {
+    // set survey unit data to orchestrator
+    setSurveyUnit(surveyUnit);
+  } else {
+    throw new Error(D.surveyUnitNotFound);
+  }
 };
