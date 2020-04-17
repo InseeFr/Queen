@@ -19,6 +19,14 @@ export const initialize = ({
 }) => async () => {
   const { standalone, urlQueenApi, authenticationMode } = configuration;
 
+  // clean cache and database
+  if (standalone) {
+    setWaitingMessage(D.waitingCleaning);
+    await surveyUnitIdbService.deleteAll();
+    await caches.delete('queen-questionnaire');
+  }
+
+  setWaitingMessage(D.waitingAuthentication);
   let token = null;
   if (authenticationMode === KEYCLOAK) {
     // TODO : get/update TOKEN
