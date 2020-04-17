@@ -18,18 +18,16 @@ export const getSurveyUnitByIdOperation = (urlQueenApi, token) => id =>
 
 export const getDataSurveyUnitById = (urlQueenApi, token) => id =>
   new Promise((resolve, reject) => {
-    // Axios.get(`${urlQueenApi}/api/reporting-unit/${id}/data`, {
-    //   headers: {
-    //     ...getSecureHeader(token),
-    //     Accept: 'application/json;charset=utf-8',
-    //   },
-    // })
-    //   .then(res => resolve(res))
-    //   .catch(e =>
-    //     reject(new Error(`Failed to fetch data of survey-unit (id:${id}) : ${e.message}`))
-    //   );
-
-    setTimeout(() => resolve({ data }), 1000);
+    Axios.get(`${urlQueenApi}/api/reporting-unit/${id}/data`, {
+      headers: {
+        ...getSecureHeader(token),
+        Accept: 'application/json;charset=utf-8',
+      },
+    })
+      .then(res => resolve(res))
+      .catch(e =>
+        reject(new Error(`Failed to fetch data of survey-unit (id:${id}) : ${e.message}`))
+      );
   });
 
 export const putDataSurveyUnitById = (urlQueenApi, token) => (id, data) =>
@@ -46,18 +44,16 @@ export const putDataSurveyUnitById = (urlQueenApi, token) => (id, data) =>
 
 export const getCommentSurveyUnitById = (urlQueenApi, token) => id =>
   new Promise((resolve, reject) => {
-    // Axios.get(`${urlQueenApi}/api/reporting-unit/${id}/comment`, {
-    //   headers: {
-    //     ...getSecureHeader(token),
-    //     Accept: 'application/json;charset=utf-8',
-    //   },
-    // })
-    //   .then(res => resolve(res))
-    //   .catch(e =>
-    //     reject(new Error(`Failed to fetch comment of survey-unit (id:${id}) : ${e.message}`))
-    //   );
-
-    setTimeout(() => resolve({ data: {} }), 500);
+    Axios.get(`${urlQueenApi}/api/reporting-unit/${id}/comment`, {
+      headers: {
+        ...getSecureHeader(token),
+        Accept: 'application/json;charset=utf-8',
+      },
+    })
+      .then(res => resolve(res))
+      .catch(e =>
+        reject(new Error(`Failed to fetch comment of survey-unit (id:${id}) : ${e.message}`))
+      );
   });
 
 export const putCommentSurveyUnitById = (urlQueenApi, token) => (id, comment) =>
