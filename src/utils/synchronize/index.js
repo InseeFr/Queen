@@ -74,7 +74,7 @@ export const synchronize = async () => {
   }
 
   // (2) : send the local data to server
-  await sendData();
+  await sendData(urlQueenApi, token);
 
   // (3) : clean
   await clean();
