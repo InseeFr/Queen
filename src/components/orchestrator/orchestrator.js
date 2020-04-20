@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import KeyboardEventHandler from 'react-keyboard-event-handler';
 import * as lunatic from '@inseefr/lunatic';
 import alphabet from 'utils/constants/alphabet';
-import * as CONST from 'utils/constants';
 import * as UQ from 'utils/questionnaire';
+import { DIRECT_CONTINUE_COMPONENTS, KEYBOARD_SHORTCUT_COMPONENTS } from 'utils/constants';
+import { sendCompletedEvent, sendStartedEvent } from 'utils/communication';
 import Header from './header';
 import Buttons from './buttons';
 import NavBar from './rightNavbar';
 
 const Orchestrator = ({
+  surveyUnit,
   readonly,
   savingType,
   preferences,
@@ -18,40 +21,37 @@ const Orchestrator = ({
   save,
   close,
 }) => {
+  const [started, setStarted] = useState(() => {
+    if (dataSU.data.COLLECTED) {
+      return Object.keys(dataSU.data.COLLECTED).length > 0;
+    }
+    return false;
+  });
   const [navOpen, setNavOpen] = useState(false);
 
-  const [questionnaire, setQuestionnaire] = useState(
-    lunatic.mergeQuestionnaireAndData(source)(dataSU.data)
-  );
+  const [questionnaire, setQuestionnaire] = useState(source);
   const [currentPage, setCurrentPage] = useState(1);
   /**
    * viewedPages : list of page viewed by user
    */
   const [viewedPages, setViewedPages] = useState([1]);
 
-  const [queenData, setQueenData] = useState(dataSU.queenData);
+  const [specialQueenData, setSpecialQueenData] = useState(dataSU.specialQueenData);
+  const [comment, setComment] = useState(surveyUnit.comment);
+  const [clickPrevious, setClickPrevious] = useState(false);
+  const [previousResponse, setPreviousResponse] = useState(null);
 
-  const removeResponseToQueenData = responseName => {
-    const newQueenData = { ...queenData };
-    CONST.QUEEN_DATA_KEYS.map(key => {
-      newQueenData[key] = newQueenData[key].filter(name => name !== responseName);
-      return null;
-    });
-    setQueenData(newQueenData);
-    return newQueenData;
-  };
-
-  const addResponseToQueenData = responseName => dataType => {
-    const newQueenData = { ...queenData };
-    if (!newQueenData[dataType].includes(responseName)) {
-      newQueenData[dataType] = [...newQueenData[dataType], responseName];
-      setQueenData(newQueenData);
-    }
-    return newQueenData;
-  };
-
-  const onChange = updatedValue => {
+  /**
+   * This function updates the values of the questionnaire responses
+   * from the data entered by the user.
+   * This function is disabled when app is in readonly mode.
+   * @param {*} component the current component
+   */
+  const onChange = component => updatedValue => {
     if (!readonly) {
+      if (!previousResponse) {
+        setPreviousResponse(UQ.getCollectedResponse(component));
+      }
       setQuestionnaire(
         lunatic.updateQuestionnaire(savingType)(questionnaire)(preferences)(updatedValue)
       );
@@ -60,49 +60,75 @@ const Orchestrator = ({
 
   const bindings = lunatic.getBindings(questionnaire);
 
-  const queenComponents = UQ.buildQueenQuestionnaire(questionnaire.components);
+  /**
+   * queenComponents = all components expect empty Subsequence.
+   * (Empty Subsequence hasn't page attribute)
+   */
+  const queenComponents = questionnaire.components.filter(c => c.page);
   const filteredComponents = queenComponents.filter(
     ({ conditionFilter }) => lunatic.interpret(['VTL'])(bindings)(conditionFilter) === 'normal'
   );
 
   const component = filteredComponents.find(({ page }) => page === currentPage);
   const { id, componentType, sequence, subsequence, options, ...props } = component;
+  // TODO : get specialAnswer from component (specified in Pogues)
+  // to wait, set to false by default
+  const specialAnswer = { refusal: false, doesntKnow: false };
 
-  const updateQueenData = () => {
-    let newQueenData = { ...queenData };
-    const responsesName = UQ.getResponsesNameFromComponent(component);
-    responsesName.map(responseName => {
-      const collectedResponse = UQ.getCollectedResponse(component);
-      if (Object.keys(collectedResponse).length === 0) {
-        newQueenData = addResponseToQueenData(responseName)(CONST.IGNORED_KEY);
-      } else {
-        newQueenData = removeResponseToQueenData(responseName);
+  /**
+   *  This function update response values in questionnaire and specialQueenData.
+   *  At the end, it calls the saving method of its parent (saving into indexdb)
+   * @param {*} lastSpecialQueenData (specialQueenData update by "Refusal" and "doesn't know" buttons )
+   */
+  const saveQueen = (lastSpecialQueenData = specialQueenData) => {
+    let newQuestionnaire = questionnaire;
+    if (previousResponse) {
+      const newResponse = UQ.getCollectedResponse(component);
+      if (JSON.stringify(newResponse) !== JSON.stringify(previousResponse)) {
+        newQuestionnaire = UQ.updateResponseFiltered(newQuestionnaire)(component);
+        setQuestionnaire(newQuestionnaire); // update questionnaire with updated values
       }
-      return null;
-    });
-    return newQueenData;
+    }
+    setSpecialQueenData(lastSpecialQueenData); // update specialQueenData according to selected buttons
+    const dataToSave = UQ.getStateToSave(newQuestionnaire)(lastSpecialQueenData);
+    save({ ...surveyUnit, data: dataToSave, comment });
   };
 
-  const saveQueen = () => {
-    const lastQueenData = updateQueenData();
-    const dataToSave = UQ.getStateToSave(questionnaire)(lastQueenData);
-    save(dataToSave);
+  /**
+   * @return boolean if user has entered at least one value in current component.
+   */
+  const goNextCondition = () => {
+    const responseKeys = Object.keys(UQ.getCollectedResponse(component));
+    return ['Sequence', 'Subsequence'].includes(componentType) || responseKeys.length !== 0;
   };
 
-  const goPrevious = () => {
+  const goPrevious = (lastSpecialQueenData = specialQueenData) => {
+    setClickPrevious(true);
+    setPreviousResponse(null);
     setCurrentPage(UQ.getPreviousPage(filteredComponents)(currentPage));
   };
 
-  const goNext = () => {
-    saveQueen();
+  const goNext = (lastSpecialQueenData = specialQueenData) => {
+    if (!started) {
+      const newResponse = UQ.getCollectedResponse(component);
+      if (Object.keys(newResponse).length > 0) {
+        setStarted(true);
+        sendStartedEvent(surveyUnit.idSU);
+      }
+    }
+    saveQueen(lastSpecialQueenData);
+    setClickPrevious(false);
+    setPreviousResponse(null);
     const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
     setViewedPages([...viewedPages, nextPage]);
     setCurrentPage(nextPage);
   };
 
-  const goFastForward = () => {
-    saveQueen();
-    const fastForwardPage = UQ.getFastForwardPage(filteredComponents)(updateQueenData());
+  const goFastForward = (lastSpecialQueenData = specialQueenData) => {
+    saveQueen(lastSpecialQueenData);
+    setClickPrevious(false);
+    setPreviousResponse(null);
+    const fastForwardPage = UQ.getFastForwardPage(filteredComponents)(lastSpecialQueenData);
     setCurrentPage(fastForwardPage);
   };
 
@@ -111,29 +137,27 @@ const Orchestrator = ({
     close();
   };
 
+  const finalQuit = () => {
+    sendCompletedEvent(surveyUnit.idSU);
+    saveQueen();
+    close();
+  };
+
+  useEffect(() => {
+    if (DIRECT_CONTINUE_COMPONENTS.includes(componentType)) {
+      goNext();
+    }
+  }, [questionnaire]);
+
   const Component = lunatic[componentType];
-  let myOptions = [];
-  if (componentType === 'CheckboxOne') {
-    myOptions = options.map((option, index) => {
-      const myLabel = (
-        <span>
-          <span className="code">{options.length > 10 ? alphabet[index] : index}</span>
-          {lunatic.interpret(['VTL'])(bindings)(option.label)}
-        </span>
-      );
-      return {
-        value: option.value,
-        label: myLabel,
-      };
-    });
-  } else {
-    myOptions = options || [];
-  }
+  const newOptions = UQ.buildQueenOptions(componentType, options, bindings);
+  // const keyToHandle = ['alphanumeric'];
   return (
     <>
       <div id="queen-body" className={navOpen ? 'back' : ''}>
         <Header
           title={questionnaire.label}
+          quit={quit}
           sequence={lunatic.interpret(['VTL'])(bindings)(sequence)}
           components={filteredComponents}
           bindings={bindings}
@@ -146,15 +170,15 @@ const Orchestrator = ({
           <div className="components">
             <div
               className={`lunatic lunatic-component ${
-                myOptions.length >= 8 ? 'split-fieldset' : ''
+                newOptions.length >= 8 ? 'split-fieldset' : ''
               }`}
               key={`component-${id}`}
             >
               <Component
                 id={id}
                 {...props}
-                options={myOptions}
-                handleChange={onChange}
+                options={newOptions}
+                handleChange={onChange(component)}
                 labelPosition="TOP"
                 preferences={preferences}
                 features={['VTL']}
@@ -163,18 +187,43 @@ const Orchestrator = ({
                 readOnly={readonly}
                 disabled={readonly}
                 focused
+                keyboardSelection={componentType === 'CheckboxGroup'}
               />
             </div>
           </div>
           <NavBar nbModules={queenComponents.length} page={currentPage} />
           <Buttons
-            nbModules={filteredComponents.length}
+            currentComponent={component}
+            specialAnswer={specialAnswer}
             page={UQ.findPageIndex(filteredComponents)(currentPage)}
+            canContinue={goNextCondition()}
+            specialQueenData={specialQueenData}
+            previousClicked={clickPrevious}
+            nbModules={filteredComponents.length}
             pagePrevious={goPrevious}
             pageNext={goNext}
             pageFastForward={goFastForward}
-            quit={quit}
+            finalQuit={finalQuit}
           />
+          {/* {KEYBOARD_SHORTCUT_COMPONENTS.includes(componentType) && (
+            <KeyboardEventHandler
+              handleKeys={keyToHandle}
+              onKeyEvent={(key, e) => {
+                const responses = UQ.getResponsesNameFromComponent(component);
+                const responsesCollected = UQ.getCollectedResponse(component);
+                const updatedValue = {};
+                if (componentType === 'CheckboxOne') {
+                  updatedValue[responses[0]] = key;
+                  onChange(component)(updatedValue);
+                } else if (componentType === 'CheckboxGroup') {
+                  const index = alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase());
+                  updatedValue[responses[index]] = !responsesCollected[responses[index]];
+                  onChange(component)(updatedValue);
+                }
+              }}
+              handleFocusableElements
+            />
+          )} */}
         </div>
       </div>
     </>
@@ -182,6 +231,7 @@ const Orchestrator = ({
 };
 
 Orchestrator.propTypes = {
+  surveyUnit: PropTypes.objectOf(PropTypes.any).isRequired,
   readonly: PropTypes.bool.isRequired,
   savingType: PropTypes.oneOf(['COLLECTED', 'FORCED', 'EDITED']).isRequired,
   preferences: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -189,7 +239,7 @@ Orchestrator.propTypes = {
   source: PropTypes.objectOf(PropTypes.any).isRequired,
   dataSU: PropTypes.shape({
     data: PropTypes.objectOf(PropTypes.any).isRequired,
-    queenData: PropTypes.objectOf(PropTypes.any).isRequired,
+    specialQueenData: PropTypes.objectOf(PropTypes.any).isRequired,
   }).isRequired,
   save: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
