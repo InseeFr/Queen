@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { getSecureHeader } from './utils';
 
 export const getListRequiredNomenclature = (urlQueenApi, token) => id =>
   new Promise((resolve, reject) => {

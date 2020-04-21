@@ -6,7 +6,7 @@ export default class AbstractIdbService {
   }
 
   get(id) {
-    return this.store.get({ id: Number(id) });
+    return this.store.get({ id: `${id}` });
   }
 
   getAll() {

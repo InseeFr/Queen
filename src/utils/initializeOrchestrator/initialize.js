@@ -6,6 +6,7 @@ import {
   getListRequiredNomenclature,
 } from 'utils/api';
 import { KEYCLOAK } from 'utils/constants';
+import clearAllData from 'utils/indexedbb/services/allTables-idb-service';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import D from 'i18n';
 
@@ -22,7 +23,7 @@ export const initialize = ({
   // clean cache and database
   if (standalone) {
     setWaitingMessage(D.waitingCleaning);
-    await surveyUnitIdbService.deleteAll();
+    await clearAllData();
     await caches.delete('queen-questionnaire');
   }
 
@@ -38,7 +39,7 @@ export const initialize = ({
    */
   setWaitingMessage(D.waitingQuestionnaire);
   const response = await getQuestionnaireById(urlQueenApi, token)(idQuestionnaire);
-  const questionnaire = await response.data;
+  const questionnaire = await response.data.model;
   // set questionnaire to orchestrator
   if (questionnaire) {
     setQuestionnaire(questionnaire);
@@ -76,12 +77,12 @@ export const initialize = ({
     const commentResponse = await getCommentSurveyUnitById(urlQueenApi, token)(idSurveyUnit);
     const surveyUnitComment = await commentResponse.data;
     await surveyUnitIdbService.addOrUpdateSU({
-      idSU: idSurveyUnit,
+      id: idSurveyUnit,
       data: surveyUnitData,
       comment: surveyUnitComment,
     });
   }
-  const surveyUnit = await surveyUnitIdbService.getByIdSU(idSurveyUnit);
+  const surveyUnit = await surveyUnitIdbService.get(idSurveyUnit);
   if (surveyUnit) {
     // set survey unit data to orchestrator
     setSurveyUnit(surveyUnit);
