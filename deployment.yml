@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
         - name: queen
-          image: bwerquin/queen:latest
+          image: inseefr/queen:latest
