@@ -19,18 +19,6 @@ if (workbox) {
     self.__precacheManifest.concat([{ url: `${self._urlQueen}/asset-manifest.json` }])
   );
 
-  workbox.routing.registerRoute(
-    new RegExp(getUrlRegex(self._urlQueen)),
-    new workbox.strategies.CacheFirst({
-      cacheName: queenCacheName,
-      plugins: [
-        new workbox.cacheableResponse.Plugin({
-          statuses: [0, 200],
-        }),
-      ],
-    })
-  );
-
   const setQuestionnaireCache = async () => {
     const responseFromQueen = await fetch(`${self._urlQueen}/configuration.json`);
     const configuration = await responseFromQueen.json();
@@ -46,18 +34,33 @@ if (workbox) {
         ],
       })
     );
+    return true;
+  };
+
+  const installSW = async () => {
+    queenPrecacheController.install();
+    queenPrecacheController.activate();
+    workbox.routing.registerRoute(
+      new RegExp(getUrlRegex(self._urlQueen)),
+      new workbox.strategies.CacheFirst({
+        cacheName: queenCacheName,
+        plugins: [
+          new workbox.cacheableResponse.Plugin({
+            statuses: [0, 200],
+          }),
+        ],
+      })
+    );
+    return setQuestionnaireCache();
   };
 
   self.addEventListener('install', event => {
     console.log('QUEEN sw : installing ...');
-    event.waitUntil(queenPrecacheController.install());
-    event.waitUntil(setQuestionnaireCache());
+    event.waitUntil(installSW());
   });
 
   self.addEventListener('activate', event => {
     console.log('QUEEN sw : activating ...');
-    event.waitUntil(queenPrecacheController.install());
-    event.waitUntil(queenPrecacheController.activate());
-    event.waitUntil(setQuestionnaireCache());
+    event.waitUntil(installSW());
   });
 }
