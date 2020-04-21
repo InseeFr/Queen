@@ -15,7 +15,9 @@ if (workbox) {
   const { precaching, routing, strategies, cacheableResponse } = workbox;
   console.log('Loading Queen SW into another SW');
   const queenPrecacheController = new workbox.precaching.PrecacheController(queenCacheName);
-  queenPrecacheController.addToCacheList(self.__precacheManifest);
+  queenPrecacheController.addToCacheList(
+    self.__precacheManifest.concat([{ url: `${self._urlQueen}/asset-manifest.json` }])
+  );
 
   workbox.routing.registerRoute(
     new RegExp(getUrlRegex(self._urlQueen)),
