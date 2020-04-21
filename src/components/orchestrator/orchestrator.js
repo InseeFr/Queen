@@ -113,7 +113,7 @@ const Orchestrator = ({
       const newResponse = UQ.getCollectedResponse(component);
       if (Object.keys(newResponse).length > 0) {
         setStarted(true);
-        sendStartedEvent(surveyUnit.idSU);
+        sendStartedEvent(surveyUnit.id);
       }
     }
     saveQueen(lastSpecialQueenData);
@@ -138,7 +138,7 @@ const Orchestrator = ({
   };
 
   const finalQuit = () => {
-    sendCompletedEvent(surveyUnit.idSU);
+    sendCompletedEvent(surveyUnit.id);
     saveQueen();
     close();
   };
