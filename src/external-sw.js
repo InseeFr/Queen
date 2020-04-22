@@ -10,57 +10,46 @@ const getQuestionnaireUrlRegex = urlQueenApi => {
   return urlQueenApi.replace('http', '^http').concat('/api/operation/(.){1,}/questionnaire');
 };
 
-if (workbox) {
-  const queenCacheName = 'queen-cache';
-  const { precaching, routing, strategies, cacheableResponse } = workbox;
-  console.log('Loading Queen SW into another SW');
-  const queenPrecacheController = new workbox.precaching.PrecacheController(queenCacheName);
-  queenPrecacheController.addToCacheList(
-    self.__precacheManifest.concat([{ url: `${self._urlQueen}/asset-manifest.json` }])
+const queenCacheName = 'queen-cache';
+console.log('Loading Queen SW into another SW');
+
+workbox.routing.registerRoute(
+  new RegExp(getUrlRegex(self._urlQueen)),
+  new workbox.strategies.CacheFirst({
+    cacheName: queenCacheName,
+  })
+);
+
+const setQuestionnaireCache = async () => {
+  const responseFromQueen = await fetch(`${self._urlQueen}/configuration.json`);
+  const configuration = await responseFromQueen.json();
+
+  workbox.routing.registerRoute(
+    new RegExp(getQuestionnaireUrlRegex(configuration.urlQueenApi)),
+    new workbox.strategies.CacheFirst({
+      cacheName: 'queen-questionnaire',
+    })
   );
+};
+setQuestionnaireCache();
 
-  const setQuestionnaireCache = async () => {
-    const responseFromQueen = await fetch(`${self._urlQueen}/configuration.json`);
-    const configuration = await responseFromQueen.json();
+const queenPrecacheController = async () => {
+  const cache = await caches.open(queenCacheName);
+  const urlsToCache = self.__precacheManifest.reduce(
+    (_, { url }) => {
+      if (url.includes(self._urlQueen)) return [..._, url];
+      return _;
+    },
+    [`${self._urlQueen}/asset-manifest.json`]
+  );
+  await cache.addAll(urlsToCache);
+};
 
-    workbox.routing.registerRoute(
-      new RegExp(getQuestionnaireUrlRegex(configuration.urlQueenApi)),
-      new workbox.strategies.StaleWhileRevalidate({
-        cacheName: 'queen-questionnaire',
-        plugins: [
-          new workbox.cacheableResponse.Plugin({
-            statuses: [0, 200],
-          }),
-        ],
-      })
-    );
-    return true;
-  };
+self.addEventListener('install', event => {
+  console.log('QUEEN sw : installing ...');
+  event.waitUntil(queenPrecacheController());
+});
 
-  const installSW = async () => {
-    queenPrecacheController.install();
-    queenPrecacheController.activate();
-    workbox.routing.registerRoute(
-      new RegExp(getUrlRegex(self._urlQueen)),
-      new workbox.strategies.CacheFirst({
-        cacheName: queenCacheName,
-        plugins: [
-          new workbox.cacheableResponse.Plugin({
-            statuses: [0, 200],
-          }),
-        ],
-      })
-    );
-    return setQuestionnaireCache();
-  };
-
-  self.addEventListener('install', event => {
-    console.log('QUEEN sw : installing ...');
-    event.waitUntil(installSW());
-  });
-
-  self.addEventListener('activate', event => {
-    console.log('QUEEN sw : activating ...');
-    event.waitUntil(installSW());
-  });
-}
+self.addEventListener('activate', event => {
+  console.log('QUEEN sw : activating ...');
+});
