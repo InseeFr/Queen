@@ -1,6 +1,6 @@
 export const buildData = queenData => {
   const data = {};
-  data.COLLECTED = queenData.COLLECTED.reduce((collectedObj, { name, ...content }) => {
+  data.COLLECTED = queenData.COLLECTED.reduce((collectedObj, { name, type, ...content }) => {
     const newCollected = collectedObj;
     newCollected[name] = { ...content };
     return newCollected;
@@ -20,6 +20,7 @@ export const buildQueenData = data => {
       ..._,
       {
         name,
+        type: Array.isArray(Object.entries(content)[0][1]) ? 'loop' : 'simple',
         ...content,
       },
     ];

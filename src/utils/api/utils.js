@@ -3,5 +3,5 @@ export const getSecureHeader = token => {
     ? {
         Authorization: `Bearer ${token}`,
       }
-    : null;
+    : {};
 };

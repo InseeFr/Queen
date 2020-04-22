@@ -5,20 +5,14 @@ class SurveyUnitIdbService extends AbstractIdbService {
     super('surveyUnit');
   }
 
-  getByIdSU(idSU) {
-    return this.store
-      .where('idSU')
-      .equals(idSU)
-      .first();
-  }
-
   async addOrUpdateSU(item) {
-    const surveyUnit = await this.getByIdSU(item.idSU);
+    const { id, ...other } = item;
+    const surveyUnit = await this.get(id);
     /* prevent duplicated survey-unit */
     if (surveyUnit) {
-      return this.update({ ...item, id: surveyUnit.id });
+      return this.update(item);
     }
-    return this.insert(item);
+    return this.insert({ id: `${id}`, ...other });
   }
 }
 
