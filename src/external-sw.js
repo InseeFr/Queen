@@ -17,6 +17,11 @@ workbox.routing.registerRoute(
   new RegExp(getUrlRegex(self._urlQueen)),
   new workbox.strategies.CacheFirst({
     cacheName: queenCacheName,
+    plugins: [
+      new workbox.cacheableResponse.Plugin({
+        statuses: [0, 200],
+      }),
+    ],
   })
 );
 
