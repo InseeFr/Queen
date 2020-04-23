@@ -39,7 +39,6 @@ const Orchestrator = ({
 
   const [specialQueenData, setSpecialQueenData] = useState(dataSU.specialQueenData);
   const [comment, setComment] = useState(surveyUnit.comment);
-  const [clickPrevious, setClickPrevious] = useState(false);
   const [previousResponse, setPreviousResponse] = useState(null);
 
   /**
@@ -106,7 +105,6 @@ const Orchestrator = ({
   };
 
   const goPrevious = (lastSpecialQueenData = specialQueenData) => {
-    setClickPrevious(true);
     setPreviousResponse(null);
     setCurrentPage(UQ.getPreviousPage(filteredComponents)(currentPage));
   };
@@ -120,7 +118,6 @@ const Orchestrator = ({
       }
     }
     saveQueen(lastSpecialQueenData);
-    setClickPrevious(false);
     setPreviousResponse(null);
     const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
     setViewedPages([...viewedPages, nextPage]);
@@ -129,7 +126,6 @@ const Orchestrator = ({
 
   const goFastForward = (lastSpecialQueenData = specialQueenData) => {
     saveQueen(lastSpecialQueenData);
-    setClickPrevious(false);
     setPreviousResponse(null);
     const fastForwardPage = UQ.getFastForwardPage(filteredComponents)(lastSpecialQueenData);
     setCurrentPage(fastForwardPage);
@@ -206,7 +202,6 @@ const Orchestrator = ({
             page={pageFilter}
             canContinue={goNextCondition()}
             specialQueenData={specialQueenData}
-            previousClicked={clickPrevious}
             isLastComponent={isLastComponent}
             pagePrevious={goPrevious}
             pageNext={goNext}

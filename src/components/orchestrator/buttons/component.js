@@ -18,7 +18,6 @@ const Buttons = ({
   page,
   specialQueenData,
   canContinue,
-  previousClicked,
   isLastComponent,
   pagePrevious,
   pageNext,
@@ -153,9 +152,7 @@ const Buttons = ({
             {returnLabel}
           </button>
         )}
-        {((!DIRECT_CONTINUE_COMPONENTS.includes(componentType) && !previousClicked) ||
-          isLastComponent ||
-          readonly) && (
+        {(!DIRECT_CONTINUE_COMPONENTS.includes(componentType) || isLastComponent || readonly) && (
           <button
             className="navigation-button"
             type="button"
@@ -193,7 +190,6 @@ Buttons.propTypes = {
   page: PropTypes.number.isRequired,
   specialQueenData: PropTypes.objectOf(PropTypes.any).isRequired,
   canContinue: PropTypes.bool.isRequired,
-  previousClicked: PropTypes.bool.isRequired,
   isLastComponent: PropTypes.bool.isRequired,
   pageNext: PropTypes.func.isRequired,
   pagePrevious: PropTypes.func.isRequired,
