@@ -5,13 +5,14 @@ import * as lunatic from '@inseefr/lunatic';
 import alphabet from 'utils/constants/alphabet';
 import * as UQ from 'utils/questionnaire';
 import { DIRECT_CONTINUE_COMPONENTS, KEYBOARD_SHORTCUT_COMPONENTS } from 'utils/constants';
-import { sendCompletedEvent, sendStartedEvent } from 'utils/communication';
+import { sendStartedEvent } from 'utils/communication';
 import Header from './header';
 import Buttons from './buttons';
 import NavBar from './rightNavbar';
 
 const Orchestrator = ({
   surveyUnit,
+  standalone,
   readonly,
   savingType,
   preferences,
@@ -75,6 +76,8 @@ const Orchestrator = ({
   // to wait, set to false by default
   const specialAnswer = { refusal: false, doesntKnow: false };
 
+  const pageFilter = UQ.findPageIndex(filteredComponents)(currentPage);
+  const isLastComponent = filteredComponents.length - 1 === pageFilter;
   /**
    *  This function update response values in questionnaire and specialQueenData.
    *  At the end, it calls the saving method of its parent (saving into indexdb)
@@ -132,19 +135,22 @@ const Orchestrator = ({
     setCurrentPage(fastForwardPage);
   };
 
-  const quit = () => {
-    saveQueen();
-    close();
-  };
-
-  const finalQuit = () => {
-    sendCompletedEvent(surveyUnit.id);
-    saveQueen();
-    close();
+  const quit = async () => {
+    if (isLastComponent) {
+      saveQueen();
+      close();
+    } else {
+      saveQueen();
+      close();
+    }
   };
 
   useEffect(() => {
-    if (DIRECT_CONTINUE_COMPONENTS.includes(componentType)) {
+    if (
+      !isLastComponent &&
+      previousResponse &&
+      DIRECT_CONTINUE_COMPONENTS.includes(componentType)
+    ) {
       goNext();
     }
   }, [questionnaire]);
@@ -156,6 +162,7 @@ const Orchestrator = ({
     <>
       <div id="queen-body" className={navOpen ? 'back' : ''}>
         <Header
+          standalone={standalone}
           title={questionnaire.label}
           quit={quit}
           sequence={lunatic.interpret(['VTL'])(bindings)(sequence)}
@@ -193,17 +200,18 @@ const Orchestrator = ({
           </div>
           <NavBar nbModules={queenComponents.length} page={currentPage} />
           <Buttons
+            readonly={readonly}
             currentComponent={component}
             specialAnswer={specialAnswer}
-            page={UQ.findPageIndex(filteredComponents)(currentPage)}
+            page={pageFilter}
             canContinue={goNextCondition()}
             specialQueenData={specialQueenData}
             previousClicked={clickPrevious}
-            nbModules={filteredComponents.length}
+            isLastComponent={isLastComponent}
             pagePrevious={goPrevious}
             pageNext={goNext}
             pageFastForward={goFastForward}
-            finalQuit={finalQuit}
+            finalQuit={quit}
           />
           {/* {KEYBOARD_SHORTCUT_COMPONENTS.includes(componentType) && (
             <KeyboardEventHandler
@@ -232,6 +240,7 @@ const Orchestrator = ({
 
 Orchestrator.propTypes = {
   surveyUnit: PropTypes.objectOf(PropTypes.any).isRequired,
+  standalone: PropTypes.bool.isRequired,
   readonly: PropTypes.bool.isRequired,
   savingType: PropTypes.oneOf(['COLLECTED', 'FORCED', 'EDITED']).isRequired,
   preferences: PropTypes.arrayOf(PropTypes.string).isRequired,

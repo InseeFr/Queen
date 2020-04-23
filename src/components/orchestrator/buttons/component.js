@@ -12,13 +12,14 @@ import {
 import styles from './buttons.scss';
 
 const Buttons = ({
+  readonly,
   currentComponent,
   specialAnswer,
   page,
   specialQueenData,
   canContinue,
   previousClicked,
-  nbModules,
+  isLastComponent,
   pagePrevious,
   pageNext,
   pageFastForward,
@@ -26,8 +27,9 @@ const Buttons = ({
 }) => {
   const { componentType } = currentComponent;
   const returnLabel = page === 0 ? '' : D.goBackReturn;
-  const nextLabel = nbModules - 1 === page ? D.saveAndQuit : `${D.nextContinue} \u2192`;
-  const pageNextFunction = nbModules - 1 === page ? finalQuit : pageNext;
+  const lastLabel = readonly ? D.simpleQuit : D.saveAndQuit;
+  const nextLabel = isLastComponent ? lastLabel : `${D.nextContinue} \u2192`;
+  const pageNextFunction = isLastComponent ? finalQuit : pageNext;
 
   const [refusalChecked, setRefusalChecked] = useState(false);
   const [doesntKnowChecked, setDoesntKnowChecked] = useState(false);
@@ -151,12 +153,14 @@ const Buttons = ({
             {returnLabel}
           </button>
         )}
-        {!DIRECT_CONTINUE_COMPONENTS.includes(componentType) && !previousClicked && (
+        {((!DIRECT_CONTINUE_COMPONENTS.includes(componentType) && !previousClicked) ||
+          isLastComponent ||
+          readonly) && (
           <button
             className="navigation-button"
             type="button"
             onClick={() => pageChange(pageNextFunction)}
-            disabled={!canContinue && !refusalChecked && !doesntKnowChecked}
+            disabled={!canContinue && !refusalChecked && !doesntKnowChecked && !readonly}
           >
             {nextLabel}
           </button>
@@ -180,6 +184,7 @@ const Buttons = ({
 };
 
 Buttons.propTypes = {
+  readonly: PropTypes.bool.isRequired,
   currentComponent: PropTypes.objectOf(PropTypes.any).isRequired,
   specialAnswer: PropTypes.shape({
     refusal: PropTypes.bool.isRequired,
@@ -189,7 +194,7 @@ Buttons.propTypes = {
   specialQueenData: PropTypes.objectOf(PropTypes.any).isRequired,
   canContinue: PropTypes.bool.isRequired,
   previousClicked: PropTypes.bool.isRequired,
-  nbModules: PropTypes.number.isRequired,
+  isLastComponent: PropTypes.bool.isRequired,
   pageNext: PropTypes.func.isRequired,
   pagePrevious: PropTypes.func.isRequired,
   pageFastForward: PropTypes.func.isRequired,

@@ -7,6 +7,7 @@ import BreadcrumbQueen from '../breadcrumb';
 import styles from './header.scss';
 
 const Header = ({
+  standalone,
   title,
   quit,
   sequence,
@@ -33,9 +34,11 @@ const Header = ({
           <span id="header-title">{title}</span>
           {sequence && <BreadcrumbQueen sequence={sequence} subsequence={subsequence} />}
         </div>
-        <button type="button" className="close-icon" onClick={quit}>
-          <CloseIcon width={40} />
-        </button>
+        {!standalone && (
+          <button type="button" className="close-icon" onClick={quit}>
+            <CloseIcon width={40} />
+          </button>
+        )}
       </div>
     </>
   );

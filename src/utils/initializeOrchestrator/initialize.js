@@ -29,7 +29,7 @@ export const initialize = ({
 
   setWaitingMessage(D.waitingAuthentication);
   let token = null;
-  if (authenticationMode === KEYCLOAK) {
+  if (standalone && authenticationMode === KEYCLOAK) {
     // TODO : get/update TOKEN
   }
   /**
