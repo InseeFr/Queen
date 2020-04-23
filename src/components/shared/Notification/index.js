@@ -4,26 +4,28 @@ import * as serviceWorker from 'utils/serviceWorker/serviceWorker';
 import styles from './notification.scss';
 
 const Notification = () => {
-  const [message, setMessage] = useState(null);
-
+  const [init, setInit] = useState(false);
   const [open, setOpen] = useState(false);
   const [waitingServiceWorker, setWaitingServiceWorker] = useState(null);
   const [isUpdateAvailable, setUpdateAvailable] = useState(false);
 
   useEffect(() => {
-    serviceWorker.register({
-      onUpdate: registration => {
-        setWaitingServiceWorker(registration.waiting);
-        setUpdateAvailable(true);
-        setTimeout(() => setOpen(true), 1500);
-      },
-      onWaiting: waiting => {
-        setWaitingServiceWorker(waiting);
-        setUpdateAvailable(true);
-        setTimeout(() => setOpen(true), 1500);
-      },
-    });
-  }, []);
+    if (!init) {
+      serviceWorker.register({
+        onUpdate: registration => {
+          setWaitingServiceWorker(registration.waiting);
+          setUpdateAvailable(true);
+          setOpen(true);
+        },
+        onWaiting: waiting => {
+          setWaitingServiceWorker(waiting);
+          setUpdateAvailable(true);
+          setOpen(true);
+        },
+      });
+      setInit(true);
+    }
+  }, [init]);
 
   const updateAssets = () => {
     if (waitingServiceWorker) {
@@ -43,10 +45,10 @@ const Notification = () => {
 
   return (
     <>
-      {isUpdateAvailable && (
-        <>
-          <style type="text/css">{styles}</style>
-          <div className={`notification ${open ? 'visible' : 'hidden'}`}>
+      <style type="text/css">{styles}</style>
+      <div className={`notification ${isUpdateAvailable && open ? 'visible' : ''}`}>
+        {isUpdateAvailable && (
+          <>
             <button type="button" className="close-button" onClick={() => setOpen(false)}>
               {`\u2573 ${D.closeNotif}`}
             </button>
@@ -56,9 +58,9 @@ const Notification = () => {
                 {D.updateNow}
               </button>
             </div>
-          </div>
-        </>
-      )}
+          </>
+        )}
+      </div>
     </>
   );
 };
