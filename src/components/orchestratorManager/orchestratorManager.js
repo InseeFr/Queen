@@ -8,7 +8,8 @@ import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-servic
 import { AUTHENTICATION_MODE_ENUM, READ_ONLY } from 'utils/constants';
 import D from 'i18n';
 import * as UQ from 'utils/questionnaire';
-import { sendCloseEvent } from 'utils/communication';
+import { sendCloseEvent, sendCompletedEvent } from 'utils/communication';
+import * as api from 'utils/api';
 import Orchestrator from '../orchestrator';
 import NotFound from '../shared/not-found';
 
@@ -74,15 +75,29 @@ const OrchestratorManager = ({ match, configuration }) => {
     }
   }, [questionnaire, surveyUnit]);
 
-  const saveSU = unit => {
-    surveyUnitIdbService.addOrUpdateSU(unit);
+  const putSurveyUnit = async unit => {
+    try {
+      const token = null;
+      await api.putDataSurveyUnitById(configuration.urlQueenApi, token)(unit.id, unit.data);
+      await api.putCommentSurveyUnitById(configuration.urlQueenApi, token)(unit.id, unit.comment);
+    } catch (e) {
+      setError(true);
+      setErrorMessage(`${D.putSurveyUnitFailed} : ${e.message}`);
+    }
+  };
+
+  const saveSU = async unit => {
+    await surveyUnitIdbService.addOrUpdateSU(unit);
+    if (configuration.standalone) {
+      await putSurveyUnit(unit);
+    }
   };
 
   const closeOrchestrator = () => {
-    if (!configuration.standalone) {
-      sendCloseEvent(surveyUnit.id);
-    } else {
+    if (configuration.standalone) {
       alert(D.closeWindow);
+    } else {
+      sendCloseEvent(surveyUnit.id);
     }
   };
 
@@ -96,6 +111,7 @@ const OrchestratorManager = ({ match, configuration }) => {
           surveyUnit={surveyUnit}
           source={questionnaire}
           dataSU={dataSU}
+          standalone={configuration.standalone}
           readonly={readonly}
           savingType="COLLECTED"
           preferences={['COLLECTED']}

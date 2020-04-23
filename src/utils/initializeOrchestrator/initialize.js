@@ -29,7 +29,7 @@ export const initialize = ({
 
   setWaitingMessage(D.waitingAuthentication);
   let token = null;
-  if (authenticationMode === KEYCLOAK) {
+  if (standalone && authenticationMode === KEYCLOAK) {
     // TODO : get/update TOKEN
   }
   /**
@@ -59,9 +59,8 @@ export const initialize = ({
     )(idQuestionnaire);
     const resources = await resourcesResponse.data;
     await Promise.all(
-      resources.map(async resource => {
-        const { id } = resource;
-        await getNomenclatureById(urlQueenApi, token)(id);
+      resources.map(async resourceId => {
+        await getNomenclatureById(urlQueenApi, token)(resourceId);
       })
     );
   }

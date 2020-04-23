@@ -26,6 +26,10 @@ const dictionary = {
     en: 'Back to circuit book',
   },
   closeWindow: { fr: 'Vous pouvez fermer cette fenêtre', en: 'You can close this window.' },
+  updateAvailable: {
+    fr: "Une nouvelle version de l'application est disponible",
+    en: 'A new version of the application is available',
+  },
 
   ...buttonMessage,
   ...navigationMessage,

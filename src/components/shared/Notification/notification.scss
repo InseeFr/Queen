@@ -1,0 +1,50 @@
+$notification-height: 70px;
+
+.notification {
+  position: fixed;
+  top: -$notification-height;
+  z-index: 80;
+  background-color: rgba(46, 139, 166, 0.9);
+  left: 0%;
+  width: 100%;
+  margin: auto;
+  height: $notification-height;
+  text-align: center;
+  transition: transform 200ms ease;
+
+  &.visible {
+    display: block;
+    transform: translateY($notification-height);
+  }
+
+  .close-button {
+    float: right;
+    color: white;
+    background-color: transparent;
+    border: none;
+
+    &:hover {
+      font-weight: bold;
+    }
+  }
+
+  div.title {
+    padding: 1em;
+    font-weight: bold;
+    color: white;
+
+    .update-button {
+      display: inline;
+      margin-left: 1em;
+      border: 1px solid black;
+      border-radius: 4px;
+      padding: 0.5em;
+      background-color: white;
+
+      &:hover {
+        font-weight: bold;
+        background-color: #eeeded;
+      }
+    }
+  }
+}

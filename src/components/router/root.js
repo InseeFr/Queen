@@ -4,10 +4,11 @@ import root from 'react-shadow';
 import D from 'i18n';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { AUTHENTICATION_MODE_ENUM, READ_ONLY } from 'utils/constants';
-import OrchestratorManager from '../orchestratorManager';
-import styles from '../style/style.scss';
-import NotFound from '../shared/not-found';
 import Preloader from 'components/shared/preloader';
+import NotFound from 'components/shared/not-found';
+import Notification from 'components/shared/Notification';
+import OrchestratorManager from 'components/orchestratorManager';
+import styles from '../style/style.scss';
 
 const Root = ({ configuration }) => {
   const customStyle = {
@@ -23,6 +24,7 @@ const Root = ({ configuration }) => {
         {configuration && (
           <>
             <style type="text/css">{styles}</style>
+            <Notification />
             <Router>
               <Switch>
                 <Route
