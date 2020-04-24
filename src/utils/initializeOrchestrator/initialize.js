@@ -6,6 +6,7 @@ import {
   getListRequiredNomenclature,
 } from 'utils/api';
 import { KEYCLOAK } from 'utils/constants';
+import clearAllData from 'utils/indexedbb/services/allTables-idb-service';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import D from 'i18n';
 
@@ -22,13 +23,13 @@ export const initialize = ({
   // clean cache and database
   if (standalone) {
     setWaitingMessage(D.waitingCleaning);
-    await surveyUnitIdbService.deleteAll();
+    await clearAllData();
     await caches.delete('queen-questionnaire');
   }
 
   setWaitingMessage(D.waitingAuthentication);
   let token = null;
-  if (authenticationMode === KEYCLOAK) {
+  if (standalone && authenticationMode === KEYCLOAK) {
     // TODO : get/update TOKEN
   }
   /**
@@ -38,7 +39,7 @@ export const initialize = ({
    */
   setWaitingMessage(D.waitingQuestionnaire);
   const response = await getQuestionnaireById(urlQueenApi, token)(idQuestionnaire);
-  const questionnaire = await response.data;
+  const questionnaire = await response.data.model;
   // set questionnaire to orchestrator
   if (questionnaire) {
     setQuestionnaire(questionnaire);
@@ -58,9 +59,8 @@ export const initialize = ({
     )(idQuestionnaire);
     const resources = await resourcesResponse.data;
     await Promise.all(
-      resources.map(async resource => {
-        const { id } = resource;
-        await getNomenclatureById(urlQueenApi, token)(id);
+      resources.map(async resourceId => {
+        await getNomenclatureById(urlQueenApi, token)(resourceId);
       })
     );
   }
@@ -76,12 +76,12 @@ export const initialize = ({
     const commentResponse = await getCommentSurveyUnitById(urlQueenApi, token)(idSurveyUnit);
     const surveyUnitComment = await commentResponse.data;
     await surveyUnitIdbService.addOrUpdateSU({
-      idSU: idSurveyUnit,
+      id: idSurveyUnit,
       data: surveyUnitData,
       comment: surveyUnitComment,
     });
   }
-  const surveyUnit = await surveyUnitIdbService.getByIdSU(idSurveyUnit);
+  const surveyUnit = await surveyUnitIdbService.get(idSurveyUnit);
   if (surveyUnit) {
     // set survey unit data to orchestrator
     setSurveyUnit(surveyUnit);

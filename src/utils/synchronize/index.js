@@ -18,9 +18,8 @@ const putResourcesInCache = async (urlQueenApi, token, operationId) => {
   const resourcesResponse = await api.getListRequiredNomenclature(urlQueenApi, token)(operationId);
   const resources = await resourcesResponse.data;
   await Promise.all(
-    resources.map(async resource => {
-      const { id } = resource;
-      await api.getNomenclatureById(urlQueenApi, token)(id);
+    resources.map(async resourceId => {
+      await api.getNomenclatureById(urlQueenApi, token)(resourceId);
     })
   );
 };
@@ -31,7 +30,7 @@ const putSurveyUnitInDataBase = async (urlQueenApi, token, id) => {
   const commentResponse = await api.getCommentSurveyUnitById(urlQueenApi, token)(id);
   const surveyUnitComment = await commentResponse.data;
   await surveyUnitIdbService.addOrUpdateSU({
-    idSU: id,
+    id,
     data: surveyUnitData,
     comment: surveyUnitComment,
   });
@@ -52,9 +51,9 @@ const sendData = async (urlQueenApi, token) => {
   const surveyUnits = await surveyUnitIdbService.getAll();
   await Promise.all(
     surveyUnits.map(async surveyUnit => {
-      const { idSU, data, comment } = surveyUnit;
-      await api.putDataSurveyUnitById(urlQueenApi, token)(idSU, data);
-      await api.putCommentSurveyUnitById(urlQueenApi, token)(idSU, comment);
+      const { id, data, comment } = surveyUnit;
+      await api.putDataSurveyUnitById(urlQueenApi, token)(id, data);
+      await api.putCommentSurveyUnitById(urlQueenApi, token)(id, comment);
     })
   );
 };
