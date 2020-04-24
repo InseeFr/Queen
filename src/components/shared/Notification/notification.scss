@@ -1,11 +1,12 @@
-$notification-height: 85px;
+$notification-update-height: 85px;
+$notification-height: 65px;
 $notification-height-mobile: 185px;
 $mobile-width: 550px;
 
 .notification {
   position: fixed;
   top: -$notification-height;
-  z-index: 80;
+  z-index: 1500;
   background-color: rgba(46, 139, 166, 0.9);
   left: 0%;
   width: 100%;
@@ -14,9 +15,19 @@ $mobile-width: 550px;
   text-align: center;
   transition: transform 350ms ease;
 
+  &.update {
+    top: -$notification-update-height;
+    height: $notification-update-height;
+  }
+
   &.visible {
     display: block;
     transform: translateY($notification-height);
+  }
+
+  &.update.visible {
+    display: block;
+    transform: translateY($notification-update-height);
   }
 
   @media (max-width: $mobile-width) {

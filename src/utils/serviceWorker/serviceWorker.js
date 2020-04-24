@@ -55,6 +55,11 @@ function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
+      if (registration.installing) {
+        if (config && config.onInstalling) {
+          config.onInstalling(registration.installing);
+        }
+      }
       if (registration.waiting) {
         if (config && config.onWaiting) {
           config.onWaiting(registration.waiting);

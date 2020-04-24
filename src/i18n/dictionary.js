@@ -26,6 +26,7 @@ const dictionary = {
     en: 'Back to circuit book',
   },
   closeWindow: { fr: 'Vous pouvez fermer cette fenêtre', en: 'You can close this window.' },
+  appInstalling: { fr: 'Installation, veuillez patientez...', en: 'Installation, please wait...' },
   updateAvailable: {
     fr:
       "Une nouvelle version de l'application est disponible et sera utilisée lorsque tous les onglets de cette page seront fermés.",
