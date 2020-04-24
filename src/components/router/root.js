@@ -24,7 +24,7 @@ const Root = ({ configuration }) => {
         {configuration && (
           <>
             <style type="text/css">{styles}</style>
-            <Notification />
+            <Notification standalone={configuration.standalone} />
             <Router>
               <Switch>
                 <Route

@@ -3,7 +3,7 @@ import D from 'i18n';
 import * as serviceWorker from 'utils/serviceWorker/serviceWorker';
 import styles from './notification.scss';
 
-const Notification = () => {
+const Notification = ({ standalone }) => {
   const [init, setInit] = useState(false);
   const [open, setOpen] = useState(false);
   const [waitingServiceWorker, setWaitingServiceWorker] = useState(null);
@@ -11,7 +11,7 @@ const Notification = () => {
   const [isServiceWorkerInstalled, setServiceWorkerInstalled] = useState(false);
 
   useEffect(() => {
-    if (!init) {
+    if (!init && standalone) {
       serviceWorker.register({
         onUpdate: registration => {
           setWaitingServiceWorker(registration.waiting);
@@ -61,12 +61,12 @@ const Notification = () => {
             {`\u2573 ${D.closeNotif}`}
           </button>
           {isUpdateAvailable && (
-            <div className="title">
-              {D.updateAvailable}
+            <>
+              <div className="title">{D.updateAvailable}</div>
               <button type="button" className="update-button" onClick={updateAssets}>
                 {D.updateNow}
               </button>
-            </div>
+            </>
           )}
           {!isUpdateAvailable && isServiceWorkerInstalled && (
             <div className="title">{D.appReadyOffline}</div>

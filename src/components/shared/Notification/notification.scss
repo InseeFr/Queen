@@ -1,4 +1,6 @@
-$notification-height: 70px;
+$notification-height: 85px;
+$notification-height-mobile: 185px;
+$mobile-width: 550px;
 
 .notification {
   position: fixed;
@@ -17,6 +19,15 @@ $notification-height: 70px;
     transform: translateY($notification-height);
   }
 
+  @media (max-width: $mobile-width) {
+    top: -$notification-height-mobile;
+    height: $notification-height-mobile;
+
+    &.visible {
+      transform: translateY($notification-height-mobile);
+    }
+  }
+
   .close-button {
     float: right;
     color: white;
@@ -30,21 +41,29 @@ $notification-height: 70px;
 
   div.title {
     padding: 1em;
+    padding-bottom: 0.2em;
     font-weight: bold;
     color: white;
 
-    .update-button {
-      display: inline;
-      margin-left: 1em;
-      border: 1px solid black;
-      border-radius: 4px;
-      padding: 0.5em;
-      background-color: white;
+    @media (max-width: $mobile-width) {
+      padding: 3em;
+      padding-bottom: 2em;
+    }
 
-      &:hover {
-        font-weight: bold;
-        background-color: #eeeded;
-      }
+    @media (max-width: 370px) {
+      padding-bottom: 1em;
+    }
+  }
+  .update-button {
+    margin-left: 1em;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 0.3em;
+    background-color: white;
+
+    &:hover {
+      font-weight: bold;
+      background-color: #eeeded;
     }
   }
 }
