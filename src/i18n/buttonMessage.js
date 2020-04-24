@@ -7,7 +7,7 @@ const buttonMessage = {
   fastForward: { fr: 'Avance rapide', en: 'Fast forward' },
   refusalButton: { fr: 'Refus', en: 'Refusal' },
   doesntKnowButton: { fr: 'Ne Sait Pas', en: "Doesn't know" },
-  updateNow: { fr: 'Mettre à jour', en: 'Update now' },
+  updateNow: { fr: 'Mettre à jour maintenant', en: 'Update now' },
   closeNotif: { fr: 'Fermer', en: 'Close' },
 };
 

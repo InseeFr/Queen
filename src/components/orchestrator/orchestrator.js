@@ -5,7 +5,7 @@ import * as lunatic from '@inseefr/lunatic';
 import alphabet from 'utils/constants/alphabet';
 import * as UQ from 'utils/questionnaire';
 import { DIRECT_CONTINUE_COMPONENTS, KEYBOARD_SHORTCUT_COMPONENTS } from 'utils/constants';
-import { sendStartedEvent } from 'utils/communication';
+import { sendStartedEvent, sendCompletedEvent } from 'utils/communication';
 import Header from './header';
 import Buttons from './buttons';
 import NavBar from './rightNavbar';
@@ -109,12 +109,13 @@ const Orchestrator = ({
     setCurrentPage(UQ.getPreviousPage(filteredComponents)(currentPage));
   };
 
-  const goNext = (lastSpecialQueenData = specialQueenData) => {
-    if (!started) {
+  const goNext = async (lastSpecialQueenData = specialQueenData) => {
+    console.log('go next !!');
+    if (!standalone) {
       const newResponse = UQ.getCollectedResponse(component);
       if (Object.keys(newResponse).length > 0) {
         setStarted(true);
-        sendStartedEvent(surveyUnit.id);
+        await sendStartedEvent(surveyUnit.id);
       }
     }
     saveQueen(lastSpecialQueenData);
@@ -134,9 +135,12 @@ const Orchestrator = ({
   const quit = async () => {
     if (isLastComponent) {
       await saveQueen();
+      if (!standalone) {
+        await sendCompletedEvent(surveyUnit.id);
+      }
       close();
     } else {
-      saveQueen();
+      await saveQueen();
       close();
     }
   };
