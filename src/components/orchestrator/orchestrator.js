@@ -82,7 +82,7 @@ const Orchestrator = ({
    *  At the end, it calls the saving method of its parent (saving into indexdb)
    * @param {*} lastSpecialQueenData (specialQueenData update by "Refusal" and "doesn't know" buttons )
    */
-  const saveQueen = (lastSpecialQueenData = specialQueenData) => {
+  const saveQueen = async (lastSpecialQueenData = specialQueenData) => {
     let newQuestionnaire = questionnaire;
     if (previousResponse) {
       const newResponse = UQ.getCollectedResponse(component);
@@ -93,7 +93,7 @@ const Orchestrator = ({
     }
     setSpecialQueenData(lastSpecialQueenData); // update specialQueenData according to selected buttons
     const dataToSave = UQ.getStateToSave(newQuestionnaire)(lastSpecialQueenData);
-    save({ ...surveyUnit, data: dataToSave, comment });
+    await save({ ...surveyUnit, data: dataToSave, comment });
   };
 
   /**
@@ -133,7 +133,7 @@ const Orchestrator = ({
 
   const quit = async () => {
     if (isLastComponent) {
-      saveQueen();
+      await saveQueen();
       close();
     } else {
       saveQueen();
