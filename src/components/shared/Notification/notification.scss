@@ -1,4 +1,4 @@
-$notification-update-height: 85px;
+$notification-update-height: 90px;
 $notification-height: 65px;
 $notification-height-mobile: 185px;
 $mobile-width: 550px;
@@ -26,32 +26,39 @@ $mobile-width: 550px;
   }
 
   &.update.visible {
-    display: block;
     transform: translateY($notification-update-height);
   }
 
   @media (max-width: $mobile-width) {
     top: -$notification-height-mobile;
     height: $notification-height-mobile;
+    &.update {
+      top: -$notification-height-mobile;
+      height: $notification-height-mobile;
+    }
 
-    &.visible {
+    &.visible,
+    &.update.visible {
       transform: translateY($notification-height-mobile);
     }
   }
 
   .close-button {
-    float: right;
+    position: absolute;
+    right: 0;
     color: white;
     background-color: transparent;
     border: none;
 
-    &:hover {
+    &:hover,
+    &:focus {
       font-weight: bold;
     }
   }
 
   div.title {
     padding: 1em;
+    padding-top: 1.3em;
     padding-bottom: 0.2em;
     font-weight: bold;
     color: white;
@@ -72,8 +79,8 @@ $mobile-width: 550px;
     padding: 0.3em;
     background-color: white;
 
-    &:hover {
-      font-weight: bold;
+    &:hover,
+    &:focus {
       background-color: #eeeded;
     }
   }

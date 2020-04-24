@@ -71,14 +71,18 @@ const Notification = ({ standalone }) => {
             : ''
         }`}
       >
-        <button type="button" className="close-button" onClick={() => setOpen(false)}>
-          {`\u2573 ${D.closeNotif}`}
-        </button>
-        <div className="title">{getMessage()}</div>
-        {isUpdateAvailable && (
-          <button type="button" className="update-button" onClick={updateAssets}>
-            {D.updateNow}
-          </button>
+        {open && (
+          <>
+            <button type="button" className="close-button" onClick={() => setOpen(false)}>
+              {`\u2573 ${D.closeNotif}`}
+            </button>
+            <div className="title">{getMessage()}</div>
+            {isUpdateAvailable && (
+              <button type="button" className="update-button" onClick={updateAssets}>
+                {D.updateNow}
+              </button>
+            )}
+          </>
         )}
       </div>
     </>
