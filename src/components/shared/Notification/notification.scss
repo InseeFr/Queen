@@ -12,7 +12,7 @@ $mobile-width: 550px;
   margin: auto;
   height: $notification-height;
   text-align: center;
-  transition: transform 200ms ease;
+  transition: transform 350ms ease;
 
   &.visible {
     display: block;
