@@ -110,8 +110,7 @@ const Orchestrator = ({
   };
 
   const goNext = async (lastSpecialQueenData = specialQueenData) => {
-    console.log('go next !!');
-    if (!standalone) {
+    if (!started && !standalone) {
       const newResponse = UQ.getCollectedResponse(component);
       if (Object.keys(newResponse).length > 0) {
         setStarted(true);
