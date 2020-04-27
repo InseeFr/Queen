@@ -10,6 +10,7 @@ class QueenApp extends HTMLElement {
 
   connectedCallback() {
     this.mountPoint = document.createElement('div');
+    this.mountPoint.setAttribute('id', 'queen-app');
     this.mountReactAppLoadingConfiguration();
     this.setConfiguration();
   }

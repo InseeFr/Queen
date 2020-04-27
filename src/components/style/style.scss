@@ -9,8 +9,7 @@
 }
 
 .body-container {
-  margin-top: 1em;
-  background-color: $background-header-color;
+  background-color: $background-body-color;
   padding-top: 2em;
   padding-bottom: 2em;
   display: grid;
@@ -21,7 +20,7 @@
 
 .components {
   .lunatic-component {
-    min-height: 68vh;
+    min-height: 75vh;
     width: 80%;
     margin-left: auto;
     margin-right: auto;

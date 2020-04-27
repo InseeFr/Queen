@@ -101,11 +101,11 @@ const Buttons = ({
   };
 
   const keyboardShortcut = (key, e) => {
-    if (key === 'f2') updateDoesntKnow();
-    if (key === 'f4') updateRefusal();
-    if (key === 'enter') {
-      if (canContinue || refusalChecked || doesntKnowChecked) pageChange(pageNextFunction);
-    }
+    // if (key === 'f2') updateDoesntKnow();
+    // if (key === 'f4') updateRefusal();
+    // if (key === 'enter') {
+    //   if (canContinue || refusalChecked || doesntKnowChecked) pageChange(pageNextFunction);
+    // }
   };
 
   return (
