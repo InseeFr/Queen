@@ -45,57 +45,59 @@ const Navigation = ({ components, bindings, setPage, viewedPages, setNavOpen }) 
         </button>
         <div className={`menu${open ? ' slideIn' : ''}`}>
           {open && (
-            <div className="navigation-container">
-              <span>{D.goToNavigation}</span>
-              <nav role="navigation">
-                <ul>
-                  {components.map(comp => {
-                    if (comp.componentType === 'Sequence') {
-                      const refSequenceContent = React.createRef();
-                      return (
-                        <div className="subnav" key={`subnav-${comp.id}`}>
-                          <button
-                            type="button"
-                            key={comp.id}
-                            className="subnav-btn"
-                            onClick={() => console.log('hello')}
-                          >
-                            {getVtlLabel(comp.labelNav)}
-                          </button>
-                          <div
-                            className="subnav-content"
-                            ref={refSequenceContent}
-                            key={`subnav-content-${comp.id}`}
-                          >
-                            {components.map(comp2 => {
-                              if (
-                                comp2.componentType === 'Subsequence' &&
-                                comp2.idSequence === comp.id
-                              ) {
-                                return (
-                                  <li className="subnav" key={`subnav-${comp2.id}`}>
-                                    <button
-                                      type="button"
-                                      key={comp2.id}
-                                      className="subnav-btn"
-                                      onClick={() => console.log('hello')}
-                                    >
-                                      {getVtlLabel(comp2.labelNav)}
-                                    </button>
-                                  </li>
-                                );
-                              }
-                              return null;
-                            })}
+            <>
+              <div className="navigation-container">
+                <span>{D.goToNavigation}</span>
+                <nav role="navigation">
+                  <ul>
+                    {components.map(comp => {
+                      if (comp.componentType === 'Sequence') {
+                        const refSequenceContent = React.createRef();
+                        return (
+                          <div className="subnav" key={`subnav-${comp.id}`}>
+                            <button
+                              type="button"
+                              key={comp.id}
+                              className="subnav-btn"
+                              onClick={() => console.log('hello')}
+                            >
+                              {getVtlLabel(comp.labelNav)}
+                            </button>
+                            <div
+                              className="subnav-content"
+                              ref={refSequenceContent}
+                              key={`subnav-content-${comp.id}`}
+                            >
+                              {components.map(comp2 => {
+                                if (
+                                  comp2.componentType === 'Subsequence' &&
+                                  comp2.idSequence === comp.id
+                                ) {
+                                  return (
+                                    <li className="subnav" key={`subnav-${comp2.id}`}>
+                                      <button
+                                        type="button"
+                                        key={comp2.id}
+                                        className="subnav-btn"
+                                        onClick={() => console.log('hello')}
+                                      >
+                                        {getVtlLabel(comp2.labelNav)}
+                                      </button>
+                                    </li>
+                                  );
+                                }
+                                return null;
+                              })}
+                            </div>
                           </div>
-                        </div>
-                      );
-                    }
-                  })}
-                </ul>
-              </nav>
-              <span className="version">{`Version : ${version}`}</span>
-            </div>
+                        );
+                      }
+                    })}
+                  </ul>
+                </nav>
+              </div>
+              <div className="version">{`Version ${version}`}</div>
+            </>
           )}
         </div>
         {open && <div className="background-menu" onClick={handleClick} />}
