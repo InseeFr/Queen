@@ -1,89 +1,16 @@
 import React from 'react';
 
-const Icon = ({ width = 388, color = '#000000', ...props }) => (
+const Icon = ({ width = 48, color = '#000000', ...props }) => (
   <svg
-    {...props}
     xmlns="http://www.w3.org/2000/svg"
-    version="1.1"
+    {...props}
+    viewBox="0 0 24 24"
+    fill={color}
     width={width}
-    viewBox="-0.5 -0.5 388 385"
+    height={width}
   >
-    <defs />
-    <g>
-      <rect x="2" y="0" width="102" height="102" fill={color} stroke={color} pointerEvents="all" />
-      <rect
-        x="144"
-        y="0"
-        width="102"
-        height="102"
-        fill={color}
-        stroke={color}
-        pointerEvents="all"
-      />
-      <rect
-        x="1"
-        y="140"
-        width="102"
-        height="102"
-        fill={color}
-        stroke={color}
-        pointerEvents="all"
-      />
-      <rect
-        x="143"
-        y="140"
-        width="102"
-        height="102"
-        fill={color}
-        stroke={color}
-        pointerEvents="all"
-      />
-      <rect
-        x="0"
-        y="280"
-        width="102"
-        height="102"
-        fill={color}
-        stroke={color}
-        pointerEvents="all"
-      />
-      <rect
-        x="142"
-        y="280"
-        width="102"
-        height="102"
-        fill={color}
-        stroke={color}
-        pointerEvents="all"
-      />
-      <rect
-        x="284"
-        y="1"
-        width="102"
-        height="102"
-        fill={color}
-        stroke={color}
-        pointerEvents="all"
-      />
-      <rect
-        x="283"
-        y="141"
-        width="102"
-        height="102"
-        fill={color}
-        stroke={color}
-        pointerEvents="all"
-      />
-      <rect
-        x="282"
-        y="281"
-        width="102"
-        height="102"
-        fill={color}
-        stroke={color}
-        pointerEvents="all"
-      />
-    </g>
+    <path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z" />
+    <path d="M0 0h24v24H0z" fill="none" />
   </svg>
 );
 

@@ -5,7 +5,7 @@ import * as lunatic from '@inseefr/lunatic';
 import alphabet from 'utils/constants/alphabet';
 import * as UQ from 'utils/questionnaire';
 import { DIRECT_CONTINUE_COMPONENTS, KEYBOARD_SHORTCUT_COMPONENTS } from 'utils/constants';
-import { sendStartedEvent } from 'utils/communication';
+import { sendStartedEvent, sendCompletedEvent } from 'utils/communication';
 import Header from './header';
 import Buttons from './buttons';
 import NavBar from './rightNavbar';
@@ -39,7 +39,6 @@ const Orchestrator = ({
 
   const [specialQueenData, setSpecialQueenData] = useState(dataSU.specialQueenData);
   const [comment, setComment] = useState(surveyUnit.comment);
-  const [clickPrevious, setClickPrevious] = useState(false);
   const [previousResponse, setPreviousResponse] = useState(null);
 
   /**
@@ -83,7 +82,7 @@ const Orchestrator = ({
    *  At the end, it calls the saving method of its parent (saving into indexdb)
    * @param {*} lastSpecialQueenData (specialQueenData update by "Refusal" and "doesn't know" buttons )
    */
-  const saveQueen = (lastSpecialQueenData = specialQueenData) => {
+  const saveQueen = async (lastSpecialQueenData = specialQueenData) => {
     let newQuestionnaire = questionnaire;
     if (previousResponse) {
       const newResponse = UQ.getCollectedResponse(component);
@@ -94,7 +93,7 @@ const Orchestrator = ({
     }
     setSpecialQueenData(lastSpecialQueenData); // update specialQueenData according to selected buttons
     const dataToSave = UQ.getStateToSave(newQuestionnaire)(lastSpecialQueenData);
-    save({ ...surveyUnit, data: dataToSave, comment });
+    await save({ ...surveyUnit, data: dataToSave, comment });
   };
 
   /**
@@ -106,21 +105,19 @@ const Orchestrator = ({
   };
 
   const goPrevious = (lastSpecialQueenData = specialQueenData) => {
-    setClickPrevious(true);
     setPreviousResponse(null);
     setCurrentPage(UQ.getPreviousPage(filteredComponents)(currentPage));
   };
 
-  const goNext = (lastSpecialQueenData = specialQueenData) => {
-    if (!started) {
+  const goNext = async (lastSpecialQueenData = specialQueenData) => {
+    if (!started && !standalone) {
       const newResponse = UQ.getCollectedResponse(component);
       if (Object.keys(newResponse).length > 0) {
         setStarted(true);
-        sendStartedEvent(surveyUnit.id);
+        await sendStartedEvent(surveyUnit.id);
       }
     }
     saveQueen(lastSpecialQueenData);
-    setClickPrevious(false);
     setPreviousResponse(null);
     const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
     setViewedPages([...viewedPages, nextPage]);
@@ -129,7 +126,6 @@ const Orchestrator = ({
 
   const goFastForward = (lastSpecialQueenData = specialQueenData) => {
     saveQueen(lastSpecialQueenData);
-    setClickPrevious(false);
     setPreviousResponse(null);
     const fastForwardPage = UQ.getFastForwardPage(filteredComponents)(lastSpecialQueenData);
     setCurrentPage(fastForwardPage);
@@ -137,10 +133,13 @@ const Orchestrator = ({
 
   const quit = async () => {
     if (isLastComponent) {
-      saveQueen();
+      await saveQueen();
+      if (!standalone) {
+        await sendCompletedEvent(surveyUnit.id);
+      }
       close();
     } else {
-      saveQueen();
+      await saveQueen();
       close();
     }
   };
@@ -206,7 +205,6 @@ const Orchestrator = ({
             page={pageFilter}
             canContinue={goNextCondition()}
             specialQueenData={specialQueenData}
-            previousClicked={clickPrevious}
             isLastComponent={isLastComponent}
             pagePrevious={goPrevious}
             pageNext={goNext}

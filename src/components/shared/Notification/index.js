@@ -3,15 +3,21 @@ import D from 'i18n';
 import * as serviceWorker from 'utils/serviceWorker/serviceWorker';
 import styles from './notification.scss';
 
-const Notification = () => {
+const Notification = ({ standalone }) => {
   const [init, setInit] = useState(false);
   const [open, setOpen] = useState(false);
+  const [installingServiceWorker, setInstallingServiceWorker] = useState(false);
   const [waitingServiceWorker, setWaitingServiceWorker] = useState(null);
   const [isUpdateAvailable, setUpdateAvailable] = useState(false);
+  const [isServiceWorkerInstalled, setServiceWorkerInstalled] = useState(false);
 
   useEffect(() => {
-    if (!init) {
+    if (!init && standalone) {
       serviceWorker.register({
+        onInstalling: installing => {
+          setInstallingServiceWorker(installing);
+          setOpen(true);
+        },
         onUpdate: registration => {
           setWaitingServiceWorker(registration.waiting);
           setUpdateAvailable(true);
@@ -20,6 +26,11 @@ const Notification = () => {
         onWaiting: waiting => {
           setWaitingServiceWorker(waiting);
           setUpdateAvailable(true);
+          setOpen(true);
+        },
+        onSuccess: registration => {
+          setInstallingServiceWorker(false);
+          setServiceWorkerInstalled(!!registration);
           setOpen(true);
         },
       });
@@ -43,21 +54,34 @@ const Notification = () => {
     }
   }, [waitingServiceWorker]);
 
+  const getMessage = () => {
+    if (isUpdateAvailable) return D.updateAvailable;
+    if (isServiceWorkerInstalled) return D.appReadyOffline;
+    if (installingServiceWorker) return D.appInstalling;
+    return '';
+  };
+
   return (
     <>
       <style type="text/css">{styles}</style>
-      <div className={`notification ${isUpdateAvailable && open ? 'visible' : ''}`}>
-        {isUpdateAvailable && (
+      <div
+        className={`notification ${isUpdateAvailable ? 'update' : ''} ${
+          (isUpdateAvailable || isServiceWorkerInstalled || installingServiceWorker) && open
+            ? 'visible'
+            : ''
+        }`}
+      >
+        {open && (
           <>
             <button type="button" className="close-button" onClick={() => setOpen(false)}>
               {`\u2573 ${D.closeNotif}`}
             </button>
-            <div className="title">
-              {D.updateAvailable}
+            <div className="title">{getMessage()}</div>
+            {isUpdateAvailable && (
               <button type="button" className="update-button" onClick={updateAssets}>
                 {D.updateNow}
               </button>
-            </div>
+            )}
           </>
         )}
       </div>

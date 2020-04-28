@@ -1700,10 +1700,10 @@
     "@types/istanbul-lib-coverage" "*"
     "@types/istanbul-lib-report" "*"
 
-"@types/js-cookie@2.2.5":
-  version "2.2.5"
-  resolved "https://registry.yarnpkg.com/@types/js-cookie/-/js-cookie-2.2.5.tgz#38dfaacae8623b37cc0b0d27398e574e3fc28b1e"
-  integrity sha512-cpmwBRcHJmmZx0OGU7aPVwGWGbs4iKwVYchk9iuMtxNCA2zorwdaTz4GkLgs2WGxiRZRFKnV1k6tRUHX7tBMxg==
+"@types/js-cookie@2.2.6":
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/@types/js-cookie/-/js-cookie-2.2.6.tgz#f1a1cb35aff47bc5cfb05cb0c441ca91e914c26f"
+  integrity sha512-+oY0FDTO2GYKEV0YPvSshGq9t7YozVkgvXLty7zogQNuCxBhT9/3INX9Q7H1aRZ4SUDRXAKlJuA4EA5nTt7SNw==
 
 "@types/json-schema@^7.0.3":
   version "7.0.4"
@@ -1966,10 +1966,10 @@
     "@webassemblyjs/wast-parser" "1.8.5"
     "@xtuc/long" "4.2.2"
 
-"@xobotyi/scrollbar-width@1.9.4":
-  version "1.9.4"
-  resolved "https://registry.yarnpkg.com/@xobotyi/scrollbar-width/-/scrollbar-width-1.9.4.tgz#a7dce20b7465bcad29cd6bbb557695e4ea7863cb"
-  integrity sha512-o12FCQt/X5n3pgKEWGpt0f/7Eg4mfv3uRwPUrctiOT8ZuxbH3cNLGWfH/8y6KxVJg4L2885ucuXQ6XECZzUiJA==
+"@xobotyi/scrollbar-width@1.9.5":
+  version "1.9.5"
+  resolved "https://registry.yarnpkg.com/@xobotyi/scrollbar-width/-/scrollbar-width-1.9.5.tgz#80224a6919272f405b87913ca13b92929bdf3c4d"
+  integrity sha512-N8tkAACJx2ww8vFMneJmaAgmjAG1tnVBZJRLRcx061tmsLRZHSEZSLuGWnwPtunsSLvSqXQ2wfp7Mgqg1I+2dQ==
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
@@ -5366,6 +5366,11 @@ flush-write-stream@^1.0.0:
   dependencies:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
+
+focus-lock@^0.6.7:
+  version "0.6.8"
+  resolved "https://registry.yarnpkg.com/focus-lock/-/focus-lock-0.6.8.tgz#61985fadfa92f02f2ee1d90bc738efaf7f3c9f46"
+  integrity sha512-vkHTluRCoq9FcsrldC0ulQHiyBYgVJB2CX53I8r0nTC6KnEij7Of0jpBspjt3/CuNb6fyoj3aOh9J2HgQUM0og==
 
 follow-redirects@1.5.10:
   version "1.5.10"
@@ -10452,6 +10457,13 @@ react-app-polyfill@^1.0.6:
     regenerator-runtime "^0.13.3"
     whatwg-fetch "^3.0.0"
 
+react-clientside-effect@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/react-clientside-effect/-/react-clientside-effect-1.2.2.tgz#6212fb0e07b204e714581dd51992603d1accc837"
+  integrity sha512-nRmoyxeok5PBO6ytPvSjKp9xwXg9xagoTK1mMjwnQxqM9Hd7MNPl+LS1bOSOe+CV2+4fnEquc7H/S8QD3q697A==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+
 react-dev-utils@^10.2.0:
   version "10.2.0"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-10.2.0.tgz#b11cc48aa2be2502fb3c27a50d1dfa95cfa9dfe0"
@@ -10519,6 +10531,18 @@ react-error-overlay@^6.0.6:
   version "6.0.6"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.6.tgz#ac4d9dc4c1b5c536c2c312bf66aa2b09bfa384e2"
   integrity sha512-Yzpno3enVzSrSCnnljmr4b/2KUQSMZaPuqmS26t9k4nW7uwJk6STWmH9heNjPuvqUTO3jOSPkHoKgO4+Dw7uIw==
+
+react-focus-lock@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/react-focus-lock/-/react-focus-lock-2.3.1.tgz#9d5d85899773609c7eefa4fc54fff6a0f5f2fc47"
+  integrity sha512-j15cWLPzH0gOmRrUg01C09Peu8qbcdVqr6Bjyfxj80cNZmH+idk/bNBYEDSmkAtwkXI+xEYWSmHYqtaQhZ8iUQ==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    focus-lock "^0.6.7"
+    prop-types "^15.6.2"
+    react-clientside-effect "^1.2.2"
+    use-callback-ref "^1.2.1"
+    use-sidecar "^1.0.1"
 
 react-hot-loader@^4.12.19:
   version "4.12.19"
@@ -10638,13 +10662,13 @@ react-scripts@3.4.0:
   optionalDependencies:
     fsevents "2.1.2"
 
-react-shadow@^17.5.0:
-  version "17.5.0"
-  resolved "https://registry.yarnpkg.com/react-shadow/-/react-shadow-17.5.0.tgz#0995113e61c902281cf666bc2c241f61a513c487"
-  integrity sha512-1t8EaL9cS85tWbc8mOAyNhmHXyXVwrVHWxuNAy9REI3V7Gb1wrHVEv5Cyn/q8GPuIhzDT+81w9h1rDOPfJ671Q==
+react-shadow@^18.1.0:
+  version "18.1.0"
+  resolved "https://registry.yarnpkg.com/react-shadow/-/react-shadow-18.1.0.tgz#493cefcff85d767e89a3b58770ec2964a2ac7d3c"
+  integrity sha512-dSmzWE/VltKzU6Lbb/XOdqUTTmPHEbIk9Gm1qK3IpI/yl6eOyE3dIq7sKBdi8f3b9XAvGKqyLQXWo7Ke6Wfoew==
   dependencies:
     humps "^2.0.1"
-    react-use "^13.22.4"
+    react-use "^14.2.0"
 
 react-sortable-tree@^2.6.0, react-sortable-tree@^2.7.1:
   version "2.7.1"
@@ -10670,13 +10694,13 @@ react-test-renderer@^16.0.0-0:
     react-is "^16.8.6"
     scheduler "^0.19.0"
 
-react-use@^13.22.4:
-  version "13.27.0"
-  resolved "https://registry.yarnpkg.com/react-use/-/react-use-13.27.0.tgz#53a619dc9213e2cbe65d6262e8b0e76641ade4aa"
-  integrity sha512-2lyTyqJWyvnaP/woVtDcFS4B5pUYz0FQWI9pVHk/6TBWom2x3/ziJthkEn/LbCA9Twv39xSQU7Dn0zdIWfsNTQ==
+react-use@^14.2.0:
+  version "14.2.0"
+  resolved "https://registry.yarnpkg.com/react-use/-/react-use-14.2.0.tgz#abac033fae5e358599b7e38084ff11b02e5d4868"
+  integrity sha512-vwC7jsBsiDENLrXGPqIH3W4mMS2j24h5jp4ol3jiiUQzZhCaG+ihumrShJxBI59hXso1pLHAePRQAg/fJjDcaQ==
   dependencies:
-    "@types/js-cookie" "2.2.5"
-    "@xobotyi/scrollbar-width" "1.9.4"
+    "@types/js-cookie" "2.2.6"
+    "@xobotyi/scrollbar-width" "1.9.5"
     copy-to-clipboard "^3.2.0"
     fast-deep-equal "^3.1.1"
     fast-shallow-equal "^1.0.0"
@@ -12455,7 +12479,7 @@ ts-pnp@^1.1.2:
   resolved "https://registry.yarnpkg.com/ts-pnp/-/ts-pnp-1.1.6.tgz#389a24396d425a0d3162e96d2b4638900fdc289a"
   integrity sha512-CrG5GqAAzMT7144Cl+UIFP7mz/iIhiy+xQ6GGcnjTezhALT02uPMRw7tgDSESgB5MsfKt55+GPWw4ir1kVtMIQ==
 
-tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0:
+tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.11.1.tgz#eb15d128827fbee2841549e171f45ed338ac7e35"
   integrity sha512-aZW88SY8kQbU7gpV19lN24LtXh/yD4ZZg6qieAJDDg+YBsJcSmLGK9QpnUjAKVG/xefmvJGd1WUmfpT/g6AJGA==
@@ -12670,6 +12694,19 @@ url@^0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
+
+use-callback-ref@^1.2.1:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/use-callback-ref/-/use-callback-ref-1.2.3.tgz#9f939dfb5740807bbf9dd79cdd4e99d27e827756"
+  integrity sha512-DPBPh1i2adCZoIArRlTuKRy7yue7QogtEnfv0AKrWsY+GA+4EKe37zhRDouNnyWMoNQFYZZRF+2dLHsWE4YvJA==
+
+use-sidecar@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/use-sidecar/-/use-sidecar-1.0.2.tgz#e72f582a75842f7de4ef8becd6235a4720ad8af6"
+  integrity sha512-287RZny6m5KNMTb/Kq9gmjafi7lQL0YHO1lYolU6+tY1h9+Z3uCtkJJ3OSOq3INwYf2hBryCcDh4520AhJibMA==
+  dependencies:
+    detect-node "^2.0.4"
+    tslib "^1.9.3"
 
 use@^3.1.0:
   version "3.1.1"
@@ -13244,13 +13281,6 @@ worker-farm@^1.7.0:
   integrity sha512-rvw3QTZc8lAxyVrqcSGVm5yP/IJ2UcB3U0graE3LCFoZ0Yn2x4EoVSqJKdB/T5M+FLcRPjz4TDacRf3OCfNUzw==
   dependencies:
     errno "~0.1.7"
-
-worker-plugin@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/worker-plugin/-/worker-plugin-4.0.2.tgz#0456dd7af1c0de64591326fd8a08c5d9f2b5b27a"
-  integrity sha512-V+1zSZMOOKk+uBzKyNIODLQLsx59zSIOaI75J1EMS0iR1qy+KQR3y/pQ3T0vIhvPfDFapGRMsoMvQNEL3okqSA==
-  dependencies:
-    loader-utils "^1.1.0"
 
 worker-rpc@^0.1.0:
   version "0.1.1"

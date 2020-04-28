@@ -29,32 +29,25 @@ export function register(config) {
       return;
     }
 
-    window.addEventListener('load', () => {
-      fetch(`${publicUrl.origin}/configuration.json`)
-        .then(res => res.json())
-        .then(data => {
-          const { urlQueen } = data;
-          const swUrl = `${publicUrl.origin}/service-worker.js`;
-          if (urlQueen === publicUrl.origin) {
-            if (isLocalhost) {
-              // This is running on localhost. Let's check if a service worker still exists or not.
-              checkValidServiceWorker(swUrl, config);
+    const swUrl = `${publicUrl.origin}/service-worker.js`;
 
-              // Add some additional logging to localhost, pointing developers to the
-              // service worker/PWA documentation.
-              navigator.serviceWorker.ready.then(() => {
-                console.log(
-                  'This web app is being served cache-first by a service ' +
-                    'worker. To learn more, visit https://bit.ly/CRA-PWA'
-                );
-              });
-            } else {
-              // Is not localhost. Just register service worker
-              registerValidSW(swUrl, config);
-            }
-          }
-        });
-    });
+    if (isLocalhost) {
+      // This is running on localhost. Let's check if a service worker still exists or not.
+      checkValidServiceWorker(swUrl, config);
+
+      // Add some additional logging to localhost, pointing developers to the
+      // service worker/PWA documentation.
+      navigator.serviceWorker.ready.then(() => {
+        console.log(
+          'This web app is being served cache-first by a service ' +
+            'worker. To learn more, visit https://bit.ly/CRA-PWA'
+        );
+      });
+    } else {
+      // Is not localhost. Just register service worker
+
+      registerValidSW(swUrl, config);
+    }
   }
 }
 
@@ -62,6 +55,11 @@ function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
+      if (registration.installing) {
+        if (config && config.onInstalling) {
+          config.onInstalling(registration.installing);
+        }
+      }
       if (registration.waiting) {
         if (config && config.onWaiting) {
           config.onWaiting(registration.waiting);
