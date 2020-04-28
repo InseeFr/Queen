@@ -133,10 +133,11 @@ const Orchestrator = ({
 
   const quit = async () => {
     if (isLastComponent) {
-      await saveQueen();
       if (!standalone) {
         await sendCompletedEvent(surveyUnit.id);
       }
+      await saveQueen();
+
       close();
     } else {
       await saveQueen();
