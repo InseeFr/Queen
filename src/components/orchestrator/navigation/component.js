@@ -80,7 +80,7 @@ const Navigation = ({ title, components, bindings, setPage }) => {
 
   const [listRef] = useState([React.createRef(), React.createRef()]);
 
-  const openCloseSubMenu = () => {
+  const openCloseSubMenu = useCallback(() => {
     if (surveyOpen) {
       setSelectedSequence(undefined);
       setSurveyOpen(false);
@@ -88,7 +88,7 @@ const Navigation = ({ title, components, bindings, setPage }) => {
     } else {
       setSurveyOpen(true);
     }
-  };
+  });
 
   const openCloseMenu = useCallback(() => {
     if (surveyOpen) openCloseSubMenu();
