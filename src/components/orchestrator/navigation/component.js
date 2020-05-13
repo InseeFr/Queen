@@ -109,13 +109,13 @@ const Navigation = ({ title, components, bindings, setPage }) => {
     else listRef[index].current.focus();
   };
   const keysToHandle =
-    open && !surveyOpen ? ['alt+b', 'esc', 'right', 'left', 'up', 'down'] : ['left', 'alt+b'];
+    open && !surveyOpen ? ['alt+b', 'esc', 'right', 'up', 'down'] : ['left', 'alt+b'];
   const keyboardShortcut = (key, e) => {
     const index = currentFocusItemIndex;
     if (key === 'alt+b') {
       openCloseMenu();
     }
-    if ((key === 'esc' || key === 'left') && !surveyOpen) openCloseMenu();
+    if (key === 'esc' && !surveyOpen) openCloseMenu();
     if ((key === 'left' && !selectedSequence) || (key === 'esc' && surveyOpen)) openCloseSubMenu();
     if (key === 'right') {
       if (index === 1) openCloseSubMenu(true);
