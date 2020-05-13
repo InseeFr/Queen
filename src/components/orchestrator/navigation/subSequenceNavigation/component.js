@@ -6,15 +6,19 @@ import D from 'i18n';
 const SubsequenceNavigation = ({ sequence, close, setPage }) => {
   const [currentFocusSubsequenceIndex, setCurrentFocusSubsequenceIndex] = useState(-1);
   const [listRef] = useState(
-    sequence.components ? sequence.components.reduce(_ => [..._, React.createRef()], []) : []
+    sequence.components
+      ? sequence.components.reduce(_ => [..._, React.createRef()], [React.createRef()])
+      : [React.createRef()]
   );
 
   const backButtonRef = useRef(null);
 
   const setFocusSubsequence = useCallback(index => () => setCurrentFocusSubsequenceIndex(index));
-  const lastIndexReachable = sequence.components.findIndex(({ reachable }) => !reachable) - 1;
+  const lastIndexReachable =
+    [sequence].concat(sequence.components).findIndex(({ reachable }) => !reachable) - 1;
+
   const lastIndexFocusable =
-    lastIndexReachable >= -1 ? lastIndexReachable : sequence.components.length - 1;
+    lastIndexReachable >= -1 ? lastIndexReachable : sequence.components.length;
 
   const setCurrentFocus = index => {
     if (lastIndexFocusable === -1 || index > lastIndexFocusable || index === -1)
@@ -42,10 +46,9 @@ const SubsequenceNavigation = ({ sequence, close, setPage }) => {
   };
 
   const changePage = useCallback(
-    ({ goToPage, reachable }) => () => {
-      if (reachable) {
-        setPage(goToPage);
-      }
+    ({ page, goToPage, reachable }) => () => {
+      if (reachable && goToPage) setPage(goToPage);
+      else if (reachable && page) setPage(page);
     },
     [setPage]
   );
@@ -55,14 +58,23 @@ const SubsequenceNavigation = ({ sequence, close, setPage }) => {
       <button
         type="button"
         className="back-subnav-btn"
-        autoFocus
         ref={backButtonRef}
         onFocus={setFocusSubsequence(-1)}
-        onKeyDown={lastIndexFocusable === -1 ? handleFinalTab : null}
         onClick={close}
       >
         <span>{'\u3008'}</span>
         {D.goBackNavigation}
+      </button>
+      <button
+        type="button"
+        autoFocus
+        className="subnav-btn"
+        ref={listRef[0]}
+        onClick={changePage(sequence)}
+        onFocus={setFocusSubsequence(0)}
+        onKeyDown={lastIndexFocusable === 0 ? handleFinalTab : null}
+      >
+        {sequence.labelNav}
       </button>
       <nav role="navigation">
         <ul>
@@ -70,15 +82,14 @@ const SubsequenceNavigation = ({ sequence, close, setPage }) => {
             return (
               <div className="subnav" key={`subnav-${c.id}`}>
                 <button
-                  ref={listRef[index]}
-                  autoFocus={c.reachable && index === 0}
+                  ref={listRef[index + 1]}
                   type="button"
                   key={c.id}
                   className="subnav-btn"
                   disabled={!c.reachable}
                   onClick={changePage(c)}
-                  onFocus={setFocusSubsequence(index)}
-                  onKeyDown={index === lastIndexFocusable ? handleFinalTab : null}
+                  onFocus={setFocusSubsequence(index + 1)}
+                  onKeyDown={index + 1 === lastIndexFocusable ? handleFinalTab : null}
                 >
                   {`${c.labelNav}`}
                 </button>
