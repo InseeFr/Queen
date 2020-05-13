@@ -28,7 +28,6 @@ const Orchestrator = ({
     }
     return false;
   });
-  const [navOpen, setNavOpen] = useState(false);
 
   const [questionnaire, setQuestionnaire] = useState(source);
   const [currentPage, setCurrentPage] = useState(1);
@@ -64,10 +63,14 @@ const Orchestrator = ({
    * queenComponents = all components expect empty Subsequence.
    * (Empty Subsequence hasn't page attribute)
    */
-  const queenComponents = questionnaire.components.filter(c => c.page);
-  const filteredComponents = queenComponents.filter(
-    ({ conditionFilter }) => lunatic.interpret(['VTL'])(bindings)(conditionFilter) === 'normal'
-  );
+  const components = questionnaire.components.map(({ conditionFilter, ...other }) => {
+    if (lunatic.interpret(['VTL'])(bindings)(conditionFilter) === 'normal') {
+      return { conditionFilter, ...other, filtered: false };
+    }
+    return { conditionFilter, ...other, filtered: true };
+  });
+  const queenComponents = components.filter(c => c.page);
+  const filteredComponents = queenComponents.filter(({ filtered }) => !filtered);
 
   const component = filteredComponents.find(({ page }) => page === currentPage);
   const { id, componentType, sequence, subsequence, options, ...props } = component;
@@ -160,18 +163,17 @@ const Orchestrator = ({
   // const keyToHandle = ['alphanumeric'];
   return (
     <>
-      <div id="queen-body" className={navOpen ? 'back' : ''}>
+      <div id="queen-body">
         <Header
           standalone={standalone}
           title={questionnaire.label}
           quit={quit}
           sequence={lunatic.interpret(['VTL'])(bindings)(sequence)}
-          components={filteredComponents}
+          components={components}
           bindings={bindings}
           subsequence={lunatic.interpret(['VTL'])(bindings)(subsequence)}
           setPage={setCurrentPage}
           viewedPages={viewedPages}
-          setNavOpen={setNavOpen}
         />
         <div className="body-container">
           <div className="components">
