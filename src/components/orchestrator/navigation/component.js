@@ -1,46 +1,150 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useRef, useMemo } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
 import * as lunatic from '@inseefr/lunatic';
+import * as UQ from 'utils/questionnaire';
 import { version } from '../../../../package.json';
 import MenuIcon from './menu.icon';
 import styles from './navigation.scss';
+import SequenceNavigation from './sequenceNavigation';
+import SubsequenceNavigation from './subSequenceNavigation';
 
-const Navigation = ({ components, bindings, setPage, viewedPages, setNavOpen }) => {
+const Navigation = ({ title, components, bindings, setPage }) => {
   const [open, setOpen] = useState(false);
-
-  const handleClick = () => {
-    if (open) {
-      setNavOpen(false);
-    } else {
-      setNavOpen(true);
-    }
-    setOpen(!open);
-  };
+  const [surveyOpen, setSurveyOpen] = useState(false);
+  const [currentFocusItemIndex, setCurrentFocusItemIndex] = useState(-1);
+  const [selectedSequence, setSelectedSequence] = useState(undefined);
 
   const getVtlLabel = label => {
     return lunatic.interpret(['VTL'])(bindings)(label);
   };
 
-  const isCliquable = comp => {
-    return viewedPages.includes(comp.page);
+  const lastPossiblePage = useMemo(() => {
+    return surveyOpen
+      ? UQ.getFastForwardPage(components.filter(({ filtered }) => !filtered))(null)
+      : null;
+  }, [surveyOpen]);
+
+  const componentsVTL = components.reduce((_, { componentType, labelNav, ...other }) => {
+    if (componentType === 'Sequence') {
+      const { page } = other;
+      return [
+        ..._,
+        {
+          componentType,
+          labelNav: getVtlLabel(labelNav),
+          reachable: page <= lastPossiblePage,
+          ...other,
+        },
+      ];
+    }
+    if (componentType === 'Subsequence') {
+      const { goToPage } = other;
+      return [
+        ..._,
+        {
+          componentType,
+          labelNav: getVtlLabel(labelNav),
+          reachable: goToPage <= lastPossiblePage,
+          ...other,
+        },
+      ];
+    }
+    return _;
+  }, []);
+
+  const getSubsequenceComponents = id =>
+    componentsVTL.filter(
+      ({ componentType, idSequence }) => componentType === 'Subsequence' && idSequence === id
+    );
+
+  const navigationComponents = useMemo(() => {
+    return surveyOpen
+      ? componentsVTL.reduce((_, { id, componentType, ...other }) => {
+          if (componentType === 'Sequence') {
+            return [
+              ..._,
+              {
+                id,
+                componentType,
+                components: getSubsequenceComponents(id),
+                ...other,
+              },
+            ];
+          }
+          return _;
+        }, [])
+      : null;
+  }, [surveyOpen]);
+
+  const [listRef] = useState([React.createRef(), React.createRef()]);
+
+  const openCloseSubMenu = () => {
+    if (surveyOpen) {
+      setSelectedSequence(undefined);
+      setSurveyOpen(false);
+      listRef[1].current.focus();
+    } else {
+      setSurveyOpen(true);
+    }
   };
 
-  const keysToHandle = ['tab', 'esc'];
-  const keyboardShortcut = (key, e) => {
-    if (key === 'tab') {
-      console.log(e);
-      //if last item -> e.preventDefault() ou goTo button;
-    }
-    if (key === 'esc') setOpen(!open);
+  const openCloseMenu = useCallback(() => {
+    if (surveyOpen) openCloseSubMenu();
+    setOpen(!open);
+    listRef[0].current.focus();
+  });
+
+  const setNavigationPage = page => {
+    setPage(page);
+    openCloseMenu();
   };
+
+  const setFocusItem = useCallback(index => () => setCurrentFocusItemIndex(index));
+
+  const setCurrentFocus = index => {
+    if (index === -1) listRef[listRef.length - 1].current.focus();
+    else if (index === listRef.length) listRef[0].current.focus();
+    else listRef[index].current.focus();
+  };
+  const keysToHandle =
+    open && !surveyOpen ? ['alt+b', 'esc', 'right', 'left', 'up', 'down'] : ['left', 'alt+b'];
+  const keyboardShortcut = (key, e) => {
+    const index = currentFocusItemIndex;
+    if (key === 'alt+b') {
+      openCloseMenu();
+    }
+    if ((key === 'esc' || key === 'left') && !surveyOpen) openCloseMenu();
+    if ((key === 'left' && !selectedSequence) || (key === 'esc' && surveyOpen)) openCloseSubMenu();
+    if (key === 'right') {
+      if (index === 1) openCloseSubMenu(true);
+    }
+    if (key === 'down') {
+      setCurrentFocus(index + 1);
+    }
+    if (key === 'up') {
+      setCurrentFocus(index - 1);
+    }
+  };
+  const handleFinalTab = useCallback(e => {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      listRef[0].current.focus();
+    }
+  }, []);
 
   return (
     <>
       <style type="text/css">{styles}</style>
       <div className="header-item navigation">
-        <button type="button" className="menu-icon" onClick={handleClick}>
+        <button
+          ref={listRef[0]}
+          type="button"
+          className="menu-icon"
+          onClick={openCloseMenu}
+          onFocus={setFocusItem(0)}
+        >
           <MenuIcon width={48} color={open ? '#E30342' : '#000000'} />
         </button>
         <div className={`menu${open ? ' slideIn' : ''}`}>
@@ -50,49 +154,17 @@ const Navigation = ({ components, bindings, setPage, viewedPages, setNavOpen }) 
                 <span>{D.goToNavigation}</span>
                 <nav role="navigation">
                   <ul>
-                    {components.map(comp => {
-                      if (comp.componentType === 'Sequence') {
-                        const refSequenceContent = React.createRef();
-                        return (
-                          <div className="subnav" key={`subnav-${comp.id}`}>
-                            <button
-                              type="button"
-                              key={comp.id}
-                              className="subnav-btn"
-                              onClick={() => console.log('hello')}
-                            >
-                              {getVtlLabel(comp.labelNav)}
-                            </button>
-                            <div
-                              className="subnav-content"
-                              ref={refSequenceContent}
-                              key={`subnav-content-${comp.id}`}
-                            >
-                              {components.map(comp2 => {
-                                if (
-                                  comp2.componentType === 'Subsequence' &&
-                                  comp2.idSequence === comp.id
-                                ) {
-                                  return (
-                                    <li className="subnav" key={`subnav-${comp2.id}`}>
-                                      <button
-                                        type="button"
-                                        key={comp2.id}
-                                        className="subnav-btn"
-                                        onClick={() => console.log('hello')}
-                                      >
-                                        {getVtlLabel(comp2.labelNav)}
-                                      </button>
-                                    </li>
-                                  );
-                                }
-                                return null;
-                              })}
-                            </div>
-                          </div>
-                        );
-                      }
-                    })}
+                    <button
+                      type="button"
+                      className={`subnav-btn ${currentFocusItemIndex === 1 ? 'selected' : ''}`}
+                      ref={listRef[1]}
+                      onFocus={setFocusItem(1)}
+                      onClick={openCloseSubMenu}
+                      onKeyDown={handleFinalTab}
+                    >
+                      {D.surveyNavigation}
+                      <span>{'\u3009'}</span>
+                    </button>
                   </ul>
                 </nav>
               </div>
@@ -100,22 +172,53 @@ const Navigation = ({ components, bindings, setPage, viewedPages, setNavOpen }) 
             </>
           )}
         </div>
-        {open && <div className="background-menu" onClick={handleClick} />}
         {open && (
-          <KeyboardEventHandler
-            handleKeys={keysToHandle}
-            onKeyEvent={keyboardShortcut}
-            handleFocusableElements
-          />
+          <>
+            <div className={`sequence-navigation-container${surveyOpen ? ' slideIn' : ''}`}>
+              {surveyOpen && (
+                <SequenceNavigation
+                  title={title}
+                  components={navigationComponents}
+                  setPage={setNavigationPage}
+                  setSelectedSequence={setSelectedSequence}
+                  subSequenceOpen={!!selectedSequence}
+                  close={openCloseSubMenu}
+                />
+              )}
+            </div>
+            {surveyOpen && (
+              <div
+                className={`subsequence-navigation-container${selectedSequence ? ' slideIn' : ''}`}
+              >
+                {selectedSequence && selectedSequence.components.length > 0 && (
+                  <SubsequenceNavigation
+                    sequence={selectedSequence}
+                    close={() => setSelectedSequence(undefined)}
+                    setPage={setNavigationPage}
+                  />
+                )}
+              </div>
+            )}
+          </>
         )}
+
+        {open && <div className="background-menu" onClick={openCloseMenu} />}
+
+        <KeyboardEventHandler
+          handleKeys={keysToHandle}
+          onKeyEvent={keyboardShortcut}
+          handleFocusableElements
+        />
       </div>
     </>
   );
 };
 
 Navigation.propTypes = {
+  title: PropTypes.string.isRequired,
+  bindings: PropTypes.objectOf(PropTypes.any).isRequired,
   components: PropTypes.arrayOf(PropTypes.any).isRequired,
-  setNavOpen: PropTypes.func.isRequired,
+  setPage: PropTypes.func.isRequired,
 };
 
 export default Navigation;
