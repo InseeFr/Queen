@@ -31,10 +31,6 @@ const Orchestrator = ({
 
   const [questionnaire, setQuestionnaire] = useState(source);
   const [currentPage, setCurrentPage] = useState(1);
-  /**
-   * viewedPages : list of page viewed by user
-   */
-  const [viewedPages, setViewedPages] = useState([1]);
 
   const [specialQueenData, setSpecialQueenData] = useState(dataSU.specialQueenData);
   const [comment, setComment] = useState(surveyUnit.comment);
@@ -123,7 +119,6 @@ const Orchestrator = ({
     saveQueen(lastSpecialQueenData);
     setPreviousResponse(null);
     const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
-    setViewedPages([...viewedPages, nextPage]);
     setCurrentPage(nextPage);
   };
 
@@ -173,7 +168,6 @@ const Orchestrator = ({
           bindings={bindings}
           subsequence={lunatic.interpret(['VTL'])(bindings)(subsequence)}
           setPage={setCurrentPage}
-          viewedPages={viewedPages}
         />
         <div className="body-container">
           <div className="components">
