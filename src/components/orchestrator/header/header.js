@@ -17,7 +17,6 @@ const Header = ({
   bindings,
   setPage,
   viewedPages,
-  setNavOpen,
 }) => {
   const setToFirstPage = useCallback(() => setPage(1), []);
 
@@ -26,11 +25,11 @@ const Header = ({
       <style type="text/css">{styles}</style>
       <div id="survey-title" className={`header${standalone ? ' standalone' : ''}`}>
         <Navigation
+          title={title}
           components={components}
           bindings={bindings}
           setPage={setPage}
           viewedPages={viewedPages}
-          setNavOpen={setNavOpen}
         />
         <div className="header-item">
           <button
