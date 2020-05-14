@@ -73,7 +73,10 @@ export const buildQueenQuestionnaire = components => {
            * if there is no declarations, we "delete" this component
            */
           if (!declarations || declarations.length === 0) {
-            return [..._, { ...component, goToPage: currentPage + 1 }];
+            return [
+              ..._,
+              { ...component, labelNav: label, idSequence: idSeq, goToPage: currentPage + 1 },
+            ];
           }
           currentPage += 1;
           return [
@@ -85,6 +88,7 @@ export const buildQueenQuestionnaire = components => {
               sequence: seq,
               subsequence: subseq,
               idSequence: idSeq,
+              goToPage: currentPage,
               page: currentPage,
             },
           ];

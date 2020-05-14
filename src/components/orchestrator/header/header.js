@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import D from 'i18n';
 import insee from 'img/insee.png';
 import Navigation from '../navigation';
 import CloseIcon from './quit.icon';
@@ -15,22 +16,23 @@ const Header = ({
   components,
   bindings,
   setPage,
-  viewedPages,
-  setNavOpen,
 }) => {
+  const setToFirstPage = useCallback(() => setPage(1), []);
+
   return (
     <>
       <style type="text/css">{styles}</style>
       <div id="survey-title" className={`header${standalone ? ' standalone' : ''}`}>
-        <Navigation
-          components={components}
-          bindings={bindings}
-          setPage={setPage}
-          viewedPages={viewedPages}
-          setNavOpen={setNavOpen}
-        />
+        <Navigation title={title} components={components} bindings={bindings} setPage={setPage} />
         <div className="header-item">
-          <img id="logo" src={insee} alt="Insee-logo" className="header-logo" />
+          <button
+            type="button"
+            className="insee-icon"
+            title={D.backToBeginning}
+            onClick={setToFirstPage}
+          >
+            <img id="logo" src={insee} alt="Insee-logo" className="header-logo" />
+          </button>
         </div>
         <div className="header-item header-title">
           <span id="header-title">{title}</span>

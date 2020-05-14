@@ -80,8 +80,8 @@ export const isInSpecialQueenDataDoesntKnow = specialQueenData => responses => {
  * @param {Array} responses
  */
 export const isInSpecialQueenData = specialQueenData => responses => {
-  return (
-    isInSpecialQueenDataRefusal(specialQueenData)(responses) ||
-    isInSpecialQueenDataDoesntKnow(specialQueenData)(responses)
-  );
+  return specialQueenData
+    ? isInSpecialQueenDataRefusal(specialQueenData)(responses) ||
+        isInSpecialQueenDataDoesntKnow(specialQueenData)(responses)
+    : false;
 };
