@@ -40,12 +40,8 @@ setQuestionnaireCache();
 
 const queenPrecacheController = async () => {
   const cache = await caches.open(queenCacheName);
-  const urlsToCache = self.__precacheManifest.reduce(
-    (_, { url }) => {
-      if (url.includes(self._urlQueen)) return [..._, url];
-      return _;
-    },
-    [`${self._urlQueen}/asset-manifest.json`]
+  const urlsToCache = [`${self._urlQueen}/asset-manifest.json`].concat(
+    self.__queenPrecacheManifest.map(({ url }) => `${self._urlQueen}${url}`)
   );
   await cache.addAll(urlsToCache);
 };

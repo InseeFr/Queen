@@ -17,10 +17,10 @@ module.exports = env => {
    * PUBLIC_PATH : absolute URL (ex: not ./index.js but http://url.insee.fr/index.js)
    * This configuration is necessary to ensure the proper functioning of the micro-frontend.
    */
-  const PUBLIC_PATH = `${conf.urlQueen}/`;
+  const PUBLIC_PATH = `/`;
   return {
     // Entry point
-    entry: './src/index.js',
+    entry: './src/entry.js',
     module: {
       rules: [
         /**
