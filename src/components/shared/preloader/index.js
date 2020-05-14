@@ -2,6 +2,7 @@ import React from 'react';
 import imgPreloader from 'img/preloader.svg';
 import D from 'i18n';
 import styles from './preloader.scss';
+import { version } from '../../../../package.json';
 
 const Preloader = ({ message = '' }) => (
   <>
@@ -11,6 +12,7 @@ const Preloader = ({ message = '' }) => (
       <h2>{D.pleaseWait}</h2>
       <h3>{message}</h3>
     </div>
+    <div className="version">{`Version ${version}`}</div>
   </>
 );
 

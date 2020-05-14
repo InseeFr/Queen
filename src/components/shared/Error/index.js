@@ -1,6 +1,7 @@
 import React from 'react';
 import D from 'i18n';
 import styles from './error.scss';
+import { version } from '../../../../package.json';
 
 const Error = ({ message = '' }) => (
   <>
@@ -9,6 +10,7 @@ const Error = ({ message = '' }) => (
       <h2>{D.errorOccurred}</h2>
       <h3>{message}</h3>
     </div>
+    <div className="version">{`Version ${version}`}</div>
   </>
 );
 
