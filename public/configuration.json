@@ -1,0 +1,5 @@
+{
+  "urlQueen": "http://localhost:5000",
+  "urlQueenApi": "https://queen-bo.demo.dev.sspcloud.fr",
+  "authenticationMode": "anonymous"
+}
