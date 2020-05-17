@@ -17,10 +17,10 @@
     "styled-components": "^5.0.1"
   },
   "scripts": {
-    "start": "webpack-dev-server --env.NODE_ENV=local --config ./webpack.config.js --mode development --port 5000",
-    "build": "yarn clean-build && webpack --env.NODE_ENV=local --config ./webpack.config.js && node ./configuration/build/build-sw.js",
-    "build-docker": "yarn clean-build && webpack --env.NODE_ENV=docker --config ./webpack.config.js",
-    "clean-build": "rm -rf build",
+    "start": "set PORT=5000 && react-scripts start",
+    "build": "env PUBLIC_URL=__PUBLIC_URL_TO_REPLACE__ react-scripts build && node ./configuration/build/build-sw.js && yarn post-build",
+    "build-docker": "env PUBLIC_URL=__PUBLIC_URL_TO_REPLACE__ react-scripts && node ./configuration/build/build-sw.js && yarn post-build",
+    "post-build": "node ./configuration/build/manage-public-url.js",
     "test": "jest",
     "eject": "react-scripts eject"
   },
@@ -40,16 +40,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.8.6",
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/preset-env": "^7.8.6",
-    "@babel/preset-react": "^7.8.3",
-    "babel-loader": "^8.0.6",
-    "babel-plugin-module-resolver": "^4.0.0",
     "copy-and-watch": "^0.1.4",
-    "copy-webpack-plugin": "^5.1.1",
-    "css-loader": "^3.4.2",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "eslint": "^6.6.0",
@@ -59,17 +50,6 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
-    "file-loader": "^5.1.0",
-    "html-webpack-plugin": "^3.2.0",
-    "jest": "^25.2.7",
-    "prettier": "^1.18.2",
-    "react-hot-loader": "^4.12.19",
-    "sass-loader": "^8.0.2",
-    "to-string-loader": "^1.1.6",
-    "webpack": "^4.42.0",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3",
-    "webpack-manifest-plugin": "^2.2.0",
-    "workbox-webpack-plugin": "^4.3.1"
+    "prettier": "^1.18.2"
   }
 }
