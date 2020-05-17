@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import root from 'react-shadow';
 import D from 'i18n';
@@ -10,13 +10,34 @@ import Notification from 'components/shared/Notification';
 import OrchestratorManager from 'components/orchestratorManager';
 import styles from '../style/style.scss';
 
-const Root = ({ configuration }) => {
+const Root = () => {
   const customStyle = {
     margin: 'auto',
     height: '100vh',
     fontFamily: "'Gotham SSm A', 'Gotham SSm B', sans-serif",
     backgroundColor: '#c3ddff',
   };
+  const [configuration, setConfiguration] = useState(undefined);
+
+  useEffect(() => {
+    if (!configuration) {
+      const loadConfiguration = async () => {
+        const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
+        const response = await fetch(`${publicUrl.origin}/configuration.json`);
+        let configurationResponse = await response.json();
+        const { urlQueen } = configurationResponse;
+        if (urlQueen === publicUrl.origin) {
+          configurationResponse.standalone = true;
+        } else {
+          const responseFromQueen = await fetch(`${urlQueen}/configuration.json`);
+          configurationResponse = await responseFromQueen.json();
+          configurationResponse.standalone = false;
+        }
+        setConfiguration(configurationResponse);
+      };
+      loadConfiguration();
+    }
+  }, [configuration]);
 
   return (
     <>

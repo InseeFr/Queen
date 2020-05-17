@@ -6,13 +6,12 @@ import { listenParentApp } from 'utils/communication';
 class QueenApp extends HTMLElement {
   mountPoint;
   componentAttributes = {};
-  componentProperties = { configuration: undefined };
+  componentProperties = {};
 
   connectedCallback() {
     this.mountPoint = document.createElement('div');
     this.mountPoint.setAttribute('id', 'queen-app');
-    this.mountReactAppLoadingConfiguration();
-    this.setConfiguration();
+    this.mountReactApp();
   }
 
   disconnectedCallback() {
@@ -25,6 +24,7 @@ class QueenApp extends HTMLElement {
 
   attributeChangedCallback(name, oldVal, newVal) {
     this.componentAttributes[name] = newVal;
+    ReactDOM.unmountComponentAtNode(this.mountPoint);
     this.mountReactApp();
   }
 
@@ -34,25 +34,9 @@ class QueenApp extends HTMLElement {
 
   set isStandalone(newValue) {
     this.componentProperties.isStandalone = newValue;
+    ReactDOM.unmountComponentAtNode(this.mountPoint);
     this.mountReactApp();
   }
-
-  async setConfiguration() {
-    const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
-    const response = await fetch(`${publicUrl.origin}/configuration.json`);
-    let configuration = await response.json();
-    const { urlQueen } = configuration;
-    if (urlQueen === publicUrl.origin) {
-      configuration.standalone = true;
-    } else {
-      const responseFromQueen = await fetch(`${urlQueen}/configuration.json`);
-      configuration = await responseFromQueen.json();
-      configuration.standalone = false;
-    }
-    this.componentProperties.configuration = configuration;
-    this.mountReactApp();
-  }
-
   reactProps() {
     return { ...this.componentAttributes, ...this.componentProperties };
   }
@@ -61,11 +45,7 @@ class QueenApp extends HTMLElement {
     ReactDOM.render(<Root {...this.reactProps()} />, this.mountPoint);
     this.appendChild(this.mountPoint);
   }
-
-  mountReactAppLoadingConfiguration() {
-    ReactDOM.render(<Root />, this.mountPoint);
-    this.appendChild(this.mountPoint);
-  }
 }
+
 window.customElements.define('queen-app', QueenApp);
 listenParentApp();
