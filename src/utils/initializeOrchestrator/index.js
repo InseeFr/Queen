@@ -26,7 +26,7 @@ export const initialize = (
       new Promise((resolve, reject) =>
         reject(
           new Error(
-            `The current authentication mode is ${authenticationMode}. Expected one of "${KEYCLOAK}" or "${ANONYMOUS}".`
+            `The current authentication mode is ${authenticationMode}. Expected one of "${AUTHENTICATION_MODE_ENUM[0]}" or "${AUTHENTICATION_MODE_ENUM[1]}".`
           )
         )
       );
