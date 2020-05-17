@@ -110,7 +110,6 @@ const Buttons = ({
 
   return (
     <>
-      {/* <style type="text/css">{styles}</style> */}
       <StyleWrapper id="buttons" className={!returnLabel && 'btn-alone'}>
         {!['Sequence', 'Subsequence'].includes(componentType) && (
           <>

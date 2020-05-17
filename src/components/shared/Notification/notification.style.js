@@ -8,7 +8,7 @@ export const StyleWrapper = styled.div`
   position: fixed;
   top: -${notificationHeight};
   z-index: 1500;
-  background-color: rgba(34, 157, 194, 0.9);
+  background-color: rgba(46, 139, 166, 0.9);
   left: 0%;
   width: 100%;
   margin: auto;

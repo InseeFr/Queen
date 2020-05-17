@@ -62,29 +62,27 @@ const Notification = ({ standalone }) => {
   };
 
   return (
-    <>
-      <StyleWrapper
-        className={`${isUpdateAvailable ? 'update' : ''} ${
-          (isUpdateAvailable || isServiceWorkerInstalled || installingServiceWorker) && open
-            ? 'visible'
-            : ''
-        }`}
-      >
-        {open && (
-          <>
-            <button type="button" className="close-button" onClick={() => setOpen(false)}>
-              {`\u2573 ${D.closeNotif}`}
+    <StyleWrapper
+      className={`${isUpdateAvailable ? 'update' : ''} ${
+        (isUpdateAvailable || isServiceWorkerInstalled || installingServiceWorker) && open
+          ? 'visible'
+          : ''
+      }`}
+    >
+      {open && (
+        <>
+          <button type="button" className="close-button" onClick={() => setOpen(false)}>
+            {`\u2573 ${D.closeNotif}`}
+          </button>
+          <div className="title">{getMessage()}</div>
+          {isUpdateAvailable && (
+            <button type="button" className="update-button" onClick={updateAssets}>
+              {D.updateNow}
             </button>
-            <div className="title">{getMessage()}</div>
-            {isUpdateAvailable && (
-              <button type="button" className="update-button" onClick={updateAssets}>
-                {D.updateNow}
-              </button>
-            )}
-          </>
-        )}
-      </StyleWrapper>
-    </>
+          )}
+        </>
+      )}
+    </StyleWrapper>
   );
 };
 
