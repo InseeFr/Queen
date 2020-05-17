@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import root from 'react-shadow';
+import root from 'react-shadow/styled-components';
 import D from 'i18n';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { AUTHENTICATION_MODE_ENUM, READ_ONLY } from 'utils/constants';
@@ -8,7 +8,8 @@ import Preloader from 'components/shared/preloader';
 import NotFound from 'components/shared/not-found';
 import Notification from 'components/shared/Notification';
 import OrchestratorManager from 'components/orchestratorManager';
-import styles from '../style/style.scss';
+
+import { StyleWrapper } from './root.style';
 
 const Root = () => {
   const customStyle = {
@@ -43,8 +44,7 @@ const Root = () => {
     <>
       <root.div id="queen-container" style={customStyle}>
         {configuration && (
-          <>
-            <style type="text/css">{styles}</style>
+          <StyleWrapper>
             <Notification standalone={configuration.standalone} />
             <Router>
               <Switch>
@@ -57,7 +57,7 @@ const Root = () => {
                 <Route path={configuration.standalone ? '/' : '/queen'} component={NotFound} />
               </Switch>
             </Router>
-          </>
+          </StyleWrapper>
         )}
         {!configuration && <Preloader message={D.waitingConfiguration} />}
       </root.div>

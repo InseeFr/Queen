@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import D from 'i18n';
 import * as serviceWorker from 'utils/serviceWorker/serviceWorker';
-import styles from './notification.scss';
+import { StyleWrapper } from './notification.style';
 
 const Notification = ({ standalone }) => {
   const [init, setInit] = useState(false);
@@ -63,9 +63,8 @@ const Notification = ({ standalone }) => {
 
   return (
     <>
-      <style type="text/css">{styles}</style>
-      <div
-        className={`notification ${isUpdateAvailable ? 'update' : ''} ${
+      <StyleWrapper
+        className={`${isUpdateAvailable ? 'update' : ''} ${
           (isUpdateAvailable || isServiceWorkerInstalled || installingServiceWorker) && open
             ? 'visible'
             : ''
@@ -84,7 +83,7 @@ const Notification = ({ standalone }) => {
             )}
           </>
         )}
-      </div>
+      </StyleWrapper>
     </>
   );
 };

@@ -5,7 +5,7 @@ import insee from 'img/insee.png';
 import Navigation from '../navigation';
 import CloseIcon from './quit.icon';
 import BreadcrumbQueen from '../breadcrumb';
-import styles from './header.scss';
+import { StyleWrapper } from './header.style.js';
 
 const Header = ({
   standalone,
@@ -21,8 +21,8 @@ const Header = ({
 
   return (
     <>
-      <style type="text/css">{styles}</style>
-      <div id="survey-title" className={`header${standalone ? ' standalone' : ''}`}>
+      {/* <style type="text/css">{styles}</style> */}
+      <StyleWrapper className={`${standalone ? 'standalone' : ''}`}>
         <Navigation title={title} components={components} bindings={bindings} setPage={setPage} />
         <div className="header-item">
           <button
@@ -45,7 +45,7 @@ const Header = ({
             </button>
           </div>
         )}
-      </div>
+      </StyleWrapper>
     </>
   );
 };

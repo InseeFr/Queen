@@ -1,19 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // import D from 'i18n';
-import styles from './navBar.scss';
+import { StyleWrapper } from './component.style.js';
 
 const NavBar = ({ nbModules, page }) => {
   const currentPage = page;
   const nbTotalPage = nbModules;
 
   return (
-    <>
-      <style type="text/css">{styles}</style>
-      <div id="navbar-right" className="navbar right">
-        <span>{`Page ${currentPage} / ${nbTotalPage}`}</span>
-      </div>
-    </>
+    <StyleWrapper>
+      <span>{`Page ${currentPage} / ${nbTotalPage}`}</span>
+    </StyleWrapper>
   );
 };
 

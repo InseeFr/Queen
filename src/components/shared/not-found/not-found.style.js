@@ -1,4 +1,5 @@
-.not-found {
+import styled from 'styled-components';
+export const StyleWrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -11,4 +12,4 @@
   .content {
     margin-top: 5%;
   }
-}
+`;

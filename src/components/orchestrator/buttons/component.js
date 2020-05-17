@@ -9,7 +9,7 @@ import {
   isInSpecialQueenDataRefusal,
   isInSpecialQueenDataDoesntKnow,
 } from 'utils/questionnaire';
-import styles from './buttons.scss';
+import { StyleWrapper } from './component.style.js';
 
 const Buttons = ({
   readonly,
@@ -110,8 +110,8 @@ const Buttons = ({
 
   return (
     <>
-      <style type="text/css">{styles}</style>
-      <div id="buttons" className={`buttons ${!returnLabel && 'btn-alone'}`}>
+      {/* <style type="text/css">{styles}</style> */}
+      <StyleWrapper id="buttons" className={!returnLabel && 'btn-alone'}>
         {!['Sequence', 'Subsequence'].includes(componentType) && (
           <>
             <button className="specific-modality" type="button">
@@ -170,7 +170,7 @@ const Buttons = ({
         >
           {`${D.fastForward} \u21E5`}
         </button>
-      </div>
+      </StyleWrapper>
       <KeyboardEventHandler
         handleKeys={keysToHandle}
         onKeyEvent={keyboardShortcut}

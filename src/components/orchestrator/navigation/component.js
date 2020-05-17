@@ -6,7 +6,7 @@ import * as lunatic from '@inseefr/lunatic';
 import * as UQ from 'utils/questionnaire';
 import { version } from '../../../../package.json';
 import MenuIcon from './menu.icon';
-import styles from './navigation.scss';
+import { StyleWrapper } from './component.style';
 import SequenceNavigation from './sequenceNavigation';
 import SubsequenceNavigation from './subSequenceNavigation';
 
@@ -136,8 +136,7 @@ const Navigation = ({ title, components, bindings, setPage }) => {
 
   return (
     <>
-      <style type="text/css">{styles}</style>
-      <div className="header-item navigation">
+      <StyleWrapper className="header-item navigation">
         <button
           ref={listRef[0]}
           type="button"
@@ -209,7 +208,7 @@ const Navigation = ({ title, components, bindings, setPage }) => {
           onKeyEvent={keyboardShortcut}
           handleFocusableElements
         />
-      </div>
+      </StyleWrapper>
     </>
   );
 };

@@ -1,16 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Breadcrumb } from '@inseefr/lunatic';
-import styles from './breadcrumb.scss';
+import { StyleWrapper } from './component.style.js';
 
 const BreadcrumbQueen = ({ sequence, subsequence }) => {
   return (
-    <>
-      <style type="text/css">{styles}</style>
-      <div className={`Breadcrumb ${!subsequence ? 'sequence' : ''}`}>
-        <Breadcrumb elements={[sequence, subsequence]} />
-      </div>
-    </>
+    <StyleWrapper className={`Breadcrumb ${!subsequence ? 'sequence' : ''}`}>
+      <Breadcrumb elements={[sequence, subsequence]} />
+    </StyleWrapper>
   );
 };
 
