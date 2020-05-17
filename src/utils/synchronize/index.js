@@ -2,7 +2,7 @@ import * as api from 'utils/api';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 
 const getConfiguration = async () => {
-  const publicUrl = new URL(process.env.PUBLIC_URL, self.location.href);
+  const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
   const response = await fetch(`${publicUrl.origin}/configuration.json`);
   let configuration = await response.json();
   const responseFromQueen = await fetch(`${configuration.urlQueen}/configuration.json`);

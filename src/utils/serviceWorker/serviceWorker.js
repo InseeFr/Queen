@@ -29,7 +29,7 @@ export function register(config) {
       return;
     }
 
-    const swUrl = `${publicUrl.origin}/service-worker.js`;
+    const swUrl = `${publicUrl.origin}/service-worker-custom.js`;
 
     if (isLocalhost) {
       // This is running on localhost. Let's check if a service worker still exists or not.

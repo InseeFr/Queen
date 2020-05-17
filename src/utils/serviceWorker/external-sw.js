@@ -39,11 +39,21 @@ const setQuestionnaireCache = async () => {
 setQuestionnaireCache();
 
 const queenPrecacheController = async () => {
+  const responseFromQueen = await fetch(`${self._urlQueen}/manifest.json`);
+  const { icons } = await responseFromQueen.json();
+  let urlsToPrecache = [
+    `${self._urlQueen}/index.css`,
+    `${self._urlQueen}/manifest.json`,
+    `${self._urlQueen}/configuration.json`,
+    `${self._urlQueen}/asset-manifest.json`,
+  ].concat(icons.map(({ src }) => `${self._urlQueen}/${src}`));
   const cache = await caches.open(queenCacheName);
-  const urlsToCache = [`${self._urlQueen}/asset-manifest.json`].concat(
-    self.__queenPrecacheManifest.map(({ url }) => `${self._urlQueen}${url}`)
+  urlsToPrecache = urlsToPrecache.concat(
+    self.__queenPrecacheManifest.map(({ url }) =>
+      !url.endsWith('.html') ? `${self._urlQueen}${url}` : null
+    )
   );
-  await cache.addAll(urlsToCache);
+  await cache.addAll(urlsToPrecache);
 };
 
 self.addEventListener('install', event => {
