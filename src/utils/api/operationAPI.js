@@ -1,9 +1,9 @@
 import Axios from 'axios';
 import { getSecureHeader } from './utils';
 
-export const getOperations = (urlQueenApi, token) => {
+export const getOperations = (QUEEN_API_URL, token) => {
   return new Promise((resolve, reject) => {
-    Axios.get(`${urlQueenApi}/api/operations`, {
+    Axios.get(`${QUEEN_API_URL}/api/operations`, {
       headers: {
         ...getSecureHeader(token),
         Accept: 'application/json;charset=utf-8',

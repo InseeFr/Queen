@@ -23,14 +23,14 @@ const Root = () => {
   useEffect(() => {
     if (!configuration) {
       const loadConfiguration = async () => {
-        const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
+        const publicUrl = window.location;
         const response = await fetch(`${publicUrl.origin}/configuration.json`);
         let configurationResponse = await response.json();
-        const { urlQueen } = configurationResponse;
-        if (urlQueen === publicUrl.origin) {
+        const { QUEEN_URL } = configurationResponse;
+        if (QUEEN_URL === publicUrl.origin) {
           configurationResponse.standalone = true;
         } else {
-          const responseFromQueen = await fetch(`${urlQueen}/configuration.json`);
+          const responseFromQueen = await fetch(`${QUEEN_URL}/configuration.json`);
           configurationResponse = await responseFromQueen.json();
           configurationResponse.standalone = false;
         }
@@ -68,9 +68,9 @@ const Root = () => {
 Root.propTypes = {
   configuration: PropTypes.shape({
     standalone: PropTypes.bool.isRequired,
-    urlQueen: PropTypes.string.isRequired,
-    urlQueenApi: PropTypes.string.isRequired,
-    authenticationMode: PropTypes.oneOf(AUTHENTICATION_MODE_ENUM).isRequired,
+    QUEEN_URL: PropTypes.string.isRequired,
+    QUEEN_API_URL: PropTypes.string.isRequired,
+    QUEEN_AUTHENTICATION_MODE: PropTypes.oneOf(AUTHENTICATION_MODE_ENUM).isRequired,
   }),
 };
 

@@ -78,8 +78,8 @@ const OrchestratorManager = ({ match, configuration }) => {
   const putSurveyUnit = async unit => {
     try {
       const token = null;
-      await api.putDataSurveyUnitById(configuration.urlQueenApi, token)(unit.id, unit.data);
-      await api.putCommentSurveyUnitById(configuration.urlQueenApi, token)(unit.id, unit.comment);
+      await api.putDataSurveyUnitById(configuration.QUEEN_API_URL, token)(unit.id, unit.data);
+      await api.putCommentSurveyUnitById(configuration.QUEEN_API_URL, token)(unit.id, unit.comment);
     } catch (e) {
       setError(true);
       setErrorMessage(`${D.putSurveyUnitFailed} : ${e.message}`);
@@ -134,9 +134,9 @@ OrchestratorManager.propTypes = {
   }).isRequired,
   configuration: PropTypes.shape({
     standalone: PropTypes.bool.isRequired,
-    urlQueen: PropTypes.string.isRequired,
-    urlQueenApi: PropTypes.string.isRequired,
-    authenticationMode: PropTypes.oneOf(AUTHENTICATION_MODE_ENUM).isRequired,
+    QUEEN_URL: PropTypes.string.isRequired,
+    QUEEN_API_URL: PropTypes.string.isRequired,
+    QUEEN_AUTHENTICATION_MODE: PropTypes.oneOf(AUTHENTICATION_MODE_ENUM).isRequired,
   }).isRequired,
 };
 

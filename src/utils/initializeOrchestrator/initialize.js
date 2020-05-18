@@ -18,7 +18,7 @@ export const initialize = ({
   setQuestionnaire,
   setSurveyUnit,
 }) => async () => {
-  const { standalone, urlQueenApi, authenticationMode } = configuration;
+  const { standalone, QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE } = configuration;
 
   // clean cache and database
   if (standalone) {
@@ -29,7 +29,7 @@ export const initialize = ({
 
   setWaitingMessage(D.waitingAuthentication);
   let token = null;
-  if (standalone && authenticationMode === KEYCLOAK) {
+  if (standalone && QUEEN_AUTHENTICATION_MODE === KEYCLOAK) {
     // TODO : get/update TOKEN
   }
   /**
@@ -38,7 +38,7 @@ export const initialize = ({
    *    embedded mode   : get from the API or service-worker
    */
   setWaitingMessage(D.waitingQuestionnaire);
-  const response = await getQuestionnaireById(urlQueenApi, token)(idQuestionnaire);
+  const response = await getQuestionnaireById(QUEEN_API_URL, token)(idQuestionnaire);
   const questionnaire = await response.data.model;
   // set questionnaire to orchestrator
   if (questionnaire) {
@@ -54,13 +54,13 @@ export const initialize = ({
   if (standalone) {
     setWaitingMessage(D.waitingResources);
     const resourcesResponse = await getListRequiredNomenclature(
-      urlQueenApi,
+      QUEEN_API_URL,
       token
     )(idQuestionnaire);
     const resources = await resourcesResponse.data;
     await Promise.all(
       resources.map(async resourceId => {
-        await getNomenclatureById(urlQueenApi, token)(resourceId);
+        await getNomenclatureById(QUEEN_API_URL, token)(resourceId);
       })
     );
   }
@@ -71,9 +71,9 @@ export const initialize = ({
    */
   setWaitingMessage(D.waitingDataSU);
   if (standalone) {
-    const dataResponse = await getDataSurveyUnitById(urlQueenApi, token)(idSurveyUnit);
+    const dataResponse = await getDataSurveyUnitById(QUEEN_API_URL, token)(idSurveyUnit);
     const surveyUnitData = await dataResponse.data;
-    const commentResponse = await getCommentSurveyUnitById(urlQueenApi, token)(idSurveyUnit);
+    const commentResponse = await getCommentSurveyUnitById(QUEEN_API_URL, token)(idSurveyUnit);
     const surveyUnitComment = await commentResponse.data;
     await surveyUnitIdbService.addOrUpdateSU({
       id: idSurveyUnit,

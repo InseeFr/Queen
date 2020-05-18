@@ -10,7 +10,7 @@ function buildSW() {
 
   /* update external service-worker */
   const originalContentSW = fs.readFileSync('src/utils/serviceWorker/external-sw.js', 'utf-8');
-  const newContentSW = `importScripts(\`\${self._urlQueen}${newName.replace(
+  const newContentSW = `importScripts(\`\${self._QUEEN_URL}${newName.replace(
     /build/,
     ''
   )}\`); \n ${originalContentSW}`;
