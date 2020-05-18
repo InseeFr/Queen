@@ -36,7 +36,7 @@ const Notification = ({ standalone }) => {
       });
       setInit(true);
     }
-  }, [init]);
+  }, [init, standalone]);
 
   const updateAssets = () => {
     if (waitingServiceWorker) {

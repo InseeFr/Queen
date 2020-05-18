@@ -8,7 +8,7 @@ import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-servic
 import { AUTHENTICATION_MODE_ENUM, READ_ONLY } from 'utils/constants';
 import D from 'i18n';
 import * as UQ from 'utils/questionnaire';
-import { sendCloseEvent, sendCompletedEvent } from 'utils/communication';
+import { sendCloseEvent } from 'utils/communication';
 import * as api from 'utils/api';
 import Orchestrator from '../orchestrator';
 import NotFound from '../shared/not-found';
@@ -54,7 +54,7 @@ const OrchestratorManager = ({ match, configuration }) => {
         initOrchestrator();
       }
     }
-  }, [init]);
+  }, [init, configuration, match.params.readonly, match.params.idQ, match.params.idSU]);
 
   /**
    * Build special questionnaire for Queen
@@ -73,7 +73,7 @@ const OrchestratorManager = ({ match, configuration }) => {
       setWaiting(false);
       setInit(true);
     }
-  }, [questionnaire, surveyUnit]);
+  }, [init, questionnaire, surveyUnit]);
 
   const putSurveyUnit = async unit => {
     try {

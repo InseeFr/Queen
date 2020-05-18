@@ -13,7 +13,9 @@ const SubsequenceNavigation = ({ sequence, close, setPage }) => {
 
   const backButtonRef = useRef(null);
 
-  const setFocusSubsequence = useCallback(index => () => setCurrentFocusSubsequenceIndex(index));
+  const setFocusSubsequence = useCallback(index => () => setCurrentFocusSubsequenceIndex(index), [
+    setCurrentFocusSubsequenceIndex,
+  ]);
   const lastIndexReachable =
     [sequence].concat(sequence.components).findIndex(({ reachable }) => !reachable) - 1;
 

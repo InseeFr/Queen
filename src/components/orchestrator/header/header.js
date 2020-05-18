@@ -17,7 +17,7 @@ const Header = ({
   bindings,
   setPage,
 }) => {
-  const setToFirstPage = useCallback(() => setPage(1), []);
+  const setToFirstPage = useCallback(() => setPage(1), [setPage]);
 
   return (
     <StyleWrapper className={`${standalone ? 'standalone' : ''}`}>

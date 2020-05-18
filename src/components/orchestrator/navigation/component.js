@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
@@ -24,7 +24,7 @@ const Navigation = ({ title, components, bindings, setPage }) => {
     return surveyOpen
       ? UQ.getFastForwardPage(components.filter(({ filtered }) => !filtered))(null)
       : null;
-  }, [surveyOpen]);
+  }, [surveyOpen, components]);
 
   const componentsVTL = components.reduce((_, { componentType, labelNav, ...other }) => {
     if (componentType === 'Sequence') {
@@ -54,10 +54,13 @@ const Navigation = ({ title, components, bindings, setPage }) => {
     return _;
   }, []);
 
-  const getSubsequenceComponents = id =>
-    componentsVTL.filter(
-      ({ componentType, idSequence }) => componentType === 'Subsequence' && idSequence === id
-    );
+  const getSubsequenceComponents = useMemo(
+    () => id =>
+      componentsVTL.filter(
+        ({ componentType, idSequence }) => componentType === 'Subsequence' && idSequence === id
+      ),
+    [componentsVTL]
+  );
 
   const navigationComponents = useMemo(() => {
     return surveyOpen
@@ -76,7 +79,7 @@ const Navigation = ({ title, components, bindings, setPage }) => {
           return _;
         }, [])
       : null;
-  }, [surveyOpen]);
+  }, [surveyOpen, componentsVTL, getSubsequenceComponents]);
 
   const [listRef] = useState([React.createRef(), React.createRef()]);
 
@@ -88,20 +91,22 @@ const Navigation = ({ title, components, bindings, setPage }) => {
     } else {
       setSurveyOpen(true);
     }
-  });
+  }, [listRef, surveyOpen]);
 
   const openCloseMenu = useCallback(() => {
     if (surveyOpen) openCloseSubMenu();
     setOpen(!open);
     listRef[0].current.focus();
-  });
+  }, [surveyOpen, listRef, open, openCloseSubMenu]);
 
   const setNavigationPage = page => {
     setPage(page);
     openCloseMenu();
   };
 
-  const setFocusItem = useCallback(index => () => setCurrentFocusItemIndex(index));
+  const setFocusItem = useCallback(index => () => setCurrentFocusItemIndex(index), [
+    setCurrentFocusItemIndex,
+  ]);
 
   const setCurrentFocus = index => {
     if (index === -1) listRef[listRef.length - 1].current.focus();
@@ -127,12 +132,15 @@ const Navigation = ({ title, components, bindings, setPage }) => {
       setCurrentFocus(index - 1);
     }
   };
-  const handleFinalTab = useCallback(e => {
-    if (e.key === 'Tab') {
-      e.preventDefault();
-      listRef[0].current.focus();
-    }
-  }, []);
+  const handleFinalTab = useCallback(
+    e => {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        listRef[0].current.focus();
+      }
+    },
+    [listRef]
+  );
 
   return (
     <>

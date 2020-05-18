@@ -9,7 +9,7 @@ import {
   isInSpecialQueenDataRefusal,
   isInSpecialQueenDataDoesntKnow,
 } from 'utils/questionnaire';
-import { StyleWrapper } from './component.style.js';
+import { StyleWrapper } from './component.style';
 
 const Buttons = ({
   readonly,
@@ -57,7 +57,7 @@ const Buttons = ({
         setDoesntKnowChecked(false);
       }
     }
-  }, [page]);
+  }, [page, specialQueenData, currentComponent]);
 
   const setSpecialAnswer = specialType => {
     let newSpecialQueenData = { ...specialQueenData };

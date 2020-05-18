@@ -25,9 +25,11 @@ const SequenceNavigation = ({
       listRef[currentFocusSequenceIndex].current.focus();
       setCurrentSequenceId(undefined);
     }
-  }, [subSequenceOpen]);
+  }, [subSequenceOpen, currentFocusSequenceIndex, listRef]);
 
-  const setFocusSequence = useCallback(index => () => setCurrentFocusSequenceIndex(index));
+  const setFocusSequence = useCallback(index => () => setCurrentFocusSequenceIndex(index), [
+    setCurrentFocusSequenceIndex,
+  ]);
 
   const lastIndexReachable = components.findIndex(({ reachable }) => !reachable) - 1;
   const lastIndexFocusable = lastIndexReachable >= -1 ? lastIndexReachable : components.length - 1;

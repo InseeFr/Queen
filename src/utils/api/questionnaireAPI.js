@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import { getSecureHeader } from './utils';
-import simpsons from '../fake-survey/simpsons copy.json';
+// import simpsons from '../fake-survey/simpsons copy.json';
 
 export const getQuestionnaireById = (QUEEN_API_URL, token) => id =>
   new Promise((resolve, reject) => {

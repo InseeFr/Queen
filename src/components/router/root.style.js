@@ -1,20 +1,11 @@
 import styled from 'styled-components';
 
 const declarationColor = '#085394';
-const backgroundHeaderColor = 'white';
 const backgroundBodyColor = '#eeeeee';
-const backgroundBody = '#c3ddff';
-const backgroundButtonColor = declarationColor;
-
 const borderColorCheckbox = '#aaaaaa';
-const borderColorCheckboxChecked = '#aaaaaa';
-
 const backgroundColorCheckbox = '#d6d6d6';
-const backgroundColorCheckboxChecked = '#b7d6f1';
-
 const modalityLabelColor = 'black';
 const modalityLabelColorChecked = '#1d63a0';
-
 const modalityCodeBackgroundColor = 'white';
 
 export const StyleWrapper = styled.div`
