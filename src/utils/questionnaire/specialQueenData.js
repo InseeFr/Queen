@@ -1,6 +1,5 @@
 import * as CONST from 'utils/constants';
 import * as lunatic from '@inseefr/lunatic';
-import { getResponsesNameFromComponent, getCollectedResponse } from './queen';
 
 export const buildSpecialQueenData = data => {
   const specialQueenData = { DOESNT_KNOW: [], REFUSAL: [] };

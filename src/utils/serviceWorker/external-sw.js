@@ -6,15 +6,15 @@ const getUrlRegex = url => {
   return url.replace('http', '^http').concat('/(.*)((.json)|(.js)|(.png)|(.svg))');
 };
 
-const getQuestionnaireUrlRegex = urlQueenApi => {
-  return urlQueenApi.replace('http', '^http').concat('/api/operation/(.){1,}/questionnaire');
+const getQuestionnaireUrlRegex = QUEEN_API_URL => {
+  return QUEEN_API_URL.replace('http', '^http').concat('/api/operation/(.){1,}/questionnaire');
 };
 
 const queenCacheName = 'queen-cache';
 console.log('Loading Queen SW into another SW');
 
 workbox.routing.registerRoute(
-  new RegExp(getUrlRegex(self._urlQueen)),
+  new RegExp(getUrlRegex(self._QUEEN_URL)),
   new workbox.strategies.CacheFirst({
     cacheName: queenCacheName,
     plugins: [
@@ -26,11 +26,11 @@ workbox.routing.registerRoute(
 );
 
 const setQuestionnaireCache = async () => {
-  const responseFromQueen = await fetch(`${self._urlQueen}/configuration.json`);
+  const responseFromQueen = await fetch(`${self._QUEEN_URL}/configuration.json`);
   const configuration = await responseFromQueen.json();
 
   workbox.routing.registerRoute(
-    new RegExp(getQuestionnaireUrlRegex(configuration.urlQueenApi)),
+    new RegExp(getQuestionnaireUrlRegex(configuration.QUEEN_API_URL)),
     new workbox.strategies.CacheFirst({
       cacheName: 'queen-questionnaire',
     })
@@ -39,15 +39,20 @@ const setQuestionnaireCache = async () => {
 setQuestionnaireCache();
 
 const queenPrecacheController = async () => {
+  const responseFromQueen = await fetch(`${self._QUEEN_URL}/manifest.json`);
+  const { icons } = await responseFromQueen.json();
+  let urlsToPrecache = [
+    `${self._QUEEN_URL}/index.css`,
+    `${self._QUEEN_URL}/manifest.json`,
+    `${self._QUEEN_URL}/configuration.json`,
+    `${self._QUEEN_URL}/asset-manifest.json`,
+  ].concat(icons.map(({ src }) => `${self._QUEEN_URL}/${src}`));
   const cache = await caches.open(queenCacheName);
-  const urlsToCache = self.__precacheManifest.reduce(
-    (_, { url }) => {
-      if (url.includes(self._urlQueen)) return [..._, url];
-      return _;
-    },
-    [`${self._urlQueen}/asset-manifest.json`]
-  );
-  await cache.addAll(urlsToCache);
+  urlsToPrecache = self.__queenPrecacheManifest.reduce((_, { url }) => {
+    if (!url.endsWith('.html')) return [..._, `${self._QUEEN_URL}${url}`];
+    return _;
+  }, urlsToPrecache);
+  await cache.addAll(urlsToPrecache);
 };
 
 self.addEventListener('install', event => {

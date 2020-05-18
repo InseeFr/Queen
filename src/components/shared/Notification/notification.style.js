@@ -1,45 +1,46 @@
-$notification-update-height: 90px;
-$notification-height: 65px;
-$notification-height-mobile: 185px;
-$mobile-width: 550px;
+import styled from 'styled-components';
 
-.notification {
+const notificationUpdateHeight = '90px';
+const notificationHeight = '65px';
+const notificationHeightMobile = '185px';
+const mobileWidth = '550px';
+export const StyleWrapper = styled.div`
   position: fixed;
-  top: -$notification-height;
+  top: -${notificationHeight};
   z-index: 1500;
   background-color: rgba(46, 139, 166, 0.9);
   left: 0%;
   width: 100%;
   margin: auto;
-  height: $notification-height;
+  height: ${notificationHeight};
   text-align: center;
   transition: transform 350ms ease;
 
   &.update {
-    top: -$notification-update-height;
-    height: $notification-update-height;
+    top: -${notificationUpdateHeight};
+    height: ${notificationUpdateHeight};
   }
 
   &.visible {
     display: block;
-    transform: translateY($notification-height);
+    transform: translateY(${notificationHeight});
   }
 
   &.update.visible {
-    transform: translateY($notification-update-height);
+    transform: translateY(${notificationUpdateHeight});
   }
 
-  @media (max-width: $mobile-width) {
-    top: -$notification-height-mobile;
-    height: $notification-height-mobile;
+  @media (max-width: ${mobileWidth}) {
+    top: -${notificationHeightMobile};
+    height: ${notificationHeightMobile};
     &.update {
-      top: -$notification-height-mobile;
-      height: $notification-height-mobile;
+      top: -${notificationHeightMobile};
+      height: ${notificationHeightMobile};
     }
 
     &.visible,
     &.update.visible {
-      transform: translateY($notification-height-mobile);
+      transform: translateY(${notificationHeightMobile});
     }
   }
 
@@ -63,7 +64,7 @@ $mobile-width: 550px;
     font-weight: bold;
     color: white;
 
-    @media (max-width: $mobile-width) {
+    @media (max-width: ${mobileWidth}) {
       padding: 3em;
       padding-bottom: 2em;
     }
@@ -83,4 +84,4 @@ $mobile-width: 550px;
       background-color: #eeeded;
     }
   }
-}
+`;

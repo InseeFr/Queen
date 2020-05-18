@@ -12,7 +12,7 @@ cache: yarn
 
 script:
   - yarn install
-  - yarn build-docker
+  - yarn build
   - docker build -t inseefr/queen .
 
 before_script:

@@ -1,10 +1,10 @@
 import Axios from 'axios';
 import { getSecureHeader } from './utils';
-import data from '../fake-survey/data.json';
+// import data from '../fake-survey/data.json';
 
-export const getSurveyUnitByIdOperation = (urlQueenApi, token) => id =>
+export const getSurveyUnitByIdOperation = (QUEEN_API_URL, token) => id =>
   new Promise((resolve, reject) => {
-    Axios.get(`${urlQueenApi}/api/operation/${id}/reporting-units`, {
+    Axios.get(`${QUEEN_API_URL}/api/operation/${id}/reporting-units`, {
       headers: {
         ...getSecureHeader(token),
         Accept: 'application/json;charset=utf-8',
@@ -16,9 +16,9 @@ export const getSurveyUnitByIdOperation = (urlQueenApi, token) => id =>
       );
   });
 
-export const getDataSurveyUnitById = (urlQueenApi, token) => id =>
+export const getDataSurveyUnitById = (QUEEN_API_URL, token) => id =>
   new Promise((resolve, reject) => {
-    Axios.get(`${urlQueenApi}/api/reporting-unit/${id}/data`, {
+    Axios.get(`${QUEEN_API_URL}/api/reporting-unit/${id}/data`, {
       headers: {
         ...getSecureHeader(token),
         Accept: 'application/json;charset=utf-8',
@@ -30,9 +30,9 @@ export const getDataSurveyUnitById = (urlQueenApi, token) => id =>
       );
   });
 
-export const putDataSurveyUnitById = (urlQueenApi, token) => (id, data) =>
+export const putDataSurveyUnitById = (QUEEN_API_URL, token) => (id, data) =>
   new Promise((resolve, reject) => {
-    Axios.put(`${urlQueenApi}/api/reporting-unit/${id}/data`, data, {
+    Axios.put(`${QUEEN_API_URL}/api/reporting-unit/${id}/data`, data, {
       headers: {
         ...getSecureHeader(token),
         Accept: 'application/json;charset=utf-8',
@@ -42,9 +42,9 @@ export const putDataSurveyUnitById = (urlQueenApi, token) => (id, data) =>
       .catch(e => reject(new Error(`Failed to put data of survey-unit (id:${id}) : ${e.message}`)));
   });
 
-export const getCommentSurveyUnitById = (urlQueenApi, token) => id =>
+export const getCommentSurveyUnitById = (QUEEN_API_URL, token) => id =>
   new Promise((resolve, reject) => {
-    Axios.get(`${urlQueenApi}/api/reporting-unit/${id}/comment`, {
+    Axios.get(`${QUEEN_API_URL}/api/reporting-unit/${id}/comment`, {
       headers: {
         ...getSecureHeader(token),
         Accept: 'application/json;charset=utf-8',
@@ -56,9 +56,9 @@ export const getCommentSurveyUnitById = (urlQueenApi, token) => id =>
       );
   });
 
-export const putCommentSurveyUnitById = (urlQueenApi, token) => (id, comment) =>
+export const putCommentSurveyUnitById = (QUEEN_API_URL, token) => (id, comment) =>
   new Promise((resolve, reject) => {
-    Axios.put(`${urlQueenApi}/api/reporting-unit/${id}/comment`, comment, {
+    Axios.put(`${QUEEN_API_URL}/api/reporting-unit/${id}/comment`, comment, {
       headers: {
         ...getSecureHeader(token),
         Accept: 'application/json;charset=utf-8',

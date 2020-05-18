@@ -8,7 +8,7 @@ import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-servic
 import { AUTHENTICATION_MODE_ENUM, READ_ONLY } from 'utils/constants';
 import D from 'i18n';
 import * as UQ from 'utils/questionnaire';
-import { sendCloseEvent, sendCompletedEvent } from 'utils/communication';
+import { sendCloseEvent } from 'utils/communication';
 import * as api from 'utils/api';
 import Orchestrator from '../orchestrator';
 import NotFound from '../shared/not-found';
@@ -54,7 +54,7 @@ const OrchestratorManager = ({ match, configuration }) => {
         initOrchestrator();
       }
     }
-  }, [init]);
+  }, [init, configuration, match.params.readonly, match.params.idQ, match.params.idSU]);
 
   /**
    * Build special questionnaire for Queen
@@ -73,13 +73,13 @@ const OrchestratorManager = ({ match, configuration }) => {
       setWaiting(false);
       setInit(true);
     }
-  }, [questionnaire, surveyUnit]);
+  }, [init, questionnaire, surveyUnit]);
 
   const putSurveyUnit = async unit => {
     try {
       const token = null;
-      await api.putDataSurveyUnitById(configuration.urlQueenApi, token)(unit.id, unit.data);
-      await api.putCommentSurveyUnitById(configuration.urlQueenApi, token)(unit.id, unit.comment);
+      await api.putDataSurveyUnitById(configuration.QUEEN_API_URL, token)(unit.id, unit.data);
+      await api.putCommentSurveyUnitById(configuration.QUEEN_API_URL, token)(unit.id, unit.comment);
     } catch (e) {
       setError(true);
       setErrorMessage(`${D.putSurveyUnitFailed} : ${e.message}`);
@@ -134,9 +134,9 @@ OrchestratorManager.propTypes = {
   }).isRequired,
   configuration: PropTypes.shape({
     standalone: PropTypes.bool.isRequired,
-    urlQueen: PropTypes.string.isRequired,
-    urlQueenApi: PropTypes.string.isRequired,
-    authenticationMode: PropTypes.oneOf(AUTHENTICATION_MODE_ENUM).isRequired,
+    QUEEN_URL: PropTypes.string.isRequired,
+    QUEEN_API_URL: PropTypes.string.isRequired,
+    QUEEN_AUTHENTICATION_MODE: PropTypes.oneOf(AUTHENTICATION_MODE_ENUM).isRequired,
   }).isRequired,
 };
 

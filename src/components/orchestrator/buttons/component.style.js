@@ -1,10 +1,11 @@
-@import '../../style/variables.scss';
+import styled from 'styled-components';
+const backgroundButtonColor = '#085394';
 
-.buttons {
+export const StyleWrapper = styled.div`
   text-align: right;
 
   .navigation-button {
-    background-color: $background-button-color;
+    background-color: ${backgroundButtonColor};
     border: none;
     border-radius: 5px;
     color: white;
@@ -16,7 +17,7 @@
     &:focus {
       border: none;
       background-color: white;
-      color: $background-button-color;
+      color: ${backgroundButtonColor};
     }
 
     &:disabled {
@@ -79,4 +80,4 @@
       }
     }
   }
-}
+`;

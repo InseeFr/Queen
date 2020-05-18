@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import KeyboardEventHandler from 'react-keyboard-event-handler';
+// import KeyboardEventHandler from 'react-keyboard-event-handler';
 import * as lunatic from '@inseefr/lunatic';
-import alphabet from 'utils/constants/alphabet';
+// import alphabet from 'utils/constants/alphabet';
 import * as UQ from 'utils/questionnaire';
-import { DIRECT_CONTINUE_COMPONENTS, KEYBOARD_SHORTCUT_COMPONENTS } from 'utils/constants';
+import { DIRECT_CONTINUE_COMPONENTS /* , KEYBOARD_SHORTCUT_COMPONENTS */ } from 'utils/constants';
 import { sendStartedEvent, sendCompletedEvent } from 'utils/communication';
 import Header from './header';
 import Buttons from './buttons';
@@ -33,7 +33,7 @@ const Orchestrator = ({
   const [currentPage, setCurrentPage] = useState(1);
 
   const [specialQueenData, setSpecialQueenData] = useState(dataSU.specialQueenData);
-  const [comment, setComment] = useState(surveyUnit.comment);
+  const [comment /* , setComment */] = useState(surveyUnit.comment);
   const [previousResponse, setPreviousResponse] = useState(null);
 
   /**
@@ -81,19 +81,32 @@ const Orchestrator = ({
    *  At the end, it calls the saving method of its parent (saving into indexdb)
    * @param {*} lastSpecialQueenData (specialQueenData update by "Refusal" and "doesn't know" buttons )
    */
-  const saveQueen = async (lastSpecialQueenData = specialQueenData) => {
-    let newQuestionnaire = questionnaire;
-    if (previousResponse) {
-      const newResponse = UQ.getCollectedResponse(component);
-      if (JSON.stringify(newResponse) !== JSON.stringify(previousResponse)) {
-        newQuestionnaire = UQ.updateResponseFiltered(newQuestionnaire)(component);
-        setQuestionnaire(newQuestionnaire); // update questionnaire with updated values
+  const saveQueen = useCallback(
+    async (lastSpecialQueenData = specialQueenData) => {
+      let newQuestionnaire = questionnaire;
+      if (previousResponse) {
+        const newResponse = UQ.getCollectedResponse(component);
+        if (JSON.stringify(newResponse) !== JSON.stringify(previousResponse)) {
+          newQuestionnaire = UQ.updateResponseFiltered(newQuestionnaire)(component);
+          setQuestionnaire(newQuestionnaire); // update questionnaire with updated values
+        }
       }
-    }
-    setSpecialQueenData(lastSpecialQueenData); // update specialQueenData according to selected buttons
-    const dataToSave = UQ.getStateToSave(newQuestionnaire)(lastSpecialQueenData);
-    await save({ ...surveyUnit, data: dataToSave, comment });
-  };
+      setSpecialQueenData(lastSpecialQueenData); // update specialQueenData according to selected buttons
+      const dataToSave = UQ.getStateToSave(newQuestionnaire)(lastSpecialQueenData);
+      await save({ ...surveyUnit, data: dataToSave, comment });
+    },
+    [
+      comment,
+      component,
+      save,
+      surveyUnit,
+      questionnaire,
+      previousResponse,
+      specialQueenData,
+      setQuestionnaire,
+      setSpecialQueenData,
+    ]
+  );
 
   /**
    * @return boolean if user has entered at least one value in current component.
@@ -108,19 +121,31 @@ const Orchestrator = ({
     setCurrentPage(UQ.getPreviousPage(filteredComponents)(currentPage));
   };
 
-  const goNext = async (lastSpecialQueenData = specialQueenData) => {
-    if (!started && !standalone) {
-      const newResponse = UQ.getCollectedResponse(component);
-      if (Object.keys(newResponse).length > 0) {
-        setStarted(true);
-        await sendStartedEvent(surveyUnit.id);
+  const goNext = useCallback(
+    async (lastSpecialQueenData = specialQueenData) => {
+      if (!started && !standalone) {
+        const newResponse = UQ.getCollectedResponse(component);
+        if (Object.keys(newResponse).length > 0) {
+          setStarted(true);
+          await sendStartedEvent(surveyUnit.id);
+        }
       }
-    }
-    saveQueen(lastSpecialQueenData);
-    setPreviousResponse(null);
-    const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
-    setCurrentPage(nextPage);
-  };
+      saveQueen(lastSpecialQueenData);
+      setPreviousResponse(null);
+      const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
+      setCurrentPage(nextPage);
+    },
+    [
+      component,
+      standalone,
+      started,
+      surveyUnit.id,
+      filteredComponents,
+      saveQueen,
+      specialQueenData,
+      currentPage,
+    ]
+  );
 
   const goFastForward = (lastSpecialQueenData = specialQueenData) => {
     saveQueen(lastSpecialQueenData);
@@ -151,7 +176,7 @@ const Orchestrator = ({
     ) {
       goNext();
     }
-  }, [questionnaire]);
+  }, [questionnaire, componentType, isLastComponent, previousResponse, goNext]);
 
   const Component = lunatic[componentType];
   const newOptions = UQ.buildQueenOptions(componentType, options, bindings);
