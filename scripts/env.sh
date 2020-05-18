@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Recreate config file
-cp ./configuration/configuration.json ./configuration.json
 # Read each line in .env file
 # Each line represents key=value pairs
 while read -r line || [[ -n "$line" ]];

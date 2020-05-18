@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 export const StyleWrapper = styled.div`
   position: fixed;
   top: 0;
