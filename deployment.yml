@@ -15,3 +15,7 @@ spec:
       containers:
         - name: queen
           image: inseefr/queen:latest
+          env:
+           - name: QUEEN_URL
+             value: 'https://queen.demo.dev.sspcloud.fr'
+
