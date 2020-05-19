@@ -1,7 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable no-undef */
-/* eslint-disable no-restricted-globals */
-
 const getUrlRegex = url => {
   return url.replace('http', '^http').concat('/(.*)((.json)|(.js)|(.png)|(.svg))');
 };

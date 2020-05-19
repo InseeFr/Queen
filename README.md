@@ -27,11 +27,8 @@ There are three environments variables :
 
 ### With docker :
 
-- `yarn`
-- `yarn build`
-- `docker build -t example/queen .`
-- `docker run -p 5000:80 -t example/queen`
+- `docker run -p 5000:80 -t inseefr/queen`
 
 To override environments variables you can do :
 
-- `docker run -p 80:80 -e QUEEN_URL=http://override.value.com -e QUEEN_API_URL=... -e QUEEN_AUTHENTICATION_MODE=... -t example/queen`
+- `docker run -p 80:80 -e QUEEN_URL=http://override.value.com -e QUEEN_API_URL=... -e QUEEN_AUTHENTICATION_MODE=... -t inseefr/queen`
