@@ -19,7 +19,8 @@ There are three environments variables :
 
 ### With node :
 
-- change the configuration.json file in the public folder.
+For node : default values of the configuration are defined in [configuration.json](public/configuration.json) file.
+
 - `yarn`
 - `yarn start`
 - Queen will be available to http://localhost:5000
@@ -28,6 +29,10 @@ There are three environments variables :
 ### With docker :
 
 - `docker run -p 5000:80 -t inseefr/queen`
+- Queen will be available to http://localhost:5000
+  (Go to http://localhost:5000/queen/questionnaire/simpsons2020x00/survey-unit/11 to see a example)
+
+For docker : default values of the configuration are defined in [.env](.env) file.
 
 To override environments variables you can do :
 
