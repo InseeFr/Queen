@@ -6,6 +6,7 @@
 
 - [Démarrage](developer-guide/getting-started.md)
 - [Découvrir l'application](developer-guide/application.md)
+  - [Orchestrateur de composant](developer-guide/components-orchestrator.md)
   - [Organisation du code](developer-guide/code-organization.md)
   - [Spécificité](developer-guide/specificity/specificity.md)
     - [Web component](developer-guide/specificity/web-component.md)
@@ -18,9 +19,9 @@
     - [Questionnaire](developer-guide/data-model/questionnaire.md)
     - [Unité enquêtée](developer-guide/data-model/survey-unit.md)
   - [API](developer-guide/api.md)
-  - [Étape du build](developer-guide/build.md)
 - [Intégrer Queen en tant que Web Component (embarqué)](developer-guide/integrate-queen.md)
   - [Exemple de Pearl-Jam](developer-guide/integrate-example.md)
+- [Étape du build](developer-guide/build.md)
 - [Docker](developer-guide/docker.md)
 
 ## Guide utilisateur
