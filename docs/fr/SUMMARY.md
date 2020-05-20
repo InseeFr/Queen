@@ -24,3 +24,4 @@
 
 - [Guide utilisateur](user-guide/user-guide.md)
   - [Navigation](user-guide/navigation.md)
+  - [Synchroniser](user-guide/synchronize.md)
