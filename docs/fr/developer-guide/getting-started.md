@@ -5,10 +5,10 @@
 Pour commencer à développer sur Queen les prérequis sont:
 
 - [node](https://nodejs.org)
-- yarn
+- [yarn](https://www.npmjs.com/package/yarn)
 - git
 - un IDE orienté Javascript ([Visual Studio Code](https://code.visualstudio.com) par exemple)
-- docker (falcultatif)
+- docker (facultatif)
 
 ## Gestion du code
 
