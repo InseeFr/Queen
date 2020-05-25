@@ -16,11 +16,12 @@ Dans l'image docker finale il y a :
 Juste avant le lancement du `nginx`, le script `env.sh` est exécuté et permet de valoriser le fichier `configuration.json` avec les variables du fichier `.env` surchargées par les variables d'environnements passées à l'image docker.
 
 Les variables d'environnements utilisées sont :
-| Variable | Valeur | Valeur par défaut |
+
+| Variable                  | Valeur                                                                          | Valeur par défaut                     |
 | ------------------------- | ------------------------------------------------------------------------------- | ------------------------------------- |
-| QUEEN_URL | Final URL of the Queen application | http://localhost:5000 |
-| QUEEN_API_URL | URL of the [back-office of Queen](https://github.com/InseeFr/Queen-Back-Office) | https://queen-bo.demo.dev.sspcloud.fr |
-| QUEEN_AUTHENTICATION_MODE | The mode of authentication. Currently, Queen is supporting 'anonymous' | anonymous
+| QUEEN_URL                 | Final URL of the Queen application                                              | http://localhost:5000                 |
+| QUEEN_API_URL             | URL of the [back-office of Queen](https://github.com/InseeFr/Queen-Back-Office) | https://queen-bo.demo.dev.sspcloud.fr |
+| QUEEN_AUTHENTICATION_MODE | The mode of authentication. Currently, Queen is supporting 'anonymous'          | anonymous                             |
 
 ## Récupérer l'image docker
 
