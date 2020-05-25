@@ -30,8 +30,9 @@ Les variables d'environnements utilisées sont :
 ## Builder l'image docker
 
 A la racine du projet :
-`yarn build`
-`docker build -t example/queen .`
+
+- `yarn build`
+- `docker build -t example/queen .`
 
 ## Utiliser l'image docker
 
@@ -41,4 +42,4 @@ En ligne de commande en tapant simplement:
 Si vous souhaitez surcharger la configuration par défaut :
 `docker run -p 80:80 -e QUEEN_URL=http://override.value.com -e QUEEN_API_URL=... -e QUEEN_AUTHENTICATION_MODE=... -t inseefr/queen`
 
-Via kubernetes : un exemple de configuration est disponible [ici](https://github.com/InseeFr/Queen/blob/master/deployment.yml).
+Via `kubernetes` : un exemple de configuration est disponible [ici](https://github.com/InseeFr/Queen/blob/master/deployment.yml).
