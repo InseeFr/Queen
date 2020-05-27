@@ -16,7 +16,7 @@
 #### CI :
 
 - `.travis.yml` : script d'intégration continue executé par [travis-ci.org](https://travis-ci.org)
-- `.ci/comment-pr.sh` :scipt utilisé au sein du `.travis.yml`
+- `.ci/comment-pr.sh` :script utilisé au sein du `.travis.yml`
 
 #### Docker :
 
@@ -27,9 +27,7 @@
 
 #### Kubernetes :
 
-- deployment.yml :
-- ingress.yml :
-- service.yml :
+deployment.yml, ingress.yml, service.yml :fichiers pour la configuration de kubernetes
 
 ### Dossier `configuration`
 
