@@ -8,12 +8,14 @@ import BreadcrumbQueen from '../breadcrumb';
 import { StyleWrapper } from './header.style.js';
 
 const Header = ({
+  menuOpen,
+  setMenuOpen,
   standalone,
   title,
   quit,
   sequence,
   subsequence,
-  components,
+  questionnaire,
   bindings,
   setPage,
 }) => {
@@ -21,7 +23,14 @@ const Header = ({
 
   return (
     <StyleWrapper className={`${standalone ? 'standalone' : ''}`}>
-      <Navigation title={title} components={components} bindings={bindings} setPage={setPage} />
+      <Navigation
+        menuOpen={menuOpen}
+        setMenuOpen={setMenuOpen}
+        title={title}
+        questionnaire={questionnaire}
+        bindings={bindings}
+        setPage={setPage}
+      />
       <div className="header-item">
         <button
           type="button"
@@ -46,9 +55,15 @@ const Header = ({
     </StyleWrapper>
   );
 };
-
+const comparison = (prevProps, nextProps) => {
+  return (
+    !nextProps.menuOpen &&
+    prevProps.sequence === nextProps.sequence &&
+    prevProps.subsequence === nextProps.subsequence
+  );
+};
 Header.propTypes = {
   title: PropTypes.string.isRequired,
 };
 
-export default Header;
+export default React.memo(Header, comparison);

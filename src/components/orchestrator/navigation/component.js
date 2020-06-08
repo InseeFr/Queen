@@ -10,7 +10,7 @@ import { StyleWrapper } from './component.style';
 import SequenceNavigation from './sequenceNavigation';
 import SubsequenceNavigation from './subSequenceNavigation';
 
-const Navigation = ({ title, components, bindings, setPage }) => {
+const Navigation = ({ menuOpen, setMenuOpen, title, questionnaire, bindings, setPage }) => {
   const [open, setOpen] = useState(false);
   const [surveyOpen, setSurveyOpen] = useState(false);
   const [currentFocusItemIndex, setCurrentFocusItemIndex] = useState(-1);
@@ -21,38 +21,39 @@ const Navigation = ({ title, components, bindings, setPage }) => {
   };
 
   const lastPossiblePage = useMemo(() => {
-    return surveyOpen
-      ? UQ.getFastForwardPage(components.filter(({ filtered }) => !filtered))(null)
-      : null;
-  }, [surveyOpen, components]);
+    return surveyOpen ? UQ.getFastForwardPage(questionnaire)(bindings)(null) : null;
+  }, [surveyOpen, questionnaire, bindings]);
 
-  const componentsVTL = components.reduce((_, { componentType, labelNav, ...other }) => {
-    if (componentType === 'Sequence') {
-      const { page } = other;
-      return [
-        ..._,
-        {
-          componentType,
-          labelNav: getVtlLabel(labelNav),
-          reachable: page <= lastPossiblePage,
-          ...other,
-        },
-      ];
-    }
-    if (componentType === 'Subsequence') {
-      const { goToPage } = other;
-      return [
-        ..._,
-        {
-          componentType,
-          labelNav: getVtlLabel(labelNav),
-          reachable: goToPage <= lastPossiblePage,
-          ...other,
-        },
-      ];
-    }
-    return _;
-  }, []);
+  const componentsVTL = questionnaire.components.reduce(
+    (_, { componentType, labelNav, ...other }) => {
+      if (componentType === 'Sequence') {
+        const { page } = other;
+        return [
+          ..._,
+          {
+            componentType,
+            labelNav: getVtlLabel(labelNav),
+            reachable: page <= lastPossiblePage,
+            ...other,
+          },
+        ];
+      }
+      if (componentType === 'Subsequence') {
+        const { goToPage } = other;
+        return [
+          ..._,
+          {
+            componentType,
+            labelNav: getVtlLabel(labelNav),
+            reachable: goToPage <= lastPossiblePage,
+            ...other,
+          },
+        ];
+      }
+      return _;
+    },
+    []
+  );
 
   const getSubsequenceComponents = useMemo(
     () => id =>
@@ -96,8 +97,9 @@ const Navigation = ({ title, components, bindings, setPage }) => {
   const openCloseMenu = useCallback(() => {
     if (surveyOpen) openCloseSubMenu();
     setOpen(!open);
+    setMenuOpen(!open);
     listRef[0].current.focus();
-  }, [surveyOpen, listRef, open, openCloseSubMenu]);
+  }, [surveyOpen, listRef, open, setMenuOpen, openCloseSubMenu]);
 
   const setNavigationPage = page => {
     setPage(page);
@@ -221,11 +223,13 @@ const Navigation = ({ title, components, bindings, setPage }) => {
   );
 };
 
+const comparison = (prevProps, nextProps) => !nextProps.menuOpen;
+
 Navigation.propTypes = {
   title: PropTypes.string.isRequired,
   bindings: PropTypes.objectOf(PropTypes.any).isRequired,
-  components: PropTypes.arrayOf(PropTypes.any).isRequired,
+  questionnaire: PropTypes.objectOf(PropTypes.any).isRequired,
   setPage: PropTypes.func.isRequired,
 };
 
-export default Navigation;
+export default React.memo(Navigation, comparison);

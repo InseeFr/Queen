@@ -129,9 +129,20 @@ export const getResponsesNameFromComponent = component => {
   return [];
 };
 
-export const getCollectedResponse = component => {
-  const fakeQuestionnaire = { components: [component] };
-  return lunatic.getCollectedStateByValueType(fakeQuestionnaire)('COLLECTED');
+export const getCollectedResponse = questionnaire => component => {
+  const { id } = component;
+  const { variables } = questionnaire;
+  const { COLLECTED, ...other } = variables;
+  const newCOLLECTED = Object.entries(COLLECTED).reduce((init, [name, values]) => {
+    const newVar = init;
+    const { componentRef } = values;
+    if (componentRef === id) {
+      newVar[name] = values;
+    }
+    return newVar;
+  }, {});
+  const newVariables = { COLLECTED: newCOLLECTED, ...other };
+  return lunatic.getCollectedStateByValueType({ variables: newVariables })('COLLECTED');
 };
 
 /**

@@ -196,4 +196,4 @@ Buttons.propTypes = {
   finalQuit: PropTypes.func.isRequired,
 };
 
-export default Buttons;
+export default React.memo(Buttons);

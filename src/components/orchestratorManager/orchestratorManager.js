@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Preloader from 'components/shared/preloader';
-import * as lunatic from '@inseefr/lunatic';
 import Error from 'components/shared/Error';
 import { initialize } from 'utils/initializeOrchestrator';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
@@ -65,8 +64,10 @@ const OrchestratorManager = ({ match, configuration }) => {
       const { data, ...other } = surveyUnit;
       setSurveyUnit(other);
       const newDataSU = UQ.buildSpecialQueenData(data);
-      const newQuestionnaire = lunatic.mergeQuestionnaireAndData(questionnaire)(newDataSU.data);
-      newQuestionnaire.components = UQ.buildQueenQuestionnaire(newQuestionnaire.components);
+      const newQuestionnaire = {
+        ...questionnaire,
+        components: UQ.buildQueenQuestionnaire(questionnaire.components),
+      };
       setQuestionnaire(newQuestionnaire);
       setDataSU(newDataSU);
 
@@ -115,6 +116,7 @@ const OrchestratorManager = ({ match, configuration }) => {
           readonly={readonly}
           savingType="COLLECTED"
           preferences={['COLLECTED']}
+          features={['VTL']}
           filterDescription={false}
           save={saveSU}
           close={closeOrchestrator}

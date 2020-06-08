@@ -16,12 +16,14 @@ const Orchestrator = ({
   readonly,
   savingType,
   preferences,
+  features,
   source,
   dataSU,
   filterDescription,
   save,
   close,
 }) => {
+  const [menuOpen, setMenuOpen] = useState(false);
   const [started, setStarted] = useState(() => {
     if (dataSU.data.COLLECTED) {
       return Object.keys(dataSU.data.COLLECTED).length > 0;
@@ -29,7 +31,16 @@ const Orchestrator = ({
     return false;
   });
 
-  const [questionnaire, setQuestionnaire] = useState(source);
+  const { questionnaire, components, handleChange, bindings } = lunatic.useLunatic(
+    source,
+    dataSU.data,
+    {
+      savingType,
+      preferences,
+      features,
+    }
+  );
+
   const [currentPage, setCurrentPage] = useState(1);
 
   const [specialQueenData, setSpecialQueenData] = useState(dataSU.specialQueenData);
@@ -45,31 +56,30 @@ const Orchestrator = ({
   const onChange = component => updatedValue => {
     if (!readonly) {
       if (!previousResponse) {
-        setPreviousResponse(UQ.getCollectedResponse(component));
+        setPreviousResponse(UQ.getCollectedResponse(questionnaire)(component));
       }
-      setQuestionnaire(
-        lunatic.updateQuestionnaire(savingType)(questionnaire)(preferences)(updatedValue)
-      );
+      handleChange(updatedValue);
     }
   };
-
-  const bindings = lunatic.getBindings(questionnaire);
 
   /**
    * queenComponents = all components expect empty Subsequence.
    * (Empty Subsequence hasn't page attribute)
    */
-  const components = questionnaire.components.map(({ conditionFilter, ...other }) => {
-    if (lunatic.interpret(['VTL'])(bindings)(conditionFilter) === 'normal') {
-      return { conditionFilter, ...other, filtered: false };
-    }
-    return { conditionFilter, ...other, filtered: true };
-  });
+  // const components = questionnaire.components.map(({ conditionFilter, ...other }) => {
+  //   if (lunatic.interpret(['VTL'])(bindings)(conditionFilter) === 'normal') {
+  //     return { conditionFilter, ...other, filtered: false };
+  //   }
+  //   return { conditionFilter, ...other, filtered: true };
+  // });
   const queenComponents = components.filter(c => c.page);
-  const filteredComponents = queenComponents.filter(({ filtered }) => !filtered);
+  // const filteredComponents = queenComponents.filter(({ filtered }) => !filtered);
+  const filteredComponents = queenComponents;
 
   const component = filteredComponents.find(({ page }) => page === currentPage);
   const { id, componentType, sequence, subsequence, options, ...props } = component;
+  console.log('current component');
+  console.log(component);
   // TODO : get specialAnswer from component (specified in Pogues)
   // to wait, set to false by default
   const specialAnswer = { refusal: false, doesntKnow: false };
@@ -85,10 +95,10 @@ const Orchestrator = ({
     async (lastSpecialQueenData = specialQueenData) => {
       let newQuestionnaire = questionnaire;
       if (previousResponse) {
-        const newResponse = UQ.getCollectedResponse(component);
+        const newResponse = UQ.getCollectedResponse(questionnaire)(component);
         if (JSON.stringify(newResponse) !== JSON.stringify(previousResponse)) {
           newQuestionnaire = UQ.updateResponseFiltered(newQuestionnaire)(component);
-          setQuestionnaire(newQuestionnaire); // update questionnaire with updated values
+          //setQuestionnaire(newQuestionnaire); // update questionnaire with updated values
         }
       }
       setSpecialQueenData(lastSpecialQueenData); // update specialQueenData according to selected buttons
@@ -103,7 +113,6 @@ const Orchestrator = ({
       questionnaire,
       previousResponse,
       specialQueenData,
-      setQuestionnaire,
       setSpecialQueenData,
     ]
   );
@@ -112,7 +121,7 @@ const Orchestrator = ({
    * @return boolean if user has entered at least one value in current component.
    */
   const goNextCondition = () => {
-    const responseKeys = Object.keys(UQ.getCollectedResponse(component));
+    const responseKeys = Object.keys(UQ.getCollectedResponse(questionnaire)(component));
     return ['Sequence', 'Subsequence'].includes(componentType) || responseKeys.length !== 0;
   };
 
@@ -124,7 +133,7 @@ const Orchestrator = ({
   const goNext = useCallback(
     async (lastSpecialQueenData = specialQueenData) => {
       if (!started && !standalone) {
-        const newResponse = UQ.getCollectedResponse(component);
+        const newResponse = UQ.getCollectedResponse(questionnaire)(component);
         if (Object.keys(newResponse).length > 0) {
           setStarted(true);
           await sendStartedEvent(surveyUnit.id);
@@ -136,6 +145,7 @@ const Orchestrator = ({
       setCurrentPage(nextPage);
     },
     [
+      questionnaire,
       component,
       standalone,
       started,
@@ -147,12 +157,15 @@ const Orchestrator = ({
     ]
   );
 
-  const goFastForward = (lastSpecialQueenData = specialQueenData) => {
-    saveQueen(lastSpecialQueenData);
-    setPreviousResponse(null);
-    const fastForwardPage = UQ.getFastForwardPage(filteredComponents)(lastSpecialQueenData);
-    setCurrentPage(fastForwardPage);
-  };
+  const goFastForward = useCallback(
+    (lastSpecialQueenData = specialQueenData) => {
+      saveQueen(lastSpecialQueenData);
+      setPreviousResponse(null);
+      const fastForwardPage = UQ.getFastForwardPage(questionnaire)(bindings)(lastSpecialQueenData);
+      setCurrentPage(fastForwardPage);
+    },
+    [questionnaire, bindings]
+  );
 
   const quit = async () => {
     if (isLastComponent) {
@@ -185,13 +198,15 @@ const Orchestrator = ({
     <>
       <div id="queen-body">
         <Header
+          menuOpen={menuOpen}
+          setMenuOpen={setMenuOpen}
           standalone={standalone}
           title={questionnaire.label}
           quit={quit}
           sequence={lunatic.interpret(['VTL'])(bindings)(sequence)}
-          components={components}
-          bindings={bindings}
           subsequence={lunatic.interpret(['VTL'])(bindings)(subsequence)}
+          questionnaire={questionnaire}
+          bindings={bindings}
           setPage={setCurrentPage}
         />
         <div className="body-container">
@@ -209,9 +224,10 @@ const Orchestrator = ({
                 handleChange={onChange(component)}
                 labelPosition="TOP"
                 preferences={preferences}
-                features={['VTL']}
+                features={features}
                 bindings={bindings}
                 filterDescription={filterDescription}
+                writable
                 readOnly={readonly}
                 disabled={readonly}
                 focused
@@ -219,7 +235,10 @@ const Orchestrator = ({
               />
             </div>
           </div>
-          <NavBar nbModules={queenComponents.length} page={currentPage} />
+          <NavBar
+            nbModules={questionnaire.components.filter(c => c.page).length}
+            page={currentPage}
+          />
           <Buttons
             readonly={readonly}
             currentComponent={component}
@@ -238,7 +257,7 @@ const Orchestrator = ({
               handleKeys={keyToHandle}
               onKeyEvent={(key, e) => {
                 const responses = UQ.getResponsesNameFromComponent(component);
-                const responsesCollected = UQ.getCollectedResponse(component);
+                const responsesCollected = UQ.getCollectedResponse(questionnaire)(component);
                 const updatedValue = {};
                 if (componentType === 'CheckboxOne') {
                   updatedValue[responses[0]] = key;
@@ -264,6 +283,7 @@ Orchestrator.propTypes = {
   readonly: PropTypes.bool.isRequired,
   savingType: PropTypes.oneOf(['COLLECTED', 'FORCED', 'EDITED']).isRequired,
   preferences: PropTypes.arrayOf(PropTypes.string).isRequired,
+  features: PropTypes.arrayOf(PropTypes.string).isRequired,
   filterDescription: PropTypes.bool.isRequired,
   source: PropTypes.objectOf(PropTypes.any).isRequired,
   dataSU: PropTypes.shape({
@@ -274,4 +294,4 @@ Orchestrator.propTypes = {
   close: PropTypes.func.isRequired,
 };
 
-export default Orchestrator;
+export default React.memo(Orchestrator);
