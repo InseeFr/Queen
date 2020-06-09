@@ -10,6 +10,7 @@ import * as UQ from 'utils/questionnaire';
 import { sendCloseEvent } from 'utils/communication';
 import * as api from 'utils/api';
 import Orchestrator from '../orchestrator';
+import simpsons from 'utils/fake-survey/simpsons';
 import NotFound from '../shared/not-found';
 
 const OrchestratorManager = ({ match, configuration }) => {
@@ -65,8 +66,8 @@ const OrchestratorManager = ({ match, configuration }) => {
       setSurveyUnit(other);
       const newDataSU = UQ.buildSpecialQueenData(data);
       const newQuestionnaire = {
-        ...questionnaire,
-        components: UQ.buildQueenQuestionnaire(questionnaire.components),
+        ...simpsons,
+        components: UQ.buildQueenQuestionnaire(simpsons.components),
       };
       setQuestionnaire(newQuestionnaire);
       setDataSU(newDataSU);
