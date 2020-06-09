@@ -53,7 +53,7 @@ const Orchestrator = ({
    * This function is disabled when app is in readonly mode.
    * @param {*} component the current component
    */
-  const onChange = component => updatedValue => {
+  const onChange = (component) => (updatedValue) => {
     if (!readonly) {
       if (!previousResponse) {
         setPreviousResponse(UQ.getCollectedResponse(questionnaire)(component));
@@ -62,19 +62,7 @@ const Orchestrator = ({
     }
   };
 
-  /**
-   * queenComponents = all components expect empty Subsequence.
-   * (Empty Subsequence hasn't page attribute)
-   */
-  // const components = questionnaire.components.map(({ conditionFilter, ...other }) => {
-  //   if (lunatic.interpret(['VTL'])(bindings)(conditionFilter) === 'normal') {
-  //     return { conditionFilter, ...other, filtered: false };
-  //   }
-  //   return { conditionFilter, ...other, filtered: true };
-  // });
-  const queenComponents = components.filter(c => c.page);
-  // const filteredComponents = queenComponents.filter(({ filtered }) => !filtered);
-  const filteredComponents = queenComponents;
+  const filteredComponents = components.filter((c) => c.page);
 
   const component = filteredComponents.find(({ page }) => page === currentPage);
   const { id, componentType, sequence, subsequence, options, ...props } = component;
@@ -93,16 +81,8 @@ const Orchestrator = ({
    */
   const saveQueen = useCallback(
     async (lastSpecialQueenData = specialQueenData) => {
-      let newQuestionnaire = questionnaire;
-      if (previousResponse) {
-        const newResponse = UQ.getCollectedResponse(questionnaire)(component);
-        if (JSON.stringify(newResponse) !== JSON.stringify(previousResponse)) {
-          newQuestionnaire = UQ.updateResponseFiltered(newQuestionnaire)(component);
-          //setQuestionnaire(newQuestionnaire); // update questionnaire with updated values
-        }
-      }
       setSpecialQueenData(lastSpecialQueenData); // update specialQueenData according to selected buttons
-      const dataToSave = UQ.getStateToSave(newQuestionnaire)(lastSpecialQueenData);
+      const dataToSave = UQ.getStateToSave(questionnaire)(lastSpecialQueenData);
       await save({ ...surveyUnit, data: dataToSave, comment });
     },
     [
@@ -118,11 +98,11 @@ const Orchestrator = ({
   );
 
   /**
-   * @return boolean if user has entered at least one value in current component.
+   * @return boolean if user can continue to the next page.
+   * TODO : manage "refusal" and "doesn't know" response
    */
   const goNextCondition = () => {
-    const responseKeys = Object.keys(UQ.getCollectedResponse(questionnaire)(component));
-    return ['Sequence', 'Subsequence'].includes(componentType) || responseKeys.length !== 0;
+    return true;
   };
 
   const goPrevious = (lastSpecialQueenData = specialQueenData) => {
@@ -236,7 +216,7 @@ const Orchestrator = ({
             </div>
           </div>
           <NavBar
-            nbModules={questionnaire.components.filter(c => c.page).length}
+            nbModules={questionnaire.components.filter((c) => c.page).length}
             page={currentPage}
           />
           <Buttons
