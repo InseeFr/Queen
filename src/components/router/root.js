@@ -23,17 +23,12 @@ const Root = () => {
   useEffect(() => {
     if (!configuration) {
       const loadConfiguration = async () => {
-        const publicUrl = window.location;
-        const response = await fetch(`${publicUrl.origin}/configuration.json`);
+        const QUEEN_URL = window.localStorage.getItem('QUEEN_URL') || '';
+        const publicUrl = window.location.origin;
+        const response = await fetch(`${QUEEN_URL}/configuration.json`);
         let configurationResponse = await response.json();
-        const { QUEEN_URL } = configurationResponse;
-        if (QUEEN_URL === publicUrl.origin) {
-          configurationResponse.standalone = true;
-        } else {
-          const responseFromQueen = await fetch(`${QUEEN_URL}/configuration.json`);
-          configurationResponse = await responseFromQueen.json();
-          configurationResponse.standalone = false;
-        }
+        configurationResponse.standalone = configurationResponse.QUEEN_URL === publicUrl;
+        console.log(`Standalone : ${configurationResponse.QUEEN_URL === publicUrl}`);
         setConfiguration(configurationResponse);
       };
       loadConfiguration();
