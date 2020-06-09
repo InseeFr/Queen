@@ -20,7 +20,10 @@ export const buildQueenQuestionnaire = components => {
   return Array.isArray(components)
     ? components.reduce((_, component) => {
         const { componentType, label, id, declarations } = component;
-        if (componentType && !['Sequence', 'Subsequence'].includes(componentType)) {
+        if (
+          componentType &&
+          !['Sequence', 'Subsequence', 'FilterDescription'].includes(componentType)
+        ) {
           currentPage += 1;
           return [
             ..._,
@@ -90,6 +93,18 @@ export const buildQueenQuestionnaire = components => {
               idSequence: idSeq,
               goToPage: currentPage,
               page: currentPage,
+            },
+          ];
+        }
+        if (componentType === 'FilterDescription') {
+          return [
+            ..._,
+            {
+              ...component,
+              idSequence: idSeq,
+              idSubsequence: idSubseq,
+              sequence: seq,
+              subsequence: subseq,
             },
           ];
         }
