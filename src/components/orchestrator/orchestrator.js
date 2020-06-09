@@ -53,7 +53,7 @@ const Orchestrator = ({
    * This function is disabled when app is in readonly mode.
    * @param {*} component the current component
    */
-  const onChange = (component) => (updatedValue) => {
+  const onChange = component => updatedValue => {
     if (!readonly) {
       if (!previousResponse) {
         setPreviousResponse(UQ.getCollectedResponse(questionnaire)(component));
@@ -62,12 +62,10 @@ const Orchestrator = ({
     }
   };
 
-  const filteredComponents = components.filter((c) => c.page);
+  const filteredComponents = components.filter(c => c.page);
 
   const component = filteredComponents.find(({ page }) => page === currentPage);
   const { id, componentType, sequence, subsequence, options, ...props } = component;
-  console.log('current component');
-  console.log(component);
   // TODO : get specialAnswer from component (specified in Pogues)
   // to wait, set to false by default
   const specialAnswer = { refusal: false, doesntKnow: false };
@@ -85,16 +83,7 @@ const Orchestrator = ({
       const dataToSave = UQ.getStateToSave(questionnaire)(lastSpecialQueenData);
       await save({ ...surveyUnit, data: dataToSave, comment });
     },
-    [
-      comment,
-      component,
-      save,
-      surveyUnit,
-      questionnaire,
-      previousResponse,
-      specialQueenData,
-      setSpecialQueenData,
-    ]
+    [comment, save, surveyUnit, questionnaire, specialQueenData, setSpecialQueenData]
   );
 
   /**
@@ -144,7 +133,7 @@ const Orchestrator = ({
       const fastForwardPage = UQ.getFastForwardPage(questionnaire)(bindings)(lastSpecialQueenData);
       setCurrentPage(fastForwardPage);
     },
-    [questionnaire, bindings]
+    [saveQueen, specialQueenData, questionnaire, bindings]
   );
 
   const quit = async () => {
@@ -216,7 +205,7 @@ const Orchestrator = ({
             </div>
           </div>
           <NavBar
-            nbModules={questionnaire.components.filter((c) => c.page).length}
+            nbModules={questionnaire.components.filter(c => c.page).length}
             page={currentPage}
           />
           <Buttons
