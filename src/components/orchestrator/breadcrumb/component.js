@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Breadcrumb } from '@inseefr/lunatic';
-import { StyleWrapper } from './component.style.js';
+import { StyleWrapper } from './component.style';
 
 const BreadcrumbQueen = ({ sequence, subsequence }) => {
   return (
@@ -20,4 +20,4 @@ BreadcrumbQueen.defaultProps = {
   subsequence: '',
 };
 
-export default BreadcrumbQueen;
+export default React.memo(BreadcrumbQueen);

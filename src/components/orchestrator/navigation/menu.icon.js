@@ -14,4 +14,4 @@ const Icon = ({ width = 48, color = '#000000', ...props }) => (
   </svg>
 );
 
-export default Icon;
+export default React.memo(Icon);

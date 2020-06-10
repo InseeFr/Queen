@@ -1,7 +1,3 @@
-/* eslint-disable no-template-curly-in-string */
-/* eslint-disable no-restricted-globals */
-/* eslint-disable no-undef */
-/* eslint-disable no-underscore-dangle */
 importScripts('/service-worker.js');
 
 const getUrlRegexJson = function(url) {

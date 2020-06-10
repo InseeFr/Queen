@@ -19,9 +19,9 @@ function publicURL() {
           let newFileContent = originalFileContent;
           if (!filePath.match(/\.(json|html)$/)) {
             newFileContent = newFileContent
-              .replace(/\\("|')__PUBLIC_URL_TO_REPLACE__\/\\("|')/g, `${newPublicPath}+"/"`)
+              .replace(/\\("|')__PUBLIC_URL_TO_REPLACE__\/\\("|')/g, `${newPublicPath}+'/'`)
               .replace(/("|')__PUBLIC_URL_TO_REPLACE__("|')/g, newPublicPath)
-              .replace(/("|')(__PUBLIC_URL_TO_REPLACE__)\/("|')/g, `${newPublicPath}+"/"`);
+              .replace(/("|')(__PUBLIC_URL_TO_REPLACE__)\/("|')/g, `${newPublicPath}+'/'`);
           } else {
             newFileContent = newFileContent.replace(/__PUBLIC_URL_TO_REPLACE__/g, '');
           }

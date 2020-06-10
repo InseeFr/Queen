@@ -1,7 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable no-undef */
-/* eslint-disable no-restricted-globals */
-
 const getUrlRegex = url => {
   return url.replace('http', '^http').concat('/(.*)((.json)|(.js)|(.png)|(.svg))');
 };
@@ -43,6 +39,7 @@ const queenPrecacheController = async () => {
   const { icons } = await responseFromQueen.json();
   let urlsToPrecache = [
     `${self._QUEEN_URL}/index.css`,
+    `${self._QUEEN_URL}/entry.js`,
     `${self._QUEEN_URL}/manifest.json`,
     `${self._QUEEN_URL}/configuration.json`,
     `${self._QUEEN_URL}/asset-manifest.json`,

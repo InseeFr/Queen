@@ -20,7 +20,10 @@ export const buildQueenQuestionnaire = components => {
   return Array.isArray(components)
     ? components.reduce((_, component) => {
         const { componentType, label, id, declarations } = component;
-        if (componentType && !['Sequence', 'Subsequence'].includes(componentType)) {
+        if (
+          componentType &&
+          !['Sequence', 'Subsequence', 'FilterDescription'].includes(componentType)
+        ) {
           currentPage += 1;
           return [
             ..._,
@@ -93,6 +96,18 @@ export const buildQueenQuestionnaire = components => {
             },
           ];
         }
+        if (componentType === 'FilterDescription') {
+          return [
+            ..._,
+            {
+              ...component,
+              idSequence: idSeq,
+              idSubsequence: idSubseq,
+              sequence: seq,
+              subsequence: subseq,
+            },
+          ];
+        }
         return _;
       }, [])
     : [];
@@ -129,9 +144,20 @@ export const getResponsesNameFromComponent = component => {
   return [];
 };
 
-export const getCollectedResponse = component => {
-  const fakeQuestionnaire = { components: [component] };
-  return lunatic.getCollectedStateByValueType(fakeQuestionnaire)('COLLECTED');
+export const getCollectedResponse = questionnaire => component => {
+  const { id } = component;
+  const { variables } = questionnaire;
+  const { COLLECTED, ...other } = variables;
+  const newCOLLECTED = Object.entries(COLLECTED).reduce((init, [name, values]) => {
+    const newVar = init;
+    const { componentRef } = values;
+    if (componentRef === id) {
+      newVar[name] = values;
+    }
+    return newVar;
+  }, {});
+  const newVariables = { COLLECTED: newCOLLECTED, ...other };
+  return lunatic.getCollectedStateByValueType({ variables: newVariables })('COLLECTED');
 };
 
 /**
