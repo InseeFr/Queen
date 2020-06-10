@@ -18,7 +18,6 @@ const Root = () => {
     backgroundColor: '#c3ddff',
   };
   const [configuration, setConfiguration] = useState(undefined);
-
   useEffect(() => {
     if (!configuration) {
       const loadConfiguration = async () => {
@@ -27,7 +26,6 @@ const Root = () => {
         const response = await fetch(`${QUEEN_URL}/configuration.json`);
         const configurationResponse = await response.json();
         configurationResponse.standalone = configurationResponse.QUEEN_URL === publicUrl;
-        console.log(`Standalone : ${configurationResponse.QUEEN_URL === publicUrl}`);
         setConfiguration(configurationResponse);
       };
       loadConfiguration();

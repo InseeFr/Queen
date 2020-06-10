@@ -6,7 +6,6 @@ import { listenParentApp } from 'utils/communication';
 class QueenApp extends HTMLElement {
   mountPoint;
   componentAttributes = {};
-  componentProperties = {};
 
   connectedCallback() {
     this.mountPoint = document.createElement('div');
@@ -19,26 +18,14 @@ class QueenApp extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['standalone'];
+    return ['queen_url', 'queen_api_url', 'queen_authentication_mode'];
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
-    this.componentAttributes[name] = newVal;
-    ReactDOM.unmountComponentAtNode(this.mountPoint);
-    this.mountReactApp();
-  }
-
-  get isStandalone() {
-    return this.componentProperties.isStandalone;
-  }
-
-  set isStandalone(newValue) {
-    this.componentProperties.isStandalone = newValue;
-    ReactDOM.unmountComponentAtNode(this.mountPoint);
-    this.mountReactApp();
+    this.componentAttributes[name.toUpperCase()] = newVal;
   }
   reactProps() {
-    return { ...this.componentAttributes, ...this.componentProperties };
+    return { ...this.componentAttributes };
   }
 
   mountReactApp() {
