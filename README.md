@@ -37,3 +37,11 @@ For docker : default values of the configuration are defined in [.env](.env) fil
 To override environments variables you can do :
 
 - `docker run -p 80:80 -e QUEEN_URL=http://override.value.com -e QUEEN_API_URL=... -e QUEEN_AUTHENTICATION_MODE=... -t inseefr/queen`
+
+### As Web Component (micro-frontend)
+
+If Queen is deployed at `http://localhost:5000`, just add this line to your `index.html` to include Queen :
+
+```html
+<script src="http://localhost:5000/entry.js"></script>
+```
