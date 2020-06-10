@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import root from 'react-shadow/styled-components';
 import D from 'i18n';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { AUTHENTICATION_MODE_ENUM, READ_ONLY } from 'utils/constants';
+import { READ_ONLY } from 'utils/constants';
 import Preloader from 'components/shared/preloader';
 import NotFound from 'components/shared/not-found';
 import Notification from 'components/shared/Notification';
@@ -26,7 +25,7 @@ const Root = () => {
         const QUEEN_URL = window.localStorage.getItem('QUEEN_URL') || '';
         const publicUrl = window.location.origin;
         const response = await fetch(`${QUEEN_URL}/configuration.json`);
-        let configurationResponse = await response.json();
+        const configurationResponse = await response.json();
         configurationResponse.standalone = configurationResponse.QUEEN_URL === publicUrl;
         console.log(`Standalone : ${configurationResponse.QUEEN_URL === publicUrl}`);
         setConfiguration(configurationResponse);
@@ -58,15 +57,6 @@ const Root = () => {
       </root.div>
     </>
   );
-};
-
-Root.propTypes = {
-  configuration: PropTypes.shape({
-    standalone: PropTypes.bool.isRequired,
-    QUEEN_URL: PropTypes.string.isRequired,
-    QUEEN_API_URL: PropTypes.string.isRequired,
-    QUEEN_AUTHENTICATION_MODE: PropTypes.oneOf(AUTHENTICATION_MODE_ENUM).isRequired,
-  }),
 };
 
 export default Root;
