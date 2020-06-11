@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import withAuth from 'utils/HOC/withAuth';
 import root from 'react-shadow/styled-components';
 import D from 'i18n';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -36,6 +37,7 @@ const Root = () => {
     <>
       <root.div id="queen-container" style={customStyle}>
         {configuration && (
+          /* todo withAuth here !!*/
           <StyleWrapper>
             <Notification standalone={configuration.standalone} />
             <Router>
@@ -57,4 +59,4 @@ const Root = () => {
   );
 };
 
-export default Root;
+export default withAuth(Root);

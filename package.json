@@ -6,6 +6,7 @@
     "@inseefr/lunatic": "^2.0.0-rc5",
     "axios": "^0.19.2",
     "dexie": "^2.0.4",
+    "keycloak-js": "^10.0.2",
     "node-sass": "^4.13.1",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",

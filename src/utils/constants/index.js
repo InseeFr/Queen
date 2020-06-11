@@ -3,6 +3,8 @@ export const ANONYMOUS = 'anonymous';
 export const AUTHENTICATION_MODE_ENUM = [ANONYMOUS, KEYCLOAK];
 
 export const READ_ONLY = 'readonly';
+export const QUEEN_URL = localStorage.getItem('QUEEN_URL') || '';
+export const QUEEN_INTERVIEWER_KEY = 'queen-interviewer';
 
 export const REFUSAL_LABEL = '__REFUSAL__';
 export const REFUSAL = 'REFUSAL';
