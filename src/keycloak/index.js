@@ -1,1 +1,1 @@
-export { kc, refreshToken } from './keycloak';
+export { kc, keycloakAuthentication, refreshToken, getTokenInfo } from './keycloak';

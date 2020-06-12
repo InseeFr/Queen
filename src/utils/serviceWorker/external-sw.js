@@ -6,6 +6,12 @@ const getQuestionnaireUrlRegex = QUEEN_API_URL => {
   return QUEEN_API_URL.replace('http', '^http').concat('/api/operation/(.){1,}/questionnaire');
 };
 
+const getResourceUrlRegex = QUEEN_API_URL => {
+  return QUEEN_API_URL.replace('http', '^http').concat(
+    '/api/operation/(.){1,}/required-nomenclatures'
+  );
+};
+
 const queenCacheName = 'queen-cache';
 console.log('Loading Queen SW into another SW');
 
@@ -21,7 +27,7 @@ workbox.routing.registerRoute(
   })
 );
 
-const setQuestionnaireCache = async () => {
+const setQuestionnaireAndResourcesCache = async () => {
   const responseFromQueen = await fetch(`${self._QUEEN_URL}/configuration.json`);
   const configuration = await responseFromQueen.json();
 
@@ -31,8 +37,15 @@ const setQuestionnaireCache = async () => {
       cacheName: 'queen-questionnaire',
     })
   );
+
+  workbox.routing.registerRoute(
+    new RegExp(getResourceUrlRegex(configuration.QUEEN_API_URL)),
+    new workbox.strategies.CacheFirst({
+      cacheName: 'queen-resource',
+    })
+  );
 };
-setQuestionnaireCache();
+setQuestionnaireAndResourcesCache();
 
 const queenPrecacheController = async () => {
   const responseFromQueen = await fetch(`${self._QUEEN_URL}/manifest.json`);
@@ -40,6 +53,7 @@ const queenPrecacheController = async () => {
   let urlsToPrecache = [
     `${self._QUEEN_URL}/index.css`,
     `${self._QUEEN_URL}/entry.js`,
+    `${self._QUEEN_URL}/keycloak.json`,
     `${self._QUEEN_URL}/manifest.json`,
     `${self._QUEEN_URL}/configuration.json`,
     `${self._QUEEN_URL}/asset-manifest.json`,

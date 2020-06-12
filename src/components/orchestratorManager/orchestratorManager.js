@@ -79,9 +79,14 @@ const OrchestratorManager = ({ match, configuration }) => {
 
   const putSurveyUnit = async unit => {
     try {
-      const token = null;
-      await api.putDataSurveyUnitById(configuration.QUEEN_API_URL, token)(unit.id, unit.data);
-      await api.putCommentSurveyUnitById(configuration.QUEEN_API_URL, token)(unit.id, unit.comment);
+      await api.putDataSurveyUnitById(
+        configuration.QUEEN_API_URL,
+        configuration.QUEEN_AUTHENTICATION_MODE
+      )(unit.id, unit.data);
+      await api.putCommentSurveyUnitById(
+        configuration.QUEEN_API_URL,
+        configuration.QUEEN_AUTHENTICATION_MODE
+      )(unit.id, unit.comment);
     } catch (e) {
       setError(true);
       setErrorMessage(`${D.putSurveyUnitFailed} : ${e.message}`);

@@ -28,7 +28,6 @@ export const initialize = ({
   }
 
   setWaitingMessage(D.waitingAuthentication);
-  let token = null;
   if (standalone && QUEEN_AUTHENTICATION_MODE === KEYCLOAK) {
     // TODO : get/update TOKEN
   }
@@ -38,7 +37,10 @@ export const initialize = ({
    *    embedded mode   : get from the API or service-worker
    */
   setWaitingMessage(D.waitingQuestionnaire);
-  const response = await getQuestionnaireById(QUEEN_API_URL, token)(idQuestionnaire);
+  const response = await getQuestionnaireById(
+    QUEEN_API_URL,
+    QUEEN_AUTHENTICATION_MODE
+  )(idQuestionnaire);
   const questionnaire = await response.data.model;
   // set questionnaire to orchestrator
   if (questionnaire) {
@@ -55,12 +57,12 @@ export const initialize = ({
     setWaitingMessage(D.waitingResources);
     const resourcesResponse = await getListRequiredNomenclature(
       QUEEN_API_URL,
-      token
+      QUEEN_AUTHENTICATION_MODE
     )(idQuestionnaire);
     const resources = await resourcesResponse.data;
     await Promise.all(
       resources.map(async resourceId => {
-        await getNomenclatureById(QUEEN_API_URL, token)(resourceId);
+        await getNomenclatureById(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE)(resourceId);
       })
     );
   }
@@ -71,9 +73,15 @@ export const initialize = ({
    */
   setWaitingMessage(D.waitingDataSU);
   if (standalone) {
-    const dataResponse = await getDataSurveyUnitById(QUEEN_API_URL, token)(idSurveyUnit);
+    const dataResponse = await getDataSurveyUnitById(
+      QUEEN_API_URL,
+      QUEEN_AUTHENTICATION_MODE
+    )(idSurveyUnit);
     const surveyUnitData = await dataResponse.data;
-    const commentResponse = await getCommentSurveyUnitById(QUEEN_API_URL, token)(idSurveyUnit);
+    const commentResponse = await getCommentSurveyUnitById(
+      QUEEN_API_URL,
+      QUEEN_AUTHENTICATION_MODE
+    )(idSurveyUnit);
     const surveyUnitComment = await commentResponse.data;
     await surveyUnitIdbService.addOrUpdateSU({
       id: idSurveyUnit,

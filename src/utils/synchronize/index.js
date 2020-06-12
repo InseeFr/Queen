@@ -1,36 +1,41 @@
 import * as api from 'utils/api';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
+import { QUEEN_URL } from 'utils/constants';
+import { kc } from 'keycloak';
 
 const getConfiguration = async () => {
-  const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
-  const response = await fetch(`${publicUrl.origin}/configuration.json`);
-  let configuration = await response.json();
-  const responseFromQueen = await fetch(`${configuration.QUEEN_URL}/configuration.json`);
-  configuration = await responseFromQueen.json();
+  const response = await fetch(`${QUEEN_URL}/configuration.json`);
+  const configuration = await response.json();
   return configuration;
 };
 
-const putQuestionnaireInCache = async (QUEEN_API_URL, token, id) => {
-  await api.getQuestionnaireById(QUEEN_API_URL, token)(id);
+const putQuestionnaireInCache = async (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id) => {
+  await api.getQuestionnaireById(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE)(id);
 };
 
-const putResourcesInCache = async (QUEEN_API_URL, token, operationId) => {
+const putResourcesInCache = async (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, operationId) => {
   const resourcesResponse = await api.getListRequiredNomenclature(
     QUEEN_API_URL,
-    token
+    QUEEN_AUTHENTICATION_MODE
   )(operationId);
   const resources = await resourcesResponse.data;
   await Promise.all(
     resources.map(async resourceId => {
-      await api.getNomenclatureById(QUEEN_API_URL, token)(resourceId);
+      await api.getNomenclatureById(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE)(resourceId);
     })
   );
 };
 
-const putSurveyUnitInDataBase = async (QUEEN_API_URL, token, id) => {
-  const dataResponse = await api.getDataSurveyUnitById(QUEEN_API_URL, token)(id);
+const putSurveyUnitInDataBase = async (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id) => {
+  const dataResponse = await api.getDataSurveyUnitById(
+    QUEEN_API_URL,
+    QUEEN_AUTHENTICATION_MODE
+  )(id);
   const surveyUnitData = await dataResponse.data;
-  const commentResponse = await api.getCommentSurveyUnitById(QUEEN_API_URL, token)(id);
+  const commentResponse = await api.getCommentSurveyUnitById(
+    QUEEN_API_URL,
+    QUEEN_AUTHENTICATION_MODE
+  )(id);
   const surveyUnitComment = await commentResponse.data;
   await surveyUnitIdbService.addOrUpdateSU({
     id,
@@ -39,27 +44,31 @@ const putSurveyUnitInDataBase = async (QUEEN_API_URL, token, id) => {
   });
 };
 
-const putSurveyUnitsInDataBaseByOperationId = async (QUEEN_API_URL, token, operationId) => {
+const putSurveyUnitsInDataBaseByOperationId = async (
+  QUEEN_API_URL,
+  QUEEN_AUTHENTICATION_MODE,
+  operationId
+) => {
   const surveyUnitsResponse = await api.getSurveyUnitByIdOperation(
     QUEEN_API_URL,
-    token
+    QUEEN_AUTHENTICATION_MODE
   )(operationId);
   const surveyUnits = await surveyUnitsResponse.data;
   await Promise.all(
     surveyUnits.map(async surveyUnit => {
       const { id } = surveyUnit;
-      await putSurveyUnitInDataBase(QUEEN_API_URL, token, id);
+      await putSurveyUnitInDataBase(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id);
     })
   );
 };
 
-const sendData = async (QUEEN_API_URL, token) => {
+const sendData = async (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE) => {
   const surveyUnits = await surveyUnitIdbService.getAll();
   await Promise.all(
     surveyUnits.map(async surveyUnit => {
       const { id, data, comment } = surveyUnit;
-      await api.putDataSurveyUnitById(QUEEN_API_URL, token)(id, data);
-      await api.putCommentSurveyUnitById(QUEEN_API_URL, token)(id, comment);
+      await api.putDataSurveyUnitById(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE)(id, data);
+      await api.putCommentSurveyUnitById(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE)(id, comment);
     })
   );
 };
@@ -68,32 +77,44 @@ const clean = async () => {
   await surveyUnitIdbService.deleteAll();
 };
 
+const authentication = () =>
+  new Promise((resolve, reject) => {
+    if (navigator.onLine) {
+      kc.init()
+        .then(authenticated => {
+          resolve(authenticated);
+        })
+        .catch(e => reject(e));
+    } else {
+      resolve();
+    }
+  });
+
 export const synchronize = async () => {
   // (0) : get configuration
   const { QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE } = await getConfiguration();
-  let token = null;
 
   // (1) : authentication
   if (QUEEN_AUTHENTICATION_MODE === 'keycloak') {
-    token = undefined; // TODO get new keycloak token;
+    await authentication();
   }
 
   // (2) : send the local data to server
-  await sendData(QUEEN_API_URL, token);
+  await sendData(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE);
 
   // (3) : clean
   await clean();
 
   // (4) : Get the data
-  const operationsResponse = await api.getOperations(QUEEN_API_URL, token);
+  const operationsResponse = await api.getOperations(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE);
   const operations = await operationsResponse.data;
 
   await Promise.all(
     operations.map(async operation => {
       const { id } = operation;
-      await putQuestionnaireInCache(QUEEN_API_URL, token, id);
-      await putResourcesInCache(QUEEN_API_URL, token, id);
-      await putSurveyUnitsInDataBaseByOperationId(QUEEN_API_URL, token, id);
+      await putQuestionnaireInCache(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id);
+      await putResourcesInCache(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id);
+      await putSurveyUnitsInDataBaseByOperationId(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id);
     })
   );
 };
