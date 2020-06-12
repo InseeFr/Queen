@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Root from './components/router';
+import App from './components/app';
 import { listenParentApp } from 'utils/communication';
 
 class QueenApp extends HTMLElement {
@@ -29,7 +29,7 @@ class QueenApp extends HTMLElement {
   }
 
   mountReactApp() {
-    ReactDOM.render(<Root {...this.reactProps()} />, this.mountPoint);
+    ReactDOM.render(<App {...this.reactProps()} />, this.mountPoint);
     this.appendChild(this.mountPoint);
   }
 }

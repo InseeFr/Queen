@@ -13,8 +13,8 @@ const waitingMessage = {
     en: 'Loading data on the survey unit',
   },
   waitingAuthentication: {
-    fr: 'Authentification',
-    en: 'Authentication',
+    fr: 'Authentification en cours',
+    en: 'Authentication in progress',
   },
   waitingCleaning: {
     fr: 'Nettoyage',
