@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import { getSecureHeader } from './utils';
+import { JSON_UTF8_HEADER } from 'utils/constants';
 // import data from '../fake-survey/data.json';
 
 export const getSurveyUnitByIdOperation = (QUEEN_API_URL, token) => id =>
@@ -7,7 +8,7 @@ export const getSurveyUnitByIdOperation = (QUEEN_API_URL, token) => id =>
     Axios.get(`${QUEEN_API_URL}/api/operation/${id}/reporting-units`, {
       headers: {
         ...getSecureHeader(token),
-        Accept: 'application/json;charset=utf-8',
+        Accept: JSON_UTF8_HEADER,
       },
     })
       .then(res => resolve(res))
@@ -21,7 +22,7 @@ export const getDataSurveyUnitById = (QUEEN_API_URL, token) => id =>
     Axios.get(`${QUEEN_API_URL}/api/reporting-unit/${id}/data`, {
       headers: {
         ...getSecureHeader(token),
-        Accept: 'application/json;charset=utf-8',
+        Accept: JSON_UTF8_HEADER,
       },
     })
       .then(res => resolve(res))
@@ -35,7 +36,7 @@ export const putDataSurveyUnitById = (QUEEN_API_URL, token) => (id, data) =>
     Axios.put(`${QUEEN_API_URL}/api/reporting-unit/${id}/data`, data, {
       headers: {
         ...getSecureHeader(token),
-        Accept: 'application/json;charset=utf-8',
+        Accept: JSON_UTF8_HEADER,
       },
     })
       .then(res => resolve(res))
@@ -47,7 +48,7 @@ export const getCommentSurveyUnitById = (QUEEN_API_URL, token) => id =>
     Axios.get(`${QUEEN_API_URL}/api/reporting-unit/${id}/comment`, {
       headers: {
         ...getSecureHeader(token),
-        Accept: 'application/json;charset=utf-8',
+        Accept: JSON_UTF8_HEADER,
       },
     })
       .then(res => resolve(res))
@@ -61,7 +62,7 @@ export const putCommentSurveyUnitById = (QUEEN_API_URL, token) => (id, comment) 
     Axios.put(`${QUEEN_API_URL}/api/reporting-unit/${id}/comment`, comment, {
       headers: {
         ...getSecureHeader(token),
-        Accept: 'application/json;charset=utf-8',
+        Accept: JSON_UTF8_HEADER,
       },
     })
       .then(res => resolve(res))

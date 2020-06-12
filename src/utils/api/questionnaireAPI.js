@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import { getSecureHeader } from './utils';
+import { JSON_UTF8_HEADER } from 'utils/constants';
 // import simpsons from '../fake-survey/simpsons copy.json';
 
 export const getQuestionnaireById = (QUEEN_API_URL, token) => id =>
@@ -7,7 +8,7 @@ export const getQuestionnaireById = (QUEEN_API_URL, token) => id =>
     Axios.get(`${QUEEN_API_URL}/api/operation/${id}/questionnaire`, {
       headers: {
         ...getSecureHeader(token),
-        Accept: 'application/json;charset=utf-8',
+        Accept: JSON_UTF8_HEADER,
       },
     })
       .then(res => resolve(res))

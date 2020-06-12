@@ -6,6 +6,8 @@ export const READ_ONLY = 'readonly';
 export const QUEEN_URL = localStorage.getItem('QUEEN_URL') || '';
 export const QUEEN_INTERVIEWER_KEY = 'queen-interviewer';
 
+export const JSON_UTF8_HEADER = 'application/json;charset=utf-8';
+
 export const REFUSAL_LABEL = '__REFUSAL__';
 export const REFUSAL = 'REFUSAL';
 export const DOESNT_KNOW_LABEL = '__DOESNT_KNOW__';
