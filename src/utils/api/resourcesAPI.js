@@ -1,31 +1,34 @@
 import Axios from 'axios';
-import { getSecureHeader } from './utils';
-import { JSON_UTF8_HEADER } from 'utils/constants';
+import { authentication, getHeader } from './api';
 
-export const getListRequiredNomenclature = (QUEEN_API_URL, token) => id =>
+export const getListRequiredNomenclature = (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE) => id =>
   new Promise((resolve, reject) => {
-    Axios.get(`${QUEEN_API_URL}/api/operation/${id}/required-nomenclatures`, {
-      headers: {
-        ...getSecureHeader(token),
-        Accept: JSON_UTF8_HEADER,
-      },
-    })
-      .then(res => resolve(res))
-      .catch(e =>
-        reject(
-          new Error(`Failed to fetch required-nomenclatures of operation (id:${id}) : ${e.message}`)
-        )
-      );
+    authentication(QUEEN_AUTHENTICATION_MODE)
+      .then(() => {
+        Axios.get(`${QUEEN_API_URL}/api/operation/${id}/required-nomenclatures`, {
+          headers: getHeader(QUEEN_AUTHENTICATION_MODE),
+        })
+          .then(res => resolve(res))
+          .catch(e =>
+            reject(
+              new Error(
+                `Failed to fetch required-nomenclatures of operation (id:${id}) : ${e.message}`
+              )
+            )
+          );
+      })
+      .catch(e => reject(new Error(`Error during refreshToken : ${e.message}`)));
   });
 
-export const getNomenclatureById = (QUEEN_API_URL, token) => id =>
+export const getNomenclatureById = (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE) => id =>
   new Promise((resolve, reject) => {
-    Axios.get(`${QUEEN_API_URL}/api/nomenclature/${id}`, {
-      headers: {
-        ...getSecureHeader(token),
-        Accept: JSON_UTF8_HEADER,
-      },
-    })
-      .then(res => resolve(res))
-      .catch(e => reject(new Error(`Failed to fetch nomenclature (id:${id}) : ${e.message}`)));
+    authentication(QUEEN_AUTHENTICATION_MODE)
+      .then(() => {
+        Axios.get(`${QUEEN_API_URL}/api/nomenclature/${id}`, {
+          headers: getHeader(QUEEN_AUTHENTICATION_MODE),
+        })
+          .then(res => resolve(res))
+          .catch(e => reject(new Error(`Failed to fetch nomenclature (id:${id}) : ${e.message}`)));
+      })
+      .catch(e => reject(new Error(`Error during refreshToken : ${e.message}`)));
   });

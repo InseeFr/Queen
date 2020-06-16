@@ -4,7 +4,13 @@ export const AUTHENTICATION_MODE_ENUM = [ANONYMOUS, KEYCLOAK];
 
 export const READ_ONLY = 'readonly';
 export const QUEEN_URL = localStorage.getItem('QUEEN_URL') || '';
-export const QUEEN_INTERVIEWER_KEY = 'queen-interviewer';
+export const QUEEN_USER_KEY = 'queen-user';
+export const GUEST_QUEEN_USER = {
+  lastName: 'Guest',
+  firstName: 'Guest',
+  id: 'Guest',
+  roles: ['Guest'],
+};
 
 export const JSON_UTF8_HEADER = 'application/json;charset=utf-8';
 

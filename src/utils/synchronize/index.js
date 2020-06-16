@@ -1,7 +1,7 @@
 import * as api from 'utils/api';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import { QUEEN_URL } from 'utils/constants';
-import { kc } from 'keycloak';
+import { kc } from 'utils/keycloak';
 
 const getConfiguration = async () => {
   const response = await fetch(`${QUEEN_URL}/configuration.json`);

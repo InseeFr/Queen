@@ -1,16 +1,16 @@
 import Axios from 'axios';
-import { getSecureHeader } from './utils';
-import { JSON_UTF8_HEADER } from 'utils/constants';
+import { authentication, getHeader } from './api';
 
-export const getOperations = (QUEEN_API_URL, token) => {
+export const getOperations = (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE) => {
   return new Promise((resolve, reject) => {
-    Axios.get(`${QUEEN_API_URL}/api/operations`, {
-      headers: {
-        ...getSecureHeader(token),
-        Accept: JSON_UTF8_HEADER,
-      },
-    })
-      .then(res => resolve(res))
-      .catch(e => reject(new Error(`Failed to fetch operations : ${e.message}`)));
+    authentication(QUEEN_AUTHENTICATION_MODE)
+      .then(() => {
+        Axios.get(`${QUEEN_API_URL}/api/operations`, {
+          headers: getHeader(QUEEN_AUTHENTICATION_MODE),
+        })
+          .then(res => resolve(res))
+          .catch(e => reject(new Error(`Failed to fetch operations : ${e.message}`)));
+      })
+      .catch(e => reject(new Error(`Error during refreshToken : ${e.message}`)));
   });
 };

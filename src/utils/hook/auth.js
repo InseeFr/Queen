@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { QUEEN_INTERVIEWER_KEY, KEYCLOAK, ANONYMOUS } from 'utils/constants';
-import { keycloakAuthentication, getTokenInfo } from 'keycloak';
+import { QUEEN_USER_KEY, GUEST_QUEEN_USER, KEYCLOAK, ANONYMOUS } from 'utils/constants';
+import { keycloakAuthentication, getTokenInfo } from 'utils/keycloak';
 
 const interviewerRoles = [
   'queen-interviewer',
@@ -13,7 +13,7 @@ const isAuthorized = roles =>
   roles.filter(r => interviewerRoles.includes(r) || administratorRoles.includes(r)).length > 0;
 
 const isLocalStorageTokenValid = () => {
-  const interviewer = JSON.parse(localStorage.getItem(QUEEN_INTERVIEWER_KEY));
+  const interviewer = JSON.parse(localStorage.getItem(QUEEN_USER_KEY));
   if (interviewer && interviewer.roles) {
     const { roles } = interviewer;
     if (isAuthorized(roles)) {
@@ -41,12 +41,12 @@ export const useAuth = authenticationMode => {
     switch (authenticationMode) {
       case KEYCLOAK:
         keycloakAuthentication({ onLoad: 'login-required', checkLoginIframe: false })
-          .then(authenticated => {
-            if (authenticated) {
+          .then(auth => {
+            if (auth) {
               const interviewerInfos = getTokenInfo();
               const { roles } = interviewerInfos;
               if (isAuthorized(roles)) {
-                localStorage.setItem(QUEEN_INTERVIEWER_KEY, JSON.stringify(interviewerInfos));
+                localStorage.setItem(QUEEN_USER_KEY, JSON.stringify(interviewerInfos));
                 accessAuthorized();
               } else {
                 // Authentifié mais n'a pas les bons droits
@@ -62,15 +62,7 @@ export const useAuth = authenticationMode => {
           .catch(() => (isLocalStorageTokenValid() ? accessAuthorized() : accessDenied()));
         break;
       case ANONYMOUS:
-        localStorage.setItem(
-          QUEEN_INTERVIEWER_KEY,
-          JSON.stringify({
-            nom: 'Guest',
-            prenom: 'Guest',
-            idep: 'Guest',
-            roles: ['Guest'],
-          })
-        );
+        localStorage.setItem(QUEEN_USER_KEY, GUEST_QUEEN_USER);
         accessAuthorized();
         break;
       default:

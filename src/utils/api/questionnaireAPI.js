@@ -1,29 +1,16 @@
 import Axios from 'axios';
-import { getSecureHeader } from './utils';
-import { JSON_UTF8_HEADER, KEYCLOAK, ANONYMOUS } from 'utils/constants';
-import { kc, refreshToken } from 'keycloak';
+import { authentication, getHeader } from './api';
 
-const authentication = mode => {
-  switch (mode) {
-    case KEYCLOAK:
-      return refreshToken();
-      break;
-    case ANONYMOUS:
-      return new Promise((resolve, reject) => resolve('GUEST'));
-      break;
-  }
-};
-
-export const getQuestionnaireById = (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE) => id =>
-  new Promise((resolve, reject) => {
-    authentication(QUEEN_AUTHENTICATION_MODE).then(() => {
-      Axios.get(`${QUEEN_API_URL}/api/operation/${id}/questionnaire`, {
-        headers: {
-          ...getSecureHeader(kc.token),
-          Accept: JSON_UTF8_HEADER,
-        },
+export const getQuestionnaireById = (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE) => id => {
+  return new Promise((resolve, reject) => {
+    authentication(QUEEN_AUTHENTICATION_MODE)
+      .then(() => {
+        Axios.get(`${QUEEN_API_URL}/api/operation/${id}/questionnaire`, {
+          headers: getHeader(QUEEN_AUTHENTICATION_MODE),
+        })
+          .then(res => resolve(res))
+          .catch(e => reject(new Error(`Failed to fetch questionnaire (id:${id}): ${e.message}`)));
       })
-        .then(res => resolve(res))
-        .catch(e => reject(new Error(`Failed to fetch questionnaire (id:${id}): ${e.message}`)));
-    });
+      .catch(e => reject(new Error(`Error during refreshToken : ${e.message}`)));
   });
+};
