@@ -6,10 +6,10 @@ import { READ_ONLY } from 'utils/constants';
 import NotFound from 'components/shared/not-found';
 import Notification from 'components/shared/Notification';
 import OrchestratorManager from 'components/orchestratorManager';
-import { StyleWrapper } from './root.style';
 import { useAuth } from 'utils/hook';
 import Preloader from 'components/shared/preloader';
 import Error from 'components/shared/Error';
+import { StyleWrapper } from './root.style';
 
 const Rooter = ({ configuration }) => {
   const { loading, authenticated } = useAuth(configuration.QUEEN_AUTHENTICATION_MODE);
