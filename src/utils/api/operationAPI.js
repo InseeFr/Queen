@@ -1,12 +1,12 @@
 import Axios from 'axios';
 import { authentication, getHeader } from './api';
 
-export const getOperations = (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE) => {
+export const getOperations = (apiUrl, authenticationMode) => {
   return new Promise((resolve, reject) => {
-    authentication(QUEEN_AUTHENTICATION_MODE)
+    authentication(authenticationMode)
       .then(() => {
-        Axios.get(`${QUEEN_API_URL}/api/operations`, {
-          headers: getHeader(QUEEN_AUTHENTICATION_MODE),
+        Axios.get(`${apiUrl}/api/operations`, {
+          headers: getHeader(authenticationMode),
         })
           .then(res => resolve(res))
           .catch(e => reject(new Error(`Failed to fetch operations : ${e.message}`)));

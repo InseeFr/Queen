@@ -2,12 +2,12 @@ import Axios from 'axios';
 import { authentication, getHeader } from './api';
 // import data from '../fake-survey/data.json';
 
-export const getSurveyUnitByIdOperation = (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE) => id =>
+export const getSurveyUnitByIdOperation = (apiUrl, authenticationMode) => id =>
   new Promise((resolve, reject) => {
-    authentication(QUEEN_AUTHENTICATION_MODE)
+    authentication(authenticationMode)
       .then(() => {
-        Axios.get(`${QUEEN_API_URL}/api/operation/${id}/reporting-units`, {
-          headers: getHeader(QUEEN_AUTHENTICATION_MODE),
+        Axios.get(`${apiUrl}/api/operation/${id}/reporting-units`, {
+          headers: getHeader(authenticationMode),
         })
           .then(res => resolve(res))
           .catch(e =>
@@ -17,12 +17,12 @@ export const getSurveyUnitByIdOperation = (QUEEN_API_URL, QUEEN_AUTHENTICATION_M
       .catch(e => reject(new Error(`Error during refreshToken : ${e.message}`)));
   });
 
-export const getDataSurveyUnitById = (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE) => id =>
+export const getDataSurveyUnitById = (apiUrl, authenticationMode) => id =>
   new Promise((resolve, reject) => {
-    authentication(QUEEN_AUTHENTICATION_MODE)
+    authentication(authenticationMode)
       .then(() => {
-        Axios.get(`${QUEEN_API_URL}/api/reporting-unit/${id}/data`, {
-          headers: getHeader(QUEEN_AUTHENTICATION_MODE),
+        Axios.get(`${apiUrl}/api/reporting-unit/${id}/data`, {
+          headers: getHeader(authenticationMode),
         })
           .then(res => resolve(res))
           .catch(e =>
@@ -32,12 +32,12 @@ export const getDataSurveyUnitById = (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE) 
       .catch(e => reject(new Error(`Error during refreshToken : ${e.message}`)));
   });
 
-export const putDataSurveyUnitById = (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE) => (id, data) =>
+export const putDataSurveyUnitById = (apiUrl, authenticationMode) => (id, data) =>
   new Promise((resolve, reject) => {
-    authentication(QUEEN_AUTHENTICATION_MODE)
+    authentication(authenticationMode)
       .then(() => {
-        Axios.put(`${QUEEN_API_URL}/api/reporting-unit/${id}/data`, data, {
-          headers: getHeader(QUEEN_AUTHENTICATION_MODE),
+        Axios.put(`${apiUrl}/api/reporting-unit/${id}/data`, data, {
+          headers: getHeader(authenticationMode),
         })
           .then(res => resolve(res))
           .catch(e =>
@@ -47,12 +47,12 @@ export const putDataSurveyUnitById = (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE) 
       .catch(e => reject(new Error(`Error during refreshToken : ${e.message}`)));
   });
 
-export const getCommentSurveyUnitById = (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE) => id =>
+export const getCommentSurveyUnitById = (apiUrl, authenticationMode) => id =>
   new Promise((resolve, reject) => {
-    authentication(QUEEN_AUTHENTICATION_MODE)
+    authentication(authenticationMode)
       .then(() => {
-        Axios.get(`${QUEEN_API_URL}/api/reporting-unit/${id}/comment`, {
-          headers: getHeader(QUEEN_AUTHENTICATION_MODE),
+        Axios.get(`${apiUrl}/api/reporting-unit/${id}/comment`, {
+          headers: getHeader(authenticationMode),
         })
           .then(res => resolve(res))
           .catch(e =>
@@ -62,15 +62,12 @@ export const getCommentSurveyUnitById = (QUEEN_API_URL, QUEEN_AUTHENTICATION_MOD
       .catch(e => reject(new Error(`Error during refreshToken : ${e.message}`)));
   });
 
-export const putCommentSurveyUnitById = (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE) => (
-  id,
-  comment
-) =>
+export const putCommentSurveyUnitById = (apiUrl, authenticationMode) => (id, comment) =>
   new Promise((resolve, reject) => {
-    authentication(QUEEN_AUTHENTICATION_MODE)
+    authentication(authenticationMode)
       .then(() => {
-        Axios.put(`${QUEEN_API_URL}/api/reporting-unit/${id}/comment`, comment, {
-          headers: getHeader(QUEEN_AUTHENTICATION_MODE),
+        Axios.put(`${apiUrl}/api/reporting-unit/${id}/comment`, comment, {
+          headers: getHeader(authenticationMode),
         })
           .then(res => resolve(res))
           .catch(e =>
