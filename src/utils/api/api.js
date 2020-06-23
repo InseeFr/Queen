@@ -5,7 +5,7 @@ import { getSecureHeader } from './utils';
 export const authentication = mode => {
   switch (mode) {
     case KEYCLOAK:
-      if (localStorage.getItem(QUEEN_USER_KEY) === undefined) {
+      if (window.localStorage.getItem(QUEEN_USER_KEY) === undefined) {
         return keycloakAuthentication({ onLoad: 'login-required' });
       }
       return refreshToken();

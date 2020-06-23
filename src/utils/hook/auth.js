@@ -13,7 +13,7 @@ const isAuthorized = roles =>
   roles.filter(r => interviewerRoles.includes(r) || administratorRoles.includes(r)).length > 0;
 
 const isLocalStorageTokenValid = () => {
-  const interviewer = JSON.parse(localStorage.getItem(QUEEN_USER_KEY));
+  const interviewer = JSON.parse(window.localStorage.getItem(QUEEN_USER_KEY));
   if (interviewer && interviewer.roles) {
     const { roles } = interviewer;
     if (isAuthorized(roles)) {
@@ -46,7 +46,7 @@ export const useAuth = authenticationMode => {
               const interviewerInfos = getTokenInfo();
               const { roles } = interviewerInfos;
               if (isAuthorized(roles)) {
-                localStorage.setItem(QUEEN_USER_KEY, JSON.stringify(interviewerInfos));
+                window.localStorage.setItem(QUEEN_USER_KEY, JSON.stringify(interviewerInfos));
                 accessAuthorized();
               } else {
                 // Authentifié mais n'a pas les bons droits
@@ -62,7 +62,7 @@ export const useAuth = authenticationMode => {
           .catch(() => (isLocalStorageTokenValid() ? accessAuthorized() : accessDenied()));
         break;
       case ANONYMOUS:
-        localStorage.setItem(QUEEN_USER_KEY, GUEST_QUEEN_USER);
+        window.localStorage.setItem(QUEEN_USER_KEY, GUEST_QUEEN_USER);
         accessAuthorized();
         break;
       default:
