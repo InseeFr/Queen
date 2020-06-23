@@ -19,4 +19,6 @@ do
   
 done < .env
 envsubst < "./configuration.json" > "configuration.temp"
+envsubst < "./keycloak.json" > "keycloak.temp"
 mv configuration.temp configuration.json
+mv keycloak.temp keycloak.json
