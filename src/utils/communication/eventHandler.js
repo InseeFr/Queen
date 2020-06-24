@@ -1,5 +1,5 @@
-import { sendSynchronizeEvent } from './eventSender';
 import { synchronize } from 'utils/synchronize';
+import { sendSynchronizeEvent } from './eventSender';
 
 const handleEventParentApp = event => {
   if (event.detail) {
