@@ -26,11 +26,6 @@ export const initialize = ({
     await clearAllData();
     await caches.delete('queen-questionnaire');
   }
-
-  setWaitingMessage(D.waitingAuthentication);
-  if (standalone && QUEEN_AUTHENTICATION_MODE === KEYCLOAK) {
-    // TODO : get/update TOKEN
-  }
   /**
    * Get questionnaire
    *    standalone mode : get from the API (always online)
