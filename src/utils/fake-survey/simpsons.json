@@ -18,7 +18,6 @@
       "conditionFilter": "\"normal\"",
       "bindingsDependency": false
     },
-
     {
       "id": "j6p3dkx6",
       "componentType": "Textarea",
@@ -27,9 +26,10 @@
       "label": "\"➡ 1. Before starting, do you have any comments about the Simpsons family?\"",
       "conditionFilter": "\"normal\"",
       "bindingsDependency": false,
-      "response": { "name": "COMMENT" }
+      "response": {
+        "name": "COMMENT"
+      }
     },
-
     {
       "id": "j6p0np9q",
       "componentType": "CheckboxBoolean",
@@ -37,9 +37,10 @@
       "label": "\"➡ 2. Are you ready?\"",
       "conditionFilter": "\"normal\"",
       "bindingsDependency": false,
-      "response": { "name": "READY" }
+      "response": {
+        "name": "READY"
+      }
     },
-
     {
       "id": "j6p6my1d",
       "componentType": "FilterDescription",
@@ -47,7 +48,6 @@
       "label": "\"If you are not ready, please go to the end of the questionnaire\"",
       "bindingsDependency": false
     },
-
     {
       "id": "j6p0s7o5",
       "componentType": "Subsequence",
@@ -55,7 +55,6 @@
       "conditionFilter": "if ((not(cast(READY,integer) <>  1) )) then \"normal\" else \"hidden\"",
       "bindingsDependency": true
     },
-
     {
       "id": "j3343qhx",
       "componentType": "Input",
@@ -64,9 +63,10 @@
       "label": "\"➡ 3. Who is the producer?\"",
       "conditionFilter": "if ((not(cast(READY,integer) <>  1) )) then \"normal\" else \"hidden\"",
       "bindingsDependency": true,
-      "response": { "name": "PRODUCER" }
+      "response": {
+        "name": "PRODUCER"
+      }
     },
-
     {
       "id": "j6q9h8tj",
       "componentType": "InputNumber",
@@ -77,9 +77,10 @@
       "label": "\"➡ 4. What is the current season number?\"",
       "conditionFilter": "if ((not(cast(READY,integer) <>  1) )) then \"normal\" else \"hidden\"",
       "bindingsDependency": true,
-      "response": { "name": "SEASON_NUMBER" }
+      "response": {
+        "name": "SEASON_NUMBER"
+      }
     },
-
     {
       "id": "j334cyqb",
       "componentType": "Datepicker",
@@ -98,9 +99,10 @@
       "conditionFilter": "if ((not(cast(READY,integer) <>  1) )) then \"normal\" else \"hidden\"",
       "bindingsDependency": true,
       "dateFormat": "YYYY-MM-DD",
-      "response": { "name": "DATEFIRST" }
+      "response": {
+        "name": "DATEFIRST"
+      }
     },
-
     {
       "id": "j6z06z1e",
       "componentType": "InputNumber",
@@ -111,9 +113,10 @@
       "label": "\"➡ 6. In your opinion, how much is the part of audience share in US for the 2016 season?\"",
       "conditionFilter": "if ((not(cast(READY,integer) <>  1) )) then \"normal\" else \"hidden\"",
       "bindingsDependency": true,
-      "response": { "name": "AUDIENCE_SHARE" }
+      "response": {
+        "name": "AUDIENCE_SHARE"
+      }
     },
-
     {
       "id": "j3341528",
       "componentType": "Sequence",
@@ -129,7 +132,6 @@
       "conditionFilter": "if ((not(cast(READY,integer) <>  1) )) then \"normal\" else \"hidden\"",
       "bindingsDependency": true
     },
-
     {
       "id": "j3343clt",
       "componentType": "Radio",
@@ -146,15 +148,23 @@
       "conditionFilter": "if ((not(cast(READY,integer) <>  1) )) then \"normal\" else \"hidden\"",
       "bindingsDependency": true,
       "options": [
-        { "value": "00001", "label": "\"Springfield\"" },
-
-        { "value": "00002", "label": "\"Shelbyville\"" },
-
-        { "value": "00003", "label": "\"Seinfeld\"" }
+        {
+          "value": "00001",
+          "label": "\"Springfield\""
+        },
+        {
+          "value": "00002",
+          "label": "\"Shelbyville\""
+        },
+        {
+          "value": "00003",
+          "label": "\"Seinfeld\""
+        }
       ],
-      "response": { "name": "CITY" }
+      "response": {
+        "name": "CITY"
+      }
     },
-
     {
       "id": "j6qdfhvw",
       "componentType": "CheckboxOne",
@@ -171,17 +181,27 @@
       "conditionFilter": "if ((not(cast(READY,integer) <>  1) )) then \"normal\" else \"hidden\"",
       "bindingsDependency": true,
       "options": [
-        { "value": "1", "label": "\"Constance Harm\"" },
-
-        { "value": "2", "label": "\"Timothy Lovejoy\"" },
-
-        { "value": "3", "label": "\"Joe Quimby\"" },
-
-        { "value": "4", "label": "\"Poochie\"" }
+        {
+          "value": "1",
+          "label": "\"Constance Harm\""
+        },
+        {
+          "value": "2",
+          "label": "\"Timothy Lovejoy\""
+        },
+        {
+          "value": "3",
+          "label": "\"Joe Quimby\""
+        },
+        {
+          "value": "4",
+          "label": "\"Poochie\""
+        }
       ],
-      "response": { "name": "MAYOR" }
+      "response": {
+        "name": "MAYOR"
+      }
     },
-
     {
       "id": "j4nw5cqz",
       "componentType": "Dropdown",
@@ -190,35 +210,63 @@
       "conditionFilter": "if ((not(cast(READY,integer) <>  1) )) then \"normal\" else \"hidden\"",
       "bindingsDependency": true,
       "options": [
-        { "value": "1", "label": "\"Washington\"" },
-
-        { "value": "2", "label": "\"Kentucky\"" },
-
-        { "value": "3", "label": "\"Ohio\"" },
-
-        { "value": "4", "label": "\"Maine\"" },
-
-        { "value": "5", "label": "\"North Dakota\"" },
-
-        { "value": "6", "label": "\"Florida\"" },
-
-        { "value": "7", "label": "\"North Takoma\"" },
-
-        { "value": "8", "label": "\"California\"" },
-
-        { "value": "9", "label": "\"Texas\"" },
-
-        { "value": "10", "label": "\"Massachusetts\"" },
-
-        { "value": "11", "label": "\"Nevada\"" },
-
-        { "value": "12", "label": "\"Illinois\"" },
-
-        { "value": "13", "label": "\"Not in any state, you fool!\"" }
+        {
+          "value": "1",
+          "label": "\"Washington\""
+        },
+        {
+          "value": "2",
+          "label": "\"Kentucky\""
+        },
+        {
+          "value": "3",
+          "label": "\"Ohio\""
+        },
+        {
+          "value": "4",
+          "label": "\"Maine\""
+        },
+        {
+          "value": "5",
+          "label": "\"North Dakota\""
+        },
+        {
+          "value": "6",
+          "label": "\"Florida\""
+        },
+        {
+          "value": "7",
+          "label": "\"North Takoma\""
+        },
+        {
+          "value": "8",
+          "label": "\"California\""
+        },
+        {
+          "value": "9",
+          "label": "\"Texas\""
+        },
+        {
+          "value": "10",
+          "label": "\"Massachusetts\""
+        },
+        {
+          "value": "11",
+          "label": "\"Nevada\""
+        },
+        {
+          "value": "12",
+          "label": "\"Illinois\""
+        },
+        {
+          "value": "13",
+          "label": "\"Not in any state, you fool!\""
+        }
       ],
-      "response": { "name": "STATE" }
+      "response": {
+        "name": "STATE"
+      }
     },
-
     {
       "id": "j6qe0h9q",
       "componentType": "Sequence",
@@ -226,7 +274,6 @@
       "conditionFilter": "if ((not(cast(READY,integer) <>  1) )) then \"normal\" else \"hidden\"",
       "bindingsDependency": true
     },
-
     {
       "id": "j334akov",
       "componentType": "CheckboxGroup",
@@ -245,25 +292,33 @@
         {
           "id": "j334akov-QOP-jbgd8qmn",
           "label": "\"Santa's Little Helper\"",
-          "response": { "name": "PET1" }
+          "response": {
+            "name": "PET1"
+          }
         },
-
         {
           "id": "j334akov-QOP-jbgd60vl",
           "label": "\"Snowball I\"",
-          "response": { "name": "PET2" }
+          "response": {
+            "name": "PET2"
+          }
         },
-
-        { "id": "j334akov-QOP-jbgda2jo", "label": "\"Coltrane\"", "response": { "name": "PET3" } },
-
+        {
+          "id": "j334akov-QOP-jbgda2jo",
+          "label": "\"Coltrane\"",
+          "response": {
+            "name": "PET3"
+          }
+        },
         {
           "id": "j334akov-QOP-jbgdfssy",
           "label": "\"Mojo the Helper Monkey\"",
-          "response": { "name": "PET4" }
+          "response": {
+            "name": "PET4"
+          }
         }
       ]
     },
-
     {
       "id": "j6p29i81",
       "componentType": "Table",
@@ -282,67 +337,99 @@
       "bindingsDependency": true,
       "cells": [
         [
-          { "value": "1", "label": "\"Vanilla\"" },
-
+          {
+            "value": "1",
+            "label": "\"Vanilla\""
+          },
           {
             "componentType": "Radio",
             "id": "j6p29i81-QOP-jbgdb3jx",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
-
-              { "value": "0", "label": "\"No\"" }
+              {
+                "value": "1",
+                "label": "\"Yes\""
+              },
+              {
+                "value": "0",
+                "label": "\"No\""
+              }
             ],
-            "response": { "name": "ICE_FLAVOUR1" }
+            "response": {
+              "name": "ICE_FLAVOUR1"
+            }
           }
         ],
-
         [
-          { "value": "2", "label": "\"Strawberry\"" },
-
+          {
+            "value": "2",
+            "label": "\"Strawberry\""
+          },
           {
             "componentType": "Radio",
             "id": "j6p29i81-QOP-jbgdb61k",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
-
-              { "value": "0", "label": "\"No\"" }
+              {
+                "value": "1",
+                "label": "\"Yes\""
+              },
+              {
+                "value": "0",
+                "label": "\"No\""
+              }
             ],
-            "response": { "name": "ICE_FLAVOUR2" }
+            "response": {
+              "name": "ICE_FLAVOUR2"
+            }
           }
         ],
-
         [
-          { "value": "3", "label": "\"Apple\"" },
-
+          {
+            "value": "3",
+            "label": "\"Apple\""
+          },
           {
             "componentType": "Radio",
             "id": "j6p29i81-QOP-jbgdl3kc",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
-
-              { "value": "0", "label": "\"No\"" }
+              {
+                "value": "1",
+                "label": "\"Yes\""
+              },
+              {
+                "value": "0",
+                "label": "\"No\""
+              }
             ],
-            "response": { "name": "ICE_FLAVOUR3" }
+            "response": {
+              "name": "ICE_FLAVOUR3"
+            }
           }
         ],
-
         [
-          { "value": "4", "label": "\"Bacon\"" },
-
+          {
+            "value": "4",
+            "label": "\"Bacon\""
+          },
           {
             "componentType": "Radio",
             "id": "j6p29i81-QOP-jbgdcobo",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
-
-              { "value": "0", "label": "\"No\"" }
+              {
+                "value": "1",
+                "label": "\"Yes\""
+              },
+              {
+                "value": "0",
+                "label": "\"No\""
+              }
             ],
-            "response": { "name": "ICE_FLAVOUR4" }
+            "response": {
+              "name": "ICE_FLAVOUR4"
+            }
           }
         ]
       ]
     },
-
     {
       "id": "j6qefnga",
       "componentType": "Table",
@@ -353,67 +440,99 @@
       "bindingsDependency": true,
       "cells": [
         [
-          { "value": "1", "label": "\"Charles Montgomery Burns\"" },
-
+          {
+            "value": "1",
+            "label": "\"Charles Montgomery Burns\""
+          },
           {
             "componentType": "Dropdown",
             "id": "j6qefnga-QOP-jbgd6p0k",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
-
-              { "value": "0", "label": "\"No\"" }
+              {
+                "value": "1",
+                "label": "\"Yes\""
+              },
+              {
+                "value": "0",
+                "label": "\"No\""
+              }
             ],
-            "response": { "name": "NUCLEAR_CHARACTER1" }
+            "response": {
+              "name": "NUCLEAR_CHARACTER1"
+            }
           }
         ],
-
         [
-          { "value": "2", "label": "\"Carl Carlson\"" },
-
+          {
+            "value": "2",
+            "label": "\"Carl Carlson\""
+          },
           {
             "componentType": "Dropdown",
             "id": "j6qefnga-QOP-jbgd9ato",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
-
-              { "value": "0", "label": "\"No\"" }
+              {
+                "value": "1",
+                "label": "\"Yes\""
+              },
+              {
+                "value": "0",
+                "label": "\"No\""
+              }
             ],
-            "response": { "name": "NUCLEAR_CHARACTER2" }
+            "response": {
+              "name": "NUCLEAR_CHARACTER2"
+            }
           }
         ],
-
         [
-          { "value": "3", "label": "\"Otto Mann\"" },
-
+          {
+            "value": "3",
+            "label": "\"Otto Mann\""
+          },
           {
             "componentType": "Dropdown",
             "id": "j6qefnga-QOP-jbgd3e0p",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
-
-              { "value": "0", "label": "\"No\"" }
+              {
+                "value": "1",
+                "label": "\"Yes\""
+              },
+              {
+                "value": "0",
+                "label": "\"No\""
+              }
             ],
-            "response": { "name": "NUCLEAR_CHARACTER3" }
+            "response": {
+              "name": "NUCLEAR_CHARACTER3"
+            }
           }
         ],
-
         [
-          { "value": "4", "label": "\"Carl Carlson\"" },
-
+          {
+            "value": "4",
+            "label": "\"Carl Carlson\""
+          },
           {
             "componentType": "Dropdown",
             "id": "j6qefnga-QOP-jbgdkxne",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
-
-              { "value": "0", "label": "\"No\"" }
+              {
+                "value": "1",
+                "label": "\"Yes\""
+              },
+              {
+                "value": "0",
+                "label": "\"No\""
+              }
             ],
-            "response": { "name": "NUCLEAR_CHARACTER4" }
+            "response": {
+              "name": "NUCLEAR_CHARACTER4"
+            }
           }
         ]
       ]
     },
-
     {
       "id": "j6yzoc6g",
       "componentType": "Table",
@@ -424,112 +543,182 @@
       "bindingsDependency": true,
       "cells": [
         [
-          { "value": "1", "label": "\"Selma Bouvier\"" },
-
+          {
+            "value": "1",
+            "label": "\"Selma Bouvier\""
+          },
           {
             "componentType": "CheckboxOne",
             "id": "j6yzoc6g-QOP-jbgd7fr6",
             "options": [
-              { "value": "1", "label": "\"Albuquerque\"" },
-
-              { "value": "2", "label": "\"Springfield\"" },
-
-              { "value": "3", "label": "\"Portland\"" },
-
-              { "value": "4", "label": "\"Shelbyville\"" },
-
-              { "value": "5", "label": "\"Dagstuhl\"" }
+              {
+                "value": "1",
+                "label": "\"Albuquerque\""
+              },
+              {
+                "value": "2",
+                "label": "\"Springfield\""
+              },
+              {
+                "value": "3",
+                "label": "\"Portland\""
+              },
+              {
+                "value": "4",
+                "label": "\"Shelbyville\""
+              },
+              {
+                "value": "5",
+                "label": "\"Dagstuhl\""
+              }
             ],
-            "response": { "name": "BIRTH_CHARACTER1" }
+            "response": {
+              "name": "BIRTH_CHARACTER1"
+            }
           }
         ],
-
         [
-          { "value": "2", "label": "\"Kent Brockman\"" },
-
+          {
+            "value": "2",
+            "label": "\"Kent Brockman\""
+          },
           {
             "componentType": "CheckboxOne",
             "id": "j6yzoc6g-QOP-jbgd5e9f",
             "options": [
-              { "value": "1", "label": "\"Albuquerque\"" },
-
-              { "value": "2", "label": "\"Springfield\"" },
-
-              { "value": "3", "label": "\"Portland\"" },
-
-              { "value": "4", "label": "\"Shelbyville\"" },
-
-              { "value": "5", "label": "\"Dagstuhl\"" }
+              {
+                "value": "1",
+                "label": "\"Albuquerque\""
+              },
+              {
+                "value": "2",
+                "label": "\"Springfield\""
+              },
+              {
+                "value": "3",
+                "label": "\"Portland\""
+              },
+              {
+                "value": "4",
+                "label": "\"Shelbyville\""
+              },
+              {
+                "value": "5",
+                "label": "\"Dagstuhl\""
+              }
             ],
-            "response": { "name": "BIRTH_CHARACTER2" }
+            "response": {
+              "name": "BIRTH_CHARACTER2"
+            }
           }
         ],
-
         [
-          { "value": "3", "label": "\"Milhouse Van Houten\"" },
-
+          {
+            "value": "3",
+            "label": "\"Milhouse Van Houten\""
+          },
           {
             "componentType": "CheckboxOne",
             "id": "j6yzoc6g-QOP-jbgd912x",
             "options": [
-              { "value": "1", "label": "\"Albuquerque\"" },
-
-              { "value": "2", "label": "\"Springfield\"" },
-
-              { "value": "3", "label": "\"Portland\"" },
-
-              { "value": "4", "label": "\"Shelbyville\"" },
-
-              { "value": "5", "label": "\"Dagstuhl\"" }
+              {
+                "value": "1",
+                "label": "\"Albuquerque\""
+              },
+              {
+                "value": "2",
+                "label": "\"Springfield\""
+              },
+              {
+                "value": "3",
+                "label": "\"Portland\""
+              },
+              {
+                "value": "4",
+                "label": "\"Shelbyville\""
+              },
+              {
+                "value": "5",
+                "label": "\"Dagstuhl\""
+              }
             ],
-            "response": { "name": "BIRTH_CHARACTER3" }
+            "response": {
+              "name": "BIRTH_CHARACTER3"
+            }
           }
         ],
-
         [
-          { "value": "4", "label": "\"Nelson Muntz\"" },
-
+          {
+            "value": "4",
+            "label": "\"Nelson Muntz\""
+          },
           {
             "componentType": "CheckboxOne",
             "id": "j6yzoc6g-QOP-jbgd6bdy",
             "options": [
-              { "value": "1", "label": "\"Albuquerque\"" },
-
-              { "value": "2", "label": "\"Springfield\"" },
-
-              { "value": "3", "label": "\"Portland\"" },
-
-              { "value": "4", "label": "\"Shelbyville\"" },
-
-              { "value": "5", "label": "\"Dagstuhl\"" }
+              {
+                "value": "1",
+                "label": "\"Albuquerque\""
+              },
+              {
+                "value": "2",
+                "label": "\"Springfield\""
+              },
+              {
+                "value": "3",
+                "label": "\"Portland\""
+              },
+              {
+                "value": "4",
+                "label": "\"Shelbyville\""
+              },
+              {
+                "value": "5",
+                "label": "\"Dagstuhl\""
+              }
             ],
-            "response": { "name": "BIRTH_CHARACTER4" }
+            "response": {
+              "name": "BIRTH_CHARACTER4"
+            }
           }
         ],
-
         [
-          { "value": "5", "label": "\"Crazy Cat Lady\"" },
-
+          {
+            "value": "5",
+            "label": "\"Crazy Cat Lady\""
+          },
           {
             "componentType": "CheckboxOne",
             "id": "j6yzoc6g-QOP-jbgddyry",
             "options": [
-              { "value": "1", "label": "\"Albuquerque\"" },
-
-              { "value": "2", "label": "\"Springfield\"" },
-
-              { "value": "3", "label": "\"Portland\"" },
-
-              { "value": "4", "label": "\"Shelbyville\"" },
-
-              { "value": "5", "label": "\"Dagstuhl\"" }
+              {
+                "value": "1",
+                "label": "\"Albuquerque\""
+              },
+              {
+                "value": "2",
+                "label": "\"Springfield\""
+              },
+              {
+                "value": "3",
+                "label": "\"Portland\""
+              },
+              {
+                "value": "4",
+                "label": "\"Shelbyville\""
+              },
+              {
+                "value": "5",
+                "label": "\"Dagstuhl\""
+              }
             ],
-            "response": { "name": "BIRTH_CHARACTER5" }
+            "response": {
+              "name": "BIRTH_CHARACTER5"
+            }
           }
         ]
       ]
     },
-
     {
       "id": "j4nw88h2",
       "componentType": "Sequence",
@@ -537,7 +726,6 @@
       "conditionFilter": "if ((not(cast(READY,integer) <>  1) )) then \"normal\" else \"hidden\"",
       "bindingsDependency": true
     },
-
     {
       "id": "j6qe237q",
       "componentType": "Subsequence",
@@ -545,7 +733,6 @@
       "conditionFilter": "if ((not(cast(READY,integer) <>  1) )) then \"normal\" else \"hidden\"",
       "bindingsDependency": true
     },
-
     {
       "id": "j4nwc63q",
       "componentType": "Table",
@@ -556,16 +743,26 @@
       "bindingsDependency": true,
       "cells": [
         [
-          { "headerCell": true, "colspan": 2, "label": "" },
-
-          { "headerCell": true, "label": "\"Percentage\"" }
+          {
+            "headerCell": true,
+            "colspan": 2,
+            "label": ""
+          },
+          {
+            "headerCell": true,
+            "label": "\"Percentage\""
+          }
         ],
-
         [
-          { "rowspan": 2, "value": "A", "label": "\"Frozen products\"" },
-
-          { "value": "A1", "label": "\"Ice creams\"" },
-
+          {
+            "rowspan": 2,
+            "value": "A",
+            "label": "\"Frozen products\""
+          },
+          {
+            "value": "A1",
+            "label": "\"Ice creams\""
+          },
           {
             "componentType": "InputNumber",
             "min": 0,
@@ -573,13 +770,16 @@
             "decimals": 1,
             "id": "j4nwc63q-QOP-jbgde5yl",
             "unit": "%",
-            "response": { "name": "PERCENTAGE_EXPENSES11" }
+            "response": {
+              "name": "PERCENTAGE_EXPENSES11"
+            }
           }
         ],
-
         [
-          { "value": "A2", "label": "\"Jasper Beardly\"" },
-
+          {
+            "value": "A2",
+            "label": "\"Jasper Beardly\""
+          },
           {
             "componentType": "InputNumber",
             "min": 0,
@@ -587,15 +787,21 @@
             "decimals": 1,
             "id": "j4nwc63q-QOP-jbgd2x2t",
             "unit": "%",
-            "response": { "name": "PERCENTAGE_EXPENSES21" }
+            "response": {
+              "name": "PERCENTAGE_EXPENSES21"
+            }
           }
         ],
-
         [
-          { "rowspan": 3, "value": "B", "label": "\"Meat\"" },
-
-          { "value": "B1", "label": "\"Bacon\"" },
-
+          {
+            "rowspan": 3,
+            "value": "B",
+            "label": "\"Meat\""
+          },
+          {
+            "value": "B1",
+            "label": "\"Bacon\""
+          },
           {
             "componentType": "InputNumber",
             "min": 0,
@@ -603,13 +809,16 @@
             "decimals": 1,
             "id": "j4nwc63q-QOP-jbgdjypz",
             "unit": "%",
-            "response": { "name": "PERCENTAGE_EXPENSES31" }
+            "response": {
+              "name": "PERCENTAGE_EXPENSES31"
+            }
           }
         ],
-
         [
-          { "value": "B2", "label": "\"Pork chop\"" },
-
+          {
+            "value": "B2",
+            "label": "\"Pork chop\""
+          },
           {
             "componentType": "InputNumber",
             "min": 0,
@@ -617,13 +826,16 @@
             "decimals": 1,
             "id": "j4nwc63q-QOP-jbgdcftu",
             "unit": "%",
-            "response": { "name": "PERCENTAGE_EXPENSES41" }
+            "response": {
+              "name": "PERCENTAGE_EXPENSES41"
+            }
           }
         ],
-
         [
-          { "value": "B3", "label": "\"Chicken\"" },
-
+          {
+            "value": "B3",
+            "label": "\"Chicken\""
+          },
           {
             "componentType": "InputNumber",
             "min": 0,
@@ -631,15 +843,20 @@
             "decimals": 1,
             "id": "j4nwc63q-QOP-jbgdiyfe",
             "unit": "%",
-            "response": { "name": "PERCENTAGE_EXPENSES51" }
+            "response": {
+              "name": "PERCENTAGE_EXPENSES51"
+            }
           }
         ],
-
         [
-          { "value": "C", "label": "\"Compote\"" },
-
-          { "value": "C1", "label": "\"Powersauce\"" },
-
+          {
+            "value": "C",
+            "label": "\"Compote\""
+          },
+          {
+            "value": "C1",
+            "label": "\"Powersauce\""
+          },
           {
             "componentType": "InputNumber",
             "min": 0,
@@ -647,13 +864,17 @@
             "decimals": 1,
             "id": "j4nwc63q-QOP-jbgdj1wd",
             "unit": "%",
-            "response": { "name": "PERCENTAGE_EXPENSES61" }
+            "response": {
+              "name": "PERCENTAGE_EXPENSES61"
+            }
           }
         ],
-
         [
-          { "colspan": 2, "value": "D", "label": "\"Other\"" },
-
+          {
+            "colspan": 2,
+            "value": "D",
+            "label": "\"Other\""
+          },
           {
             "componentType": "InputNumber",
             "min": 0,
@@ -661,12 +882,13 @@
             "decimals": 1,
             "id": "j4nwc63q-QOP-jbgddylk",
             "unit": "%",
-            "response": { "name": "PERCENTAGE_EXPENSES71" }
+            "response": {
+              "name": "PERCENTAGE_EXPENSES71"
+            }
           }
         ]
       ]
     },
-
     {
       "id": "j6qejudb",
       "componentType": "Subsequence",
@@ -674,7 +896,6 @@
       "conditionFilter": "if ((not(cast(READY,integer) <>  1) )) then \"normal\" else \"hidden\"",
       "bindingsDependency": true
     },
-
     {
       "id": "j4nw0rr6",
       "componentType": "Table",
@@ -685,122 +906,177 @@
       "bindingsDependency": true,
       "cells": [
         [
-          { "headerCell": true, "label": "" },
-
-          { "headerCell": true, "label": "\"Clowning\"" },
-
-          { "headerCell": true, "label": "\"Remember?\"" }
+          {
+            "headerCell": true,
+            "label": ""
+          },
+          {
+            "headerCell": true,
+            "label": "\"Clowning\""
+          },
+          {
+            "headerCell": true,
+            "label": "\"Remember?\""
+          }
         ],
-
         [
-          { "value": "1", "label": "\"Break the windows of the whole city\"" },
-
+          {
+            "value": "1",
+            "label": "\"Break the windows of the whole city\""
+          },
           {
             "componentType": "Dropdown",
             "id": "j4nw0rr6-QOP-jbgd8tyr",
             "options": [
-              { "value": "1", "label": "\"Jay\"" },
-
-              { "value": "2", "label": "\"Bart\"" },
-
-              { "value": "3", "label": "\"Krusty the clown\"" },
-
-              { "value": "4", "label": "\"Maggie\"" }
+              {
+                "value": "1",
+                "label": "\"Jay\""
+              },
+              {
+                "value": "2",
+                "label": "\"Bart\""
+              },
+              {
+                "value": "3",
+                "label": "\"Krusty the clown\""
+              },
+              {
+                "value": "4",
+                "label": "\"Maggie\""
+              }
             ],
-            "response": { "name": "CLOWNING11" }
+            "response": {
+              "name": "CLOWNING11"
+            }
           },
-
           {
             "componentType": "Textarea",
             "maxLength": 255,
             "id": "j4nw0rr6-QOP-jbgdit3o",
-            "response": { "name": "CLOWNING12" }
+            "response": {
+              "name": "CLOWNING12"
+            }
           }
         ],
-
         [
-          { "value": "2", "label": "\"Loose the violin of his daughter playing poker\"" },
-
+          {
+            "value": "2",
+            "label": "\"Loose the violin of his daughter playing poker\""
+          },
           {
             "componentType": "Dropdown",
             "id": "j4nw0rr6-QOP-jbgdep36",
             "options": [
-              { "value": "1", "label": "\"Jay\"" },
-
-              { "value": "2", "label": "\"Bart\"" },
-
-              { "value": "3", "label": "\"Krusty the clown\"" },
-
-              { "value": "4", "label": "\"Maggie\"" }
+              {
+                "value": "1",
+                "label": "\"Jay\""
+              },
+              {
+                "value": "2",
+                "label": "\"Bart\""
+              },
+              {
+                "value": "3",
+                "label": "\"Krusty the clown\""
+              },
+              {
+                "value": "4",
+                "label": "\"Maggie\""
+              }
             ],
-            "response": { "name": "CLOWNING21" }
+            "response": {
+              "name": "CLOWNING21"
+            }
           },
-
           {
             "componentType": "Textarea",
             "maxLength": 255,
             "id": "j4nw0rr6-QOP-jbgd366k",
-            "response": { "name": "CLOWNING22" }
+            "response": {
+              "name": "CLOWNING22"
+            }
           }
         ],
-
         [
-          { "value": "3", "label": "\"Kill Mr Burns\"" },
-
+          {
+            "value": "3",
+            "label": "\"Kill Mr Burns\""
+          },
           {
             "componentType": "Dropdown",
             "id": "j4nw0rr6-QOP-jbgdjjgi",
             "options": [
-              { "value": "1", "label": "\"Jay\"" },
-
-              { "value": "2", "label": "\"Bart\"" },
-
-              { "value": "3", "label": "\"Krusty the clown\"" },
-
-              { "value": "4", "label": "\"Maggie\"" }
+              {
+                "value": "1",
+                "label": "\"Jay\""
+              },
+              {
+                "value": "2",
+                "label": "\"Bart\""
+              },
+              {
+                "value": "3",
+                "label": "\"Krusty the clown\""
+              },
+              {
+                "value": "4",
+                "label": "\"Maggie\""
+              }
             ],
-            "response": { "name": "CLOWNING31" }
+            "response": {
+              "name": "CLOWNING31"
+            }
           },
-
           {
             "componentType": "Textarea",
             "maxLength": 255,
             "id": "j4nw0rr6-QOP-jbgdax06",
-            "response": { "name": "CLOWNING32" }
+            "response": {
+              "name": "CLOWNING32"
+            }
           }
         ],
-
         [
           {
             "value": "4",
             "label": "\"Leaving a mechanical object to control the nuclear power plant\""
           },
-
           {
             "componentType": "Dropdown",
             "id": "j4nw0rr6-QOP-jbgdgh6k",
             "options": [
-              { "value": "1", "label": "\"Jay\"" },
-
-              { "value": "2", "label": "\"Bart\"" },
-
-              { "value": "3", "label": "\"Krusty the clown\"" },
-
-              { "value": "4", "label": "\"Maggie\"" }
+              {
+                "value": "1",
+                "label": "\"Jay\""
+              },
+              {
+                "value": "2",
+                "label": "\"Bart\""
+              },
+              {
+                "value": "3",
+                "label": "\"Krusty the clown\""
+              },
+              {
+                "value": "4",
+                "label": "\"Maggie\""
+              }
             ],
-            "response": { "name": "CLOWNING41" }
+            "response": {
+              "name": "CLOWNING41"
+            }
           },
-
           {
             "componentType": "Textarea",
             "maxLength": 255,
             "id": "j4nw0rr6-QOP-jbgdfo1j",
-            "response": { "name": "CLOWNING42" }
+            "response": {
+              "name": "CLOWNING42"
+            }
           }
         ]
       ]
     },
-
     {
       "id": "j6qeh91y",
       "componentType": "Subsequence",
@@ -808,7 +1084,6 @@
       "conditionFilter": "if ((not(cast(READY,integer) <>  1) )) then \"normal\" else \"hidden\"",
       "bindingsDependency": true
     },
-
     {
       "id": "j6p2lwuj",
       "componentType": "Table",
@@ -827,183 +1102,229 @@
       "bindingsDependency": true,
       "cells": [
         [
-          { "headerCell": true, "label": "" },
-
-          { "headerCell": true, "label": "\"Brazil\"" },
-
-          { "headerCell": true, "label": "\"Canada\"" },
-
-          { "headerCell": true, "label": "\"Japan\"" },
-
-          { "headerCell": true, "label": "\"France\"" },
-
-          { "headerCell": true, "label": "\"Other country\"" },
-
-          { "headerCell": true, "label": "\"Other planet\"" }
+          {
+            "headerCell": true,
+            "label": ""
+          },
+          {
+            "headerCell": true,
+            "label": "\"Brazil\""
+          },
+          {
+            "headerCell": true,
+            "label": "\"Canada\""
+          },
+          {
+            "headerCell": true,
+            "label": "\"Japan\""
+          },
+          {
+            "headerCell": true,
+            "label": "\"France\""
+          },
+          {
+            "headerCell": true,
+            "label": "\"Other country\""
+          },
+          {
+            "headerCell": true,
+            "label": "\"Other planet\""
+          }
         ],
-
         [
-          { "value": "1", "label": "\"Car\"" },
-
+          {
+            "value": "1",
+            "label": "\"Car\""
+          },
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgd92mb",
-            "response": { "name": "TRAVEL11" }
+            "response": {
+              "name": "TRAVEL11"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgdnxkt",
-            "response": { "name": "TRAVEL12" }
+            "response": {
+              "name": "TRAVEL12"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgdcppc",
-            "response": { "name": "TRAVEL13" }
+            "response": {
+              "name": "TRAVEL13"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgd4r2a",
-            "response": { "name": "TRAVEL14" }
+            "response": {
+              "name": "TRAVEL14"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgd9cff",
-            "response": { "name": "TRAVEL15" }
+            "response": {
+              "name": "TRAVEL15"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgdiva0",
-            "response": { "name": "TRAVEL16" }
+            "response": {
+              "name": "TRAVEL16"
+            }
           }
         ],
-
         [
-          { "value": "2", "label": "\"Bike\"" },
-
+          {
+            "value": "2",
+            "label": "\"Bike\""
+          },
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgdgsat",
-            "response": { "name": "TRAVEL21" }
+            "response": {
+              "name": "TRAVEL21"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgd3ef5",
-            "response": { "name": "TRAVEL22" }
+            "response": {
+              "name": "TRAVEL22"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgd4cm6",
-            "response": { "name": "TRAVEL23" }
+            "response": {
+              "name": "TRAVEL23"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgdkfpq",
-            "response": { "name": "TRAVEL24" }
+            "response": {
+              "name": "TRAVEL24"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgddwsp",
-            "response": { "name": "TRAVEL25" }
+            "response": {
+              "name": "TRAVEL25"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgd7dqf",
-            "response": { "name": "TRAVEL26" }
+            "response": {
+              "name": "TRAVEL26"
+            }
           }
         ],
-
         [
-          { "value": "3", "label": "\"Skateboard\"" },
-
+          {
+            "value": "3",
+            "label": "\"Skateboard\""
+          },
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgdaxk2",
-            "response": { "name": "TRAVEL31" }
+            "response": {
+              "name": "TRAVEL31"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgd8p1v",
-            "response": { "name": "TRAVEL32" }
+            "response": {
+              "name": "TRAVEL32"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgdd2lo",
-            "response": { "name": "TRAVEL33" }
+            "response": {
+              "name": "TRAVEL33"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgd7u52",
-            "response": { "name": "TRAVEL34" }
+            "response": {
+              "name": "TRAVEL34"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgdncn8",
-            "response": { "name": "TRAVEL35" }
+            "response": {
+              "name": "TRAVEL35"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgdnous",
-            "response": { "name": "TRAVEL36" }
+            "response": {
+              "name": "TRAVEL36"
+            }
           }
         ],
-
         [
-          { "value": "4", "label": "\"Plane\"" },
-
+          {
+            "value": "4",
+            "label": "\"Plane\""
+          },
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgd7myn",
-            "response": { "name": "TRAVEL41" }
+            "response": {
+              "name": "TRAVEL41"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgdgm0c",
-            "response": { "name": "TRAVEL42" }
+            "response": {
+              "name": "TRAVEL42"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgdo0ay",
-            "response": { "name": "TRAVEL43" }
+            "response": {
+              "name": "TRAVEL43"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgdgfwl",
-            "response": { "name": "TRAVEL44" }
+            "response": {
+              "name": "TRAVEL44"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgdnz6b",
-            "response": { "name": "TRAVEL45" }
+            "response": {
+              "name": "TRAVEL45"
+            }
           },
-
           {
             "componentType": "CheckboxBoolean",
             "id": "j6p2lwuj-QOP-jbgdkfcz",
-            "response": { "name": "TRAVEL46" }
+            "response": {
+              "name": "TRAVEL46"
+            }
           }
         ]
       ]
     },
-
     {
       "id": "j6qfx9qe",
       "componentType": "Sequence",
@@ -1011,7 +1332,6 @@
       "conditionFilter": "if ((not(cast(READY,integer) <>  1) )) then \"normal\" else \"hidden\"",
       "bindingsDependency": true
     },
-
     {
       "id": "j6qg8rc6",
       "componentType": "Table",
@@ -1020,196 +1340,223 @@
       "label": "\"➡ 1. Please, complete the following grid with your favourite characters\"",
       "conditionFilter": "if ((not(cast(READY,integer) <>  1) )) then \"normal\" else \"hidden\"",
       "bindingsDependency": true,
-      "lines": { "min": 1, "max": 10 },
+      "lines": {
+        "min": 1,
+        "max": 10
+      },
       "cells": [
         [
-          { "headerCell": true, "label": "\"Name\"" },
-
-          { "headerCell": true, "label": "\"Age\"" }
+          {
+            "headerCell": true,
+            "label": "\"Name\""
+          },
+          {
+            "headerCell": true,
+            "label": "\"Age\""
+          }
         ],
-
         [
           {
             "componentType": "Textarea",
             "maxLength": 255,
             "id": "j6qg8rc6-QOP-jbgdl5jb",
-            "response": { "name": "FAVOURITE_CHARACTERS11" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS11"
+            }
           },
-
           {
             "componentType": "InputNumber",
             "min": 0,
             "max": 120,
             "decimals": 0,
             "id": "j6qg8rc6-QOP-jbgdfndq",
-            "response": { "name": "FAVOURITE_CHARACTERS12" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS12"
+            }
           }
         ],
-
         [
           {
             "componentType": "Textarea",
             "maxLength": 255,
             "id": "j6qg8rc6-QOP-jbgd8lwo",
-            "response": { "name": "FAVOURITE_CHARACTERS21" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS21"
+            }
           },
-
           {
             "componentType": "InputNumber",
             "min": 0,
             "max": 120,
             "decimals": 0,
             "id": "j6qg8rc6-QOP-jbgd7osi",
-            "response": { "name": "FAVOURITE_CHARACTERS22" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS22"
+            }
           }
         ],
-
         [
           {
             "componentType": "Textarea",
             "maxLength": 255,
             "id": "j6qg8rc6-QOP-jbgdbfag",
-            "response": { "name": "FAVOURITE_CHARACTERS31" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS31"
+            }
           },
-
           {
             "componentType": "InputNumber",
             "min": 0,
             "max": 120,
             "decimals": 0,
             "id": "j6qg8rc6-QOP-jbgd7bnw",
-            "response": { "name": "FAVOURITE_CHARACTERS32" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS32"
+            }
           }
         ],
-
         [
           {
             "componentType": "Textarea",
             "maxLength": 255,
             "id": "j6qg8rc6-QOP-jbgdlgja",
-            "response": { "name": "FAVOURITE_CHARACTERS41" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS41"
+            }
           },
-
           {
             "componentType": "InputNumber",
             "min": 0,
             "max": 120,
             "decimals": 0,
             "id": "j6qg8rc6-QOP-jbgd9k71",
-            "response": { "name": "FAVOURITE_CHARACTERS42" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS42"
+            }
           }
         ],
-
         [
           {
             "componentType": "Textarea",
             "maxLength": 255,
             "id": "j6qg8rc6-QOP-jbgd745y",
-            "response": { "name": "FAVOURITE_CHARACTERS51" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS51"
+            }
           },
-
           {
             "componentType": "InputNumber",
             "min": 0,
             "max": 120,
             "decimals": 0,
             "id": "j6qg8rc6-QOP-jbgdimks",
-            "response": { "name": "FAVOURITE_CHARACTERS52" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS52"
+            }
           }
         ],
-
         [
           {
             "componentType": "Textarea",
             "maxLength": 255,
             "id": "j6qg8rc6-QOP-jbgdjkts",
-            "response": { "name": "FAVOURITE_CHARACTERS61" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS61"
+            }
           },
-
           {
             "componentType": "InputNumber",
             "min": 0,
             "max": 120,
             "decimals": 0,
             "id": "j6qg8rc6-QOP-jbgdjquz",
-            "response": { "name": "FAVOURITE_CHARACTERS62" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS62"
+            }
           }
         ],
-
         [
           {
             "componentType": "Textarea",
             "maxLength": 255,
             "id": "j6qg8rc6-QOP-jbgdcax7",
-            "response": { "name": "FAVOURITE_CHARACTERS71" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS71"
+            }
           },
-
           {
             "componentType": "InputNumber",
             "min": 0,
             "max": 120,
             "decimals": 0,
             "id": "j6qg8rc6-QOP-jbgdd2w3",
-            "response": { "name": "FAVOURITE_CHARACTERS72" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS72"
+            }
           }
         ],
-
         [
           {
             "componentType": "Textarea",
             "maxLength": 255,
             "id": "j6qg8rc6-QOP-jbgdjye1",
-            "response": { "name": "FAVOURITE_CHARACTERS81" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS81"
+            }
           },
-
           {
             "componentType": "InputNumber",
             "min": 0,
             "max": 120,
             "decimals": 0,
             "id": "j6qg8rc6-QOP-jbgdkosc",
-            "response": { "name": "FAVOURITE_CHARACTERS82" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS82"
+            }
           }
         ],
-
         [
           {
             "componentType": "Textarea",
             "maxLength": 255,
             "id": "j6qg8rc6-QOP-jbgd5jet",
-            "response": { "name": "FAVOURITE_CHARACTERS91" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS91"
+            }
           },
-
           {
             "componentType": "InputNumber",
             "min": 0,
             "max": 120,
             "decimals": 0,
             "id": "j6qg8rc6-QOP-jbgdk0x4",
-            "response": { "name": "FAVOURITE_CHARACTERS92" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS92"
+            }
           }
         ],
-
         [
           {
             "componentType": "Textarea",
             "maxLength": 255,
             "id": "j6qg8rc6-QOP-jbgdjw90",
-            "response": { "name": "FAVOURITE_CHARACTERS101" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS101"
+            }
           },
-
           {
             "componentType": "InputNumber",
             "min": 0,
             "max": 120,
             "decimals": 0,
             "id": "j6qg8rc6-QOP-jbgd2wgf",
-            "response": { "name": "FAVOURITE_CHARACTERS102" }
+            "response": {
+              "name": "FAVOURITE_CHARACTERS102"
+            }
           }
         ]
       ]
     },
-
     {
       "id": "j6z12s2d",
       "componentType": "Sequence",
@@ -1217,7 +1564,6 @@
       "conditionFilter": "\"normal\"",
       "bindingsDependency": false
     },
-
     {
       "id": "j6z0z3us",
       "componentType": "Textarea",
@@ -1226,12 +1572,17 @@
       "label": "\"➡ 1. Do you have any comment about the survey?\"",
       "conditionFilter": "\"normal\"",
       "bindingsDependency": false,
-      "response": { "name": "SURVEY_COMMENT" }
+      "response": {
+        "name": "SURVEY_COMMENT"
+      }
     }
   ],
   "variables": [
-    { "variableType": "EXTERNAL", "name": "LAST_BROADCAST", "value": null },
-
+    {
+      "variableType": "EXTERNAL",
+      "name": "LAST_BROADCAST",
+      "value": null
+    },
     {
       "variableType": "COLLECTED",
       "name": "COMMENT",
@@ -1244,7 +1595,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "READY",
@@ -1257,7 +1607,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "PRODUCER",
@@ -1270,7 +1619,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "SEASON_NUMBER",
@@ -1283,7 +1631,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "DATEFIRST",
@@ -1296,7 +1643,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "AUDIENCE_SHARE",
@@ -1309,7 +1655,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "CITY",
@@ -1322,7 +1667,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "MAYOR",
@@ -1335,7 +1679,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "STATE",
@@ -1348,7 +1691,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "PET1",
@@ -1361,7 +1703,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "PET2",
@@ -1374,7 +1715,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "PET3",
@@ -1387,7 +1727,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "PET4",
@@ -1400,7 +1739,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "ICE_FLAVOUR1",
@@ -1413,7 +1751,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "ICE_FLAVOUR2",
@@ -1426,7 +1763,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "ICE_FLAVOUR3",
@@ -1439,7 +1775,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "ICE_FLAVOUR4",
@@ -1452,7 +1787,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "NUCLEAR_CHARACTER1",
@@ -1465,7 +1799,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "NUCLEAR_CHARACTER2",
@@ -1478,7 +1811,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "NUCLEAR_CHARACTER3",
@@ -1491,7 +1823,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "NUCLEAR_CHARACTER4",
@@ -1504,7 +1835,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "BIRTH_CHARACTER1",
@@ -1517,7 +1847,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "BIRTH_CHARACTER2",
@@ -1530,7 +1859,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "BIRTH_CHARACTER3",
@@ -1543,7 +1871,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "BIRTH_CHARACTER4",
@@ -1556,7 +1883,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "BIRTH_CHARACTER5",
@@ -1569,7 +1895,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "PERCENTAGE_EXPENSES11",
@@ -1582,7 +1907,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "PERCENTAGE_EXPENSES21",
@@ -1595,7 +1919,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "PERCENTAGE_EXPENSES31",
@@ -1608,7 +1931,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "PERCENTAGE_EXPENSES41",
@@ -1621,7 +1943,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "PERCENTAGE_EXPENSES51",
@@ -1634,7 +1955,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "PERCENTAGE_EXPENSES61",
@@ -1647,7 +1967,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "PERCENTAGE_EXPENSES71",
@@ -1660,7 +1979,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "CLOWNING11",
@@ -1673,7 +1991,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "CLOWNING12",
@@ -1686,7 +2003,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "CLOWNING21",
@@ -1699,7 +2015,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "CLOWNING22",
@@ -1712,7 +2027,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "CLOWNING31",
@@ -1725,7 +2039,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "CLOWNING32",
@@ -1738,7 +2051,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "CLOWNING41",
@@ -1751,7 +2063,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "CLOWNING42",
@@ -1764,7 +2075,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL11",
@@ -1777,7 +2087,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL12",
@@ -1790,7 +2099,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL13",
@@ -1803,7 +2111,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL14",
@@ -1816,7 +2123,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL15",
@@ -1829,7 +2135,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL16",
@@ -1842,7 +2147,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL21",
@@ -1855,7 +2159,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL22",
@@ -1868,7 +2171,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL23",
@@ -1881,7 +2183,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL24",
@@ -1894,7 +2195,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL25",
@@ -1907,7 +2207,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL26",
@@ -1920,7 +2219,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL31",
@@ -1933,7 +2231,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL32",
@@ -1946,7 +2243,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL33",
@@ -1959,7 +2255,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL34",
@@ -1972,7 +2267,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL35",
@@ -1985,7 +2279,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL36",
@@ -1998,7 +2291,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL41",
@@ -2011,7 +2303,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL42",
@@ -2024,7 +2315,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL43",
@@ -2037,7 +2327,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL44",
@@ -2050,7 +2339,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL45",
@@ -2063,7 +2351,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL46",
@@ -2076,7 +2363,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS11",
@@ -2089,7 +2375,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS12",
@@ -2102,7 +2387,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS21",
@@ -2115,7 +2399,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS22",
@@ -2128,7 +2411,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS31",
@@ -2141,7 +2423,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS32",
@@ -2154,7 +2435,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS41",
@@ -2167,7 +2447,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS42",
@@ -2180,7 +2459,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS51",
@@ -2193,7 +2471,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS52",
@@ -2206,7 +2483,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS61",
@@ -2219,7 +2495,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS62",
@@ -2232,7 +2507,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS71",
@@ -2245,7 +2519,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS72",
@@ -2258,7 +2531,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS81",
@@ -2271,7 +2543,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS82",
@@ -2284,7 +2555,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS91",
@@ -2297,7 +2567,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS92",
@@ -2310,7 +2579,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS101",
@@ -2323,7 +2591,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHARACTERS102",
@@ -2336,7 +2603,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "COLLECTED",
       "name": "SURVEY_COMMENT",
@@ -2349,7 +2615,6 @@
         "INPUTED": null
       }
     },
-
     {
       "variableType": "CALCULATED",
       "name": "SUM_EXPENSES",
