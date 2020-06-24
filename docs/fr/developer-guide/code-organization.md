@@ -27,13 +27,20 @@
 
 #### Kubernetes :
 
-deployment.yml, ingress.yml, service.yml :fichiers pour la configuration de kubernetes
+`deployment.yml`, `ingress.yml`, `service.yml` : fichiers pour la configuration de kubernetes
 
 ### Dossier `configuration`
 
+- dossier build : scripts utilisé lors du build (cf [Étape du build](developer-guide/build.md))
+- dossier files : fichiers finaux de configuration (`configuration.json` et `keycloak.json`)
+
 ### Dossier `docs`
 
+Dossier contenant le documentation écrite en markdown.
+
 ### Dossier `public` et `src`
+
+Code source de l'application.
 
 ### Dossier générés
 
@@ -41,3 +48,12 @@ deployment.yml, ingress.yml, service.yml :fichiers pour la configuration de kube
 - `nodes_modules`
 
 ## Application
+
+- dossier **components** :
+  Il contient les composants graphiques react.
+
+- dossier **i18n** (internationalisation en abrégé) : contient les messages / mots / phrases génériques de l'application en français et en anglais.
+
+- dossier **img** : contient les images interne à l'application
+
+- dossier **utils** : contient toutes les fonctions, les utilitaires utilisés par les composants react (api, hook, indexdbb, constantes, ...).

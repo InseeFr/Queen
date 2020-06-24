@@ -13,15 +13,28 @@ Dans l'image docker finale il y a :
 - le fichier `.env`
 - le script `env.sh`
 
-Juste avant le lancement du `nginx`, le script `env.sh` est exécuté et permet de valoriser le fichier `configuration.json` avec les variables du fichier `.env` surchargées par les variables d'environnements passées à l'image docker.
+Juste avant le lancement du `nginx`, le script `env.sh` est exécuté et permet de valoriser le fichier `configuration.json` et le fichier `keycloak.json` avec les variables du fichier `.env` surchargées par les variables d'environnements passées à l'image docker.
 
 Les variables d'environnements utilisées sont :
+
+- Fichier configuration.json :
 
 | Variable                  | Valeur                                                                          | Valeur par défaut                     |
 | ------------------------- | ------------------------------------------------------------------------------- | ------------------------------------- |
 | QUEEN_URL                 | Final URL of the Queen application                                              | http://localhost:5000                 |
 | QUEEN_API_URL             | URL of the [back-office of Queen](https://github.com/InseeFr/Queen-Back-Office) | https://queen-bo.demo.dev.sspcloud.fr |
 | QUEEN_AUTHENTICATION_MODE | The mode of authentication. Currently, Queen is supporting 'anonymous'          | anonymous                             |
+
+- Fichier keycloak.json : (signification des valeurs : cf doc keycloak)
+
+| Variable                   | Valeur              |
+| -------------------------- | ------------------- |
+| KEYCLOAK_REALM             | "realm"             |
+| KEYCLOAK_AUTH_SERVER_URL   | "auth-server-url"   |
+| KEYCLOAK_SSL_REQUIRED      | "ssl-required"      |
+| KEYCLOAK_RESOURCE          | "resource"          |
+| KEYCLOAK_PUBLIC_CLIENT     | "public-client"     |
+| KEYCLOAK_CONFIDENTIAL_PORT | "confidential-port" |
 
 ## Récupérer l'image docker
 
