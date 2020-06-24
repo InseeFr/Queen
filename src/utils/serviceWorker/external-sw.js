@@ -51,7 +51,6 @@ const queenPrecacheController = async () => {
   const responseFromQueen = await fetch(`${self._QUEEN_URL}/manifest.json`);
   const { icons } = await responseFromQueen.json();
   let urlsToPrecache = [
-    `${self._QUEEN_URL}/index.css`,
     `${self._QUEEN_URL}/entry.js`,
     `${self._QUEEN_URL}/keycloak.json`,
     `${self._QUEEN_URL}/manifest.json`,
