@@ -1,6 +1,13 @@
 import { KEYCLOAK, ANONYMOUS, JSON_UTF8_HEADER, QUEEN_USER_KEY } from 'utils/constants';
 import { refreshToken, kc, keycloakAuthentication } from 'utils/keycloak';
-import { getSecureHeader } from './utils';
+
+const getSecureHeader = token => {
+  return token
+    ? {
+        Authorization: `Bearer ${token}`,
+      }
+    : {};
+};
 
 export const authentication = mode => {
   switch (mode) {
