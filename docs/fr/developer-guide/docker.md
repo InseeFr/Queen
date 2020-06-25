@@ -26,6 +26,7 @@ Les variables d'environnements utilisées sont :
 | QUEEN_AUTHENTICATION_MODE | The mode of authentication. Currently, Queen is supporting 'anonymous'          | anonymous                             |
 
 - Fichier keycloak.json : (signification des valeurs : cf doc keycloak)
+  aucune valeur par défaut étant donné que le mode d'authentification par defaut est "anonymous".
 
 | Variable                   | Valeur              |
 | -------------------------- | ------------------- |
