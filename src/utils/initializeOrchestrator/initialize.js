@@ -5,7 +5,6 @@ import {
   getCommentSurveyUnitById,
   getListRequiredNomenclature,
 } from 'utils/api';
-import { KEYCLOAK } from 'utils/constants';
 import clearAllData from 'utils/indexedbb/services/allTables-idb-service';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import D from 'i18n';
