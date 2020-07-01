@@ -14,6 +14,7 @@ const App = () => {
       {configuration && <Rooter configuration={configuration} />}
       {!configuration && <Preloader message={D.waitingConfiguration} />}
     </root.div>
+    <
   );
 };
 
