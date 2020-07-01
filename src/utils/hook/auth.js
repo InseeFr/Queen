@@ -2,15 +2,7 @@ import { useState, useEffect } from 'react';
 import { QUEEN_USER_KEY, GUEST_QUEEN_USER, KEYCLOAK, ANONYMOUS } from 'utils/constants';
 import { keycloakAuthentication, getTokenInfo } from 'utils/keycloak';
 
-const interviewerRoles = [
-  'queen-interviewer',
-  'Testeur_agent-insee-interne-test_Keycloak',
-  'Guest',
-];
-const administratorRoles = ['Queen_Administrator'];
-
-const isAuthorized = roles =>
-  roles.filter(r => interviewerRoles.includes(r) || administratorRoles.includes(r)).length > 0;
+const isAuthorized = roles => true;
 
 const isLocalStorageTokenValid = () => {
   const interviewer = JSON.parse(window.localStorage.getItem(QUEEN_USER_KEY));
