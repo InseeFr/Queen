@@ -36,7 +36,7 @@ const Buttons = ({
   // const keysToHandle = ['Sequence', 'Subsequence'].includes(componentType)
   //   ? ['enter']
   //   : ['f2', 'f4', 'enter'];
-  const keysToHandle = ['enter'];
+  const keysToHandle = ['ctrl+enter', 'ctrl+backspace'];
 
   useEffect(() => {
     setRefusalChecked(false);
@@ -101,6 +101,10 @@ const Buttons = ({
   };
 
   const keyboardShortcut = (key, e) => {
+    if (key === 'ctrl+enter') {
+      if (canContinue || refusalChecked || doesntKnowChecked) pageChange(pageNextFunction);
+    }
+    if (key === 'ctrl+backspace') pageChange(pagePrevious);
     // if (key === 'f2') updateDoesntKnow();
     // if (key === 'f4') updateRefusal();
     // if (key === 'enter') {
