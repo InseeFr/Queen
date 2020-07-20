@@ -51,10 +51,12 @@ export const useAuth = authenticationMode => {
               accessDenied();
             }
           })
-          .catch(() => (isLocalStorageTokenValid() ? accessAuthorized() : accessDenied()));
+          .catch(() => {
+            return isLocalStorageTokenValid() ? accessAuthorized() : accessDenied();
+          });
         break;
       case ANONYMOUS:
-        window.localStorage.setItem(QUEEN_USER_KEY, GUEST_QUEEN_USER);
+        window.localStorage.setItem(QUEEN_USER_KEY, JSON.stringify(GUEST_QUEEN_USER));
         accessAuthorized();
         break;
       default:
