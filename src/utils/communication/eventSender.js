@@ -48,6 +48,7 @@ export const sendSynchronizeEvent = state => {
 export const sendReadyEvent = () => {
   const data = {
     type: prefixEvent,
+    command: 'HEALTH_CHECK',
     state: 'READY',
   };
   dispatchQueenEventWithData(data);
