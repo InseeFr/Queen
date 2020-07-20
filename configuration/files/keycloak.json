@@ -3,6 +3,6 @@
   "auth-server-url": "${KEYCLOAK_AUTH_SERVER_URL}",
   "ssl-required": "${KEYCLOAK_SSL_REQUIRED}",
   "resource": "${KEYCLOAK_RESOURCE}",
-  "public-client": ${KEYCLOAK_PUBLIC_CLIENT},
-  "confidential-port": ${KEYCLOAK_CONFIDENTIAL_PORT}
+  "public-client": true,
+  "confidential-port": 0
 }
