@@ -10,10 +10,10 @@ const handleEventParentApp = event => {
         try {
           await synchronize();
           sendSynchronizeEvent('SUCCESS');
+          console.log('Queen synchronization : ENDED !');
         } catch (e) {
           console.log(e.message);
           sendSynchronizeEvent('FAILURE');
-        } finally {
           console.log('Queen synchronization : ENDED !');
         }
       };
