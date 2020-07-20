@@ -1,5 +1,5 @@
 import { synchronize } from 'utils/synchronize';
-import { sendSynchronizeEvent } from './eventSender';
+import { sendSynchronizeEvent, sendReadyEvent } from './eventSender';
 
 const handleEventParentApp = event => {
   if (event.detail) {
@@ -18,6 +18,9 @@ const handleEventParentApp = event => {
         }
       };
       launchSynchronize();
+    }
+    if (command === 'HEALTH_CHECK') {
+      sendReadyEvent();
     }
   }
 };

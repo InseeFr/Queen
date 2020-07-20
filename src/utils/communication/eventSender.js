@@ -44,3 +44,11 @@ export const sendSynchronizeEvent = state => {
   };
   dispatchQueenEventWithData(data);
 };
+
+export const sendReadyEvent = () => {
+  const data = {
+    type: prefixEvent,
+    state: 'READY',
+  };
+  dispatchQueenEventWithData(data);
+};
