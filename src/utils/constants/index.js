@@ -12,6 +12,8 @@ export const GUEST_QUEEN_USER = {
   roles: ['Guest'],
 };
 
+export const AUTHORIZED_ROLES = ['Guest', 'offline_access'];
+
 export const JSON_UTF8_HEADER = 'application/json;charset=utf-8';
 
 export const REFUSAL_LABEL = '__REFUSAL__';

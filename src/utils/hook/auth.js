@@ -1,8 +1,14 @@
 import { useState, useEffect } from 'react';
-import { QUEEN_USER_KEY, GUEST_QUEEN_USER, KEYCLOAK, ANONYMOUS } from 'utils/constants';
+import {
+  QUEEN_USER_KEY,
+  GUEST_QUEEN_USER,
+  KEYCLOAK,
+  ANONYMOUS,
+  AUTHORIZED_ROLES,
+} from 'utils/constants';
 import { keycloakAuthentication, getTokenInfo } from 'utils/keycloak';
 
-const isAuthorized = roles => true;
+const isAuthorized = roles => roles.filter(r => AUTHORIZED_ROLES.includes(r)).length > 0;
 
 const isLocalStorageTokenValid = () => {
   const interviewer = JSON.parse(window.localStorage.getItem(QUEEN_USER_KEY));
@@ -41,7 +47,7 @@ export const useAuth = authenticationMode => {
                 window.localStorage.setItem(QUEEN_USER_KEY, JSON.stringify(interviewerInfos));
                 accessAuthorized();
               } else {
-                // Authentifié mais n'a pas les bons droits
+                // authenticated without right role
                 accessDenied();
               }
               // offline mode
