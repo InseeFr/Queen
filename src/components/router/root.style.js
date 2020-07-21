@@ -25,7 +25,7 @@ export const StyleWrapper = styled.div`
 
   .components {
     .lunatic-component {
-      min-height: 75vh;
+      min-height: 68vh;
       width: 80%;
       margin-left: auto;
       margin-right: auto;
