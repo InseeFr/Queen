@@ -28,14 +28,12 @@ Les variables d'environnements utilisées sont :
 - Fichier keycloak.json : (signification des valeurs : cf doc keycloak)
   aucune valeur par défaut étant donné que le mode d'authentification par defaut est "anonymous".
 
-| Variable                   | Valeur              |
-| -------------------------- | ------------------- |
-| KEYCLOAK_REALM             | "realm"             |
-| KEYCLOAK_AUTH_SERVER_URL   | "auth-server-url"   |
-| KEYCLOAK_SSL_REQUIRED      | "ssl-required"      |
-| KEYCLOAK_RESOURCE          | "resource"          |
-| KEYCLOAK_PUBLIC_CLIENT     | "public-client"     |
-| KEYCLOAK_CONFIDENTIAL_PORT | "confidential-port" |
+| Variable                 | Valeur            |
+| ------------------------ | ----------------- |
+| KEYCLOAK_REALM           | "realm"           |
+| KEYCLOAK_AUTH_SERVER_URL | "auth-server-url" |
+| KEYCLOAK_SSL_REQUIRED    | "ssl-required"    |
+| KEYCLOAK_RESOURCE        | "resource"        |
 
 ## Récupérer l'image docker
 
