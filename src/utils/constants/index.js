@@ -24,6 +24,4 @@ export const QUEEN_DATA_KEYS = [REFUSAL, DOESNT_KNOW];
 
 export const DIRECT_CONTINUE_COMPONENTS = ['CheckboxOne', 'Radio'];
 
-export const QUEEN_ROLES = [];
-
 export const KEYBOARD_SHORTCUT_COMPONENTS = [...DIRECT_CONTINUE_COMPONENTS, 'CheckboxGroup'];
