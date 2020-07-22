@@ -65,6 +65,7 @@ const OrchestratorManager = ({ match, configuration }) => {
       const { data, ...other } = surveyUnit;
       setSurveyUnit(other);
       const newDataSU = UQ.buildSpecialQueenData(data);
+      // TODO : replace simpsons by questionnaire when queen-bo render last version of lunatic questionnaire
       const newQuestionnaire = {
         ...simpsons,
         components: UQ.buildQueenQuestionnaire(simpsons.components),
