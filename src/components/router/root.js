@@ -9,17 +9,23 @@ import OrchestratorManager from 'components/orchestratorManager';
 import { useAuth } from 'utils/hook';
 import Preloader from 'components/shared/preloader';
 import Error from 'components/shared/Error';
+import useServiceWorker from 'utils/hook/useServiceWorker';
 import { StyleWrapper } from './root.style';
 
 const Rooter = ({ configuration }) => {
   const { loading, authenticated } = useAuth(configuration.QUEEN_AUTHENTICATION_MODE);
+  const serviceWorkerInfo = useServiceWorker({
+    authenticated,
+    standalone: configuration.standalone,
+  });
+
   return (
     <>
       {loading && <Preloader message={D.waitingAuthentication} />}
       {!loading && !authenticated && <Error message={D.unauthorized} />}
       {!loading && authenticated && (
         <StyleWrapper>
-          <Notification standalone={configuration.standalone} />
+          <Notification serviceWorkerInfo={serviceWorkerInfo} />
           <Router>
             <Switch>
               <Route
