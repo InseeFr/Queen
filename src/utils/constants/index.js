@@ -5,6 +5,7 @@ export const AUTHENTICATION_MODE_ENUM = [ANONYMOUS, KEYCLOAK];
 export const READ_ONLY = 'readonly';
 export const QUEEN_URL = window.localStorage.getItem('QUEEN_URL') || '';
 export const QUEEN_USER_KEY = 'queen-user';
+export const QUEEN_SYNC_RESULT = 'queen-sync-result';
 export const GUEST_QUEEN_USER = {
   lastName: 'Guest',
   firstName: 'Guest',
