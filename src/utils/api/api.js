@@ -12,10 +12,10 @@ const getSecureHeader = token => {
 export const authentication = mode => {
   switch (mode) {
     case KEYCLOAK:
-      if (window.localStorage.getItem(QUEEN_USER_KEY) === undefined) {
-        return keycloakAuthentication({ onLoad: 'login-required' });
+      if (window.localStorage.getItem(QUEEN_USER_KEY)) {
+        return refreshToken();
       }
-      return refreshToken();
+      return keycloakAuthentication({ onLoad: 'login-required', enableLogging: true });
     case ANONYMOUS:
       return new Promise(resolve => resolve());
     default:
