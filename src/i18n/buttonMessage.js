@@ -9,6 +9,7 @@ const buttonMessage = {
   doesntKnowButton: { fr: 'Ne Sait Pas', en: "Doesn't know" },
   updateNow: { fr: 'Mettre à jour maintenant', en: 'Update now' },
   closeNotif: { fr: 'Fermer', en: 'Close' },
+  synchronizeButton: { fr: 'Synchroniser', en: 'Synchronize' },
 };
 
 export default buttonMessage;

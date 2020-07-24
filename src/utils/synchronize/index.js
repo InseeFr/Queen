@@ -1,4 +1,5 @@
 import * as api from 'utils/api';
+import D from 'i18n';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import { QUEEN_URL } from 'utils/constants';
 import { kc } from 'utils/keycloak';
@@ -90,30 +91,39 @@ const authentication = () =>
     }
   });
 
-export const synchronize = async () => {
+export const synchronize = async config => {
+  if (config && config.setWaitingMessage) config.setWaitingMessage(D.waitingConfiguration);
   // (0) : get configuration
   const { QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE } = await getConfiguration();
 
   // (1) : authentication
+  if (config && config.setWaitingMessage) config.setWaitingMessage(D.waitingAuthentication);
   if (QUEEN_AUTHENTICATION_MODE === 'keycloak') {
     await authentication();
   }
 
+  if (config && config.setWaitingMessage) config.setWaitingMessage(D.waitingSendingData);
   // (2) : send the local data to server
   await sendData(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE);
 
   // (3) : clean
+  if (config && config.setWaitingMessage) config.setWaitingMessage(D.waitingCleaning);
   await clean();
 
   // (4) : Get the data
+  if (config && config.setWaitingMessage) config.setWaitingMessage(D.waitingLoadingOperations);
   const operationsResponse = await api.getOperations(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE);
   const operations = await operationsResponse.data;
 
   await Promise.all(
     operations.map(async operation => {
       const { id } = operation;
+      if (config && config.setWaitingMessage)
+        config.setWaitingMessage(D.waitingLoadingQuestionnaire);
       await putQuestionnaireInCache(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id);
+      if (config && config.setWaitingMessage) config.setWaitingMessage(D.waitingLoadingResources);
       await putResourcesInCache(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id);
+      if (config && config.setWaitingMessage) config.setWaitingMessage(D.waitingLoadingSU);
       await putSurveyUnitsInDataBaseByOperationId(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id);
     })
   );
