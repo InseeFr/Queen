@@ -10,13 +10,15 @@ import { useAuth } from 'utils/hook';
 import Preloader from 'components/shared/preloader';
 import Error from 'components/shared/Error';
 import useServiceWorker from 'utils/hook/useServiceWorker';
+import Synchronize from 'components/Synchronize';
 import { StyleWrapper } from './root.style';
 
 const Rooter = ({ configuration }) => {
+  const { standalone } = configuration;
   const { loading, authenticated } = useAuth(configuration.QUEEN_AUTHENTICATION_MODE);
   const serviceWorkerInfo = useServiceWorker({
     authenticated,
-    standalone: configuration.standalone,
+    standalone,
   });
 
   return (
@@ -34,7 +36,13 @@ const Rooter = ({ configuration }) => {
                   <OrchestratorManager {...routeProps} configuration={configuration} />
                 )}
               />
-              <Route path={configuration.standalone ? '/' : '/queen'} component={NotFound} />
+              {!standalone && (
+                <Route
+                  path="/queen/synchronize"
+                  component={routeProps => <Synchronize {...routeProps} />}
+                />
+              )}
+              <Route path={standalone ? '/' : '/queen'} component={NotFound} />
             </Switch>
           </Router>
         </StyleWrapper>
