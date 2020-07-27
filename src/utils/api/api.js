@@ -15,7 +15,7 @@ export const authentication = mode => {
       if (window.localStorage.getItem(QUEEN_USER_KEY)) {
         return refreshToken();
       }
-      return keycloakAuthentication({ onLoad: 'login-required', enableLogging: true });
+      return keycloakAuthentication({ onLoad: 'login-required' });
     case ANONYMOUS:
       return new Promise(resolve => resolve());
     default:
