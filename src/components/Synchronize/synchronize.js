@@ -56,7 +56,7 @@ const Synchronize = ({ location }) => {
   };
 
   useEffect(() => {
-    if (id) {
+    if (id && !pending) {
       launchSynchronize();
     }
   }, [id, launchSynchronize]);
