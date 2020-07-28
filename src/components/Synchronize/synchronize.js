@@ -45,7 +45,7 @@ const Synchronize = ({ location }) => {
       window.localStorage.setItem(QUEEN_SYNC_RESULT, 'failure');
       redirect();
     }
-  }, []);
+  }, [synchronize]);
 
   const getProgress = () => {
     if (sendingProgress) return sendingProgress;
