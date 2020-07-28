@@ -79,7 +79,11 @@ const Synchronize = ({ location }) => {
       {pending && (
         <StyleWrapper>
           <Preloader title={D.syncInProgress} message={waitingMessage} />
-          {getProgress() && <ProgressBar value={getProgress()} />}
+          {getProgress() && (
+            <>
+              <ProgressBar value={getProgress()} />
+            </>
+          )}
         </StyleWrapper>
       )}
     </>

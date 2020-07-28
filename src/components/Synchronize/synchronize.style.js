@@ -15,7 +15,7 @@ export const StyleWrapper = styled.div`
   }
 
   .preloader-container {
-    height: 50%;
+    height: min-content;
     .preloader {
       background-color: rgba(255, 255, 255, 0);
     }
