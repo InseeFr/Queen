@@ -13,6 +13,7 @@ import { StyleWrapper } from './component.style';
 
 const Buttons = ({
   readonly,
+  rereading,
   currentComponent,
   specialAnswer,
   page,
@@ -27,7 +28,17 @@ const Buttons = ({
   const { componentType } = currentComponent;
   const returnLabel = page === 0 ? '' : D.goBackReturn;
   const lastLabel = readonly ? D.simpleQuit : D.saveAndQuit;
-  const nextLabel = isLastComponent ? lastLabel : `${D.nextContinue} \u2192`;
+  const getNextLabel = () => {
+    if (isLastComponent) return lastLabel;
+    if (rereading) return `${D.nextButton}`;
+    return D.continueButton;
+  };
+  const getNextButtonLabel = () => {
+    if (isLastComponent) return lastLabel;
+    if (rereading) return `${D.nextButtonLabel}`;
+    return `${D.continueButtonLabel} \u2192`;
+  };
+  const nextLabel = getNextLabel();
   const pageNextFunction = isLastComponent ? finalQuit : pageNext;
 
   const [refusalChecked, setRefusalChecked] = useState(false);
@@ -117,9 +128,6 @@ const Buttons = ({
       <StyleWrapper id="buttons" className={!returnLabel && 'btn-alone'}>
         {!['Sequence', 'Subsequence'].includes(componentType) && (
           <>
-            <button className="specific-modality" type="button">
-              Commentaire
-            </button>
             {specialAnswer.doesntKnow && (
               <button
                 type="button"
@@ -147,32 +155,43 @@ const Buttons = ({
           </>
         )}
         {returnLabel && (
+          <div className="short-button navigation">
+            <button
+              className="navigation-button short"
+              type="button"
+              onClick={() => pageChange(pagePrevious)}
+            >
+              {`\u25C0`}
+            </button>
+            <span>{D.goBackReturn}</span>
+          </div>
+        )}
+        {(!DIRECT_CONTINUE_COMPONENTS.includes(componentType) ||
+          isLastComponent ||
+          readonly ||
+          rereading) && (
+          <div className="short-button next navigation">
+            <button
+              aria-label={getNextButtonLabel()}
+              className="navigation-button short"
+              type="button"
+              onClick={() => pageChange(pageNextFunction)}
+              disabled={!canContinue && !refusalChecked && !doesntKnowChecked && !readonly}
+            >
+              {`\u25B6`}
+            </button>
+            <span>{nextLabel}</span>
+          </div>
+        )}
+        <div className="fast-button navigation">
           <button
             className="navigation-button"
             type="button"
-            onClick={() => pageChange(pagePrevious)}
+            onClick={() => pageChange(pageFastForward)}
           >
-            {returnLabel}
+            {`${D.fastForward} \u21E5`}
           </button>
-        )}
-        {(!DIRECT_CONTINUE_COMPONENTS.includes(componentType) || isLastComponent || readonly) && (
-          <button
-            className="navigation-button"
-            type="button"
-            onClick={() => pageChange(pageNextFunction)}
-            disabled={!canContinue && !refusalChecked && !doesntKnowChecked && !readonly}
-          >
-            {nextLabel}
-          </button>
-        )}
-
-        <button
-          className="navigation-button"
-          type="button"
-          onClick={() => pageChange(pageFastForward)}
-        >
-          {`${D.fastForward} \u21E5`}
-        </button>
+        </div>
       </StyleWrapper>
       <KeyboardEventHandler
         handleKeys={keysToHandle}
@@ -185,6 +204,7 @@ const Buttons = ({
 
 Buttons.propTypes = {
   readonly: PropTypes.bool.isRequired,
+  rereading: PropTypes.bool.isRequired,
   currentComponent: PropTypes.objectOf(PropTypes.any).isRequired,
   specialAnswer: PropTypes.shape({
     refusal: PropTypes.bool.isRequired,

@@ -26,7 +26,8 @@ const putResourcesInCache = (
     QUEEN_API_URL,
     QUEEN_AUTHENTICATION_MODE
   )(operationId);
-  let i = -1;
+  let i = 0;
+  setResourceProgress(0);
   const resources = await resourcesResponse.data;
   await resources.reduce(async (previousPromise, resourceId) => {
     await previousPromise;

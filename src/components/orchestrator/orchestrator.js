@@ -45,7 +45,15 @@ const Orchestrator = ({
 
   const [specialQueenData, setSpecialQueenData] = useState(dataSU.specialQueenData);
   const [comment /* , setComment */] = useState(surveyUnit.comment);
+  const [validatePages, setValidatePages] = useState(() => {
+    const lastPage = UQ.getFastForwardPage(questionnaire)(bindings)(specialQueenData);
+    return lastPage - 1 >= 1 ? Array.from(Array(lastPage - 1), (_, i) => i + 1) : [1];
+  });
   const [previousResponse, setPreviousResponse] = useState(null);
+
+  const addValidatePage = () => {
+    if (!validatePages.includes(currentPage)) setValidatePages([...validatePages, currentPage]);
+  };
 
   /**
    * This function updates the values of the questionnaire responses
@@ -111,6 +119,7 @@ const Orchestrator = ({
       saveQueen(lastSpecialQueenData);
       setPreviousResponse(null);
       const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
+      addValidatePage();
       setCurrentPage(nextPage);
     },
     [
@@ -207,20 +216,23 @@ const Orchestrator = ({
           <NavBar
             nbModules={questionnaire.components.filter(c => c.page).length}
             page={currentPage}
-          />
-          <Buttons
-            readonly={readonly}
-            currentComponent={component}
-            specialAnswer={specialAnswer}
-            page={pageFilter}
-            canContinue={goNextCondition()}
-            specialQueenData={specialQueenData}
-            isLastComponent={isLastComponent}
-            pagePrevious={goPrevious}
-            pageNext={goNext}
-            pageFastForward={goFastForward}
-            finalQuit={quit}
-          />
+          >
+            <Buttons
+              readonly={readonly}
+              rereading={validatePages.includes(currentPage)}
+              currentComponent={component}
+              specialAnswer={specialAnswer}
+              page={pageFilter}
+              canContinue={goNextCondition()}
+              specialQueenData={specialQueenData}
+              isLastComponent={isLastComponent}
+              pagePrevious={goPrevious}
+              pageNext={goNext}
+              pageFastForward={goFastForward}
+              finalQuit={quit}
+            />
+          </NavBar>
+
           {/* {KEYBOARD_SHORTCUT_COMPONENTS.includes(componentType) && (
             <KeyboardEventHandler
               handleKeys={keyToHandle}

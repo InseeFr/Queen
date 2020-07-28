@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const StyleWrapper = styled.div`
-  height: 100%;
+  height: 100vh;
 
   .preloader {
     background-color: rgba(255, 255, 255, 0.8);
