@@ -59,7 +59,7 @@ const Synchronize = ({ location }) => {
     if (id && !pending) {
       launchSynchronize();
     }
-  }, [id, launchSynchronize]);
+  }, [id, pending, launchSynchronize]);
 
   return (
     <>
