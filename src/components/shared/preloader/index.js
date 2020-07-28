@@ -6,7 +6,7 @@ import { version } from '../../../../package.json';
 import { StyleWrapper } from './preloader.style';
 
 const Preloader = ({ title, message }) => (
-  <StyleWrapper>
+  <StyleWrapper className="preloader-container">
     <div className="preloader">
       <img src={imgPreloader} alt="waiting..." />
       <h2>{title}</h2>

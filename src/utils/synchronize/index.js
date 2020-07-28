@@ -3,6 +3,7 @@ import D from 'i18n';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import { QUEEN_URL } from 'utils/constants';
 import { kc } from 'utils/keycloak';
+import { useState } from 'react';
 
 const getConfiguration = async () => {
   const response = await fetch(`${QUEEN_URL}/configuration.json`);
@@ -10,21 +11,30 @@ const getConfiguration = async () => {
   return configuration;
 };
 
+const getPercent = (n, length) => Math.round((100 * n) / length);
+
 const putQuestionnaireInCache = async (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id) => {
   await api.getQuestionnaireById(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE)(id);
 };
 
-const putResourcesInCache = async (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, operationId) => {
+const putResourcesInCache = (
+  QUEEN_API_URL,
+  QUEEN_AUTHENTICATION_MODE,
+  operationId
+) => async setResourceProgress => {
   const resourcesResponse = await api.getListRequiredNomenclature(
     QUEEN_API_URL,
     QUEEN_AUTHENTICATION_MODE
   )(operationId);
+  let i = -1;
   const resources = await resourcesResponse.data;
-  await Promise.all(
-    resources.map(async resourceId => {
-      await api.getNomenclatureById(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE)(resourceId);
-    })
-  );
+  await resources.reduce(async (previousPromise, resourceId) => {
+    await previousPromise;
+    i += 1;
+    setResourceProgress(getPercent(i, resources.length));
+    return api.getNomenclatureById(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE)(resourceId);
+  }, Promise.resolve());
+  setResourceProgress(100);
 };
 
 const putSurveyUnitInDataBase = async (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id) => {
@@ -45,33 +55,43 @@ const putSurveyUnitInDataBase = async (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE,
   });
 };
 
-const putSurveyUnitsInDataBaseByOperationId = async (
+const putSurveyUnitsInDataBaseByOperationId = (
   QUEEN_API_URL,
   QUEEN_AUTHENTICATION_MODE,
   operationId
-) => {
+) => async setSurveyUnitProgress => {
   const surveyUnitsResponse = await api.getSurveyUnitByIdOperation(
     QUEEN_API_URL,
     QUEEN_AUTHENTICATION_MODE
   )(operationId);
   const surveyUnits = await surveyUnitsResponse.data;
-  await Promise.all(
-    surveyUnits.map(async surveyUnit => {
-      const { id } = surveyUnit;
-      await putSurveyUnitInDataBase(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id);
-    })
-  );
+  let i = 0;
+  setSurveyUnitProgress(0);
+
+  await surveyUnits.reduce(async (previousPromise, { id }) => {
+    await previousPromise;
+    i += 1;
+    setSurveyUnitProgress(getPercent(i, surveyUnits.length));
+    return putSurveyUnitInDataBase(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id);
+  }, Promise.resolve());
+  setSurveyUnitProgress(100);
 };
 
-const sendData = async (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE) => {
+const sendData = (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE) => async setSendingProgress => {
   const surveyUnits = await surveyUnitIdbService.getAll();
-  await Promise.all(
-    surveyUnits.map(async surveyUnit => {
-      const { id, data, comment } = surveyUnit;
+  let i = 0;
+  setSendingProgress(0);
+  await surveyUnits.reduce(async (previousPromise, surveyUnit) => {
+    await previousPromise;
+    const { id, data, comment } = surveyUnit;
+    const sendSurveyUnit = async () => {
       await api.putDataSurveyUnitById(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE)(id, data);
       await api.putCommentSurveyUnitById(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE)(id, comment);
-    })
-  );
+      i += 1;
+      setSendingProgress(getPercent(i, surveyUnits.length));
+    };
+    return sendSurveyUnit();
+  }, Promise.resolve());
 };
 
 const clean = async () => {
@@ -91,40 +111,73 @@ const authentication = () =>
     }
   });
 
-export const synchronize = async config => {
-  if (config && config.setWaitingMessage) config.setWaitingMessage(D.waitingConfiguration);
-  // (0) : get configuration
-  const { QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE } = await getConfiguration();
+export const useSynchronisation = () => {
+  const [waitingMessage, setWaitingMessage] = useState(null);
+  const [sendingProgress, setSendingProgress] = useState(null);
+  const [operationProgress, setOperationProgress] = useState(null);
+  const [resourceProgress, setResourceProgress] = useState(null);
+  const [surveyUnitProgress, setSurveyUnitProgress] = useState(null);
 
-  // (1) : authentication
-  if (config && config.setWaitingMessage) config.setWaitingMessage(D.waitingAuthentication);
-  if (QUEEN_AUTHENTICATION_MODE === 'keycloak') {
-    await authentication();
-  }
+  const synchronize = async () => {
+    setWaitingMessage(D.waitingConfiguration);
+    // (0) : get configuration
+    const { QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE } = await getConfiguration();
 
-  if (config && config.setWaitingMessage) config.setWaitingMessage(D.waitingSendingData);
-  // (2) : send the local data to server
-  await sendData(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE);
+    // (1) : authentication
+    setWaitingMessage(D.waitingAuthentication);
+    if (QUEEN_AUTHENTICATION_MODE === 'keycloak') {
+      await authentication();
+    }
 
-  // (3) : clean
-  if (config && config.setWaitingMessage) config.setWaitingMessage(D.waitingCleaning);
-  await clean();
+    setWaitingMessage(D.waitingSendingData);
+    // (2) : send the local data to server
+    await sendData(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE)(setSendingProgress);
 
-  // (4) : Get the data
-  if (config && config.setWaitingMessage) config.setWaitingMessage(D.waitingLoadingOperations);
-  const operationsResponse = await api.getOperations(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE);
-  const operations = await operationsResponse.data;
+    setSendingProgress(null);
 
-  await Promise.all(
-    operations.map(async operation => {
-      const { id } = operation;
-      if (config && config.setWaitingMessage)
-        config.setWaitingMessage(D.waitingLoadingQuestionnaire);
-      await putQuestionnaireInCache(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id);
-      if (config && config.setWaitingMessage) config.setWaitingMessage(D.waitingLoadingResources);
-      await putResourcesInCache(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id);
-      if (config && config.setWaitingMessage) config.setWaitingMessage(D.waitingLoadingSU);
-      await putSurveyUnitsInDataBaseByOperationId(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id);
-    })
-  );
+    // (3) : clean
+    setWaitingMessage(D.waitingCleaning);
+    await clean();
+
+    // (4) : Get the data
+    setWaitingMessage(D.waitingLoadingOperations);
+    const operationsResponse = await api.getOperations(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE);
+    const operations = await operationsResponse.data;
+    let i = 0;
+    setOperationProgress(0);
+
+    await operations.reduce(async (previousPromise, { id }) => {
+      await previousPromise;
+      const getAllOperation = async () => {
+        setWaitingMessage(D.waitingLoadingQuestionnaire);
+        await putQuestionnaireInCache(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id);
+        setWaitingMessage(D.waitingLoadingResources);
+        await putResourcesInCache(
+          QUEEN_API_URL,
+          QUEEN_AUTHENTICATION_MODE,
+          id
+        )(setResourceProgress);
+        setResourceProgress(null);
+        setWaitingMessage(D.waitingLoadingSU);
+        await putSurveyUnitsInDataBaseByOperationId(
+          QUEEN_API_URL,
+          QUEEN_AUTHENTICATION_MODE,
+          id
+        )(setSurveyUnitProgress);
+        i += 1;
+        setOperationProgress(getPercent(i, operations.length));
+        setSurveyUnitProgress(null);
+      };
+      return getAllOperation();
+    }, Promise.resolve());
+  };
+
+  return {
+    synchronize,
+    waitingMessage,
+    sendingProgress,
+    operationProgress,
+    resourceProgress,
+    surveyUnitProgress,
+  };
 };

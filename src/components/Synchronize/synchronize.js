@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import D from 'i18n';
+import ProgressBar from 'components/shared/ProgressBar';
 import Preloader from 'components/shared/preloader';
-import { synchronize } from 'utils/synchronize';
 import { QUEEN_SYNC_RESULT } from 'utils/constants';
+import { useSynchronisation } from 'utils/synchronize';
 import { StyleWrapper } from './synchronize.style';
 import { version } from '../../../package.json';
 
@@ -13,19 +14,26 @@ const Synchronize = ({ location }) => {
     return params.get('id');
   });
 
-  const [waitingMessage, setWaitingMessage] = useState(null);
-
   const [pending, setPending] = useState(false);
+  const {
+    synchronize,
+    sendingProgress,
+    waitingMessage,
+    operationProgress,
+    resourceProgress,
+    surveyUnitProgress,
+  } = useSynchronisation();
+
   const redirect = () => {
     window.location = window.location.origin;
   };
 
-  const launchSynchronize = async () => {
+  const launchSynchronize = useCallback(async () => {
     try {
       if (navigator.onLine) {
         window.localStorage.setItem(QUEEN_SYNC_RESULT, 'pending');
         setPending(true);
-        await synchronize({ setWaitingMessage });
+        await synchronize();
         window.localStorage.setItem(QUEEN_SYNC_RESULT, 'success');
         redirect();
       } else {
@@ -37,27 +45,43 @@ const Synchronize = ({ location }) => {
       window.localStorage.setItem(QUEEN_SYNC_RESULT, 'failure');
       redirect();
     }
+  }, []);
+
+  const getProgress = () => {
+    if (sendingProgress) return sendingProgress;
+    if (surveyUnitProgress) return surveyUnitProgress;
+    if (resourceProgress) return resourceProgress;
+    if (operationProgress) return operationProgress;
+    return null;
   };
 
   useEffect(() => {
     if (id) {
       launchSynchronize();
     }
-  }, [id]);
+  }, [id, launchSynchronize]);
 
   return (
     <>
       {!pending && !id && (
         <StyleWrapper>
-          <h1>{D.syncPage}</h1>
-          <h2>{D.manualSync}</h2>
-          <button type="button" onClick={() => launchSynchronize()}>
-            {D.synchronizeButton}
-          </button>
+          <div className="content">
+            <h1>{D.syncPage}</h1>
+            <h2>{D.manualSync}</h2>
+            <button type="button" onClick={() => launchSynchronize()}>
+              {D.synchronizeButton}
+            </button>
+          </div>
+
           <div className="version">{`Version ${version}`}</div>
         </StyleWrapper>
       )}
-      {pending && <Preloader title={D.syncInProgress} message={waitingMessage} />}
+      {pending && (
+        <StyleWrapper>
+          <Preloader title={D.syncInProgress} message={waitingMessage} />
+          {getProgress() && <ProgressBar value={getProgress()} />}
+        </StyleWrapper>
+      )}
     </>
   );
 };

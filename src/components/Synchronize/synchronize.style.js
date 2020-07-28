@@ -1,20 +1,32 @@
 import styled from 'styled-components';
 
 export const StyleWrapper = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
+  height: 100vh;
   background-color: rgba(255, 255, 255, 0.8);
-  margin: auto;
-  width: 100%;
-  height: 100%;
-  text-align: center;
 
   .content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
+
+  .preloader-container {
+    height: 50%;
+    .preloader {
+      background-color: rgba(255, 255, 255, 0);
+    }
+  }
+
+  .preloader-container .preloader img {
     margin-top: 5%;
   }
+
   .version {
-    z-index: 1000;
+    z-index: 2;
     background-color: whitesmoke;
     border-top: 1px solid black;
     position: fixed;
