@@ -51,9 +51,9 @@ const Orchestrator = ({
   });
   const [previousResponse, setPreviousResponse] = useState(null);
 
-  const addValidatePage = () => {
+  const addValidatePage = useCallback(() => {
     if (!validatePages.includes(currentPage)) setValidatePages([...validatePages, currentPage]);
-  };
+  }, [currentPage, validatePages, setValidatePages]);
 
   /**
    * This function updates the values of the questionnaire responses
@@ -130,6 +130,7 @@ const Orchestrator = ({
       surveyUnit.id,
       filteredComponents,
       saveQueen,
+      addValidatePage,
       specialQueenData,
       currentPage,
     ]
