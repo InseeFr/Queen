@@ -14,6 +14,8 @@ const buttonMessage = {
   updateNow: { fr: 'Mettre à jour maintenant', en: 'Update now' },
   closeNotif: { fr: 'Fermer', en: 'Close' },
   synchronizeButton: { fr: 'Synchroniser', en: 'Synchronize' },
+  helpShortCut: { fr: 'appuyer sur', en: 'enter' },
+  ctrlEnter: { fr: 'CTRL + ENTRÉE', en: 'CTRL + ENTER' },
 };
 
 export default buttonMessage;

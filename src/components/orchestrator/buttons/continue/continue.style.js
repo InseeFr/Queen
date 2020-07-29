@@ -6,6 +6,7 @@ export const StyleWrapper = styled.div`
   width: auto;
 
   .continue-button {
+    text-align: right;
     button {
       background-color: ${backgroundButtonColor};
       border: none;
@@ -26,5 +27,9 @@ export const StyleWrapper = styled.div`
         color: white;
       }
     }
+    span {
+      font-size: 84%;
+    }
+    margin-right: 8em;
   }
 `;

@@ -29,6 +29,12 @@ const Button = ({ readonly, canContinue, isLastComponent, pageNext, finalQuit })
           >
             {getNextLabel}
           </button>
+          <span>
+            {` ${D.helpShortCut} `}
+            <span>
+              <b>{D.ctrlEnter}</b>
+            </span>
+          </span>
         </div>
       </StyleWrapper>
       <KeyboardEventHandler
