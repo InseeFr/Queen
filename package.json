@@ -3,7 +3,7 @@
   "version": "0.2.4",
   "private": true,
   "dependencies": {
-    "@inseefr/lunatic": "^2.0.0-rc6",
+    "@inseefr/lunatic": "^2.0.0-rc7",
     "axios": "^0.19.2",
     "dexie": "^2.0.4",
     "keycloak-js": "^10.0.2",

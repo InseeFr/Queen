@@ -47,7 +47,7 @@ const Orchestrator = ({
   const [comment /* , setComment */] = useState(surveyUnit.comment);
   const [validatePages, setValidatePages] = useState(() => {
     const lastPage = UQ.getFastForwardPage(questionnaire)(bindings)(specialQueenData);
-    return lastPage - 1 >= 1 ? Array.from(Array(lastPage - 1), (_, i) => i + 1) : [1];
+    return lastPage - 1 >= 1 ? Array.from(Array(lastPage - 1), (_, i) => i + 1) : [];
   });
   const [previousResponse, setPreviousResponse] = useState(null);
 
