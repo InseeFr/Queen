@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 // import KeyboardEventHandler from 'react-keyboard-event-handler';
 import * as lunatic from '@inseefr/lunatic';
 // import alphabet from 'utils/constants/alphabet';
+import D from 'i18n';
 import * as UQ from 'utils/questionnaire';
 import { DIRECT_CONTINUE_COMPONENTS /* , KEYBOARD_SHORTCUT_COMPONENTS */ } from 'utils/constants';
 import { sendStartedEvent, sendCompletedEvent } from 'utils/communication';
 import Header from './header';
 import Buttons from './buttons';
+import ContinueButton from './buttons/continue';
 import NavBar from './rightNavbar';
 
 const Orchestrator = ({
@@ -46,9 +48,13 @@ const Orchestrator = ({
   const [specialQueenData, setSpecialQueenData] = useState(dataSU.specialQueenData);
   const [comment /* , setComment */] = useState(surveyUnit.comment);
   const [validatePages, setValidatePages] = useState(() => {
-    const lastPage = UQ.getFastForwardPage(questionnaire)(bindings)(specialQueenData);
-    return lastPage - 1 >= 1 ? Array.from(Array(lastPage - 1), (_, i) => i + 1) : [];
+    const page = UQ.getFirstTitlePageBeforeFastForwardPage(questionnaire)(bindings)(
+      specialQueenData
+    );
+    return page >= 1 ? Array.from(Array(page - 1), (_, i) => i + 1) : [];
   });
+  console.log('validatePages');
+  console.log(validatePages);
   const [previousResponse, setPreviousResponse] = useState(null);
 
   const addValidatePage = useCallback(() => {
@@ -102,7 +108,7 @@ const Orchestrator = ({
     return true;
   };
 
-  const goPrevious = (lastSpecialQueenData = specialQueenData) => {
+  const goPrevious = () => {
     setPreviousResponse(null);
     setCurrentPage(UQ.getPreviousPage(filteredComponents)(currentPage));
   };
@@ -213,6 +219,16 @@ const Orchestrator = ({
                 keyboardSelection={componentType === 'CheckboxGroup'}
               />
             </div>
+            {(!DIRECT_CONTINUE_COMPONENTS.includes(componentType) || isLastComponent || readonly) &&
+              !validatePages.includes(currentPage) && (
+                <ContinueButton
+                  readonly={readonly}
+                  canContinue={goNextCondition()}
+                  isLastComponent={isLastComponent}
+                  pageNext={goNext}
+                  finalQuit={quit}
+                />
+              )}
           </div>
           <NavBar
             nbModules={questionnaire.components.filter(c => c.page).length}

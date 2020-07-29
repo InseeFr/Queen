@@ -23,8 +23,10 @@ export const StyleWrapper = styled.div`
 
   .components {
     padding-top: 2em;
+    min-height: 80vh;
+    display: grid;
+    grid-template-rows: auto 60px;
     .lunatic-component {
-      min-height: 80vh;
       width: 80%;
       margin-left: auto;
       margin-right: auto;

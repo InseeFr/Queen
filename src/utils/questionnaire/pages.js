@@ -44,3 +44,19 @@ export const getFastForwardPage = questionnaire => bindings => specialQueenData 
   const page = firstComponent ? firstComponent.page : lastPage;
   return page;
 };
+
+export const getFirstTitlePageBeforeFastForwardPage = questionnaire => bindings => specialQueenData => {
+  const filterComponents = questionnaire.components.filter(
+    ({ conditionFilter }) => lunatic.interpret(['VTL'])(bindings)(conditionFilter) === 'normal'
+  );
+  const fastPage = getFastForwardPage(questionnaire)(bindings)(specialQueenData);
+  const componentsBefore = filterComponents.filter(component => {
+    const { page, componentType } = component;
+    return (
+      page &&
+      page < fastPage &&
+      !['Sequence', 'Subsequence', 'FilterDescription'].includes(componentType)
+    );
+  });
+  return componentsBefore.length > 0 ? fastPage : 1;
+};
