@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+  <file path="D:\dev\Queen\src\utils\router\build-extract.spec.js">
+    <testCase name="build-extract should return a param" duration="5"/>
+  </file>
+  <file path="D:\dev\Queen\src\utils\questionnaire\queenData.spec.js">
+    <testCase name="buildQueenData utils buildQueenData should transform data to queenData" duration="7"/>
+    <testCase name="buildData utils buildData should transform queenData to data" duration="2"/>
+    <testCase name="Test invariant  buildData(buildQueenData(data)) The sequence of functions must leave the parameter invariant." duration="2"/>
+  </file>
+  <file path="D:\dev\Queen\src\i18n\build-dictionary.spec.js">
+    <testCase name="should return the french version when the navigator.browserLanguage is FR" duration="10"/>
+    <testCase name="should return the english version when the navigator.browserLanguage is EN" duration="1"/>
+    <testCase name="should return the english version the navigator.browserLanguage is not supported" duration="0"/>
+    <testCase name="should return the french version when the navigator.language is FR" duration="1"/>
+    <testCase name="should return the english version when the navigator.language is EN" duration="1"/>
+    <testCase name="should return the english version the navigator.language is not supported" duration="0"/>
+    <testCase name="should return fr when we passe fr as a paremeter" duration="1"/>
+    <testCase name="should return fr when we passe fr-FR as a paremeter" duration="0"/>
+  </file>
+  <file path="D:\dev\Queen\src\utils\questionnaire\specialQueenData.spec.js">
+    <testCase name="specialQueenData utils buildSpecialQueenData should return data {data,specialQueenData} " duration="5"/>
+  </file>
+  <file path="D:\dev\Queen\src\utils\questionnaire\queen.spec.js">
+    <testCase name="getResponsesLinkWith utils getResponsesLinkWith should return [&apos;VAR1&apos;] " duration="2"/>
+    <testCase name="getResponsesNameFromComponent utils getResponsesNameFromComponent should return [&apos;VAR1&apos;] " duration="0"/>
+    <testCase name="getResponsesNameFromComponent utils getResponsesNameFromComponent should return [&apos;VAR_1&apos;,&apos;VAR_2&apos;,&apos;VAR_3&apos;,&apos;VAR_4&apos;] " duration="0"/>
+  </file>
+  <file path="D:\dev\Queen\src\utils\questionnaire\pages.spec.js">
+    <testCase name="pages utils find page index should return component index" duration="3"/>
+    <testCase name="pages utils go previous should return 1" duration="1"/>
+    <testCase name="pages utils go previous should return previous page" duration="0"/>
+    <testCase name="pages utils go next should return 1" duration="1"/>
+    <testCase name="pages utils go next should return next page" duration="0"/>
+  </file>
+</testExecutions>
