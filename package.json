@@ -23,6 +23,7 @@
     "build": "env PUBLIC_URL=__PUBLIC_URL_TO_REPLACE__ react-scripts build && node ./configuration/build/build-sw.js && yarn post-build",
     "post-build": "node ./configuration/build/manage-public-url.js && copy-and-watch configuration/configuration.json build",
     "test": "react-scripts test",
+    "test:ci": "react-scripts test --watchAll=false --coverage --testResultsProcessor ./node_modules/jest-sonar-reporter",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -53,10 +54,5 @@
     "eslint-plugin-react": "^7.16.0",
     "jest-sonar-reporter": "^2.0.0",
     "prettier": "^1.18.2"
-  },
-  "jest": {
-    "reporters": [
-      "jest-sonar-reporter\""
-    ]
   }
 }
