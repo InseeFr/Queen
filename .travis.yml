@@ -1,7 +1,8 @@
 language: node_js
 
 addons:
-  organization: 'inseefr'
+  sonarcloud:
+    organization: 'inseefr'
 
 services:
   - docker
