@@ -3,14 +3,22 @@ import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
 import * as lunatic from '@inseefr/lunatic';
-import * as UQ from 'utils/questionnaire';
+// import * as UQ from 'utils/questionnaire';
 import { version } from '../../../../package.json';
 import MenuIcon from './menu.icon';
 import { StyleWrapper } from './component.style';
 import SequenceNavigation from './sequenceNavigation';
 import SubsequenceNavigation from './subSequenceNavigation';
 
-const Navigation = ({ menuOpen, setMenuOpen, title, questionnaire, bindings, setPage }) => {
+const Navigation = ({
+  menuOpen,
+  setMenuOpen,
+  title,
+  questionnaire,
+  bindings,
+  setPage,
+  validatePages,
+}) => {
   const [open, setOpen] = useState(false);
   const [surveyOpen, setSurveyOpen] = useState(false);
   const [currentFocusItemIndex, setCurrentFocusItemIndex] = useState(-1);
@@ -20,9 +28,13 @@ const Navigation = ({ menuOpen, setMenuOpen, title, questionnaire, bindings, set
     return lunatic.interpret(['VTL'])(bindings)(label);
   };
 
-  const lastPossiblePage = useMemo(() => {
-    return surveyOpen ? UQ.getFastForwardPage(questionnaire)(bindings)(null) : null;
-  }, [surveyOpen, questionnaire, bindings]);
+  // const lastPossiblePage = useMemo(() => {
+  //   return validatePages[validatePages.length - 1];
+  // }, [validatePages]);
+
+  // const lastPossiblePage = useMemo(() => {
+  //   return surveyOpen ? UQ.getFastForwardPage(questionnaire)(bindings)(null) : null;
+  // }, [surveyOpen, questionnaire, bindings]);
 
   const componentsVTL = questionnaire.components.reduce(
     (_, { componentType, labelNav, ...other }) => {
@@ -33,7 +45,8 @@ const Navigation = ({ menuOpen, setMenuOpen, title, questionnaire, bindings, set
           {
             componentType,
             labelNav: getVtlLabel(labelNav),
-            reachable: page <= lastPossiblePage,
+            // reachable: page <= lastPossiblePage,
+            reachable: validatePages.includes(page),
             ...other,
           },
         ];
@@ -45,7 +58,8 @@ const Navigation = ({ menuOpen, setMenuOpen, title, questionnaire, bindings, set
           {
             componentType,
             labelNav: getVtlLabel(labelNav),
-            reachable: goToPage <= lastPossiblePage,
+            // reachable: goToPage <= lastPossiblePage,
+            reachable: validatePages.includes(goToPage),
             ...other,
           },
         ];
@@ -230,6 +244,7 @@ Navigation.propTypes = {
   bindings: PropTypes.objectOf(PropTypes.any).isRequired,
   questionnaire: PropTypes.objectOf(PropTypes.any).isRequired,
   setPage: PropTypes.func.isRequired,
+  validatePages: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
 export default React.memo(Navigation, comparison);

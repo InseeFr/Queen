@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 // import KeyboardEventHandler from 'react-keyboard-event-handler';
 import * as lunatic from '@inseefr/lunatic';
 // import alphabet from 'utils/constants/alphabet';
-import D from 'i18n';
 import * as UQ from 'utils/questionnaire';
 import { DIRECT_CONTINUE_COMPONENTS /* , KEYBOARD_SHORTCUT_COMPONENTS */ } from 'utils/constants';
 import { sendStartedEvent, sendCompletedEvent } from 'utils/communication';
@@ -53,12 +52,15 @@ const Orchestrator = ({
     );
     return page >= 1 ? Array.from(Array(page - 1), (_, i) => i + 1) : [];
   });
-  console.log('validatePages');
-  console.log(validatePages);
   const [previousResponse, setPreviousResponse] = useState(null);
 
   const addValidatePage = useCallback(() => {
-    if (!validatePages.includes(currentPage)) setValidatePages([...validatePages, currentPage]);
+    let newValidatePages = validatePages;
+    if (!validatePages.includes(currentPage)) {
+      newValidatePages = [...newValidatePages, currentPage];
+      setValidatePages(newValidatePages);
+    }
+    return newValidatePages;
   }, [currentPage, validatePages, setValidatePages]);
 
   /**
@@ -146,10 +148,15 @@ const Orchestrator = ({
     (lastSpecialQueenData = specialQueenData) => {
       saveQueen(lastSpecialQueenData);
       setPreviousResponse(null);
-      const fastForwardPage = UQ.getFastForwardPage(questionnaire)(bindings)(lastSpecialQueenData);
-      setCurrentPage(fastForwardPage);
+      const fastForwardPageResponse = UQ.getFastForwardPage(questionnaire)(bindings)(
+        lastSpecialQueenData
+      );
+      const newValidatePages = addValidatePage();
+      const fastForwardPage = Math.max(fastForwardPageResponse, Math.max(...newValidatePages) + 1);
+      const lastPage = filteredComponents[filteredComponents.length - 1].page;
+      setCurrentPage(fastForwardPage <= lastPage ? fastForwardPage : lastPage);
     },
-    [saveQueen, specialQueenData, questionnaire, bindings]
+    [saveQueen, addValidatePage, filteredComponents, specialQueenData, questionnaire, bindings]
   );
 
   const quit = async () => {
@@ -193,6 +200,7 @@ const Orchestrator = ({
           questionnaire={questionnaire}
           bindings={bindings}
           setPage={setCurrentPage}
+          validatePages={validatePages}
         />
         <div className="body-container">
           <div className="components">

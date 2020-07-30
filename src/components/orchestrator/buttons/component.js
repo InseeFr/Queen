@@ -2,6 +2,8 @@ import React from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
+import IconFastForward from './fastForward.icon';
+import IconNextBack from './nextBack.icon';
 import { StyleWrapper } from './component.style';
 
 const Buttons = ({
@@ -18,13 +20,14 @@ const Buttons = ({
   const returnLabel = page === 0 ? '' : D.goBackReturn;
   const pageNextFunction = isLastComponent ? finalQuit : pageNext;
 
-  const keysToHandle = ['ctrl+enter', 'ctrl+backspace'];
+  const keysToHandle = ['ctrl+enter', 'ctrl+backspace', 'ctrl+end'];
 
-  const keyboardShortcut = (key, e) => {
+  const keyboardShortcut = key => {
     if (key === 'ctrl+enter') {
       if (!isLastComponent && rereading && canContinue) pageNextFunction();
     }
     if (key === 'ctrl+backspace') pagePrevious();
+    if (key === 'ctrl+end') pageFastForward();
   };
 
   return (
@@ -33,7 +36,7 @@ const Buttons = ({
         {returnLabel && (
           <div className="short-button navigation">
             <button className="navigation-button short" type="button" onClick={pagePrevious}>
-              {`\u25C0`}
+              <IconNextBack back className="next-icon" />
             </button>
             <span>{D.goBackReturn}</span>
           </div>
@@ -47,15 +50,19 @@ const Buttons = ({
               onClick={pageNext}
               disabled={!canContinue && !readonly}
             >
-              {`\u25B6`}
+              <IconNextBack className="next-icon" />
             </button>
             <span>{D.nextButton}</span>
           </div>
         )}
         <div className="fast-button navigation">
           <button className="navigation-button" type="button" onClick={pageFastForward}>
-            {`${D.fastForward} \u21E5`}
+            {`${D.fastForward}`}
+            <IconFastForward className="fast-icon" />
           </button>
+          <span>
+            <b>{D.ctrlEnd}</b>
+          </span>
         </div>
       </StyleWrapper>
       <KeyboardEventHandler

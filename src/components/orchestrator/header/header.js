@@ -18,6 +18,7 @@ const Header = ({
   questionnaire,
   bindings,
   setPage,
+  validatePages,
 }) => {
   const setToFirstPage = useCallback(() => setPage(1), [setPage]);
 
@@ -30,6 +31,7 @@ const Header = ({
         questionnaire={questionnaire}
         bindings={bindings}
         setPage={setPage}
+        validatePages={validatePages}
       />
       <div className="header-item">
         <button

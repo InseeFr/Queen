@@ -12,6 +12,7 @@ export const StyleWrapper = styled.div`
   white-space: nowrap;
 
   grid-template-rows: 60px 60px 60px;
+
   .navigation {
     text-align: right;
   }
@@ -20,6 +21,12 @@ export const StyleWrapper = styled.div`
     button {
       background-color: #9fc5f8;
       color: black;
+      border-radius: 50%;
+      padding: 0;
+
+      svg {
+        vertical-align: middle;
+      }
     }
 
     &.next {
@@ -33,9 +40,28 @@ export const StyleWrapper = styled.div`
       margin-left: auto;
     }
   }
+
   .fast-button {
     grid-row-start: 3;
     grid-row-end: 3;
+    button {
+      padding: 0.1em 0.5em 0.1em 0.5em;
+      border-radius: 15px;
+
+      &:hover,
+      &:focus {
+        svg.fast-icon {
+          fill: ${backgroundButtonColor};
+        }
+      }
+    }
+    span {
+      display: block;
+      font-size: 68%;
+    }
+    .fast-icon {
+      vertical-align: middle;
+    }
   }
   .navigation-button {
     background-color: ${backgroundButtonColor};
@@ -44,10 +70,6 @@ export const StyleWrapper = styled.div`
     color: white;
     font-weight: bold;
     padding: 0.5em 1em 0.5em 1em;
-
-    &.short {
-      border-radius: 50%;
-    }
 
     &:hover,
     &:focus {
