@@ -51,13 +51,5 @@
     "eslint-plugin-react": "^7.16.0",
     "jest-sonar-reporter": "^2.0.0",
     "prettier": "^1.18.2"
-  },
-  "jest": {
-    "collectCoverage": true,
-    "testResultsProcessor": "jest-sonar-reporter",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/test/"
-    ]
   }
 }
