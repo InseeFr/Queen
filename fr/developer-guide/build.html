@@ -1,0 +1,646 @@
+
+<!DOCTYPE HTML>
+<html lang="fr" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Étape du build · Queen</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-prism/prism.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-image-captions/image-captions.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-collapsible-chapters/collapsible-chapters.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="docker.html" />
+    
+    
+    <link rel="prev" href="integrate-example.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Tapez pour rechercher" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Guide du développeur</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="getting-started.html">
+            
+                <a href="getting-started.html">
+            
+                    
+                    Démarrage
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="application.html">
+            
+                <a href="application.html">
+            
+                    
+                    Découvrir l'application
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.1" data-path="components-orchestrator.html">
+            
+                <a href="components-orchestrator.html">
+            
+                    
+                    Orchestrateur de composant
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.2" data-path="code-organization.html">
+            
+                <a href="code-organization.html">
+            
+                    
+                    Organisation du code
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3" data-path="specificity/specificity.html">
+            
+                <a href="specificity/specificity.html">
+            
+                    
+                    Spécificité
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.3.1" data-path="specificity/web-component.html">
+            
+                <a href="specificity/web-component.html">
+            
+                    
+                    Web component
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3.2" data-path="specificity/standalone-embedded.html">
+            
+                <a href="specificity/standalone-embedded.html">
+            
+                    
+                    Mode : autonome ou embarqué
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3.3" data-path="specificity/offline.html">
+            
+                <a href="specificity/offline.html">
+            
+                    
+                    Mode offline : Service-worker
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3.4" data-path="specificity/update.html">
+            
+                <a href="specificity/update.html">
+            
+                    
+                    Mise à jour
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3.5" data-path="specificity/styles.html">
+            
+                <a href="specificity/styles.html">
+            
+                    
+                    Gestion des styles
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.4" data-path="multilanguage.html">
+            
+                <a href="multilanguage.html">
+            
+                    
+                    Multi-langue
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.5" data-path="data-model/data-model.html">
+            
+                <a href="data-model/data-model.html">
+            
+                    
+                    Modèle de données
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.5.1" data-path="data-model/questionnaire.html">
+            
+                <a href="data-model/questionnaire.html">
+            
+                    
+                    Questionnaire
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.5.2" data-path="data-model/survey-unit.html">
+            
+                <a href="data-model/survey-unit.html">
+            
+                    
+                    Unité enquêtée
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.6" data-path="api.html">
+            
+                <a href="api.html">
+            
+                    
+                    API
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="integrate-queen.html">
+            
+                <a href="integrate-queen.html">
+            
+                    
+                    Intégrer Queen en tant que Web Component (embarqué)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.3.1" data-path="integrate-example.html">
+            
+                <a href="integrate-example.html">
+            
+                    
+                    Exemple de Pearl-Jam
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.4" data-path="build.html">
+            
+                <a href="build.html">
+            
+                    
+                    Étape du build
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="docker.html">
+            
+                <a href="docker.html">
+            
+                    
+                    Docker
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Guide utilisateur</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../user-guide/user-guide.html">
+            
+                <a href="../user-guide/user-guide.html">
+            
+                    
+                    Guide utilisateur
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="../user-guide/navigation.html">
+            
+                <a href="../user-guide/navigation.html">
+            
+                    
+                    Navigation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="../user-guide/synchronize.html">
+            
+                <a href="../user-guide/synchronize.html">
+            
+                    
+                    Synchroniser
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Publié avec GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Étape du build</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="build">Build</h1>
+<p>L&apos;&#xE9;tape du build se fait en trois temps :</p>
+<ul>
+<li>build classique par <code>react-scripts build</code></li>
+<li>build pour le service-worker</li>
+<li>build final</li>
+</ul>
+<h2 id="probl&#xE8;me--le-probl&#xE8;me-du-micro-frontend">Probl&#xE8;me : le probl&#xE8;me du micro-frontend</h2>
+<p>Lorsque l&apos;application est utilis&#xE9;e en mode embarqu&#xE9;e, ses scripts sont directement import&#xE9;s dans l&apos;application parente. Queen peut alors fonctionner normalement sauf pour les images.</p>
+<h3 id="explication">Explication</h3>
+<p>Prenons l&apos;exemple o&#xF9; Queen est desservis par l&apos;adresse <code>https://queen.com</code> et est utilis&#xE9; au sein d&apos;une autre application comme Pearl-Jam desservis par l&apos;adresse <code>https://pearl.com</code>.</p>
+<p>Lorsqu&apos;une application react est construite avec un build classique, les URLs sont relatives. Par exemple si l&apos;application a besoin de l&apos;image <code>/static/media/insee.png</code>, le script final envoie une requ&#xEA;te vers <code>/static/media/insee.png</code> qui est r&#xE9;solu par le navigateur par la concat&#xE9;nation de l&apos;origine de la page et de la requ&#xEA;te, ce qui donne pour un site dont l&apos;origine est <code>https://example.com</code> -&gt; <code>https://example.com/static/media/insee.png</code>.</p>
+<p>Ainsi lorsque Queen est embarqu&#xE9;e dans une autre application et qu&apos;elle a besoin de l&apos;image <code>/static/media/insee.png</code> de Queen, le navigateur va r&#xE9;soudre de la m&#xEA;me mani&#xE8;re mais comme Queen est en mode embarqu&#xE9;, l&apos;origine au yeux du navigateur est l&apos;origine de l&apos;application parente, il va donc chercher l&apos;image &#xE0; l&apos;adresse <code>https://pearl.com/static/media/insee.png</code> au lieu de <code>https://queen.com/static/media/insee.png</code> dans notre exemple. On aura donc une erreur 404 si l&apos;image n&apos;existe par sur le serveur <code>https://pearl.com</code>.</p>
+<h2 id="solution">Solution</h2>
+<p>Le probl&#xE8;me &#xE9;tant identifi&#xE9;, il faut une solution sous les contraintes suivantes :</p>
+<ul>
+<li>le build doit &#xEA;tre <strong>ind&#xE9;pendant</strong> de l&apos;environnement o&#xF9; il est d&#xE9;ploy&#xE9; (modulo le fichier <code>configuration.json</code>).</li>
+<li>utiliser <code>react-scripts build</code> car d&#xE9;j&#xE0; bien optimis&#xE9;</li>
+</ul>
+<p>La solution est relativement simple.
+Lors du build par react, on peut d&#xE9;finir la variable PUBLIC_URL (ou homepage dans <code>package.json</code>). Cette variable permet de palier au probl&#xE8;me d&apos;URL relative.</p>
+<p>Dans l&apos;exemple pr&#xE9;c&#xE9;dent, il suffit de d&#xE9;finir <code>PUBLIC_URL=https://queen.com</code> lors du build pour r&#xE9;gler le probl&#xE8;me.</p>
+<p>Cette solution ne respecte pas la contrainte d&apos;ind&#xE9;pendance du build.
+Pour r&#xE9;gler ce probl&#xE8;me, on d&#xE9;finit <code>PUBLIC_URL=__PUBLIC_URL_TO_REPLACE__</code>, une expression facilement identifiable apr&#xE8;s build qu&apos;on remplace par une expression en javascript.
+L&apos;expression est la suivante : <code>(localStorage.getItem(&apos;QUEEN_URL&apos;) || &apos;&apos;)</code>.
+Comme c&apos;est expliqu&#xE9; dans la section &quot;Int&#xE9;grer Queen en tant que Web Component (embarqu&#xE9;)&quot;, l&apos;application parente est tenu d&apos;enregistrer dans le <code>localStorage</code> du navigateur l&apos;URL de Queen avec la cl&#xE9; <code>QUEEN_URL</code>.</p>
+<p>Avec cette solution :</p>
+<ul>
+<li>quand Queen est autonome : <code>localStorage.getItem(&apos;QUEEN_URL&apos;)</code> n&apos;est pas d&#xE9;fini, on se retrouve apr&#xE8;s r&#xE9;solution avec <code>&apos;&apos;</code>, cela ne pose pas de probl&#xE8;me, on reste avec une adresse relative.</li>
+<li>quand Queen est embarqu&#xE9; : <code>localStorage.getItem(&apos;QUEEN_URL&apos;)</code> vaut dans l&apos;exemple pr&#xE9;c&#xE9;dent <code>https://queen.com</code>, pour rechercher l&apos;image on aura bien une adresse absolue gr&#xE2;ce &#xE0; la concat&#xE9;nation par le script de <code>localStorage.getItem(&apos;QUEEN_URL&apos;)</code> et de l&apos;url de l&apos;image : <code>/static/media/insee.png</code>.</li>
+</ul>
+<h2 id="votre-aide-est-la-bienvenue-">Votre aide est la bienvenue !</h2>
+<p>Si vous trouvez une meilleure solution, merci de la proposer via des Pull Request.</p>
+<h1 id="build-final-">Build final :</h1>
+<ul>
+<li><strong>Etape 1 :</strong> build par react :</li>
+</ul>
+<p><code>env PUBLIC_URL=__PUBLIC_URL_TO_REPLACE__ react-scripts build</code></p>
+<ul>
+<li><p><strong>Etape 2 :</strong> ajout du service-worker :
+<code>node ./configuration/build/build-sw.js</code></p>
+<ul>
+<li>remplacement de <code>self.__precacheManifest</code> par <code>self.__queenPrecacheManifest</code> dans le fichier g&#xE9;n&#xE9;r&#xE9; par workbox : <code>precache-manifest.[hash].js</code> + renommage du fichier (<code>precache-manifest.[hash].js</code> par <code>queen-precache-manifest.[hash].js</code>) afin d&apos;&#xE9;viter des interf&#xE9;rences avec l&apos;application parente</li>
+<li>ajout du service-worker externe (&#xE0; importer via <code>importScripts</code> par une application parente)</li>
+<li>remplacement dans le service-worker original (pour le mode autonome) g&#xE9;n&#xE9;r&#xE9; par react, de :<ul>
+<li><code>__PUBLIC_URL_TO_REPLACE__</code> par <code>&apos;&apos;</code></li>
+<li><code>precache-manifest.[hash].js</code> par <code>queen-precache-manifest.[hash].js</code></li>
+<li><code>self.__precacheManifest</code> par <code>self.__queenPrecacheManifest</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Etape 3:</strong> remplacement de l&apos;expression <code>__PUBLIC_URL_TO_REPLACE__</code> : <code>yarn post-build</code></p>
+<ul>
+<li><code>node ./configuration/build/manage-public-url.js</code> : Parcours des fichiers g&#xE9;n&#xE9;r&#xE9;s, on remplace l&apos;expression <code>__PUBLIC_URL_TO_REPLACE__</code> par <code>(localStorage.getItem(&apos;QUEEN_URL&apos;) || &apos;&apos;)</code></li>
+<li><code>copy-and-watch configuration/configuration.json build</code> : On ajoute le fichier <code>configuration.json</code> : &#xE0; valoriser lors du d&#xE9;ploiement de l&apos;application.</li>
+</ul>
+</li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="integrate-example.html" class="navigation navigation-prev " aria-label="Previous page: Exemple de Pearl-Jam">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="docker.html" class="navigation navigation-next " aria-label="Next page: Docker">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Étape du build","level":"2.4","depth":1,"next":{"title":"Docker","level":"2.5","depth":1,"path":"developer-guide/docker.md","ref":"developer-guide/docker.md","articles":[]},"previous":{"title":"Exemple de Pearl-Jam","level":"2.3.1","depth":2,"path":"developer-guide/integrate-example.md","ref":"developer-guide/integrate-example.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","prism","-highlight","github","anchorjs","image-captions","include-codeblock","collapsible-chapters"],"root":"./","styles":{"website":"gitbook.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"github":{"url":"https://github.com/InseeFr/Queen/"},"search":{},"collapsible-chapters":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit This Page","base":"https://github.com/InseeFr/Queen/tree/master/docs"},"theme-default":{"styles":{"website":"gitbook.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchorjs":{},"image-captions":{"variable_name":"_pictures"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"_pictures":[]},"title":"Queen","language":"fr","gitbook":"*"},"file":{"path":"developer-guide/build.md","mtime":"2020-07-30T14:45:35.685Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2020-07-30T14:48:28.910Z"},"basePath":"..","book":{"language":"fr"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-anchorjs/anchor.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-anchorjs/anchor-style.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-collapsible-chapters/collapsible-chapters.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
