@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@inseefr/lunatic": "^2.0.0-rc5",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
     "axios": "^0.19.2",
     "dexie": "^2.0.4",
     "node-sass": "^4.13.1",
