@@ -148,15 +148,17 @@ const Orchestrator = ({
     (lastSpecialQueenData = specialQueenData) => {
       saveQueen(lastSpecialQueenData);
       setPreviousResponse(null);
-      const fastForwardPageResponse = UQ.getFastForwardPage(questionnaire)(bindings)(
-        lastSpecialQueenData
-      );
       const newValidatePages = addValidatePage();
-      const fastForwardPage = Math.max(fastForwardPageResponse, Math.max(...newValidatePages) + 1);
-      const lastPage = filteredComponents[filteredComponents.length - 1].page;
-      setCurrentPage(fastForwardPage <= lastPage ? fastForwardPage : lastPage);
+      const filteredPage = filteredComponents.map(({ page }) => page);
+      const reachesValidatePage = filteredPage.filter(p => newValidatePages.includes(p));
+      const reachesNotValidatePage = filteredPage.filter(p => !newValidatePages.includes(p));
+      const pageOfLastComponentToValidate =
+        reachesNotValidatePage[0] ||
+        UQ.getNextPage(filteredComponents)(Math.max(...reachesValidatePage));
+
+      setCurrentPage(pageOfLastComponentToValidate);
     },
-    [saveQueen, addValidatePage, filteredComponents, specialQueenData, questionnaire, bindings]
+    [saveQueen, addValidatePage, filteredComponents, specialQueenData]
   );
 
   const quit = async () => {
@@ -227,8 +229,8 @@ const Orchestrator = ({
                 keyboardSelection={componentType === 'CheckboxGroup'}
               />
             </div>
-            {(!DIRECT_CONTINUE_COMPONENTS.includes(componentType) || isLastComponent || readonly) &&
-              !validatePages.includes(currentPage) && (
+            {(!DIRECT_CONTINUE_COMPONENTS.includes(componentType) || readonly) &&
+              (!validatePages.includes(currentPage) || isLastComponent) && (
                 <ContinueButton
                   readonly={readonly}
                   canContinue={goNextCondition()}

@@ -31,8 +31,13 @@ const SequenceNavigation = ({
     setCurrentFocusSequenceIndex,
   ]);
 
-  const lastIndexReachable = components.findIndex(({ reachable }) => !reachable) - 1;
+  const lastIndexReachable = components.indexOf(
+    components.filter(({ reachable }) => reachable).pop()
+  );
+  console.log('lastIndexReachable');
+  console.log(lastIndexReachable);
   const lastIndexFocusable = lastIndexReachable >= -1 ? lastIndexReachable : components.length - 1;
+
   const setCurrentFocus = index => {
     if (lastIndexFocusable === -1 || index > lastIndexFocusable || index === -1)
       backButtonRef.current.focus();

@@ -15,7 +15,7 @@ export const getPreviousPage = components => currentPage => {
 export const getNextPage = components => currentPage => {
   if (!components || !currentPage) return 1;
   const index = findPageIndex(components)(currentPage);
-  if (index < 0 || index >= components.length - 1) return 1;
+  if (index < 0 || index >= components.length - 1) return components[components.length - 1].page;
   return components[index + 1].page || components[index + 1].goToPage || 1;
 };
 
