@@ -1,5 +1,8 @@
 language: node_js
 
+addons:
+  organization: 'inseefr'
+
 services:
   - docker
 
@@ -9,6 +12,7 @@ node_js:
   - 12.16.1
 
 cache: yarn
+
 
 script:
   - yarn install
