@@ -15,7 +15,8 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "react-shadow": "^18.1.0",
-    "styled-components": "^5.0.1"
+    "styled-components": "^5.0.1",
+    "material-design-icons-iconfont": "^5.0.1"
   },
   "scripts": {
     "start": "set PORT=5000 && react-scripts start",
