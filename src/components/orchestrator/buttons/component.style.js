@@ -4,6 +4,7 @@ const backgroundButtonColor = '#085394';
 
 export const StyleWrapper = styled.div`
   position: absolute;
+  padding-right: 15%;
   bottom: 0;
   right: 0;
   display: grid;
@@ -12,7 +13,6 @@ export const StyleWrapper = styled.div`
 
   grid-template-rows: 60px 60px 60px;
   .navigation {
-    padding-right: 6%;
     text-align: right;
   }
 

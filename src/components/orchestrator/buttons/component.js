@@ -16,7 +16,6 @@ const Buttons = ({
   finalQuit,
 }) => {
   const returnLabel = page === 0 ? '' : D.goBackReturn;
-  const lastLabel = readonly ? D.simpleQuit : D.saveAndQuit;
   const pageNextFunction = isLastComponent ? finalQuit : pageNext;
 
   const keysToHandle = ['ctrl+enter', 'ctrl+backspace'];
