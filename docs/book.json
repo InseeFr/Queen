@@ -1,0 +1,30 @@
+{
+  "gitbook": "3.2.2",
+  "title": "Queen",
+  "plugins": [
+    "edit-link",
+    "prism",
+    "-highlight",
+    "github",
+    "anchorjs",
+    "image-captions",
+    "include-codeblock",
+    "collapsible-chapters"
+  ],
+  "root": "./",
+  "pluginsConfig": {
+    "edit-link": {
+      "base": "https://github.com/InseeFr/Queen/tree/master/docs",
+      "label": "Edit This Page"
+    },
+    "github": {
+      "url": "https://github.com/InseeFr/Queen/"
+    },
+    "theme-default": {
+      "styles": {
+        "website": "gitbook.css"
+      }
+    },
+    "collapsible-chapters": {}
+  }
+}

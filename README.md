@@ -51,3 +51,7 @@ And to use Queen, add the `queen-app` tag :
 ```html
 <queen-app></queen-app>
 ```
+
+## Full documentation
+
+The documentation can be found in the [docs](https://github.com/InseeFr/Queen/tree/master/docs) folder and browsed [online](https://inseefr.github.io/Queen).
