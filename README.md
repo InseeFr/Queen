@@ -38,6 +38,20 @@ To override environments variables you can do :
 
 - `docker run -p 80:80 -e QUEEN_URL=http://override.value.com -e QUEEN_API_URL=... -e QUEEN_AUTHENTICATION_MODE=... -t inseefr/queen`
 
+### As Web Component (micro-frontend)
+
+If Queen is deployed at `http://localhost:5000`, just add this line to your `index.html` to load Queen :
+
+```html
+<script src="http://localhost:5000/entry.js"></script>
+```
+
+And to use Queen, add the `queen-app` tag :
+
+```html
+<queen-app></queen-app>
+```
+
 ## Full documentation
 
 The documentation can be found in the [docs](https://github.com/InseeFr/Queen/tree/master/docs) folder and browsed [online](https://inseefr.github.io/Queen).
