@@ -1,5 +1,9 @@
 language: node_js
 
+addons:
+  sonarcloud:
+    organization: 'inseefr'
+
 services:
   - docker
 
@@ -10,32 +14,34 @@ node_js:
 
 cache: yarn
 
-script:
-  - yarn install
-  - yarn build
-  - docker build -t inseefr/queen .
-
-script:
-  - bash scripts/gitbook.sh
+install:
+  - yarn
 
 before_script:
   - curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.17.0/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
+  - yarn test:ci
+
+script:
+  - sonar-scanner
+  - yarn build
+  - docker build -t inseefr/queen .
+
+after_script:
+  - bash scripts/gitbook.sh
 
 after_success:
-    - .ci/comment-pr.sh
+  - .ci/comment-pr.sh
 
 deploy:
   - skip_cleanup: true
     provider: script
-    script:
-      echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+    script: echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
       && docker push inseefr/queen
     on:
       branch: master
 
   - skip_cleanup: true
     provider: script
-    script:
-      kubectl --token $K8S_TOKEN --server $K8S_SERVER --insecure-skip-tls-verify rollout restart deployment/queen -n queen
+    script: kubectl --token $K8S_TOKEN --server $K8S_SERVER --insecure-skip-tls-verify rollout restart deployment/queen -n queen
     on:
       branch: master
