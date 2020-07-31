@@ -24,9 +24,9 @@ describe('pages utils', () => {
   });
 
   describe('go next', () => {
-    it('should return 1', () => {
+    it('should return 11 and 1', () => {
       expect(getNextPage()()).toEqual(1);
-      expect(getNextPage(components)(11)).toEqual(1);
+      expect(getNextPage(components)(11)).toEqual(11);
       expect(getNextPage(components)(2)).toEqual(1);
     });
     it('should return next page', () => {
