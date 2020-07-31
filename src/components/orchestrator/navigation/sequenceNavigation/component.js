@@ -31,18 +31,25 @@ const SequenceNavigation = ({
     setCurrentFocusSequenceIndex,
   ]);
 
-  const lastIndexReachable = components.indexOf(
-    components.filter(({ reachable }) => reachable).pop()
-  );
-  console.log('lastIndexReachable');
-  console.log(lastIndexReachable);
-  const lastIndexFocusable = lastIndexReachable >= -1 ? lastIndexReachable : components.length - 1;
+  const reachableIndexes = components.reduce((_, { reachable }, index) => {
+    if (reachable) return [..._, index];
+    return _;
+  }, []);
+  const lastIndexFocusable = reachableIndexes[reachableIndexes.length - 1];
 
-  const setCurrentFocus = index => {
-    if (lastIndexFocusable === -1 || index > lastIndexFocusable || index === -1)
-      backButtonRef.current.focus();
-    else if (index === -2) listRef[lastIndexFocusable].current.focus();
-    else listRef[index].current.focus();
+  const setCurrentFocus = next => index => {
+    const indexOfIndex = reachableIndexes.indexOf(index);
+    if (next) {
+      const nextIndex =
+        indexOfIndex + 1 <= reachableIndexes.length - 1 ? reachableIndexes[indexOfIndex + 1] : -1;
+      if (nextIndex >= 0) listRef[nextIndex].current.focus();
+      else backButtonRef.current.focus();
+    } else {
+      const previousIndexTemp = indexOfIndex - 1;
+      if (previousIndexTemp >= 0) listRef[reachableIndexes[previousIndexTemp]].current.focus();
+      else if (previousIndexTemp === -1) backButtonRef.current.focus();
+      else listRef[reachableIndexes[reachableIndexes.length - 1]].current.focus();
+    }
   };
 
   const openSubComponents = sequence => {
@@ -80,10 +87,10 @@ const SequenceNavigation = ({
       else openSubComponents(components[currentFocusSequenceIndex]);
     }
     if (key === 'down') {
-      setCurrentFocus(index + 1);
+      setCurrentFocus(true)(index);
     }
     if (key === 'up') {
-      setCurrentFocus(index - 1);
+      setCurrentFocus(false)(index);
     }
   };
 

@@ -55,15 +55,17 @@ const Buttons = ({
             <span>{D.nextButton}</span>
           </div>
         )}
-        <div className="fast-button navigation">
-          <button className="navigation-button" type="button" onClick={pageFastForward}>
-            {`${D.fastForward}`}
-            <IconFastForward className="fast-icon" />
-          </button>
-          <span>
-            <b>{D.ctrlEnd}</b>
-          </span>
-        </div>
+        {rereading && !isLastComponent && (
+          <div className="fast-button navigation">
+            <button className="navigation-button" type="button" onClick={pageFastForward}>
+              {`${D.fastForward}`}
+              <IconFastForward className="fast-icon" />
+            </button>
+            <span>
+              <b>{D.ctrlEnd}</b>
+            </span>
+          </div>
+        )}
       </StyleWrapper>
       <KeyboardEventHandler
         handleKeys={keysToHandle}

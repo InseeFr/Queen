@@ -28,6 +28,28 @@ const Navigation = ({
     return lunatic.interpret(['VTL'])(bindings)(label);
   };
 
+  const filterComponentsPage = questionnaire.components.reduce(
+    (_, { componentType, conditionFilter, ...other }) => {
+      if (
+        !conditionFilter
+          ? true
+          : lunatic.interpret(['VTL'])(bindings, true)(conditionFilter) === 'normal'
+      ) {
+        if (componentType === 'Sequence') {
+          const { page } = other;
+          return [..._, page];
+        }
+        if (componentType === 'Subsequence') {
+          const { goToPage } = other;
+          return [..._, goToPage];
+        }
+      }
+
+      return _;
+    },
+    []
+  );
+
   // const lastPossiblePage = useMemo(() => {
   //   return validatePages[validatePages.length - 1];
   // }, [validatePages]);
@@ -45,8 +67,7 @@ const Navigation = ({
           {
             componentType,
             labelNav: getVtlLabel(labelNav),
-            // reachable: page <= lastPossiblePage,
-            reachable: validatePages.includes(page),
+            reachable: validatePages.includes(page) && filterComponentsPage.includes(page),
             ...other,
           },
         ];
@@ -58,8 +79,7 @@ const Navigation = ({
           {
             componentType,
             labelNav: getVtlLabel(labelNav),
-            // reachable: goToPage <= lastPossiblePage,
-            reachable: validatePages.includes(goToPage),
+            reachable: validatePages.includes(goToPage) && filterComponentsPage.includes(goToPage),
             ...other,
           },
         ];
