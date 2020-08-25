@@ -3,12 +3,12 @@ const getUrlRegex = url => {
 };
 
 const getQuestionnaireUrlRegex = QUEEN_API_URL => {
-  return QUEEN_API_URL.replace('http', '^http').concat('/api/operation/(.){1,}/questionnaire');
+  return QUEEN_API_URL.replace('http', '^http').concat('/api/campaign/(.){1,}/questionnaire');
 };
 
 const getResourceUrlRegex = QUEEN_API_URL => {
   return QUEEN_API_URL.replace('http', '^http').concat(
-    '/api/operation/(.){1,}/required-nomenclatures'
+    '/api/campaign/(.){1,}/required-nomenclatures'
   );
 };
 

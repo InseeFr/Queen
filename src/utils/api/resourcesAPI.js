@@ -5,14 +5,14 @@ export const getListRequiredNomenclature = (apiUrl, authenticationMode) => id =>
   new Promise((resolve, reject) => {
     authentication(authenticationMode)
       .then(() => {
-        Axios.get(`${apiUrl}/api/operation/${id}/required-nomenclatures`, {
+        Axios.get(`${apiUrl}/api/campaign/${id}/required-nomenclatures`, {
           headers: getHeader(authenticationMode),
         })
           .then(res => resolve(res))
           .catch(e =>
             reject(
               new Error(
-                `Failed to fetch required-nomenclatures of operation (id:${id}) : ${e.message}`
+                `Failed to fetch required-nomenclatures of campaign (id:${id}) : ${e.message}`
               )
             )
           );

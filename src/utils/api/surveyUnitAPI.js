@@ -2,16 +2,16 @@ import Axios from 'axios';
 import { authentication, getHeader } from './api';
 // import data from '../fake-survey/data.json';
 
-export const getSurveyUnitByIdOperation = (apiUrl, authenticationMode) => id =>
+export const getSurveyUnitByIdCampaign = (apiUrl, authenticationMode) => id =>
   new Promise((resolve, reject) => {
     authentication(authenticationMode)
       .then(() => {
-        Axios.get(`${apiUrl}/api/operation/${id}/reporting-units`, {
+        Axios.get(`${apiUrl}/api/campaign/${id}/survey-units`, {
           headers: getHeader(authenticationMode),
         })
           .then(res => resolve(res))
           .catch(e =>
-            reject(new Error(`Failed to fetch survey-units of operation (id:${id}) : ${e.message}`))
+            reject(new Error(`Failed to fetch survey-units of campaign (id:${id}) : ${e.message}`))
           );
       })
       .catch(e => reject(new Error(`Error during refreshToken : ${e.message}`)));
@@ -21,7 +21,7 @@ export const getDataSurveyUnitById = (apiUrl, authenticationMode) => id =>
   new Promise((resolve, reject) => {
     authentication(authenticationMode)
       .then(() => {
-        Axios.get(`${apiUrl}/api/reporting-unit/${id}/data`, {
+        Axios.get(`${apiUrl}/api/survey-unit/${id}/data`, {
           headers: getHeader(authenticationMode),
         })
           .then(res => resolve(res))
@@ -36,7 +36,7 @@ export const putDataSurveyUnitById = (apiUrl, authenticationMode) => (id, data) 
   new Promise((resolve, reject) => {
     authentication(authenticationMode)
       .then(() => {
-        Axios.put(`${apiUrl}/api/reporting-unit/${id}/data`, data, {
+        Axios.put(`${apiUrl}/api/survey-unit/${id}/data`, data, {
           headers: getHeader(authenticationMode),
         })
           .then(res => resolve(res))
@@ -51,7 +51,7 @@ export const getCommentSurveyUnitById = (apiUrl, authenticationMode) => id =>
   new Promise((resolve, reject) => {
     authentication(authenticationMode)
       .then(() => {
-        Axios.get(`${apiUrl}/api/reporting-unit/${id}/comment`, {
+        Axios.get(`${apiUrl}/api/survey-unit/${id}/comment`, {
           headers: getHeader(authenticationMode),
         })
           .then(res => resolve(res))
@@ -66,7 +66,7 @@ export const putCommentSurveyUnitById = (apiUrl, authenticationMode) => (id, com
   new Promise((resolve, reject) => {
     authentication(authenticationMode)
       .then(() => {
-        Axios.put(`${apiUrl}/api/reporting-unit/${id}/comment`, comment, {
+        Axios.put(`${apiUrl}/api/survey-unit/${id}/comment`, comment, {
           headers: getHeader(authenticationMode),
         })
           .then(res => resolve(res))

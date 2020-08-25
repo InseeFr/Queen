@@ -5,7 +5,7 @@ export const getQuestionnaireById = (apiUrl, authenticationMode) => id => {
   return new Promise((resolve, reject) => {
     authentication(authenticationMode)
       .then(() => {
-        Axios.get(`${apiUrl}/api/operation/${id}/questionnaire`, {
+        Axios.get(`${apiUrl}/api/campaign/${id}/questionnaire`, {
           headers: getHeader(authenticationMode),
         })
           .then(res => resolve(res))

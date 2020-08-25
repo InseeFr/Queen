@@ -24,7 +24,7 @@ const Synchronize = () => {
     synchronize,
     sendingProgress,
     waitingMessage,
-    operationProgress,
+    campaignProgress,
     resourceProgress,
     surveyUnitProgress,
   } = useSynchronisation();
@@ -56,7 +56,7 @@ const Synchronize = () => {
     if (sendingProgress) return sendingProgress;
     if (surveyUnitProgress) return surveyUnitProgress;
     if (resourceProgress) return resourceProgress;
-    if (operationProgress) return operationProgress;
+    if (campaignProgress) return campaignProgress;
     return null;
   };
 

@@ -29,9 +29,9 @@ const waitingMessage = {
     fr: 'Envoi des données',
     en: 'Sending data',
   },
-  waitingLoadingOperations: {
+  waitingLoadingCampaigns: {
     fr: 'Chargement des operations',
-    en: 'Loading operations',
+    en: 'Loading campaigns',
   },
   waitingLoadingQuestionnaire: {
     fr: 'Chargement des questionnaires',
