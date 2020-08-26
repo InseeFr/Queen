@@ -123,18 +123,7 @@ const Orchestrator = ({
       addValidatePage();
       setCurrentPage(nextPage);
     },
-    [
-      questionnaire,
-      component,
-      standalone,
-      started,
-      surveyUnit.id,
-      filteredComponents,
-      saveQueen,
-      addValidatePage,
-      specialQueenData,
-      currentPage,
-    ]
+    [filteredComponents, saveQueen, addValidatePage, specialQueenData, currentPage]
   );
 
   const goFastForward = useCallback(
@@ -160,7 +149,7 @@ const Orchestrator = ({
       await sendStartedEvent(surveyUnit.id);
     };
     if (!started && !standalone && validatePages.length > 0) start();
-  }, [validatePages, started]);
+  }, [validatePages, started, standalone, surveyUnit.id]);
 
   const quit = async () => {
     if (isLastComponent) {
