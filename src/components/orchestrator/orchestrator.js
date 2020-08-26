@@ -117,13 +117,6 @@ const Orchestrator = ({
 
   const goNext = useCallback(
     async (lastSpecialQueenData = specialQueenData) => {
-      if (!started && !standalone) {
-        const newResponse = UQ.getCollectedResponse(questionnaire)(component);
-        if (Object.keys(newResponse).length > 0) {
-          setStarted(true);
-          await sendStartedEvent(surveyUnit.id);
-        }
-      }
       saveQueen(lastSpecialQueenData);
       setPreviousResponse(null);
       const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
@@ -160,6 +153,14 @@ const Orchestrator = ({
     },
     [saveQueen, addValidatePage, filteredComponents, specialQueenData]
   );
+
+  useEffect(() => {
+    const start = async () => {
+      setStarted(true);
+      await sendStartedEvent(surveyUnit.id);
+    };
+    if (!started && !standalone && validatePages.length > 0) start();
+  }, [validatePages, started]);
 
   const quit = async () => {
     if (isLastComponent) {
