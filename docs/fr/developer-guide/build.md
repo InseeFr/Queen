@@ -33,7 +33,7 @@ Dans l'exemple précédent, il suffit de définir `PUBLIC_URL=https://queen.com`
 Cette solution ne respecte pas la contrainte d'indépendance du build.
 Pour régler ce problème, on définit `PUBLIC_URL=__PUBLIC_URL_TO_REPLACE__`, une expression facilement identifiable après build qu'on remplace par une expression en javascript.
 L'expression est la suivante : `(localStorage.getItem('QUEEN_URL') || '')`.
-Comme c'est expliqué dans la section "Intégrer Queen en tant que Web Component (embarqué)", l'application parente est tenu d'enregistrer dans le `localStorage` du navigateur l'URL de Queen avec la clé `QUEEN_URL`.
+Au démarrage de l'application en mode embarqué, la valeur de QUEEN_URL est enregistrée dans le `localStorage` du navigateur via le script [`entry.js`](https://github.com/InseeFr/Queen/blob/master/public/entry.js)
 
 Avec cette solution :
 
@@ -62,4 +62,4 @@ Si vous trouvez une meilleure solution, merci de la proposer via des Pull Reques
 
 - **Etape 3:** remplacement de l'expression `__PUBLIC_URL_TO_REPLACE__` : `yarn post-build`
   - `node ./configuration/build/manage-public-url.js` : Parcours des fichiers générés, on remplace l'expression `__PUBLIC_URL_TO_REPLACE__` par `(localStorage.getItem('QUEEN_URL') || '')`
-  - `copy-and-watch configuration/configuration.json build` : On ajoute le fichier `configuration.json` : à valoriser lors du déploiement de l'application.
+  - `copy-and-watch configuration/* build` : On ajoute les fichiers `configuration.json` et `keycloak.json` : à valoriser lors du déploiement de l'application.

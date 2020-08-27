@@ -15,7 +15,7 @@ export const getPreviousPage = components => currentPage => {
 export const getNextPage = components => currentPage => {
   if (!components || !currentPage) return 1;
   const index = findPageIndex(components)(currentPage);
-  if (index < 0 || index >= components.length - 1) return 1;
+  if (index < 0 || index >= components.length - 1) return components[components.length - 1].page;
   return components[index + 1].page || components[index + 1].goToPage || 1;
 };
 
@@ -43,4 +43,20 @@ export const getFastForwardPage = questionnaire => bindings => specialQueenData 
   const lastPage = filterComponents[filterComponents.length - 1].page;
   const page = firstComponent ? firstComponent.page : lastPage;
   return page;
+};
+
+export const getFirstTitlePageBeforeFastForwardPage = questionnaire => bindings => specialQueenData => {
+  const filterComponents = questionnaire.components.filter(
+    ({ conditionFilter }) => lunatic.interpret(['VTL'])(bindings)(conditionFilter) === 'normal'
+  );
+  const fastPage = getFastForwardPage(questionnaire)(bindings)(specialQueenData);
+  const componentsBefore = filterComponents.filter(component => {
+    const { page, componentType } = component;
+    return (
+      page &&
+      page < fastPage &&
+      !['Sequence', 'Subsequence', 'FilterDescription'].includes(componentType)
+    );
+  });
+  return componentsBefore.length > 0 ? fastPage : 1;
 };

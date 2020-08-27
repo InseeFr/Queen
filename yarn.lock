@@ -1110,12 +1110,13 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@inseefr/lunatic@^2.0.0-rc5":
-  version "2.0.0-rc5"
-  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-2.0.0-rc5.tgz#9b35d8626c8ef3be387a403762a7ba37ab63558f"
-  integrity sha512-4idywm2nceqsSmgtz+VsOkMN1XZIPyFKFXfaUjtVaOH59O8294HUddERiKEQI0sj8h/GLSRQdcZxm2Gw2bWXKg==
+"@inseefr/lunatic@^2.0.0-rc8":
+  version "2.0.0-rc8"
+  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-2.0.0-rc8.tgz#de3f24ff1f55166353cb6c98db798115a5e00f52"
+  integrity sha512-EwvFJOTiKm20amJ2S/AueHf2L2N8vTpRt6xFcBaqWNYxReHpq4Tay2Rb5+dd+q1KtxDLiHSC/RcgPGE6DAKQsA==
   dependencies:
-    "@inseefr/vtl-2.1-engine" "^0.1.2"
+    "@inseefr/vtl-2.1-engine" "^0.1.3"
+    debounce "^1.2.0"
     keycode "^2.2.0"
     lodash.camelcase "^4.3.0"
     lodash.isequal "^4.5.0"
@@ -1129,10 +1130,10 @@
   dependencies:
     antlr4 "^4.8.0"
 
-"@inseefr/vtl-2.1-engine@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@inseefr/vtl-2.1-engine/-/vtl-2.1-engine-0.1.2.tgz#9035bf3a7dc5bde135eff00cab29072144ef38a2"
-  integrity sha512-04amAFpj+SyQpkkDqa+eJ7kwPvmjArF3HSJjgN0yOThY/AK0WfX0zGKGFBRDpcadlhsg2Hld0ZLeSzwiBY4glQ==
+"@inseefr/vtl-2.1-engine@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@inseefr/vtl-2.1-engine/-/vtl-2.1-engine-0.1.3.tgz#f248e972ffd5fe9f6b2158a466524b07b7fbc44f"
+  integrity sha512-41kC+Vt4MzGFVXVJyiE17SabDtSVrNlGDSn54c5fmQz8vemZ0Z2zYEjuwA2VYc6+23wIsdEWNYCRGlQ1ksQ8ew==
   dependencies:
     "@inseefr/vtl-2.1-antlr-tools" "1.0.0-rc1"
     antlr4 "^4.8.0"
@@ -1528,6 +1529,11 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
+"@types/history@*":
+  version "4.7.6"
+  resolved "https://registry.yarnpkg.com/@types/history/-/history-4.7.6.tgz#ed8fc802c45b8e8f54419c2d054e55c9ea344356"
+  integrity sha512-GRTZLeLJ8ia00ZH8mxMO8t0aC9M1N9bN461Z2eaRurJo6Fpa+utgCwLzI4jQHcrdzuzp5WPN9jRwpsCQ1VhJ5w==
+
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-2.0.1.tgz#42995b446db9a48a11a07ec083499a860e9138ff"
@@ -1590,7 +1596,24 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*":
+"@types/react-router-dom@^5.1.3":
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-5.1.5.tgz#7c334a2ea785dbad2b2dcdd83d2cf3d9973da090"
+  integrity sha512-ArBM4B1g3BWLGbaGvwBGO75GNFbLDUthrDojV2vHLih/Tq8M+tgvY1DSwkuNrPSwdp/GUL93WSEpTZs8nVyJLw==
+  dependencies:
+    "@types/history" "*"
+    "@types/react" "*"
+    "@types/react-router" "*"
+
+"@types/react-router@*":
+  version "5.1.8"
+  resolved "https://registry.yarnpkg.com/@types/react-router/-/react-router-5.1.8.tgz#4614e5ba7559657438e17766bb95ef6ed6acc3fa"
+  integrity sha512-HzOyJb+wFmyEhyfp4D4NYrumi+LQgQL/68HvJO+q6XtuHSDvw6Aqov7sCAhjbNq3bUPgPqbdvjXC5HeB2oEAPg==
+  dependencies:
+    "@types/history" "*"
+    "@types/react" "*"
+
+"@types/react@*", "@types/react@^16.9.23":
   version "16.9.43"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.43.tgz#c287f23f6189666ee3bebc2eb8d0f84bcb6cdb6b"
   integrity sha512-PxshAFcnJqIWYpJbLPriClH53Z2WlJcVZE+NP2etUtWQs2s7yIMj3/LDKZT/5CHJ/F62iyjVCDu2H3jHEXIxSg==
@@ -2471,7 +2494,7 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
   integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
 
-base64-js@^1.0.2:
+base64-js@1.3.1, base64-js@^1.0.2:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.3.1.tgz#58ece8cb75dd07e71ed08c736abc5fac4dbf8df1"
   integrity sha512-mLQ4i2QO1ytvGWFWmcngKO//JXAQueZvwEKtjgQFM4jIK0kU+ytMfplL8j+n5mspOfjHwoAg+9yhb7BwAHm36g==
@@ -3729,9 +3752,9 @@ cssstyle@^1.0.0, cssstyle@^1.1.1:
     cssom "0.3.x"
 
 csstype@^2.2.0:
-  version "2.6.13"
-  resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.13.tgz#a6893015b90e84dd6e85d0e3b442a1e84f2dbe0f"
-  integrity sha512-ul26pfSQTZW8dcOnD2iiJssfXw0gdNVX9IJDH/X3K5DGPfj+fUYe3kB+swUY6BF3oZDxaID3AJt+9/ojSAE05A==
+  version "2.6.11"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.11.tgz#452f4d024149ecf260a852b025e36562a253ffc5"
+  integrity sha512-l8YyEC9NBkSm783PFTvh0FmJy7s5pFKrDp49ZL7zBGX3fWkO+N4EEyan1qqp8cwPLDcD0OSdyY6hAMoxp34JFw==
 
 csstype@^2.5.5:
   version "2.6.10"
@@ -3796,6 +3819,11 @@ dayjs@^1.8.12:
   version "1.8.28"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.28.tgz#37aa6201df483d089645cb6c8f6cef6f0c4dbc07"
   integrity sha512-ccnYgKC0/hPSGXxj7Ju6AV/BP4HUkXC2u15mikXT5mX9YorEaoi1bEKOmAqdkJHN4EEkmAf97SpH66Try5Mbeg==
+
+debounce@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.2.0.tgz#44a540abc0ea9943018dc0eaa95cce87f65cd131"
+  integrity sha512-mYtLl1xfZLi1m4RtQYlZgJUNQjl4ZxVnHzIR8nLLgi4q1YT8o/WM+MK/f8yfcc9s5Ir5zRaPZyZU6xs1Syoocg==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.9:
   version "2.6.9"
@@ -6810,6 +6838,11 @@ js-cookie@^2.2.1:
   resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
   integrity sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==
 
+js-sha256@0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/js-sha256/-/js-sha256-0.9.0.tgz#0b89ac166583e91ef9123644bd3c5334ce9d0966"
+  integrity sha512-sga3MHh9sgQN2+pJ9VYZ+1LPwXOxuBJBA5nrR5/ofPfuiJBE2hnjsaN8se8JznOmGLN2p49Pe5U/ttafcs/apA==
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -6987,6 +7020,14 @@ jsx-ast-utils@^2.2.1, jsx-ast-utils@^2.2.3:
   dependencies:
     array-includes "^3.0.3"
     object.assign "^4.1.0"
+
+keycloak-js@^10.0.2:
+  version "10.0.2"
+  resolved "https://registry.yarnpkg.com/keycloak-js/-/keycloak-js-10.0.2.tgz#f0cf5b942627c5221f1466552c40e4624503b77b"
+  integrity sha512-7nkg4Ob1khHGcNbuK36AMndKUEuIQFpNlWU9ygWs7nSBPCI9VZ8dJjjXfKJHm0ewgcqLFGPIJ6bxxRlfcQ6sLg==
+  dependencies:
+    base64-js "1.3.1"
+    js-sha256 "0.9.0"
 
 keycode@^2.2.0:
   version "2.2.0"

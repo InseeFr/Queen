@@ -1,15 +1,16 @@
 import Axios from 'axios';
-import { getSecureHeader } from './utils';
-// import simpsons from '../fake-survey/simpsons copy.json';
+import { authentication, getHeader } from './api';
 
-export const getQuestionnaireById = (QUEEN_API_URL, token) => id =>
-  new Promise((resolve, reject) => {
-    Axios.get(`${QUEEN_API_URL}/api/operation/${id}/questionnaire`, {
-      headers: {
-        ...getSecureHeader(token),
-        Accept: 'application/json;charset=utf-8',
-      },
-    })
-      .then(res => resolve(res))
-      .catch(e => reject(new Error(`Failed to fetch questionnaire (id:${id}): ${e.message}`)));
+export const getQuestionnaireById = (apiUrl, authenticationMode) => id => {
+  return new Promise((resolve, reject) => {
+    authentication(authenticationMode)
+      .then(() => {
+        Axios.get(`${apiUrl}/api/operation/${id}/questionnaire`, {
+          headers: getHeader(authenticationMode),
+        })
+          .then(res => resolve(res))
+          .catch(e => reject(new Error(`Failed to fetch questionnaire (id:${id}): ${e.message}`)));
+      })
+      .catch(e => reject(new Error(`Error during refreshToken : ${e.message}`)));
   });
+};

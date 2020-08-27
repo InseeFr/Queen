@@ -37,6 +37,14 @@ const dictionary = {
     fr: "L'application est prête à être utilisée hors ligne.",
     en: 'The application is ready to be used offline.',
   },
+  syncPage: {
+    fr: 'Page de synchronisation',
+    en: 'Synchronization page',
+  },
+  manualSync: {
+    fr: 'Synchronisation manuelle',
+    en: 'Manual synchronization',
+  },
 
   ...buttonMessage,
   ...navigationMessage,

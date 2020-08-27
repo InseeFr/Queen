@@ -1,58 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import D from 'i18n';
-import * as serviceWorker from 'utils/serviceWorker/serviceWorker';
 import { StyleWrapper } from './notification.style';
 
-const Notification = ({ standalone }) => {
-  const [init, setInit] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [installingServiceWorker, setInstallingServiceWorker] = useState(false);
-  const [waitingServiceWorker, setWaitingServiceWorker] = useState(null);
-  const [isUpdateAvailable, setUpdateAvailable] = useState(false);
-  const [isServiceWorkerInstalled, setServiceWorkerInstalled] = useState(false);
+const Notification = ({ serviceWorkerInfo }) => {
+  const [open, setOpen] = useState(true);
 
-  useEffect(() => {
-    if (!init && standalone) {
-      serviceWorker.register({
-        onInstalling: installing => {
-          setInstallingServiceWorker(installing);
-          setOpen(true);
-        },
-        onUpdate: registration => {
-          setWaitingServiceWorker(registration.waiting);
-          setUpdateAvailable(true);
-          setOpen(true);
-        },
-        onWaiting: waiting => {
-          setWaitingServiceWorker(waiting);
-          setUpdateAvailable(true);
-          setOpen(true);
-        },
-        onSuccess: registration => {
-          setInstallingServiceWorker(false);
-          setServiceWorkerInstalled(!!registration);
-          setOpen(true);
-        },
-      });
-      setInit(true);
-    }
-  }, [init, standalone]);
-
-  const updateAssets = () => {
-    if (waitingServiceWorker) {
-      waitingServiceWorker.postMessage({ type: 'SKIP_WAITING' });
-    }
-  };
-
-  useEffect(() => {
-    if (waitingServiceWorker) {
-      waitingServiceWorker.addEventListener('statechange', event => {
-        if (event.target.state === 'activated') {
-          window.location.reload();
-        }
-      });
-    }
-  }, [waitingServiceWorker]);
+  const {
+    installingServiceWorker,
+    isUpdateAvailable,
+    isServiceWorkerInstalled,
+    updateAssets,
+  } = serviceWorkerInfo;
 
   const getMessage = () => {
     if (isUpdateAvailable) return D.updateAvailable;
@@ -63,7 +22,7 @@ const Notification = ({ standalone }) => {
 
   return (
     <StyleWrapper
-      className={`${isUpdateAvailable ? 'update' : ''} ${
+      className={`notification ${isUpdateAvailable ? 'update' : ''} ${
         (isUpdateAvailable || isServiceWorkerInstalled || installingServiceWorker) && open
           ? 'visible'
           : ''
@@ -87,3 +46,12 @@ const Notification = ({ standalone }) => {
 };
 
 export default Notification;
+Notification.propTypes = {
+  serviceWorkerInfo: PropTypes.shape({
+    installingServiceWorker: PropTypes.any.isRequired,
+    waitingServiceWorker: PropTypes.any.isRequired,
+    isUpdateAvailable: PropTypes.any.isRequired,
+    isServiceWorkerInstalled: PropTypes.any.isRequired,
+    updateAssets: PropTypes.func.isRequired,
+  }).isRequired,
+};

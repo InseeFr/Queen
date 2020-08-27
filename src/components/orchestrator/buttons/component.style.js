@@ -1,9 +1,68 @@
 import styled from 'styled-components';
+
 const backgroundButtonColor = '#085394';
 
 export const StyleWrapper = styled.div`
-  text-align: right;
+  position: absolute;
+  padding-right: 15%;
+  bottom: 0;
+  right: 0;
+  display: grid;
+  margin: auto;
+  white-space: nowrap;
 
+  grid-template-rows: 60px 60px 60px;
+
+  .navigation {
+    text-align: right;
+  }
+
+  .short-button {
+    button {
+      background-color: #9fc5f8;
+      color: black;
+      border-radius: 50%;
+      padding: 0;
+
+      svg {
+        vertical-align: middle;
+      }
+    }
+
+    &.next {
+      grid-row-start: 2;
+      grid-row-end: 2;
+    }
+    span {
+      font-size: 13px;
+      display: block;
+      width: min-content;
+      margin-left: auto;
+    }
+  }
+
+  .fast-button {
+    grid-row-start: 3;
+    grid-row-end: 3;
+    button {
+      padding: 0.1em 0.5em 0.1em 0.5em;
+      border-radius: 15px;
+
+      &:hover,
+      &:focus {
+        svg.fast-icon {
+          fill: ${backgroundButtonColor};
+        }
+      }
+    }
+    span {
+      display: block;
+      font-size: 68%;
+    }
+    .fast-icon {
+      vertical-align: middle;
+    }
+  }
   .navigation-button {
     background-color: ${backgroundButtonColor};
     border: none;
@@ -11,7 +70,6 @@ export const StyleWrapper = styled.div`
     color: white;
     font-weight: bold;
     padding: 0.5em 1em 0.5em 1em;
-    margin-left: 2em;
 
     &:hover,
     &:focus {

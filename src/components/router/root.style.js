@@ -15,17 +15,18 @@ export const StyleWrapper = styled.div`
 
   .body-container {
     background-color: ${backgroundBodyColor};
-    padding-top: 2em;
-    padding-bottom: 2em;
     display: grid;
-    grid-template-columns: 90% auto;
+    grid-template-columns: auto 60px;
     grid-template-rows: auto;
     min-height: 75%;
   }
 
   .components {
+    padding-top: 2em;
+    min-height: 80vh;
+    display: grid;
+    grid-template-rows: auto 60px;
     .lunatic-component {
-      min-height: 75vh;
       width: 80%;
       margin-left: auto;
       margin-right: auto;

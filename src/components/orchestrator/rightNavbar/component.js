@@ -3,13 +3,19 @@ import PropTypes from 'prop-types';
 // import D from 'i18n';
 import { StyleWrapper } from './component.style.js';
 
-const NavBar = ({ nbModules, page }) => {
+const NavBar = ({ nbModules, page, children }) => {
   const currentPage = page;
   const nbTotalPage = nbModules;
 
   return (
     <StyleWrapper>
-      <span>{`Page ${currentPage} / ${nbTotalPage}`}</span>
+      <div className="page">
+        <div>n° page</div>
+        <div>
+          <b>{`${currentPage}/${nbTotalPage}`}</b>
+        </div>
+      </div>
+      {children}
     </StyleWrapper>
   );
 };
