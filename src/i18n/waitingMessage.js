@@ -5,6 +5,10 @@ const waitingMessage = {
     fr: 'Chargement du questionnaire',
     en: 'Loading questionnaire',
   },
+  waintingData: {
+    fr: 'Récupération des données',
+    en: 'Loading data',
+  },
   waitingResources: {
     fr: 'Chargement des ressources du questionnaire',
     en: 'Loading the questionnaire resources',
@@ -30,20 +34,20 @@ const waitingMessage = {
     en: 'Sending data',
   },
   waitingLoadingCampaigns: {
-    fr: 'Chargement des operations',
-    en: 'Loading campaigns',
+    fr: 'Opérations',
+    en: 'Campaigns',
   },
   waitingLoadingQuestionnaire: {
     fr: 'Chargement des questionnaires',
     en: 'Loading questionnaires',
   },
   waitingLoadingResources: {
-    fr: 'Chargement des ressources des questionnaires',
-    en: 'Loading questionnaires resources',
+    fr: 'Ressources',
+    en: 'Resources',
   },
   waitingLoadingSU: {
-    fr: 'Chargement des unités enquêtées',
-    en: 'Loading survey units',
+    fr: 'Unités enquêtées',
+    en: 'Survey units',
   },
 };
 

@@ -116,8 +116,9 @@ export const useSynchronisation = () => {
   const [waitingMessage, setWaitingMessage] = useState(null);
   const [sendingProgress, setSendingProgress] = useState(null);
   const [campaignProgress, setCampaignProgress] = useState(null);
-  const [resourceProgress, setResourceProgress] = useState(null);
-  const [surveyUnitProgress, setSurveyUnitProgress] = useState(null);
+  const [resourceProgress, setResourceProgress] = useState(0);
+  const [surveyUnitProgress, setSurveyUnitProgress] = useState(0);
+  const [current, setCurrent] = useState(null);
 
   const synchronize = async () => {
     setWaitingMessage(D.waitingConfiguration);
@@ -131,6 +132,7 @@ export const useSynchronisation = () => {
     }
 
     setWaitingMessage(D.waitingSendingData);
+    setCurrent('send');
     // (2) : send the local data to server
     await sendData(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE)(setSendingProgress);
 
@@ -141,7 +143,7 @@ export const useSynchronisation = () => {
     await clean();
 
     // (4) : Get the data
-    setWaitingMessage(D.waitingLoadingCampaigns);
+    setWaitingMessage(D.waintingData);
     const campaignsResponse = await api.getCampaigns(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE);
     const campaigns = await campaignsResponse.data;
     let i = 0;
@@ -150,24 +152,25 @@ export const useSynchronisation = () => {
     await campaigns.reduce(async (previousPromise, { id }) => {
       await previousPromise;
       const getAllCampaign = async () => {
-        setWaitingMessage(D.waitingLoadingQuestionnaire);
+        setResourceProgress(0);
+        setSurveyUnitProgress(0);
+        setCurrent('questionnaire');
         await putQuestionnaireInCache(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id);
-        setWaitingMessage(D.waitingLoadingResources);
+        setCurrent('resources');
         await putResourcesInCache(
           QUEEN_API_URL,
           QUEEN_AUTHENTICATION_MODE,
           id
         )(setResourceProgress);
-        setResourceProgress(null);
-        setWaitingMessage(D.waitingLoadingSU);
+        setCurrent('survey-units');
         await putSurveyUnitsInDataBaseByCampaignId(
           QUEEN_API_URL,
           QUEEN_AUTHENTICATION_MODE,
           id
         )(setSurveyUnitProgress);
+        setCurrent(null);
         i += 1;
         setCampaignProgress(getPercent(i, campaigns.length));
-        setSurveyUnitProgress(null);
       };
       return getAllCampaign();
     }, Promise.resolve());
@@ -175,6 +178,7 @@ export const useSynchronisation = () => {
 
   return {
     synchronize,
+    current,
     waitingMessage,
     sendingProgress,
     campaignProgress,

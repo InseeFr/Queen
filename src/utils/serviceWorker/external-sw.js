@@ -6,10 +6,13 @@ const getQuestionnaireUrlRegex = QUEEN_API_URL => {
   return QUEEN_API_URL.replace('http', '^http').concat('/api/campaign/(.){1,}/questionnaire');
 };
 
-const getResourceUrlRegex = QUEEN_API_URL => {
+const getRequiredResourceUrlRegex = QUEEN_API_URL => {
   return QUEEN_API_URL.replace('http', '^http').concat(
     '/api/campaign/(.){1,}/required-nomenclatures'
   );
+};
+const getResourceUrlRegex = QUEEN_API_URL => {
+  return QUEEN_API_URL.replace('http', '^http').concat('/api/nomenclature/(.){1,}');
 };
 
 const queenCacheName = 'queen-cache';
@@ -38,6 +41,12 @@ const setQuestionnaireAndResourcesCache = async () => {
     })
   );
 
+  workbox.routing.registerRoute(
+    new RegExp(getRequiredResourceUrlRegex(configuration.QUEEN_API_URL)),
+    new workbox.strategies.CacheFirst({
+      cacheName: 'queen-resource',
+    })
+  );
   workbox.routing.registerRoute(
     new RegExp(getResourceUrlRegex(configuration.QUEEN_API_URL)),
     new workbox.strategies.CacheFirst({
