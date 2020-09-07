@@ -95,9 +95,11 @@ const OrchestratorManager = ({ match, configuration }) => {
   };
 
   const saveSU = async unit => {
-    await surveyUnitIdbService.addOrUpdateSU(unit);
-    if (configuration.standalone) {
-      await putSurveyUnit(unit);
+    if (!readonly) {
+      await surveyUnitIdbService.addOrUpdateSU(unit);
+      if (configuration.standalone) {
+        await putSurveyUnit(unit);
+      }
     }
   };
 

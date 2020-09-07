@@ -41,7 +41,7 @@ const Buttons = ({
             <span>{D.goBackReturn}</span>
           </div>
         )}
-        {!isLastComponent && rereading && (
+        {((readonly && !isLastComponent) || (!isLastComponent && rereading)) && (
           <div className="short-button next navigation">
             <button
               aria-label={D.nextButtonLabel}
@@ -55,7 +55,7 @@ const Buttons = ({
             <span>{D.nextButton}</span>
           </div>
         )}
-        {rereading && !isLastComponent && (
+        {!readonly && rereading && !isLastComponent && (
           <div className="fast-button navigation">
             <button className="navigation-button" type="button" onClick={pageFastForward}>
               {`${D.fastForward}`}
