@@ -3,6 +3,24 @@ export const ANONYMOUS = 'anonymous';
 export const AUTHENTICATION_MODE_ENUM = [ANONYMOUS, KEYCLOAK];
 
 export const READ_ONLY = 'readonly';
+export const QUEEN_URL = window.localStorage.getItem('QUEEN_URL') || '';
+export const QUEEN_USER_KEY = 'QUEEN_USER';
+export const SYNCHRONIZE_KEY = 'SYNCHRONIZE';
+
+export const QUEEN_SYNC_RESULT = 'QUEEN_SYNC_RESULT';
+export const QUEEN_SYNC_RESULT_SUCCESS = 'SUCCESS';
+export const QUEEN_SYNC_RESULT_FAILURE = 'FAILURE';
+export const QUEEN_SYNC_RESULT_PENDING = 'PENDING';
+export const GUEST_QUEEN_USER = {
+  lastName: 'Guest',
+  firstName: 'Guest',
+  id: 'Guest',
+  roles: ['Guest'],
+};
+
+export const AUTHORIZED_ROLES = ['Guest', 'offline_access'];
+
+export const JSON_UTF8_HEADER = 'application/json;charset=utf-8';
 
 export const REFUSAL_LABEL = '__REFUSAL__';
 export const REFUSAL = 'REFUSAL';

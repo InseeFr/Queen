@@ -1,8 +1,13 @@
 const waitingMessage = {
   pleaseWait: { fr: 'Veuillez patienter ...', en: 'Please wait ...' },
+  syncInProgress: { fr: 'Synchronisation en cours ...', en: 'Synchronization in progress' },
   waitingQuestionnaire: {
     fr: 'Chargement du questionnaire',
     en: 'Loading questionnaire',
+  },
+  waintingData: {
+    fr: 'Récupération des données',
+    en: 'Loading data',
   },
   waitingResources: {
     fr: 'Chargement des ressources du questionnaire',
@@ -13,8 +18,8 @@ const waitingMessage = {
     en: 'Loading data on the survey unit',
   },
   waitingAuthentication: {
-    fr: 'Authentification',
-    en: 'Authentication',
+    fr: 'Authentification en cours',
+    en: 'Authentication in progress',
   },
   waitingCleaning: {
     fr: 'Nettoyage',
@@ -23,6 +28,26 @@ const waitingMessage = {
   waitingConfiguration: {
     fr: 'Chargement de la configuration',
     en: 'Loading configuration',
+  },
+  waitingSendingData: {
+    fr: 'Envoi des données',
+    en: 'Sending data',
+  },
+  waitingLoadingCampaigns: {
+    fr: 'Opérations',
+    en: 'Campaigns',
+  },
+  waitingLoadingQuestionnaire: {
+    fr: 'Chargement des questionnaires',
+    en: 'Loading questionnaires',
+  },
+  waitingLoadingResources: {
+    fr: 'Ressources',
+    en: 'Resources',
+  },
+  waitingLoadingSU: {
+    fr: 'Unités enquêtées',
+    en: 'Survey units',
   },
 };
 

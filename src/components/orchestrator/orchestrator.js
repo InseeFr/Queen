@@ -8,6 +8,7 @@ import { DIRECT_CONTINUE_COMPONENTS /* , KEYBOARD_SHORTCUT_COMPONENTS */ } from 
 import { sendStartedEvent, sendCompletedEvent } from 'utils/communication';
 import Header from './header';
 import Buttons from './buttons';
+import ContinueButton from './buttons/continue';
 import NavBar from './rightNavbar';
 
 const Orchestrator = ({
@@ -45,7 +46,22 @@ const Orchestrator = ({
 
   const [specialQueenData, setSpecialQueenData] = useState(dataSU.specialQueenData);
   const [comment /* , setComment */] = useState(surveyUnit.comment);
+  const [validatePages, setValidatePages] = useState(() => {
+    const page = UQ.getFirstTitlePageBeforeFastForwardPage(questionnaire)(bindings)(
+      specialQueenData
+    );
+    return page >= 1 ? Array.from(Array(page - 1), (_, i) => i + 1) : [];
+  });
   const [previousResponse, setPreviousResponse] = useState(null);
+
+  const addValidatePage = useCallback(() => {
+    let newValidatePages = validatePages;
+    if (!validatePages.includes(currentPage)) {
+      newValidatePages = [...newValidatePages, currentPage];
+      setValidatePages(newValidatePages);
+    }
+    return newValidatePages;
+  }, [currentPage, validatePages, setValidatePages]);
 
   /**
    * This function updates the values of the questionnaire responses
@@ -94,47 +110,46 @@ const Orchestrator = ({
     return true;
   };
 
-  const goPrevious = (lastSpecialQueenData = specialQueenData) => {
+  const goPrevious = () => {
     setPreviousResponse(null);
     setCurrentPage(UQ.getPreviousPage(filteredComponents)(currentPage));
   };
 
   const goNext = useCallback(
     async (lastSpecialQueenData = specialQueenData) => {
-      if (!started && !standalone) {
-        const newResponse = UQ.getCollectedResponse(questionnaire)(component);
-        if (Object.keys(newResponse).length > 0) {
-          setStarted(true);
-          await sendStartedEvent(surveyUnit.id);
-        }
-      }
       saveQueen(lastSpecialQueenData);
       setPreviousResponse(null);
       const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
+      addValidatePage();
       setCurrentPage(nextPage);
     },
-    [
-      questionnaire,
-      component,
-      standalone,
-      started,
-      surveyUnit.id,
-      filteredComponents,
-      saveQueen,
-      specialQueenData,
-      currentPage,
-    ]
+    [filteredComponents, saveQueen, addValidatePage, specialQueenData, currentPage]
   );
 
   const goFastForward = useCallback(
     (lastSpecialQueenData = specialQueenData) => {
       saveQueen(lastSpecialQueenData);
       setPreviousResponse(null);
-      const fastForwardPage = UQ.getFastForwardPage(questionnaire)(bindings)(lastSpecialQueenData);
-      setCurrentPage(fastForwardPage);
+      const newValidatePages = addValidatePage();
+      const filteredPage = filteredComponents.map(({ page }) => page);
+      const reachesValidatePage = filteredPage.filter(p => newValidatePages.includes(p));
+      const reachesNotValidatePage = filteredPage.filter(p => !newValidatePages.includes(p));
+      const pageOfLastComponentToValidate =
+        reachesNotValidatePage[0] ||
+        UQ.getNextPage(filteredComponents)(Math.max(...reachesValidatePage));
+
+      setCurrentPage(pageOfLastComponentToValidate);
     },
-    [saveQueen, specialQueenData, questionnaire, bindings]
+    [saveQueen, addValidatePage, filteredComponents, specialQueenData]
   );
+
+  useEffect(() => {
+    const start = async () => {
+      setStarted(true);
+      await sendStartedEvent(surveyUnit.id);
+    };
+    if (!started && !standalone && validatePages.length > 0) start();
+  }, [validatePages, started, standalone, surveyUnit.id]);
 
   const quit = async () => {
     if (isLastComponent) {
@@ -177,6 +192,7 @@ const Orchestrator = ({
           questionnaire={questionnaire}
           bindings={bindings}
           setPage={setCurrentPage}
+          validatePages={validatePages}
         />
         <div className="body-container">
           <div className="components">
@@ -203,24 +219,37 @@ const Orchestrator = ({
                 keyboardSelection={componentType === 'CheckboxGroup'}
               />
             </div>
+            {(!DIRECT_CONTINUE_COMPONENTS.includes(componentType) || readonly) &&
+              (!validatePages.includes(currentPage) || isLastComponent) && (
+                <ContinueButton
+                  readonly={readonly}
+                  canContinue={goNextCondition()}
+                  isLastComponent={isLastComponent}
+                  pageNext={goNext}
+                  finalQuit={quit}
+                />
+              )}
           </div>
           <NavBar
             nbModules={questionnaire.components.filter(c => c.page).length}
             page={currentPage}
-          />
-          <Buttons
-            readonly={readonly}
-            currentComponent={component}
-            specialAnswer={specialAnswer}
-            page={pageFilter}
-            canContinue={goNextCondition()}
-            specialQueenData={specialQueenData}
-            isLastComponent={isLastComponent}
-            pagePrevious={goPrevious}
-            pageNext={goNext}
-            pageFastForward={goFastForward}
-            finalQuit={quit}
-          />
+          >
+            <Buttons
+              readonly={readonly}
+              rereading={validatePages.includes(currentPage)}
+              currentComponent={component}
+              specialAnswer={specialAnswer}
+              page={pageFilter}
+              canContinue={goNextCondition()}
+              specialQueenData={specialQueenData}
+              isLastComponent={isLastComponent}
+              pagePrevious={goPrevious}
+              pageNext={goNext}
+              pageFastForward={goFastForward}
+              finalQuit={quit}
+            />
+          </NavBar>
+
           {/* {KEYBOARD_SHORTCUT_COMPONENTS.includes(componentType) && (
             <KeyboardEventHandler
               handleKeys={keyToHandle}

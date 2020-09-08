@@ -9,8 +9,8 @@ import D from 'i18n';
 import * as UQ from 'utils/questionnaire';
 import { sendCloseEvent } from 'utils/communication';
 import * as api from 'utils/api';
+// import simpsons from 'utils/fake-survey/simpsons';
 import Orchestrator from '../orchestrator';
-import simpsons from 'utils/fake-survey/simpsons';
 import NotFound from '../shared/not-found';
 
 const OrchestratorManager = ({ match, configuration }) => {
@@ -65,9 +65,10 @@ const OrchestratorManager = ({ match, configuration }) => {
       const { data, ...other } = surveyUnit;
       setSurveyUnit(other);
       const newDataSU = UQ.buildSpecialQueenData(data);
+      // TODO : replace simpsons by questionnaire when queen-bo render last version of lunatic questionnaire
       const newQuestionnaire = {
-        ...simpsons,
-        components: UQ.buildQueenQuestionnaire(simpsons.components),
+        ...questionnaire,
+        components: UQ.buildQueenQuestionnaire(questionnaire.components),
       };
       setQuestionnaire(newQuestionnaire);
       setDataSU(newDataSU);
@@ -79,9 +80,14 @@ const OrchestratorManager = ({ match, configuration }) => {
 
   const putSurveyUnit = async unit => {
     try {
-      const token = null;
-      await api.putDataSurveyUnitById(configuration.QUEEN_API_URL, token)(unit.id, unit.data);
-      await api.putCommentSurveyUnitById(configuration.QUEEN_API_URL, token)(unit.id, unit.comment);
+      await api.putDataSurveyUnitById(
+        configuration.QUEEN_API_URL,
+        configuration.QUEEN_AUTHENTICATION_MODE
+      )(unit.id, unit.data);
+      await api.putCommentSurveyUnitById(
+        configuration.QUEEN_API_URL,
+        configuration.QUEEN_AUTHENTICATION_MODE
+      )(unit.id, unit.comment);
     } catch (e) {
       setError(true);
       setErrorMessage(`${D.putSurveyUnitFailed} : ${e.message}`);
@@ -89,9 +95,11 @@ const OrchestratorManager = ({ match, configuration }) => {
   };
 
   const saveSU = async unit => {
-    await surveyUnitIdbService.addOrUpdateSU(unit);
-    if (configuration.standalone) {
-      await putSurveyUnit(unit);
+    if (!readonly) {
+      await surveyUnitIdbService.addOrUpdateSU(unit);
+      if (configuration.standalone) {
+        await putSurveyUnit(unit);
+      }
     }
   };
 

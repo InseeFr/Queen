@@ -1,10 +1,10 @@
 import styled from 'styled-components';
+
 export const StyleWrapper = styled.div`
   .error {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 999;
     background-color: rgba(255, 255, 255, 0.8);
     margin: auto;
     width: 100%;
@@ -17,7 +17,7 @@ export const StyleWrapper = styled.div`
   }
 
   .version {
-    z-index: 1000;
+    z-index: 2;
     background-color: whitesmoke;
     border-top: 1px solid black;
     position: fixed;

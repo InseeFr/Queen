@@ -14,7 +14,7 @@ export const StyleWrapper = styled.div`
     margin-top: 5%;
   }
   .version {
-    z-index: 1000;
+    z-index: 2;
     background-color: whitesmoke;
     border-top: 1px solid black;
     position: fixed;

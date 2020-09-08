@@ -44,3 +44,12 @@ export const sendSynchronizeEvent = state => {
   };
   dispatchQueenEventWithData(data);
 };
+
+export const sendReadyEvent = () => {
+  const data = {
+    type: prefixEvent,
+    command: 'HEALTH_CHECK',
+    state: 'READY',
+  };
+  dispatchQueenEventWithData(data);
+};

@@ -1,60 +1,58 @@
-import React, { useState, useEffect } from 'react';
-import root from 'react-shadow/styled-components';
-import D from 'i18n';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import D from 'i18n';
 import { READ_ONLY } from 'utils/constants';
-import Preloader from 'components/shared/preloader';
 import NotFound from 'components/shared/not-found';
 import Notification from 'components/shared/Notification';
 import OrchestratorManager from 'components/orchestratorManager';
-
+import { useAuth } from 'utils/hook';
+import Preloader from 'components/shared/preloader';
+import Error from 'components/shared/Error';
+import useServiceWorker from 'utils/hook/useServiceWorker';
+import Synchronize from 'components/Synchronize';
 import { StyleWrapper } from './root.style';
 
-const Root = () => {
-  const customStyle = {
-    margin: 'auto',
-    height: '100vh',
-    fontFamily: "'Gotham SSm A', 'Gotham SSm B', sans-serif",
-    backgroundColor: '#c3ddff',
-  };
-  const [configuration, setConfiguration] = useState(undefined);
-  useEffect(() => {
-    if (!configuration) {
-      const loadConfiguration = async () => {
-        const QUEEN_URL = window.localStorage.getItem('QUEEN_URL') || '';
-        const publicUrl = window.location.origin;
-        const response = await fetch(`${QUEEN_URL}/configuration.json`);
-        const configurationResponse = await response.json();
-        configurationResponse.standalone = configurationResponse.QUEEN_URL === publicUrl;
-        setConfiguration(configurationResponse);
-      };
-      loadConfiguration();
-    }
-  }, [configuration]);
+const Rooter = ({ configuration }) => {
+  const { standalone } = configuration;
+  const { loading, authenticated } = useAuth(configuration.QUEEN_AUTHENTICATION_MODE);
+  const serviceWorkerInfo = useServiceWorker({
+    authenticated,
+    standalone,
+  });
 
   return (
     <>
-      <root.div id="queen-container" style={customStyle}>
-        {configuration && (
-          <StyleWrapper>
-            <Notification standalone={configuration.standalone} />
-            <Router>
-              <Switch>
+      {loading && <Preloader message={D.waitingAuthentication} />}
+      {!loading && !authenticated && <Error message={D.unauthorized} />}
+      {!loading && authenticated && (
+        <StyleWrapper>
+          <Notification serviceWorkerInfo={serviceWorkerInfo} />
+          <Router>
+            <Switch>
+              <Route
+                path={`/queen/:${READ_ONLY}?/questionnaire/:idQ/survey-unit/:idSU`}
+                component={routeProps => (
+                  <OrchestratorManager {...routeProps} configuration={configuration} />
+                )}
+              />
+              {!standalone && (
                 <Route
-                  path={`/queen/:${READ_ONLY}?/questionnaire/:idQ/survey-unit/:idSU`}
-                  component={routeProps => (
-                    <OrchestratorManager {...routeProps} configuration={configuration} />
-                  )}
+                  path="/queen/synchronize"
+                  component={routeProps => <Synchronize {...routeProps} />}
                 />
-                <Route path={configuration.standalone ? '/' : '/queen'} component={NotFound} />
-              </Switch>
-            </Router>
-          </StyleWrapper>
-        )}
-        {!configuration && <Preloader message={D.waitingConfiguration} />}
-      </root.div>
+              )}
+              <Route path={standalone ? '/' : '/queen'} component={NotFound} />
+            </Switch>
+          </Router>
+        </StyleWrapper>
+      )}
     </>
   );
 };
 
-export default Root;
+Rooter.propTypes = {
+  configuration: PropTypes.objectOf(PropTypes.any).isRequired,
+};
+
+export default Rooter;

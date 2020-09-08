@@ -1,10 +1,8 @@
 {
   "QUEEN_URL": "http://localhost:5000",
   "_QUEEN_URL_COMMENT_": "Final URL of the Queen application",
-
   "QUEEN_API_URL": "https://queen-bo.demo.dev.sspcloud.fr",
   "_QUEEN_API_URL_COMMENT_": "URL of the back-office of Queen application",
-
   "QUEEN_AUTHENTICATION_MODE": "anonymous",
-  "_QUEEN_AUTHENTICATION_MODE_COMMENT_": "The mode of authentication. Currently, Queen is supporting 'anonymous'"
+  "_QUEEN_AUTHENTICATION_MODE_COMMENT_": "The mode of authentication. Currently, Queen is supporting 'anonymous' and 'keycloak'"
 }
