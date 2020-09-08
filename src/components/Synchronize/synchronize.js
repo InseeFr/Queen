@@ -22,9 +22,10 @@ const Synchronize = () => {
   const [pending, setPending] = useState(false);
   const {
     synchronize,
-    sendingProgress,
+    current,
     waitingMessage,
-    operationProgress,
+    sendingProgress,
+    campaignProgress,
     resourceProgress,
     surveyUnitProgress,
   } = useSynchronisation();
@@ -52,14 +53,6 @@ const Synchronize = () => {
     }
   }, [synchronize]);
 
-  const getProgress = () => {
-    if (sendingProgress) return sendingProgress;
-    if (surveyUnitProgress) return surveyUnitProgress;
-    if (resourceProgress) return resourceProgress;
-    if (operationProgress) return operationProgress;
-    return null;
-  };
-
   useEffect(() => {
     if (toSynchronize && !pending) {
       launchSynchronize();
@@ -84,10 +77,30 @@ const Synchronize = () => {
       {pending && (
         <StyleWrapper>
           <Preloader title={D.syncInProgress} message={waitingMessage} />
-          {getProgress() && (
-            <>
-              <ProgressBar value={getProgress()} />
-            </>
+          {!!sendingProgress && <ProgressBar value={sendingProgress} />}
+          {!sendingProgress && campaignProgress !== null && (
+            <div className="sync-detail">
+              <p>
+                <span className={current === 'questionnaire' ? 'current' : ''}>
+                  {`${D.waitingLoadingCampaigns} : `}
+                </span>
+                <ProgressBar value={campaignProgress} />
+              </p>
+
+              <p>
+                <span className={current === 'resources' ? 'current' : ''}>
+                  {`${D.waitingLoadingResources} : `}
+                </span>
+                <ProgressBar value={resourceProgress} />
+              </p>
+
+              <p>
+                <span className={current === 'survey-units' ? 'current' : ''}>
+                  {`${D.waitingLoadingSU} : `}
+                </span>
+                <ProgressBar value={surveyUnitProgress} />
+              </p>
+            </div>
           )}
         </StyleWrapper>
       )}

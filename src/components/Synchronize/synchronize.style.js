@@ -14,6 +14,16 @@ export const StyleWrapper = styled.div`
     text-align: center;
   }
 
+  .sync-detail {
+    text-align: center;
+    .progress {
+      display: inline-block;
+    }
+    .current {
+      font-weight: bold;
+    }
+  }
+
   .preloader-container {
     height: min-content;
     .preloader {

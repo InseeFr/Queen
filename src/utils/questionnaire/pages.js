@@ -19,6 +19,11 @@ export const getNextPage = components => currentPage => {
   return components[index + 1].page || components[index + 1].goToPage || 1;
 };
 
+/**
+ * Return the first component without response
+ * (TODO : alternative : the last component with response, return the following component)
+ * @param {*} questionnaire
+ */
 export const getFastForwardComponent = questionnaire => filteredComponents => specialQueenData => {
   const firstComponent = filteredComponents.filter(component => {
     const { componentType, page } = component;

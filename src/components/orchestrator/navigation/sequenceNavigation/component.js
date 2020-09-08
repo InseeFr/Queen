@@ -48,7 +48,9 @@ const SequenceNavigation = ({
       const previousIndexTemp = indexOfIndex - 1;
       if (previousIndexTemp >= 0) listRef[reachableIndexes[previousIndexTemp]].current.focus();
       else if (previousIndexTemp === -1) backButtonRef.current.focus();
-      else listRef[reachableIndexes[reachableIndexes.length - 1]].current.focus();
+      else if (reachableIndexes.length > 0)
+        listRef[reachableIndexes[reachableIndexes.length - 1]].current.focus();
+      else backButtonRef.current.focus();
     }
   };
 

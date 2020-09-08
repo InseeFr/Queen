@@ -9,7 +9,7 @@ const Button = ({ readonly, canContinue, isLastComponent, pageNext, finalQuit })
   const pageNextFunction = isLastComponent ? finalQuit : pageNext;
   const getNextLabel = isLastComponent ? lastLabel : D.continueButton;
 
-  const keysToHandle = ['ctrl+enter', 'ctrl+backspace'];
+  const keysToHandle = ['ctrl+enter'];
 
   const keyboardShortcut = (key, e) => {
     if (key === 'ctrl+enter') {
@@ -17,7 +17,7 @@ const Button = ({ readonly, canContinue, isLastComponent, pageNext, finalQuit })
     }
   };
 
-  return (
+  const componentToDisplay = (
     <>
       <StyleWrapper>
         <div className="continue-button">
@@ -42,6 +42,13 @@ const Button = ({ readonly, canContinue, isLastComponent, pageNext, finalQuit })
         onKeyEvent={keyboardShortcut}
         handleFocusableElements
       />
+    </>
+  );
+
+  return (
+    <>
+      {readonly && isLastComponent && componentToDisplay}
+      {!readonly && componentToDisplay}
     </>
   );
 };

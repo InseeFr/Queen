@@ -4,7 +4,7 @@ import { StyleWrapper } from './progressBar.style';
 
 const ProgressBar = ({ value }) => {
   return (
-    <StyleWrapper progress={value}>
+    <StyleWrapper progress={value} className="progress">
       <div
         role="progressbar"
         className="progress-bar"

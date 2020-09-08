@@ -117,31 +117,13 @@ const Orchestrator = ({
 
   const goNext = useCallback(
     async (lastSpecialQueenData = specialQueenData) => {
-      if (!started && !standalone) {
-        const newResponse = UQ.getCollectedResponse(questionnaire)(component);
-        if (Object.keys(newResponse).length > 0) {
-          setStarted(true);
-          await sendStartedEvent(surveyUnit.id);
-        }
-      }
       saveQueen(lastSpecialQueenData);
       setPreviousResponse(null);
       const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
       addValidatePage();
       setCurrentPage(nextPage);
     },
-    [
-      questionnaire,
-      component,
-      standalone,
-      started,
-      surveyUnit.id,
-      filteredComponents,
-      saveQueen,
-      addValidatePage,
-      specialQueenData,
-      currentPage,
-    ]
+    [filteredComponents, saveQueen, addValidatePage, specialQueenData, currentPage]
   );
 
   const goFastForward = useCallback(
@@ -160,6 +142,14 @@ const Orchestrator = ({
     },
     [saveQueen, addValidatePage, filteredComponents, specialQueenData]
   );
+
+  useEffect(() => {
+    const start = async () => {
+      setStarted(true);
+      await sendStartedEvent(surveyUnit.id);
+    };
+    if (!started && !standalone && validatePages.length > 0) start();
+  }, [validatePages, started, standalone, surveyUnit.id]);
 
   const quit = async () => {
     if (isLastComponent) {

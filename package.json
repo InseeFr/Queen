@@ -1,9 +1,9 @@
 {
   "name": "queen",
-  "version": "0.2.5",
+  "version": "0.2.8",
   "private": true,
   "dependencies": {
-    "@inseefr/lunatic": "^2.0.0-rc8",
+    "@inseefr/lunatic": "^2.0.0-rc9",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "axios": "^0.19.2",
