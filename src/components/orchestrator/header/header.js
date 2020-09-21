@@ -5,7 +5,7 @@ import insee from 'img/insee.png';
 import Navigation from '../navigation';
 import CloseIcon from './quit.icon';
 import BreadcrumbQueen from '../breadcrumb';
-import { StyleWrapper } from './header.style.js';
+import { StyleWrapper } from './header.style';
 
 const Header = ({
   menuOpen,
@@ -57,15 +57,9 @@ const Header = ({
     </StyleWrapper>
   );
 };
-const comparison = (prevProps, nextProps) => {
-  return (
-    !nextProps.menuOpen &&
-    prevProps.sequence === nextProps.sequence &&
-    prevProps.subsequence === nextProps.subsequence
-  );
-};
+
 Header.propTypes = {
   title: PropTypes.string.isRequired,
 };
 
-export default React.memo(Header, comparison);
+export default Header;
