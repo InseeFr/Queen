@@ -152,17 +152,9 @@ const Orchestrator = ({
   }, [validatePages, started, standalone, surveyUnit.id]);
 
   const quit = async () => {
-    if (isLastComponent) {
-      if (!standalone) {
-        await sendCompletedEvent(surveyUnit.id);
-      }
-      await saveQueen();
-
-      close();
-    } else {
-      await saveQueen();
-      close();
-    }
+    await saveQueen();
+    if (isLastComponent && !standalone) await sendCompletedEvent(surveyUnit.id);
+    close();
   };
 
   useEffect(() => {

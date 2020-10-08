@@ -2,18 +2,11 @@ const getUrlRegex = url => {
   return url.replace('http', '^http').concat('/(.*)((.json)|(.js)|(.png)|(.svg))');
 };
 
-const getQuestionnaireUrlRegex = QUEEN_API_URL => {
-  return QUEEN_API_URL.replace('http', '^http').concat('/api/campaign/(.){1,}/questionnaire');
-};
+const getQuestionnaireUrlRegex = () => '^http.*/api/campaign/(.){1,}/questionnaire';
 
-const getRequiredResourceUrlRegex = QUEEN_API_URL => {
-  return QUEEN_API_URL.replace('http', '^http').concat(
-    '/api/campaign/(.){1,}/required-nomenclatures'
-  );
-};
-const getResourceUrlRegex = QUEEN_API_URL => {
-  return QUEEN_API_URL.replace('http', '^http').concat('/api/nomenclature/(.){1,}');
-};
+const getRequiredResourceUrlRegex = () => '^http.*/api/campaign/(.){1,}/required-nomenclatures';
+
+const getResourceUrlRegex = () => '^http.*/api/nomenclature/(.){1,}';
 
 const queenCacheName = 'queen-cache';
 console.log('Loading Queen SW into another SW');
@@ -30,31 +23,40 @@ workbox.routing.registerRoute(
   })
 );
 
-const setQuestionnaireAndResourcesCache = async () => {
-  const responseFromQueen = await fetch(`${self._QUEEN_URL}/configuration.json`);
-  const configuration = await responseFromQueen.json();
+workbox.routing.registerRoute(
+  new RegExp(getQuestionnaireUrlRegex()),
+  new workbox.strategies.CacheFirst({
+    cacheName: 'queen-questionnaire',
+    plugins: [
+      new workbox.cacheableResponse.Plugin({
+        statuses: [0, 200],
+      }),
+    ],
+  })
+);
 
-  workbox.routing.registerRoute(
-    new RegExp(getQuestionnaireUrlRegex(configuration.QUEEN_API_URL)),
-    new workbox.strategies.CacheFirst({
-      cacheName: 'queen-questionnaire',
-    })
-  );
-
-  workbox.routing.registerRoute(
-    new RegExp(getRequiredResourceUrlRegex(configuration.QUEEN_API_URL)),
-    new workbox.strategies.CacheFirst({
-      cacheName: 'queen-resource',
-    })
-  );
-  workbox.routing.registerRoute(
-    new RegExp(getResourceUrlRegex(configuration.QUEEN_API_URL)),
-    new workbox.strategies.CacheFirst({
-      cacheName: 'queen-resource',
-    })
-  );
-};
-setQuestionnaireAndResourcesCache();
+workbox.routing.registerRoute(
+  new RegExp(getRequiredResourceUrlRegex()),
+  new workbox.strategies.CacheFirst({
+    cacheName: 'queen-resource',
+    plugins: [
+      new workbox.cacheableResponse.Plugin({
+        statuses: [0, 200],
+      }),
+    ],
+  })
+);
+workbox.routing.registerRoute(
+  new RegExp(getResourceUrlRegex()),
+  new workbox.strategies.CacheFirst({
+    cacheName: 'queen-resource',
+    plugins: [
+      new workbox.cacheableResponse.Plugin({
+        statuses: [0, 200],
+      }),
+    ],
+  })
+);
 
 const queenPrecacheController = async () => {
   const responseFromQueen = await fetch(`${self._QUEEN_URL}/manifest.json`);
