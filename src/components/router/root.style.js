@@ -31,6 +31,7 @@ export const StyleWrapper = styled.div`
       margin-top: 1em;
     }
     .textarea-lunatic {
+      padding: 0.5em;
       font_size: 100%;
       margin-left: 1em;
       border-radius: 5px;
