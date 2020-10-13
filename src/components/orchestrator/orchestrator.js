@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-// import KeyboardEventHandler from 'react-keyboard-event-handler';
+import KeyboardEventHandler from 'react-keyboard-event-handler';
 import * as lunatic from '@inseefr/lunatic';
-// import alphabet from 'utils/constants/alphabet';
+import alphabet from 'utils/constants/alphabet';
 import * as UQ from 'utils/questionnaire';
-import { DIRECT_CONTINUE_COMPONENTS /* , KEYBOARD_SHORTCUT_COMPONENTS */ } from 'utils/constants';
+import { DIRECT_CONTINUE_COMPONENTS, KEYBOARD_SHORTCUT_COMPONENTS } from 'utils/constants';
 import { sendStartedEvent, sendCompletedEvent } from 'utils/communication';
 import Header from './header';
 import Buttons from './buttons';
@@ -69,12 +69,12 @@ const Orchestrator = ({
    * This function is disabled when app is in readonly mode.
    * @param {*} component the current component
    */
-  const onChange = component => updatedValue => {
+  const onChange = component => async updatedValue => {
     if (!readonly) {
+      await handleChange(updatedValue);
       if (!previousResponse) {
         setPreviousResponse(UQ.getCollectedResponse(questionnaire)(component));
       }
-      handleChange(updatedValue);
     }
   };
 
@@ -163,13 +163,17 @@ const Orchestrator = ({
       previousResponse &&
       DIRECT_CONTINUE_COMPONENTS.includes(componentType)
     ) {
-      goNext();
+      // Lets the user see his response
+      setTimeout(() => {
+        goNext();
+      }, 100);
     }
-  }, [questionnaire, componentType, isLastComponent, previousResponse, goNext]);
+  }, [questionnaire, componentType, previousResponse, isLastComponent, goNext]);
 
   const Component = lunatic[componentType];
   const newOptions = UQ.buildQueenOptions(componentType, options, bindings);
-  // const keyToHandle = ['alphanumeric'];
+  const keyToHandle = ['alphanumeric'];
+
   return (
     <>
       <div id="queen-body">
@@ -179,8 +183,8 @@ const Orchestrator = ({
           standalone={standalone}
           title={questionnaire.label}
           quit={quit}
-          sequence={lunatic.interpret(['VTL'])(bindings)(sequence)}
-          subsequence={lunatic.interpret(['VTL'])(bindings)(subsequence)}
+          sequence={sequence}
+          subsequence={subsequence}
           questionnaire={questionnaire}
           bindings={bindings}
           setPage={setCurrentPage}
@@ -242,7 +246,7 @@ const Orchestrator = ({
             />
           </NavBar>
 
-          {/* {KEYBOARD_SHORTCUT_COMPONENTS.includes(componentType) && (
+          {KEYBOARD_SHORTCUT_COMPONENTS.includes(componentType) && (
             <KeyboardEventHandler
               handleKeys={keyToHandle}
               onKeyEvent={(key, e) => {
@@ -250,17 +254,21 @@ const Orchestrator = ({
                 const responsesCollected = UQ.getCollectedResponse(questionnaire)(component);
                 const updatedValue = {};
                 if (componentType === 'CheckboxOne') {
-                  updatedValue[responses[0]] = key;
-                  onChange(component)(updatedValue);
+                  if (key <= newOptions.length) {
+                    updatedValue[responses[0]] = key;
+                    onChange(component)(updatedValue);
+                  }
                 } else if (componentType === 'CheckboxGroup') {
                   const index = alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase());
-                  updatedValue[responses[index]] = !responsesCollected[responses[index]];
-                  onChange(component)(updatedValue);
+                  if (index < responses.length) {
+                    updatedValue[responses[index]] = !responsesCollected[responses[index]];
+                    onChange(component)(updatedValue);
+                  }
                 }
               }}
               handleFocusableElements
             />
-          )} */}
+          )}
         </div>
       </div>
     </>

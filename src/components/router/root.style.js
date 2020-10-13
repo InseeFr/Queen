@@ -7,10 +7,45 @@ const backgroundColorCheckbox = '#d6d6d6';
 const modalityLabelColor = 'black';
 const modalityLabelColorChecked = '#1d63a0';
 const modalityCodeBackgroundColor = 'white';
+const borderInput = '1px solid #767676';
 
 export const StyleWrapper = styled.div`
+  * {
+    font-family: Gotham SSm A, Gotham SSm B, sans-serif;
+  }
   .components .declaration-lunatic {
     color: ${declarationColor};
+    margin-top: 1em;
+  }
+
+  .components .lunatic.lunatic-component {
+    .datepicker-lunatic {
+      font-size: 100%;
+      margin-left: 1em;
+      border-radius: 5px;
+      border: ${borderInput};
+      padding: 5px;
+    }
+
+    .field-container {
+      margin-top: 1em;
+    }
+    .textarea-lunatic {
+      font_size: 100%;
+      margin-left: 1em;
+      border-radius: 5px;
+      border: ${borderInput};
+      width: 80%;
+      height: 10em;
+    }
+    .input-lunatic {
+      font-size: 100%;
+      margin-left: 1em;
+      border-radius: 5px;
+      border: ${borderInput};
+      width: 80%;
+      height: 1.5em;
+    }
   }
 
   .body-container {
