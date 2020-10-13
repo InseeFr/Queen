@@ -40,6 +40,8 @@ export const StyleWrapper = styled.div`
       height: 10em;
     }
     .input-lunatic {
+      padding-right: 0.5em;
+      padding-left: 0.5em;
       font-size: 100%;
       margin-left: 1em;
       border-radius: 5px;

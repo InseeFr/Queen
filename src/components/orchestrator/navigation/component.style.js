@@ -10,6 +10,7 @@ export const StyleWrapper = styled.div`
   }
 
   .menu-icon {
+    cursor: pointer;
     margin-top: 7px;
     position: relative;
     z-index: 35;
@@ -62,6 +63,7 @@ export const StyleWrapper = styled.div`
 
   .back-subnav-btn,
   .subnav-btn {
+    cursor: pointer;
     width: 100%;
     border: none;
     background-color: transparent;
@@ -80,6 +82,7 @@ export const StyleWrapper = styled.div`
       background-color: #9fc5f8;
     }
     &:disabled {
+      cursor: not-allowed;
       color: #928b94;
       font-weight: normal;
       background-color: transparent;

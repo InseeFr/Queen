@@ -36,6 +36,7 @@ export const StyleWrapper = styled.div`
     .insee-icon {
       padding: 0;
       border: none;
+      cursor: pointer;
       background-color: transparent;
     }
     .close-icon {
