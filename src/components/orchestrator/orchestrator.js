@@ -81,7 +81,7 @@ const Orchestrator = ({
   const filteredComponents = components.filter(c => c.page);
 
   const component = filteredComponents.find(({ page }) => page === currentPage);
-  const { id, componentType, sequence, subsequence, options, ...props } = component;
+  const { id, componentType, sequence, subsequence, options, responses, ...props } = component;
   // TODO : get specialAnswer from component (specified in Pogues)
   // to wait, set to false by default
   const specialAnswer = { refusal: false, doesntKnow: false };
@@ -171,8 +171,8 @@ const Orchestrator = ({
   }, [questionnaire, componentType, previousResponse, isLastComponent, goNext]);
 
   const Component = lunatic[componentType];
-  const newOptions = UQ.buildQueenOptions(componentType, options, bindings);
-  const keyToHandle = ['alphanumeric'];
+
+  const keyToHandle = UQ.getKeyToHandle(responses, options);
 
   return (
     <>
@@ -194,14 +194,15 @@ const Orchestrator = ({
           <div className="components">
             <div
               className={`lunatic lunatic-component ${
-                newOptions.length >= 8 ? 'split-fieldset' : ''
+                options && options.length >= 8 ? 'split-fieldset' : ''
               }`}
               key={`component-${id}`}
             >
               <Component
                 id={id}
                 {...props}
-                options={newOptions}
+                options={options}
+                responses={responses}
                 handleChange={onChange(component)}
                 labelPosition="TOP"
                 preferences={preferences}
@@ -212,7 +213,9 @@ const Orchestrator = ({
                 readOnly={readonly}
                 disabled={readonly}
                 focused
-                keyboardSelection={componentType === 'CheckboxGroup'}
+                keyboardSelection={
+                  componentType === 'CheckboxGroup' || componentType === 'CheckboxOne'
+                }
               />
             </div>
             {(!DIRECT_CONTINUE_COMPONENTS.includes(componentType) || readonly) &&
@@ -250,18 +253,27 @@ const Orchestrator = ({
             <KeyboardEventHandler
               handleKeys={keyToHandle}
               onKeyEvent={(key, e) => {
-                const responses = UQ.getResponsesNameFromComponent(component);
+                e.preventDefault();
+                const responsesName = UQ.getResponsesNameFromComponent(component);
                 const responsesCollected = UQ.getCollectedResponse(questionnaire)(component);
                 const updatedValue = {};
                 if (componentType === 'CheckboxOne') {
-                  if (key <= newOptions.length) {
-                    updatedValue[responses[0]] = key;
+                  const index =
+                    options.length < 10
+                      ? key
+                      : alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase()) + 1;
+                  if (index <= options.length) {
+                    updatedValue[responsesName[0]] = `${index}`;
                     onChange(component)(updatedValue);
                   }
                 } else if (componentType === 'CheckboxGroup') {
-                  const index = alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase());
-                  if (index < responses.length) {
-                    updatedValue[responses[index]] = !responsesCollected[responses[index]];
+                  const index =
+                    (responsesName.length < 10
+                      ? key
+                      : alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase()) + 1) - 1;
+
+                  if (index < responsesName.length) {
+                    updatedValue[responsesName[index]] = !responsesCollected[responsesName[index]];
                     onChange(component)(updatedValue);
                   }
                 }

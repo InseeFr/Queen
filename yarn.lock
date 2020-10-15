@@ -1110,10 +1110,10 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@inseefr/lunatic@^2.0.0-rc8":
-  version "2.0.0-rc9"
-  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-2.0.0-rc9.tgz#f37856b11b4da9dc30cebcf6bbd541074fa7a7bf"
-  integrity sha512-BqA3dC9vr+LdAYjjbwFb903oi1TYABwVCv79KqgI4/rg287Qb9od2Rp0nrWVqmSyCrMMlLiz5Nwv95Tu0NB3mA==
+"@inseefr/lunatic@^2.0.0-rc10":
+  version "2.0.0-rc10"
+  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-2.0.0-rc10.tgz#f5bdb0d05c34293b192a14d4ec082be4c4983f39"
+  integrity sha512-Wgd/t4riD9hlpHnedMAvw8yGXELTOsm4ZEed7rghURvK7OiHe8+/5vRF49bsj5Owyc98QgalETnN6VzzLNAYbA==
   dependencies:
     "@inseefr/vtl-2.1-engine" "^0.1.3"
     debounce "^1.2.0"

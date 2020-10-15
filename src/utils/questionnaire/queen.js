@@ -210,23 +210,12 @@ export const updateResponseFiltered = questionnaire => currentComponent => {
   return newQuestionnaire;
 };
 
-export const buildQueenOptions = (componentType, options, bindings) => {
-  let newOptions;
-  if (componentType === 'CheckboxOne') {
-    newOptions = options.map((option, index) => {
-      const myLabel = (
-        <span>
-          <span className="code">{options.length > 9 ? alphabet[index] : index + 1}</span>
-          {lunatic.interpret(['VTL'])(bindings)(option.label)}
-        </span>
-      );
-      return {
-        value: option.value,
-        label: myLabel,
-      };
-    });
-  } else {
-    newOptions = options || [];
+export const getKeyToHandle = (responses, options) => {
+  if (options) {
+    return options.length < 10 ? ['numeric'] : ['alphabetic'];
   }
-  return newOptions;
+  if (responses) {
+    return responses.length < 10 ? ['numeric'] : ['alphabetic'];
+  }
+  return [];
 };
