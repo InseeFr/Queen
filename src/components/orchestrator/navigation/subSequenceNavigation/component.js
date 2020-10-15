@@ -52,6 +52,7 @@ const SubsequenceNavigation = ({ sequence, close, setPage }) => {
 
   const keysToHandle = ['up', 'down'];
   const keyboardShortcut = (key, e) => {
+    e.preventDefault();
     const index = currentFocusSubsequenceIndex;
     if (key === 'down') {
       setCurrentFocus(true)(index);

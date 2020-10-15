@@ -81,6 +81,7 @@ const SequenceNavigation = ({
 
   const keysToHandle = subSequenceOpen ? ['left', 'esc'] : ['left', 'right', 'esc', 'up', 'down'];
   const keyboardShortcut = (key, e) => {
+    e.preventDefault();
     const index = currentFocusSequenceIndex;
     if (key === 'right' && currentFocusSequenceIndex >= 0)
       openSubComponents(components[currentFocusSequenceIndex]);

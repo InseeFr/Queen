@@ -22,12 +22,13 @@ const Buttons = ({
 
   const keysToHandle = ['ctrl+enter', 'ctrl+backspace', 'ctrl+end'];
 
-  const keyboardShortcut = key => {
-    if (key === 'ctrl+enter') {
-      if (!isLastComponent && rereading && canContinue) pageNextFunction();
+  const keyboardShortcut = (key, e) => {
+    e.preventDefault();
+    if (key === 'ctrl+enter' && ((!isLastComponent && rereading && canContinue) || readonly)) {
+      pageNextFunction();
     }
     if (key === 'ctrl+backspace') pagePrevious();
-    if (key === 'ctrl+end') pageFastForward();
+    if (key === 'ctrl+end' && !readonly) pageFastForward();
   };
 
   return (

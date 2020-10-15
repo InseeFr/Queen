@@ -12,8 +12,11 @@ const Button = ({ readonly, canContinue, isLastComponent, pageNext, finalQuit })
   const keysToHandle = ['ctrl+enter'];
 
   const keyboardShortcut = (key, e) => {
+    e.preventDefault();
     if (key === 'ctrl+enter') {
-      if (canContinue) pageNextFunction();
+      if (canContinue) {
+        pageNextFunction();
+      }
     }
   };
 
@@ -27,14 +30,10 @@ const Button = ({ readonly, canContinue, isLastComponent, pageNext, finalQuit })
             onClick={pageNextFunction}
             disabled={!canContinue && !readonly}
           >
-            {getNextLabel}
+            {`${getNextLabel} ${(!isLastComponent && '\u2192') || ''}`}
           </button>
-          <span>
-            {` ${D.helpShortCut} `}
-            <span>
-              <b>{D.ctrlEnter}</b>
-            </span>
-          </span>
+          <span className="help">{` ${D.helpShortCut} `}</span>
+          <span>{D.ctrlEnter}</span>
         </div>
       </StyleWrapper>
       <KeyboardEventHandler
