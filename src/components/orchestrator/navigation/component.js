@@ -194,7 +194,7 @@ const Navigation = ({
           {open && (
             <>
               <div className="navigation-container">
-                <span>{D.goToNavigation}</span>
+                <span className="go-to-navigation">{D.goToNavigation}</span>
                 <nav role="navigation">
                   <ul>
                     <button

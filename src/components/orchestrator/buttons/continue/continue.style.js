@@ -14,6 +14,7 @@ export const StyleWrapper = styled.div`
       color: white;
       font-weight: bold;
       padding: 0.5em 1em 0.5em 1em;
+      text-transform: uppercase;
 
       &:hover,
       &:focus {
@@ -28,6 +29,10 @@ export const StyleWrapper = styled.div`
       }
     }
     span {
+      &.help {
+        font-size: 72%;
+        color: #777777;
+      }
       font-size: 84%;
     }
     margin-right: 8em;

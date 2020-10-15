@@ -7,15 +7,22 @@ export const StyleWrapper = styled.div`
   grid-row-end: 3;
 
   position: relative;
-  border-left: 1px solid #a3a3a3;
+  border-left: 1px solid #777777;
 
   div.page {
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
     font-size: 80%;
     text-align: center;
-    border-radius: 10px;
+    border-radius: 5px;
     width: 90%;
     margin: auto;
     margin-top: 1em;
     background-color: white;
+
+    .label-page {
+      font-size: 90%;
+      margin-bottom: 4px;
+    }
   }
 `;

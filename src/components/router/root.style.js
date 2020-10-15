@@ -4,27 +4,68 @@ const declarationColor = '#085394';
 const backgroundBodyColor = '#eeeeee';
 const borderColorCheckbox = '#aaaaaa';
 const backgroundColorCheckbox = '#d6d6d6';
+const backgroundColorCheckboxChecked = '#9fc5f8';
 const modalityLabelColor = 'black';
 const modalityLabelColorChecked = '#1d63a0';
 const modalityCodeBackgroundColor = 'white';
 const borderInput = '1px solid #767676';
+const mobileWidth = '750';
 
 export const StyleWrapper = styled.div`
   * {
     font-family: Gotham SSm A, Gotham SSm B, sans-serif;
   }
-  .components .declaration-lunatic {
-    color: ${declarationColor};
-    margin-top: 1em;
+
+  .components {
+    padding-top: 2em;
+    min-height: 80vh;
+    display: grid;
+    grid-template-rows: auto 60px;
   }
 
-  .components .lunatic.lunatic-component {
+  .lunatic.lunatic-component {
+    width: 80%;
+    margin-left: 100px;
+    margin-right: auto;
+    @media (max-width: ${mobileWidth}px) {
+      margin-left: auto;
+    }
+
     .datepicker-lunatic {
       font-size: 100%;
       margin-left: 1em;
-      border-radius: 5px;
+      border-radius: 10px;
       border: ${borderInput};
       padding: 5px;
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 5px ${declarationColor};
+      }
+    }
+
+    > label {
+      font-weight: bold;
+    }
+
+    .declaration-lunatic {
+      color: ${declarationColor};
+      margin-top: 1em;
+      font-weight: normal;
+      font-size: 92%;
+    }
+
+    .label-top label {
+      font-weight: bold;
+    }
+    .lunatic-dropdown-label {
+      font-weight: bold;
+    }
+    .checkbox-boolean-modality label {
+      font-weight: bold;
+    }
+
+    fieldset legend {
+      font-weight: bold;
     }
 
     .field-container {
@@ -32,22 +73,30 @@ export const StyleWrapper = styled.div`
     }
     .textarea-lunatic {
       padding: 0.5em;
-      font_size: 100%;
+      font-size: 100%;
       margin-left: 1em;
-      border-radius: 5px;
+      border-radius: 10px;
       border: ${borderInput};
       width: 80%;
       height: 10em;
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 5px ${declarationColor};
+      }
     }
     .input-lunatic {
       padding-right: 0.5em;
       padding-left: 0.5em;
       font-size: 100%;
       margin-left: 1em;
-      border-radius: 5px;
+      border-radius: 10px;
       border: ${borderInput};
       width: 80%;
       height: 1.5em;
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 5px ${declarationColor};
+      }
     }
   }
 
@@ -57,18 +106,6 @@ export const StyleWrapper = styled.div`
     grid-template-columns: auto 60px;
     grid-template-rows: auto;
     min-height: 75%;
-  }
-
-  .components {
-    padding-top: 2em;
-    min-height: 80vh;
-    display: grid;
-    grid-template-rows: auto 60px;
-    .lunatic-component {
-      width: 80%;
-      margin-left: auto;
-      margin-right: auto;
-    }
   }
 
   .split-fieldset fieldset.checkbox-group {
@@ -95,14 +132,15 @@ export const StyleWrapper = styled.div`
       width: 60%;
 
       &.content-checked {
-        background-color: ${backgroundColorCheckbox}-checked;
+        background-color: ${backgroundColorCheckboxChecked};
+        border-color: ${modalityLabelColorChecked};
       }
     }
 
-    .code {
+    .code-modality {
       position: relative;
       left: -1em;
-      padding: 0.3em 0.5em 0.3em 0.5em;
+      padding: 0.3em 0.3em 0.3em 0.5em; // 0.3em 0.5em 0.3em 0.5em; (when PR in lunatic will be accepted)
       color: ${modalityLabelColor};
       font-weight: bold;
       border: 1px solid ${borderColorCheckbox};
@@ -122,7 +160,7 @@ export const StyleWrapper = styled.div`
       &:checked + label {
         color: ${modalityLabelColorChecked};
         font-weight: bold;
-        .code {
+        .code-modality {
           color: ${modalityCodeBackgroundColor};
           background-color: ${declarationColor};
           border-color: ${declarationColor};

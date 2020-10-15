@@ -34,6 +34,7 @@ export const StyleWrapper = styled.div`
       grid-row-end: 2;
     }
     span {
+      color: #777777;
       font-size: 13px;
       display: block;
       width: min-content;
@@ -47,6 +48,8 @@ export const StyleWrapper = styled.div`
     button {
       padding: 0.1em 0.5em 0.1em 0.5em;
       border-radius: 15px;
+      text-transform: uppercase;
+      font-size: 95%;
 
       &:hover,
       &:focus {

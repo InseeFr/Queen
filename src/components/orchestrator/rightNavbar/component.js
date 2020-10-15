@@ -10,7 +10,7 @@ const NavBar = ({ nbModules, page, children }) => {
   return (
     <StyleWrapper>
       <div className="page">
-        <div>n° page</div>
+        <div className="label-page">n° page</div>
         <div>
           <b>{`${currentPage}/${nbTotalPage}`}</b>
         </div>

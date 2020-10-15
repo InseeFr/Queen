@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const backgroundHeaderColor = 'white';
-const borderStyleHeader = '1px solid #a3a3a3';
+const borderStyleHeader = '1px solid #777777';
 const widthBorder = '59px'; //60(width grid template) - 1(border-width)
 
 export const StyleWrapper = styled.div`
@@ -53,8 +53,9 @@ export const StyleWrapper = styled.div`
 
     background-color: ${backgroundHeaderColor};
 
-    #header-title {
-      font-size: 90%;
+    .questionnaire-title {
+      text-transform: uppercase;
+      font-size: 80%;
     }
   }
 

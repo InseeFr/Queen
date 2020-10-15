@@ -110,31 +110,35 @@ const SequenceNavigation = ({
         <span>{'\u3008'}</span>
         {D.goBackNavigation}
       </button>
-      <h3>{title}</h3>
-      <nav role="navigation">
-        <ul>
-          {components.map((c, index) => {
-            return (
-              <div className="subnav" key={`subnav-${c.id}`}>
-                <button
-                  ref={listRef[index]}
-                  autoFocus={index === 0}
-                  type="button"
-                  key={c.id}
-                  className={`subnav-btn ${currentFocusSequenceIndex === index ? 'selected' : ''}`}
-                  disabled={!c.reachable}
-                  onClick={open(c)}
-                  onFocus={setFocusSequence(index)}
-                  onKeyDown={index === lastIndexFocusable ? handleFinalTab : null}
-                >
-                  {c.labelNav}
-                  <span>{`${c.components.length > 0 ? '\u3009' : ''} `}</span>
-                </button>
-              </div>
-            );
-          })}
-        </ul>
-      </nav>
+      <div>
+        <div className="title">{title}</div>
+        <nav role="navigation">
+          <ul>
+            {components.map((c, index) => {
+              return (
+                <div className="subnav" key={`subnav-${c.id}`}>
+                  <button
+                    ref={listRef[index]}
+                    autoFocus={index === 0}
+                    type="button"
+                    key={c.id}
+                    className={`subnav-btn ${
+                      currentFocusSequenceIndex === index ? 'selected' : ''
+                    }`}
+                    disabled={!c.reachable}
+                    onClick={open(c)}
+                    onFocus={setFocusSequence(index)}
+                    onKeyDown={index === lastIndexFocusable ? handleFinalTab : null}
+                  >
+                    {c.labelNav}
+                    <span>{`${c.components.length > 0 ? '\u3009' : ''} `}</span>
+                  </button>
+                </div>
+              );
+            })}
+          </ul>
+        </nav>
+      </div>
       <KeyboardEventHandler
         handleKeys={keysToHandle}
         onKeyEvent={keyboardShortcut}

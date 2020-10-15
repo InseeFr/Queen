@@ -57,7 +57,7 @@ const Header = ({
         </button>
       </div>
       <div className="header-item header-title">
-        <span id="header-title">{title}</span>
+        <span className="questionnaire-title">{title}</span>
         {sequence && (
           <BreadcrumbQueen
             sequence={sequenceBinded}
