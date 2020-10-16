@@ -1,7 +1,5 @@
 import D from 'i18n';
-import React from 'react';
 import * as lunatic from '@inseefr/lunatic';
-import alphabet from 'utils/constants/alphabet';
 
 /**
  * Function to build Queen questionnaire.
