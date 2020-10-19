@@ -33,6 +33,18 @@ const dictionary = {
     en:
       'New version of the application is available and will be used when all tabs for this page are closed.',
   },
+  updateInstalled: {
+    fr: "L'application a été mise à jour avec succès",
+    en: 'The application has been successfully updated',
+  },
+  updating: {
+    fr: 'Mise à jour en cours',
+    en: 'Update in progress',
+  },
+  installError: {
+    fr: "Erreur lors de l'installation de l'application",
+    en: 'Error during the installation of the application',
+  },
   appReadyOffline: {
     fr: "L'application est prête à être utilisée hors ligne.",
     en: 'The application is ready to be used offline.',
