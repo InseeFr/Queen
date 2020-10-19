@@ -6,10 +6,9 @@ import { READ_ONLY } from 'utils/constants';
 import NotFound from 'components/shared/not-found';
 import Notification from 'components/shared/Notification';
 import OrchestratorManager from 'components/orchestratorManager';
-import { useAuth } from 'utils/hook';
+import { useAuth, useServiceWorker } from 'utils/hook';
 import Preloader from 'components/shared/preloader';
 import Error from 'components/shared/Error';
-import useServiceWorker from 'utils/hook/useServiceWorker';
 import Synchronize from 'components/Synchronize';
 import { StyleWrapper } from './root.style';
 
