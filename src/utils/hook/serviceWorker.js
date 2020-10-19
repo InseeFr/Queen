@@ -1,17 +1,30 @@
 import { useState, useEffect } from 'react';
 import * as serviceWorker from 'utils/serviceWorker/serviceWorker';
 
-const useServiceWorker = ({ authenticated, standalone }) => {
-  const [installingServiceWorker, setInstallingServiceWorker] = useState(false);
+const SW_UPDATE_KEY = 'installing-update';
+
+export const useServiceWorker = ({ authenticated, standalone }) => {
+  const [isInstallingServiceWorker, setIsInstallingServiceWorker] = useState(false);
   const [waitingServiceWorker, setWaitingServiceWorker] = useState(null);
   const [isUpdateAvailable, setUpdateAvailable] = useState(false);
   const [isServiceWorkerInstalled, setServiceWorkerInstalled] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isUpdateInstalled, setIsUpdateInstalled] = useState(
+    window.localStorage.getItem(SW_UPDATE_KEY)
+  );
+  const [isInstallationFailed, setIsInstallationFailed] = useState(false);
+
+  const uninstall = () => {
+    serviceWorker.unregister({
+      onUnregister: unregistered => {},
+    });
+  };
 
   useEffect(() => {
     if (authenticated && standalone) {
       serviceWorker.register({
         onInstalling: installing => {
-          setInstallingServiceWorker(installing);
+          setIsInstallingServiceWorker(installing);
         },
         onUpdate: registration => {
           setWaitingServiceWorker(registration.waiting);
@@ -22,8 +35,11 @@ const useServiceWorker = ({ authenticated, standalone }) => {
           setUpdateAvailable(true);
         },
         onSuccess: registration => {
-          setInstallingServiceWorker(false);
+          setIsInstallingServiceWorker(false);
           setServiceWorkerInstalled(!!registration);
+        },
+        onError: () => {
+          setIsInstallationFailed(true);
         },
       });
     }
@@ -33,6 +49,17 @@ const useServiceWorker = ({ authenticated, standalone }) => {
     if (waitingServiceWorker) {
       waitingServiceWorker.postMessage({ type: 'SKIP_WAITING' });
     }
+  };
+
+  const updateApp = () => {
+    window.localStorage.setItem(SW_UPDATE_KEY, true);
+    setIsUpdating(true);
+    updateAssets();
+  };
+
+  const clearUpdating = () => {
+    setIsUpdateInstalled(false);
+    window.localStorage.removeItem(SW_UPDATE_KEY);
   };
 
   useEffect(() => {
@@ -46,11 +73,14 @@ const useServiceWorker = ({ authenticated, standalone }) => {
   }, [waitingServiceWorker]);
 
   return {
-    installingServiceWorker,
-    waitingServiceWorker,
+    isUpdating,
+    isUpdateInstalled,
+    isInstallingServiceWorker,
     isUpdateAvailable,
     isServiceWorkerInstalled,
-    updateAssets,
+    isInstallationFailed,
+    updateApp,
+    clearUpdating,
+    uninstall,
   };
 };
-export default useServiceWorker;

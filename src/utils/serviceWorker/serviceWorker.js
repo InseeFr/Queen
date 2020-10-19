@@ -102,6 +102,9 @@ function registerValidSW(swUrl, config) {
       };
     })
     .catch(error => {
+      if (config && config.onError) {
+        config.onError();
+      }
       console.error('Error during service worker registration:', error);
     });
 }
@@ -118,6 +121,9 @@ function checkValidServiceWorker(swUrl, config) {
         response.status === 404 ||
         (contentType != null && contentType.indexOf('javascript') === -1)
       ) {
+        if (config && config.onError) {
+          config.onError();
+        }
         // No service worker found. Probably a different app. Reload the page.
         navigator.serviceWorker.ready.then(registration => {
           registration.unregister().then(() => {
@@ -134,11 +140,15 @@ function checkValidServiceWorker(swUrl, config) {
     });
 }
 
-export function unregister() {
+export function unregister(config) {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready
       .then(registration => {
-        registration.unregister();
+        registration.unregister().then(unregistered => {
+          if (config && config.onUnregister) {
+            config.onUnregister(unregistered);
+          }
+        });
       })
       .catch(error => {
         console.error(error.message);
