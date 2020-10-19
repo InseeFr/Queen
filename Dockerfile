@@ -7,7 +7,7 @@ COPY nginx.conf etc/nginx/conf.d/
 # Copy .env file and shell script to container
 WORKDIR /usr/share/nginx/html
 COPY ./scripts/env.sh .
-COPY .env .
+COPY ./scripts/.env .
 
 # Make shell script executable
 RUN chmod +x env.sh
