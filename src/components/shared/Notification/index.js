@@ -7,35 +7,46 @@ const Notification = ({ serviceWorkerInfo }) => {
   const [open, setOpen] = useState(true);
 
   const {
-    installingServiceWorker,
+    isUpdating,
+    isUpdateInstalled,
+    isInstallingServiceWorker,
     isUpdateAvailable,
     isServiceWorkerInstalled,
-    updateAssets,
+    isInstallationFailed,
+    updateApp,
+    clearUpdating,
   } = serviceWorkerInfo;
 
   const getMessage = () => {
+    if (isUpdating) return D.updating;
+    if (isUpdateInstalled) return D.updateInstalled;
     if (isUpdateAvailable) return D.updateAvailable;
     if (isServiceWorkerInstalled) return D.appReadyOffline;
-    if (installingServiceWorker) return D.appInstalling;
-    return '';
+    if (isInstallingServiceWorker) return D.appInstalling;
+    if (isInstallationFailed) return D.installError;
+    return null;
+  };
+
+  const close = () => {
+    if (isUpdateInstalled) clearUpdating();
+    setOpen(false);
   };
 
   return (
     <StyleWrapper
-      className={`notification ${isUpdateAvailable ? 'update' : ''} ${
-        (isUpdateAvailable || isServiceWorkerInstalled || installingServiceWorker) && open
-          ? 'visible'
-          : ''
-      }`}
+      className={`notification ${isUpdateAvailable && 'update'} ${
+        getMessage() && open ? 'visible' : ''
+      } ${isInstallationFailed && 'error'} ${(isServiceWorkerInstalled || isUpdateInstalled) &&
+        'success'}`}
     >
       {open && (
         <>
-          <button type="button" className="close-button" onClick={() => setOpen(false)}>
+          <button type="button" className="close-button" onClick={close}>
             {`\u2573 ${D.closeNotif}`}
           </button>
           <div className="title">{getMessage()}</div>
-          {isUpdateAvailable && (
-            <button type="button" className="update-button" onClick={updateAssets}>
+          {isUpdateAvailable && !isUpdating && (
+            <button type="button" className="update-button" onClick={updateApp}>
               {D.updateNow}
             </button>
           )}
@@ -48,10 +59,13 @@ const Notification = ({ serviceWorkerInfo }) => {
 export default Notification;
 Notification.propTypes = {
   serviceWorkerInfo: PropTypes.shape({
-    installingServiceWorker: PropTypes.any.isRequired,
-    waitingServiceWorker: PropTypes.any.isRequired,
-    isUpdateAvailable: PropTypes.any.isRequired,
-    isServiceWorkerInstalled: PropTypes.any.isRequired,
-    updateAssets: PropTypes.func.isRequired,
+    isUpdating: PropTypes.bool.isRequired,
+    isUpdateInstalled: PropTypes.bool,
+    isInstallingServiceWorker: PropTypes.bool.isRequired,
+    isUpdateAvailable: PropTypes.bool.isRequired,
+    isServiceWorkerInstalled: PropTypes.bool.isRequired,
+    isInstallationFailed: PropTypes.bool.isRequired,
+    updateApp: PropTypes.func.isRequired,
+    clearUpdating: PropTypes.func.isRequired,
   }).isRequired,
 };
