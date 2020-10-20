@@ -2,6 +2,7 @@ import { AUTHENTICATION_MODE_ENUM } from 'utils/constants';
 import { initialize as init } from './initialize';
 
 export const initialize = (
+  questionnaireUrl,
   configuration,
   idQuestionnaire,
   idSurveyUnit,
@@ -10,6 +11,7 @@ export const initialize = (
   setSurveyUnit
 ) => {
   const params = {
+    questionnaireUrl,
     configuration,
     idQuestionnaire,
     idSurveyUnit,

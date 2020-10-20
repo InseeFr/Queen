@@ -12,7 +12,12 @@ import * as api from 'utils/api';
 import Orchestrator from '../orchestrator';
 import NotFound from '../shared/not-found';
 
-const OrchestratorManager = ({ match, configuration }) => {
+const OrchestratorManager = ({ match, location, configuration, visualize = false }) => {
+  const [questionnaireUrl] = useState(() => {
+    const urlSearch = new URLSearchParams(location.search);
+    return urlSearch.get('questionnaire');
+  });
+
   const [init, setInit] = useState(false);
 
   const [questionnaire, setQuestionnaire] = useState(undefined);
@@ -35,6 +40,7 @@ const OrchestratorManager = ({ match, configuration }) => {
         const initOrchestrator = async () => {
           try {
             const initialization = initialize(
+              questionnaireUrl,
               configuration,
               match.params.idQ,
               match.params.idSU,
@@ -53,7 +59,14 @@ const OrchestratorManager = ({ match, configuration }) => {
         initOrchestrator();
       }
     }
-  }, [init, configuration, match.params.readonly, match.params.idQ, match.params.idSU]);
+  }, [
+    init,
+    configuration,
+    match.params.readonly,
+    match.params.idQ,
+    match.params.idSU,
+    questionnaireUrl,
+  ]);
 
   /**
    * Build special questionnaire for Queen
@@ -96,7 +109,7 @@ const OrchestratorManager = ({ match, configuration }) => {
   const saveSU = async unit => {
     if (!readonly) {
       await surveyUnitIdbService.addOrUpdateSU(unit);
-      if (configuration.standalone) await putSurveyUnit(unit);
+      if (configuration.standalone && !visualize) await putSurveyUnit(unit);
     }
   };
 
@@ -140,12 +153,16 @@ OrchestratorManager.propTypes = {
       idSU: PropTypes.node,
     }),
   }).isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string,
+  }).isRequired,
   configuration: PropTypes.shape({
     standalone: PropTypes.bool.isRequired,
     QUEEN_URL: PropTypes.string.isRequired,
     QUEEN_API_URL: PropTypes.string.isRequired,
     QUEEN_AUTHENTICATION_MODE: PropTypes.oneOf(AUTHENTICATION_MODE_ENUM).isRequired,
   }).isRequired,
+  visualize: PropTypes.bool.isRequired,
 };
 
 export default OrchestratorManager;
