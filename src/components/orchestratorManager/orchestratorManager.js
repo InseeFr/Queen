@@ -9,7 +9,6 @@ import D from 'i18n';
 import * as UQ from 'utils/questionnaire';
 import { sendCloseEvent } from 'utils/communication';
 import * as api from 'utils/api';
-// import simpsons from 'utils/fake-survey/simpsons';
 import Orchestrator from '../orchestrator';
 import NotFound from '../shared/not-found';
 

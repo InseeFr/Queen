@@ -9,6 +9,7 @@ import { sendStartedEvent, sendCompletedEvent } from 'utils/communication';
 import Header from './header';
 import Buttons from './buttons';
 import ContinueButton from './buttons/continue';
+import { StyleWrapper } from './orchestrator.style';
 import NavBar from './rightNavbar';
 
 const Orchestrator = ({
@@ -175,115 +176,110 @@ const Orchestrator = ({
   const keyToHandle = UQ.getKeyToHandle(responses, options);
 
   return (
-    <>
-      <div id="queen-body">
-        <Header
-          menuOpen={menuOpen}
-          setMenuOpen={setMenuOpen}
-          standalone={standalone}
-          title={questionnaire.label}
-          quit={quit}
-          sequence={sequence}
-          subsequence={subsequence}
-          questionnaire={questionnaire}
-          bindings={bindings}
-          setPage={setCurrentPage}
-          validatePages={validatePages}
-        />
-        <div className="body-container">
-          <div className="components">
-            <div
-              className={`lunatic lunatic-component ${
-                options && options.length >= 8 ? 'split-fieldset' : ''
-              }`}
-              key={`component-${id}`}
-            >
-              <Component
-                id={id}
-                {...props}
-                options={options}
-                responses={responses}
-                handleChange={onChange(component)}
-                labelPosition="TOP"
-                preferences={preferences}
-                features={features}
-                bindings={bindings}
-                filterDescription={filterDescription}
-                writable
-                readOnly={readonly}
-                disabled={readonly}
-                focused
-                keyboardSelection={
-                  componentType === 'CheckboxGroup' || componentType === 'CheckboxOne'
-                }
-              />
-            </div>
-            {(!DIRECT_CONTINUE_COMPONENTS.includes(componentType) || readonly) &&
-              (!validatePages.includes(currentPage) || isLastComponent) && (
-                <ContinueButton
-                  readonly={readonly}
-                  canContinue={goNextCondition()}
-                  isLastComponent={isLastComponent}
-                  pageNext={goNext}
-                  finalQuit={quit}
-                />
-              )}
-          </div>
-          <NavBar
-            nbModules={questionnaire.components.filter(c => c.page).length}
-            page={currentPage}
+    <StyleWrapper>
+      <Header
+        menuOpen={menuOpen}
+        setMenuOpen={setMenuOpen}
+        standalone={standalone}
+        title={questionnaire.label}
+        quit={quit}
+        sequence={sequence}
+        subsequence={subsequence}
+        questionnaire={questionnaire}
+        bindings={bindings}
+        setPage={setCurrentPage}
+        validatePages={validatePages}
+      />
+      <div className="body-container">
+        <div className="components">
+          <div
+            className={`lunatic lunatic-component ${
+              options && options.length >= 8 ? 'split-fieldset' : ''
+            }`}
+            key={`component-${id}`}
           >
-            <Buttons
-              readonly={readonly}
-              rereading={validatePages.includes(currentPage)}
-              currentComponent={component}
-              specialAnswer={specialAnswer}
-              page={pageFilter}
-              canContinue={goNextCondition()}
-              specialQueenData={specialQueenData}
-              isLastComponent={isLastComponent}
-              pagePrevious={goPrevious}
-              pageNext={goNext}
-              pageFastForward={goFastForward}
-              finalQuit={quit}
+            <Component
+              id={id}
+              {...props}
+              options={options}
+              responses={responses}
+              handleChange={onChange(component)}
+              labelPosition="TOP"
+              preferences={preferences}
+              features={features}
+              bindings={bindings}
+              filterDescription={filterDescription}
+              writable
+              readOnly={readonly}
+              disabled={readonly}
+              focused
+              keyboardSelection={
+                componentType === 'CheckboxGroup' || componentType === 'CheckboxOne'
+              }
             />
-          </NavBar>
-
-          {KEYBOARD_SHORTCUT_COMPONENTS.includes(componentType) && (
-            <KeyboardEventHandler
-              handleKeys={keyToHandle}
-              onKeyEvent={(key, e) => {
-                e.preventDefault();
-                const responsesName = UQ.getResponsesNameFromComponent(component);
-                const responsesCollected = UQ.getCollectedResponse(questionnaire)(component);
-                const updatedValue = {};
-                if (componentType === 'CheckboxOne') {
-                  const index =
-                    options.length < 10
-                      ? key
-                      : alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase()) + 1;
-                  if (index <= options.length) {
-                    updatedValue[responsesName[0]] = `${index}`;
-                    onChange(component)(updatedValue);
-                  }
-                } else if (componentType === 'CheckboxGroup') {
-                  const index =
-                    (responsesName.length < 10
-                      ? key
-                      : alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase()) + 1) - 1;
-
-                  if (index < responsesName.length) {
-                    updatedValue[responsesName[index]] = !responsesCollected[responsesName[index]];
-                    onChange(component)(updatedValue);
-                  }
-                }
-              }}
-              handleFocusableElements
-            />
-          )}
+          </div>
+          {(!DIRECT_CONTINUE_COMPONENTS.includes(componentType) || readonly) &&
+            (!validatePages.includes(currentPage) || isLastComponent) && (
+              <ContinueButton
+                readonly={readonly}
+                canContinue={goNextCondition()}
+                isLastComponent={isLastComponent}
+                pageNext={goNext}
+                finalQuit={quit}
+              />
+            )}
         </div>
+        <NavBar nbModules={questionnaire.components.filter(c => c.page).length} page={currentPage}>
+          <Buttons
+            readonly={readonly}
+            rereading={validatePages.includes(currentPage)}
+            currentComponent={component}
+            specialAnswer={specialAnswer}
+            page={pageFilter}
+            canContinue={goNextCondition()}
+            specialQueenData={specialQueenData}
+            isLastComponent={isLastComponent}
+            pagePrevious={goPrevious}
+            pageNext={goNext}
+            pageFastForward={goFastForward}
+            finalQuit={quit}
+          />
+        </NavBar>
+
+        {KEYBOARD_SHORTCUT_COMPONENTS.includes(componentType) && (
+          <KeyboardEventHandler
+            handleKeys={keyToHandle}
+            onKeyEvent={(key, e) => {
+              e.preventDefault();
+              const responsesName = UQ.getResponsesNameFromComponent(component);
+              const responsesCollected = UQ.getCollectedResponse(questionnaire)(component);
+              const updatedValue = {};
+              if (componentType === 'CheckboxOne') {
+                const index =
+                  options.length < 10
+                    ? key
+                    : alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase()) + 1;
+                if (index <= options.length) {
+                  updatedValue[responsesName[0]] = `${index}`;
+                  onChange(component)(updatedValue);
+                }
+              } else if (componentType === 'CheckboxGroup') {
+                const index =
+                  (responsesName.length < 10
+                    ? key
+                    : alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase()) + 1) - 1;
+
+                if (index < responsesName.length) {
+                  updatedValue[responsesName[index]] = !responsesCollected[responsesName[index]];
+                  onChange(component)(updatedValue);
+                }
+              }
+            }}
+            handleFocusableElements
+          />
+        )}
       </div>
-    </>
+    </StyleWrapper>
   );
 };
 

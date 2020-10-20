@@ -6,10 +6,9 @@ const widthBorder = '59px'; //60(width grid template) - 1(border-width)
 
 export const StyleWrapper = styled.div`
   width: 100%;
+  flex: 0 1 65px;
   display: grid;
   grid-template-columns: 60px 60px auto 60px;
-  grid-template-rows: 65px;
-
   background-color: white;
   border-right: 0;
   border-left: 0;
@@ -50,8 +49,6 @@ export const StyleWrapper = styled.div`
   .header-title {
     padding: 0.4em;
     padding-left: 1em;
-
-    background-color: ${backgroundHeaderColor};
 
     .questionnaire-title {
       text-transform: uppercase;

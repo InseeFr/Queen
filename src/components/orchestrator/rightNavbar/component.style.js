@@ -10,6 +10,9 @@ export const StyleWrapper = styled.div`
   border-left: 1px solid #777777;
 
   div.page {
+    position: absolute;
+    bottom: 200px;
+    right: 3px;
     padding-top: 0.3em;
     padding-bottom: 0.3em;
     font-size: 80%;
@@ -17,7 +20,6 @@ export const StyleWrapper = styled.div`
     border-radius: 5px;
     width: 90%;
     margin: auto;
-    margin-top: 1em;
     background-color: white;
 
     .label-page {

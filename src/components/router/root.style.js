@@ -12,13 +12,21 @@ const borderInput = '1px solid #767676';
 const mobileWidth = '750';
 
 export const StyleWrapper = styled.div`
+  height: 100%;
+
+  .body-container {
+    flex: 1 1 auto;
+    background-color: ${backgroundBodyColor};
+    display: grid;
+    grid-template-columns: auto 60px;
+    grid-template-rows: 100%;
+  }
+
   * {
     font-family: Gotham SSm A, Gotham SSm B, sans-serif;
   }
 
   .components {
-    padding-top: 2em;
-    min-height: 80vh;
     display: grid;
     grid-template-rows: auto 60px;
   }
@@ -26,6 +34,7 @@ export const StyleWrapper = styled.div`
   .lunatic.lunatic-component {
     width: 80%;
     margin-left: 100px;
+    margin-top: 3em;
     margin-right: auto;
     @media (max-width: ${mobileWidth}px) {
       margin-left: auto;
@@ -98,14 +107,6 @@ export const StyleWrapper = styled.div`
         box-shadow: 0 0 5px ${declarationColor};
       }
     }
-  }
-
-  .body-container {
-    background-color: ${backgroundBodyColor};
-    display: grid;
-    grid-template-columns: auto 60px;
-    grid-template-rows: auto;
-    min-height: 75%;
   }
 
   .split-fieldset fieldset.checkbox-group {

@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import D from 'i18n';
-import { StyleWrapper } from './component.style.js';
+import { StyleWrapper } from './component.style';
 
 const NavBar = ({ nbModules, page, children }) => {
   const currentPage = page;
   const nbTotalPage = nbModules;
 
   return (
-    <StyleWrapper>
+    <StyleWrapper className="nav-bar">
       <div className="page">
         <div className="label-page">n° page</div>
         <div>
