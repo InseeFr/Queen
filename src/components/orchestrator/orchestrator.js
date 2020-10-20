@@ -189,6 +189,7 @@ const Orchestrator = ({
               responses={responses}
               handleChange={onChange}
               labelPosition="TOP"
+              unitPosition="AFTER"
               preferences={preferences}
               features={features}
               bindings={bindings}

@@ -56,6 +56,12 @@ export const StyleWrapper = styled.div`
       font-weight: bold;
     }
 
+    .unit {
+      position: relative;
+      left: 0.5em;
+      font-weight: bold;
+    }
+
     .declaration-lunatic {
       color: ${declarationColor};
       margin-top: 1em;
