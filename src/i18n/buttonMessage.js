@@ -15,8 +15,8 @@ const buttonMessage = {
   closeNotif: { fr: 'Fermer', en: 'Close' },
   synchronizeButton: { fr: 'Synchroniser', en: 'Synchronize' },
   helpShortCut: { fr: 'appuyer sur', en: 'enter' },
-  ctrlEnter: { fr: 'Ctrl + ENTRÉE', en: 'Ctrl + ENTER' },
-  ctrlEnd: { fr: 'Ctrl + Fin', en: 'Ctrl + End' },
+  ctrlEnter: { fr: 'Alt + ENTRÉE', en: 'Alt + ENTER' },
+  ctrlEnd: { fr: 'Alt + Fin', en: 'Alt + End' },
 };
 
 export default buttonMessage;

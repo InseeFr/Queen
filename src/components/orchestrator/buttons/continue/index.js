@@ -11,11 +11,11 @@ const Button = ({ readonly, canContinue, isLastComponent, pageNext, finalQuit })
 
   const continueButtonRef = useRef();
 
-  const keysToHandle = ['ctrl+enter'];
+  const keysToHandle = ['alt+enter'];
 
   const keyboardShortcut = (key, e) => {
     e.preventDefault();
-    if (key === 'ctrl+enter') {
+    if (key === 'alt+enter') {
       if (canContinue) {
         if (continueButtonRef && continueButtonRef.current) continueButtonRef.current.focus();
         pageNextFunction();

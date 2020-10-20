@@ -22,16 +22,16 @@ const Buttons = ({
   const returnLabel = page === 0 ? '' : D.goBackReturn;
   const pageNextFunction = isLastComponent ? finalQuit : pageNext;
 
-  const keysToHandle = ['ctrl+enter', 'ctrl+backspace', 'ctrl+end'];
+  const keysToHandle = ['alt+enter', 'alt+backspace', 'alt+end'];
 
   const keyboardShortcut = (key, e) => {
     e.preventDefault();
-    if (key === 'ctrl+enter' && ((!isLastComponent && rereading && canContinue) || readonly)) {
+    if (key === 'alt+enter' && ((!isLastComponent && rereading && canContinue) || readonly)) {
       if (nextButtonRef && nextButtonRef.current) nextButtonRef.current.focus();
       pageNextFunction();
     }
-    if (key === 'ctrl+backspace') pagePrevious();
-    if (key === 'ctrl+end' && !readonly && rereading && !isLastComponent) {
+    if (key === 'alt+backspace') pagePrevious();
+    if (key === 'alt+end' && !readonly && rereading && !isLastComponent) {
       if (fastNextButtonRef && fastNextButtonRef.current) fastNextButtonRef.current.focus();
       pageFastForward();
     }
