@@ -140,7 +140,7 @@ export const StyleWrapper = styled.div`
     .code-modality {
       position: relative;
       left: -1em;
-      padding: 0.3em 0.3em 0.3em 0.5em; // 0.3em 0.5em 0.3em 0.5em; (when PR in lunatic will be accepted)
+      padding: 0.3em 0.5em 0.3em 0.5em;
       color: ${modalityLabelColor};
       font-weight: bold;
       border: 1px solid ${borderColorCheckbox};
