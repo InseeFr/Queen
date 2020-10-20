@@ -15,7 +15,7 @@ do
   # Otherwise use value from .env file
   [[ -z $value ]] && value=${varvalue}
 
-  export $varname=$value  
+  export $varname=$value
   
 done < .env
 envsubst < "./configuration.json" > "configuration.temp"
