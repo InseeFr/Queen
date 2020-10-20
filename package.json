@@ -1,6 +1,6 @@
 {
   "name": "queen",
-  "version": "0.2.11",
+  "version": "0.3.0",
   "private": true,
   "dependencies": {
     "@inseefr/lunatic": "^2.0.0-rc11",
