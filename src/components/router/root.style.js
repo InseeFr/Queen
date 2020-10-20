@@ -92,7 +92,8 @@ export const StyleWrapper = styled.div`
       margin-left: 1em;
       border-radius: 10px;
       border: ${borderInput};
-      width: 80%;
+      width: 55%;
+      min-width: 200px;
       height: 10em;
       &:focus {
         outline: none;
@@ -106,7 +107,8 @@ export const StyleWrapper = styled.div`
       margin-left: 1em;
       border-radius: 10px;
       border: ${borderInput};
-      width: 80%;
+      width: 55%;
+      min-width: 200px;
       height: 1.5em;
       &:focus {
         outline: none;
