@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
+import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import * as lunatic from '@inseefr/lunatic';
 import D from 'i18n';
@@ -22,6 +23,7 @@ const Header = ({
   validatePages,
 }) => {
   const setToFirstPage = useCallback(() => setPage(1), [setPage]);
+  const quitButtonRef = useRef();
 
   const sequenceBinded = {
     ...sequence,
@@ -34,6 +36,11 @@ const Header = ({
         label: lunatic.interpret(['VTL'])(bindings)(subsequence.label),
       }
     : null;
+
+  const quitShortCut = () => {
+    if (quitButtonRef && quitButtonRef.current) quitButtonRef.current.focus();
+    quit();
+  };
 
   return (
     <StyleWrapper className={`${standalone ? 'standalone' : ''}`}>
@@ -67,11 +74,18 @@ const Header = ({
         )}
       </div>
       {!standalone && (
-        <div className="header-item header-close">
-          <button type="button" className="close-icon" onClick={quit}>
-            <CloseIcon width={40} />
-          </button>
-        </div>
+        <>
+          <div className="header-item header-close">
+            <button ref={quitButtonRef} type="button" className="close-icon" onClick={quit}>
+              <CloseIcon width={40} />
+            </button>
+          </div>
+          <KeyboardEventHandler
+            handleKeys={['alt+q']}
+            onKeyEvent={quitShortCut}
+            handleFocusableElements
+          />
+        </>
       )}
     </StyleWrapper>
   );
