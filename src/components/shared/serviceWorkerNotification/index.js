@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import D from 'i18n';
+import { useServiceWorker } from 'utils/hook';
 import { StyleWrapper } from './notification.style';
 
-const Notification = ({ serviceWorkerInfo }) => {
-  const [open, setOpen] = useState(true);
-
+const ServiceWorkerNotification = ({ authenticated, standalone }) => {
   const {
     isUpdating,
     isUpdateInstalled,
@@ -15,7 +14,12 @@ const Notification = ({ serviceWorkerInfo }) => {
     isInstallationFailed,
     updateApp,
     clearUpdating,
-  } = serviceWorkerInfo;
+  } = useServiceWorker({
+    authenticated,
+    standalone,
+  });
+
+  const [open, setOpen] = useState(true);
 
   const getMessage = () => {
     if (isUpdating) return D.updating;
@@ -56,16 +60,9 @@ const Notification = ({ serviceWorkerInfo }) => {
   );
 };
 
-export default Notification;
-Notification.propTypes = {
-  serviceWorkerInfo: PropTypes.shape({
-    isUpdating: PropTypes.bool.isRequired,
-    isUpdateInstalled: PropTypes.bool,
-    isInstallingServiceWorker: PropTypes.bool.isRequired,
-    isUpdateAvailable: PropTypes.bool.isRequired,
-    isServiceWorkerInstalled: PropTypes.bool.isRequired,
-    isInstallationFailed: PropTypes.bool.isRequired,
-    updateApp: PropTypes.func.isRequired,
-    clearUpdating: PropTypes.func.isRequired,
-  }).isRequired,
+export default ServiceWorkerNotification;
+
+ServiceWorkerNotification.propTypes = {
+  authenticated: PropTypes.bool.isRequired,
+  standalone: PropTypes.bool.isRequired,
 };
