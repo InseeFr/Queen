@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
@@ -17,6 +17,8 @@ const Buttons = ({
   pageFastForward,
   finalQuit,
 }) => {
+  const nextButtonRef = useRef();
+  const fastNextButtonRef = useRef();
   const returnLabel = page === 0 ? '' : D.goBackReturn;
   const pageNextFunction = isLastComponent ? finalQuit : pageNext;
 
@@ -25,10 +27,14 @@ const Buttons = ({
   const keyboardShortcut = (key, e) => {
     e.preventDefault();
     if (key === 'ctrl+enter' && ((!isLastComponent && rereading && canContinue) || readonly)) {
+      if (nextButtonRef && nextButtonRef.current) nextButtonRef.current.focus();
       pageNextFunction();
     }
     if (key === 'ctrl+backspace') pagePrevious();
-    if (key === 'ctrl+end' && !readonly) pageFastForward();
+    if (key === 'ctrl+end' && !readonly && rereading && !isLastComponent) {
+      if (fastNextButtonRef && fastNextButtonRef.current) fastNextButtonRef.current.focus();
+      pageFastForward();
+    }
   };
 
   return (
@@ -45,6 +51,7 @@ const Buttons = ({
         {((readonly && !isLastComponent) || (!isLastComponent && rereading)) && (
           <div className="short-button next navigation">
             <button
+              ref={nextButtonRef}
               aria-label={D.nextButtonLabel}
               className="navigation-button short"
               type="button"
@@ -58,7 +65,12 @@ const Buttons = ({
         )}
         {!readonly && rereading && !isLastComponent && (
           <div className="fast-button navigation">
-            <button className="navigation-button" type="button" onClick={pageFastForward}>
+            <button
+              ref={fastNextButtonRef}
+              className="navigation-button"
+              type="button"
+              onClick={pageFastForward}
+            >
               {`${D.fastForward}`}
               <IconFastForward className="fast-icon" />
             </button>
