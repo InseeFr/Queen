@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
@@ -11,17 +11,28 @@ const Button = ({ readonly, canContinue, isLastComponent, pageNext, finalQuit })
 
   const continueButtonRef = useRef();
 
+  const [changePagePending, setChangePagePending] = useState(null);
+  const [focus, setFocus] = useState(false);
   const keysToHandle = ['alt+enter'];
 
   const keyboardShortcut = (key, e) => {
     e.preventDefault();
-    if (key === 'alt+enter') {
-      if (canContinue) {
-        if (continueButtonRef && continueButtonRef.current) continueButtonRef.current.focus();
-        pageNextFunction();
+    if (key === 'alt+enter' && canContinue) {
+      if (continueButtonRef && continueButtonRef.current) {
+        setChangePagePending('next');
+        continueButtonRef.current.focus();
       }
     }
   };
+
+  useEffect(() => {
+    if (focus && changePagePending === 'next') {
+      setChangePagePending(null);
+      pageNextFunction();
+    }
+  }, [focus, changePagePending, pageNextFunction]);
+
+  const onfocus = value => () => setFocus(value);
 
   const componentToDisplay = (
     <>
@@ -32,6 +43,8 @@ const Button = ({ readonly, canContinue, isLastComponent, pageNext, finalQuit })
             aria-label={getNextLabel}
             type="button"
             onClick={pageNextFunction}
+            onFocus={onfocus(true)}
+            onBlur={onfocus(false)}
             disabled={!canContinue && !readonly}
           >
             {`${getNextLabel} ${(!isLastComponent && '\u2192') || ''}`}

@@ -53,7 +53,6 @@ const Orchestrator = ({
     );
     return page >= 1 ? Array.from(Array(page - 1), (_, i) => i + 1) : [];
   });
-  const [previousResponse, setPreviousResponse] = useState(null);
 
   const addValidatePage = useCallback(() => {
     let newValidatePages = validatePages;
@@ -63,21 +62,6 @@ const Orchestrator = ({
     }
     return newValidatePages;
   }, [currentPage, validatePages, setValidatePages]);
-
-  /**
-   * This function updates the values of the questionnaire responses
-   * from the data entered by the user.
-   * This function is disabled when app is in readonly mode.
-   * @param {*} component the current component
-   */
-  const onChange = component => async updatedValue => {
-    if (!readonly) {
-      await handleChange(updatedValue);
-      if (!previousResponse) {
-        setPreviousResponse(UQ.getCollectedResponse(questionnaire)(component));
-      }
-    }
-  };
 
   const filteredComponents = components.filter(c => c.page);
 
@@ -112,14 +96,12 @@ const Orchestrator = ({
   };
 
   const goPrevious = () => {
-    setPreviousResponse(null);
     setCurrentPage(UQ.getPreviousPage(filteredComponents)(currentPage));
   };
 
   const goNext = useCallback(
     async (lastSpecialQueenData = specialQueenData) => {
       saveQueen(lastSpecialQueenData);
-      setPreviousResponse(null);
       const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
       addValidatePage();
       setCurrentPage(nextPage);
@@ -130,7 +112,6 @@ const Orchestrator = ({
   const goFastForward = useCallback(
     (lastSpecialQueenData = specialQueenData) => {
       saveQueen(lastSpecialQueenData);
-      setPreviousResponse(null);
       const newValidatePages = addValidatePage();
       const filteredPage = filteredComponents.map(({ page }) => page);
       const reachesValidatePage = filteredPage.filter(p => newValidatePages.includes(p));
@@ -138,7 +119,6 @@ const Orchestrator = ({
       const pageOfLastComponentToValidate =
         reachesNotValidatePage[0] ||
         UQ.getNextPage(filteredComponents)(Math.max(...reachesValidatePage));
-
       setCurrentPage(pageOfLastComponentToValidate);
     },
     [saveQueen, addValidatePage, filteredComponents, specialQueenData]
@@ -158,18 +138,22 @@ const Orchestrator = ({
     close();
   };
 
-  useEffect(() => {
-    if (
-      !isLastComponent &&
-      previousResponse &&
-      DIRECT_CONTINUE_COMPONENTS.includes(componentType)
-    ) {
-      // Lets the user see his response
-      setTimeout(() => {
-        goNext();
-      }, 100);
+  /**
+   * This function updates the values of the questionnaire responses
+   * from the data entered by the user.
+   * This function is disabled when app is in readonly mode.
+   * @param {*} component the current component
+   */
+  const onChange = async updatedValue => {
+    if (!readonly) {
+      await handleChange(updatedValue);
+      if (!isLastComponent && DIRECT_CONTINUE_COMPONENTS.includes(componentType)) {
+        setTimeout(() => {
+          goNext();
+        }, 100);
+      }
     }
-  }, [questionnaire, componentType, previousResponse, isLastComponent, goNext]);
+  };
 
   const Component = lunatic[componentType];
 
@@ -203,7 +187,7 @@ const Orchestrator = ({
               {...props}
               options={options}
               responses={responses}
-              handleChange={onChange(component)}
+              handleChange={onChange}
               labelPosition="TOP"
               preferences={preferences}
               features={features}
@@ -242,7 +226,6 @@ const Orchestrator = ({
             pagePrevious={goPrevious}
             pageNext={goNext}
             pageFastForward={goFastForward}
-            finalQuit={quit}
           />
         </NavBar>
 
@@ -261,7 +244,7 @@ const Orchestrator = ({
                     : alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase()) + 1;
                 if (index <= options.length) {
                   updatedValue[responsesName[0]] = `${index}`;
-                  onChange(component)(updatedValue);
+                  onChange(updatedValue);
                 }
               } else if (componentType === 'CheckboxGroup') {
                 const index =
@@ -271,7 +254,7 @@ const Orchestrator = ({
 
                 if (index < responsesName.length) {
                   updatedValue[responsesName[index]] = !responsesCollected[responsesName[index]];
-                  onChange(component)(updatedValue);
+                  onChange(updatedValue);
                 }
               }
             }}
