@@ -1,9 +1,9 @@
 import React from 'react';
 import D from 'i18n';
 import { QUEEN_URL } from 'utils/constants';
+import { Link } from 'react-router-dom';
 import { StyleWrapper } from './not-found.style';
 import { version } from '../../../../package.json';
-import { Link } from 'react-router-dom';
 
 export default () => {
   const questionnaireExampleUrl = encodeURIComponent(
