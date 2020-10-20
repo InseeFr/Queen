@@ -57,6 +57,10 @@ const dictionary = {
     fr: 'Synchronisation manuelle',
     en: 'Manual synchronization',
   },
+  seeQuestionnaireExample: {
+    fr: 'Voir un exemple de questionnaire',
+    en: 'See a example of a questionnaire',
+  },
 
   ...buttonMessage,
   ...navigationMessage,
