@@ -1240,13 +1240,12 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@inseefr/lunatic@^2.0.0-rc10":
-  version "2.0.0-rc10"
-  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-2.0.0-rc10.tgz#f5bdb0d05c34293b192a14d4ec082be4c4983f39"
-  integrity sha512-Wgd/t4riD9hlpHnedMAvw8yGXELTOsm4ZEed7rghURvK7OiHe8+/5vRF49bsj5Owyc98QgalETnN6VzzLNAYbA==
+"@inseefr/lunatic@^2.0.0-rc11":
+  version "2.0.0-rc11"
+  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-2.0.0-rc11.tgz#a48f9787a333677467e1e9b985413376680b5286"
+  integrity sha512-sbGJaV9ylSPaQlCalNbAc/lB8asqYpoyV6Q1cHG3rPh1yPjqGVc7gu8I1FDgN/UhDdGQ0xmaJ/zI3Al0CUeTrw==
   dependencies:
     "@inseefr/vtl-2.1-engine" "^0.1.3"
-    debounce "^1.2.0"
     keycode "^2.2.0"
     lodash.camelcase "^4.3.0"
     lodash.isequal "^4.5.0"
@@ -3992,11 +3991,6 @@ dayjs@^1.8.12:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.9.3.tgz#b7f94b22ad2a136a4ca02a01ab68ae893fe1a268"
   integrity sha512-V+1SyIvkS+HmNbN1G7A9+ERbFTV9KTXu6Oor98v2xHmzzpp52OIJhQuJSTywWuBY5pyAEmlwbCi1Me87n/SLOw==
-
-debounce@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.2.0.tgz#44a540abc0ea9943018dc0eaa95cce87f65cd131"
-  integrity sha512-mYtLl1xfZLi1m4RtQYlZgJUNQjl4ZxVnHzIR8nLLgi4q1YT8o/WM+MK/f8yfcc9s5Ir5zRaPZyZU6xs1Syoocg==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.9:
   version "2.6.9"
