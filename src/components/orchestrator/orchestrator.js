@@ -138,11 +138,11 @@ const Orchestrator = ({
     if (!started && !standalone && validatePages.length > 0) start();
   }, [validatePages, started, standalone, surveyUnit.id]);
 
-  const quit = async () => {
+  const quit = useCallback(async () => {
     await saveQueen();
     if (isLastComponent && !standalone) await sendCompletedEvent(surveyUnit.id);
     close();
-  };
+  }, [saveQueen, isLastComponent, standalone, surveyUnit.id, close]);
 
   /**
    * This function updates the values of the questionnaire responses
