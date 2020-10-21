@@ -18,11 +18,14 @@ export const StyleWrapper = styled.div`
     margin-top: 4em;
   }
 
+  #label-input-questionnaire {
+    margin-right: 1em;
+  }
+
   .input-questionnaire {
     padding-right: 0.5em;
     padding-left: 0.5em;
     font-size: 100%;
-    margin-left: 1em;
     border-radius: 10px;
     border: 1px solid #767676;
     width: 55%;

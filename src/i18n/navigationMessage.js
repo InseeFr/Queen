@@ -7,6 +7,10 @@ const navigationMessage = {
     en: 'Back to the beginning of the questionnaire',
   },
   surveyNavigation: { fr: 'Enquête', en: 'Survey' },
+  goToVisualizePage: {
+    fr: 'Allez vers la page de visualisation',
+    en: 'Go to the visualization page',
+  },
 };
 
 export default navigationMessage;
