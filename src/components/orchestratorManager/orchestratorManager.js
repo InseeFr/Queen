@@ -141,9 +141,6 @@ OrchestratorManager.propTypes = {
       idSU: PropTypes.node,
     }),
   }).isRequired,
-  location: PropTypes.shape({
-    search: PropTypes.string,
-  }).isRequired,
   configuration: PropTypes.shape({
     standalone: PropTypes.bool.isRequired,
     QUEEN_URL: PropTypes.string.isRequired,
