@@ -1,24 +1,8 @@
 import { AUTHENTICATION_MODE_ENUM } from 'utils/constants';
 import { initialize as init } from './initialize';
 
-export const initialize = (
-  questionnaireUrl,
-  configuration,
-  idQuestionnaire,
-  idSurveyUnit,
-  setWaitingMessage,
-  setQuestionnaire,
-  setSurveyUnit
-) => {
-  const params = {
-    questionnaireUrl,
-    configuration,
-    idQuestionnaire,
-    idSurveyUnit,
-    setWaitingMessage,
-    setQuestionnaire,
-    setSurveyUnit,
-  };
+export const initialize = params => {
+  const { configuration } = params;
   const { QUEEN_AUTHENTICATION_MODE } = configuration;
   let initializeFunction;
   if (AUTHENTICATION_MODE_ENUM.includes(QUEEN_AUTHENTICATION_MODE)) {

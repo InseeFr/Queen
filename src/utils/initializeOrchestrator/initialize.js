@@ -11,6 +11,7 @@ import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-servic
 import D from 'i18n';
 
 export const initialize = ({
+  visualize,
   questionnaireUrl,
   configuration,
   idQuestionnaire,
@@ -34,10 +35,10 @@ export const initialize = ({
    */
   setWaitingMessage(D.waitingQuestionnaire);
   let questionnaire;
-  if (questionnaireUrl) {
+  if (visualize && !!questionnaireUrl) {
     const response = await getQuestionnaireByUrl(questionnaireUrl);
     questionnaire = response.data;
-  } else {
+  } else if (!visualize) {
     const response = await getQuestionnaireById(
       QUEEN_API_URL,
       QUEEN_AUTHENTICATION_MODE

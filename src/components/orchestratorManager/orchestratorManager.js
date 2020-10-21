@@ -39,15 +39,16 @@ const OrchestratorManager = ({ match, location, configuration, visualize = false
         setWaiting(true);
         const initOrchestrator = async () => {
           try {
-            const initialization = initialize(
+            const initialization = initialize({
+              visualize,
               questionnaireUrl,
               configuration,
-              match.params.idQ,
-              match.params.idSU,
+              idQuestionnaire: match.params.idQ,
+              idSurveyUnit: match.params.idSU,
               setWaitingMessage,
               setQuestionnaire,
-              setSurveyUnit
-            );
+              setSurveyUnit,
+            });
             await initialization();
           } catch (e) {
             setError(true);
@@ -66,6 +67,7 @@ const OrchestratorManager = ({ match, location, configuration, visualize = false
     match.params.idQ,
     match.params.idSU,
     questionnaireUrl,
+    visualize,
   ]);
 
   /**
