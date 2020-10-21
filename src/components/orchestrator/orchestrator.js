@@ -141,6 +141,7 @@ const Orchestrator = ({
   const quit = useCallback(async () => {
     await saveQueen();
     if (isLastComponent && !standalone) await sendCompletedEvent(surveyUnit.id);
+    setPendingChangePage(null);
     close();
   }, [saveQueen, isLastComponent, standalone, surveyUnit.id, close]);
 
