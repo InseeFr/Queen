@@ -17,6 +17,7 @@ const buttonMessage = {
   helpShortCut: { fr: 'appuyer sur', en: 'enter' },
   ctrlEnter: { fr: 'Alt + ENTRÉE', en: 'Alt + ENTER' },
   ctrlEnd: { fr: 'Alt + Fin', en: 'Alt + End' },
+  visualize: { fr: 'Visualiser', en: 'Visualize' },
 };
 
 export default buttonMessage;

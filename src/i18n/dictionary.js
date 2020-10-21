@@ -61,6 +61,11 @@ const dictionary = {
     fr: 'Voir un exemple de questionnaire',
     en: 'See a example of a questionnaire',
   },
+  visualizationTitlePage: {
+    fr: 'Page de visualisation de questionnaire',
+    en: 'Questionnaire preview page',
+  },
+  questionnaireUrl: { fr: 'URL du questionnaire', en: 'Questionnaire URL' },
 
   ...buttonMessage,
   ...navigationMessage,
