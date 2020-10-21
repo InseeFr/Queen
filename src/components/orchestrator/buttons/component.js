@@ -13,8 +13,7 @@ const Buttons = ({
   canContinue,
   isLastComponent,
   pagePrevious,
-  pageNext,
-  pageFastForward,
+  setPendingChangePage,
 }) => {
   const nextButtonRef = useRef();
   const fastNextButtonRef = useRef();
@@ -28,32 +27,37 @@ const Buttons = ({
   const onfocusNext = value => () => setFocusNext(value);
   const onfocusFastForward = value => () => setFocusFastForward(value);
 
-  const [changePagePending, setChangePagePending] = useState(null);
+  const [pageChanging, setPageChanging] = useState(false);
+
+  const localPageNext = () => setPageChanging('next');
+  const localPageFastForward = () => setPageChanging('fastForward');
+
+  useEffect(() => {
+    setPageChanging(false);
+  }, [page]);
 
   const keyboardShortcut = (key, e) => {
     e.preventDefault();
     if (key === 'alt+enter' && ((!isLastComponent && rereading && canContinue) || readonly)) {
       if (nextButtonRef && nextButtonRef.current) {
-        setChangePagePending('next');
         nextButtonRef.current.focus();
+        localPageNext();
       }
     }
     if (key === 'alt+backspace') pagePrevious();
     if (key === 'alt+end' && !readonly && rereading && !isLastComponent) {
       if (fastNextButtonRef && fastNextButtonRef.current) {
-        setChangePagePending('fastForward');
         fastNextButtonRef.current.focus();
+        localPageFastForward('fastForward');
       }
     }
   };
 
   useEffect(() => {
-    if ((focusNext || focusFastForward) && changePagePending) {
-      setChangePagePending(null);
-      if (changePagePending === 'next') pageNext();
-      if (changePagePending === 'fastForward') pageFastForward();
+    if ((focusNext || focusFastForward) && pageChanging) {
+      setPendingChangePage(pageChanging);
     }
-  }, [focusNext, focusFastForward, changePagePending, pageNext, pageFastForward]);
+  }, [focusNext, focusFastForward, pageChanging, setPendingChangePage]);
 
   return (
     <>
@@ -73,7 +77,7 @@ const Buttons = ({
               aria-label={D.nextButtonLabel}
               className="navigation-button short"
               type="button"
-              onClick={pageNext}
+              onClick={localPageNext}
               onFocus={onfocusNext(true)}
               onBlur={onfocusNext(false)}
               disabled={!canContinue && !readonly}
@@ -89,7 +93,7 @@ const Buttons = ({
               ref={fastNextButtonRef}
               className="navigation-button"
               type="button"
-              onClick={pageFastForward}
+              onClick={localPageFastForward}
               onFocus={onfocusFastForward(true)}
               onBlur={onfocusFastForward(false)}
             >
@@ -117,9 +121,8 @@ Buttons.propTypes = {
   page: PropTypes.number.isRequired,
   canContinue: PropTypes.bool.isRequired,
   isLastComponent: PropTypes.bool.isRequired,
-  pageNext: PropTypes.func.isRequired,
   pagePrevious: PropTypes.func.isRequired,
-  pageFastForward: PropTypes.func.isRequired,
+  setPendingChangePage: PropTypes.func.isRequired,
 };
 
 export default React.memo(Buttons);

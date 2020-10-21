@@ -33,6 +33,9 @@ const Orchestrator = ({
     return false;
   });
 
+  const [pendingChangePage, setPendingChangePage] = useState(null);
+  const [questionnaireUpdated, setQuestionnaireUpdated] = useState(true);
+
   const { questionnaire, components, handleChange, bindings } = lunatic.useLunatic(
     source,
     dataSU.data,
@@ -69,7 +72,7 @@ const Orchestrator = ({
   const { id, componentType, sequence, subsequence, options, responses, ...props } = component;
   // TODO : get specialAnswer from component (specified in Pogues)
   // to wait, set to false by default
-  const specialAnswer = { refusal: false, doesntKnow: false };
+  // const specialAnswer = { refusal: false, doesntKnow: false };
 
   const pageFilter = UQ.findPageIndex(filteredComponents)(currentPage);
   const isLastComponent = filteredComponents.length - 1 === pageFilter;
@@ -96,6 +99,7 @@ const Orchestrator = ({
   };
 
   const goPrevious = () => {
+    setPendingChangePage(null);
     setCurrentPage(UQ.getPreviousPage(filteredComponents)(currentPage));
   };
 
@@ -104,6 +108,7 @@ const Orchestrator = ({
       saveQueen(lastSpecialQueenData);
       const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
       addValidatePage();
+      setPendingChangePage(null);
       setCurrentPage(nextPage);
     },
     [filteredComponents, saveQueen, addValidatePage, specialQueenData, currentPage]
@@ -119,6 +124,7 @@ const Orchestrator = ({
       const pageOfLastComponentToValidate =
         reachesNotValidatePage[0] ||
         UQ.getNextPage(filteredComponents)(Math.max(...reachesValidatePage));
+      setPendingChangePage(null);
       setCurrentPage(pageOfLastComponentToValidate);
     },
     [saveQueen, addValidatePage, filteredComponents, specialQueenData]
@@ -146,7 +152,9 @@ const Orchestrator = ({
    */
   const onChange = async updatedValue => {
     if (!readonly) {
+      setQuestionnaireUpdated(false);
       await handleChange(updatedValue);
+      setQuestionnaireUpdated(true);
       if (!isLastComponent && DIRECT_CONTINUE_COMPONENTS.includes(componentType)) {
         setTimeout(() => {
           goNext();
@@ -154,6 +162,14 @@ const Orchestrator = ({
       }
     }
   };
+
+  useEffect(() => {
+    if (questionnaireUpdated && pendingChangePage) {
+      if (pendingChangePage === 'next') goNext();
+      if (pendingChangePage === 'fastForward') goFastForward();
+      if (pendingChangePage === 'quit') quit();
+    }
+  }, [questionnaireUpdated, pendingChangePage, goNext, goFastForward, quit]);
 
   const Component = lunatic[componentType];
 
@@ -209,8 +225,8 @@ const Orchestrator = ({
                 readonly={readonly}
                 canContinue={goNextCondition()}
                 isLastComponent={isLastComponent}
-                pageNext={goNext}
-                finalQuit={quit}
+                page={pageFilter}
+                setPendingChangePage={setPendingChangePage}
               />
             )}
         </div>
@@ -218,15 +234,11 @@ const Orchestrator = ({
           <Buttons
             readonly={readonly}
             rereading={validatePages.includes(currentPage)}
-            currentComponent={component}
-            specialAnswer={specialAnswer}
             page={pageFilter}
             canContinue={goNextCondition()}
-            specialQueenData={specialQueenData}
             isLastComponent={isLastComponent}
             pagePrevious={goPrevious}
-            pageNext={goNext}
-            pageFastForward={goFastForward}
+            setPendingChangePage={setPendingChangePage}
           />
         </NavBar>
 
