@@ -12,12 +12,7 @@ import * as api from 'utils/api';
 import Orchestrator from '../orchestrator';
 import NotFound from '../shared/not-found';
 
-const OrchestratorManager = ({ match, location, configuration, visualize = false }) => {
-  const [questionnaireUrl] = useState(() => {
-    const urlSearch = new URLSearchParams(location.search);
-    return urlSearch.get('questionnaire');
-  });
-
+const OrchestratorManager = ({ match, configuration, visualize = null }) => {
   const [init, setInit] = useState(false);
 
   const [questionnaire, setQuestionnaire] = useState(undefined);
@@ -41,7 +36,6 @@ const OrchestratorManager = ({ match, location, configuration, visualize = false
           try {
             const initialization = initialize({
               visualize,
-              questionnaireUrl,
               configuration,
               idQuestionnaire: match.params.idQ,
               idSurveyUnit: match.params.idSU,
@@ -60,15 +54,7 @@ const OrchestratorManager = ({ match, location, configuration, visualize = false
         initOrchestrator();
       }
     }
-  }, [
-    init,
-    configuration,
-    match.params.readonly,
-    match.params.idQ,
-    match.params.idSU,
-    questionnaireUrl,
-    visualize,
-  ]);
+  }, [init, configuration, match.params.readonly, match.params.idQ, match.params.idSU, visualize]);
 
   /**
    * Build special questionnaire for Queen
@@ -164,7 +150,7 @@ OrchestratorManager.propTypes = {
     QUEEN_API_URL: PropTypes.string.isRequired,
     QUEEN_AUTHENTICATION_MODE: PropTypes.oneOf(AUTHENTICATION_MODE_ENUM).isRequired,
   }).isRequired,
-  visualize: PropTypes.bool.isRequired,
+  visualize: PropTypes.string.isRequired,
 };
 
 export default OrchestratorManager;

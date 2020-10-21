@@ -12,7 +12,6 @@ import D from 'i18n';
 
 export const initialize = ({
   visualize,
-  questionnaireUrl,
   configuration,
   idQuestionnaire,
   idSurveyUnit,
@@ -35,10 +34,10 @@ export const initialize = ({
    */
   setWaitingMessage(D.waitingQuestionnaire);
   let questionnaire;
-  if (visualize && !!questionnaireUrl) {
-    const response = await getQuestionnaireByUrl(questionnaireUrl);
+  if (visualize) {
+    const response = await getQuestionnaireByUrl(visualize);
     questionnaire = response.data;
-  } else if (!visualize) {
+  } else {
     const response = await getQuestionnaireById(
       QUEEN_API_URL,
       QUEEN_AUTHENTICATION_MODE
@@ -57,7 +56,7 @@ export const initialize = ({
    * Get resources for questionnaire
    * (waiting for spec)
    */
-  if (standalone && !questionnaireUrl) {
+  if (standalone && !visualize) {
     setWaitingMessage(D.waitingResources);
     const resourcesResponse = await getListRequiredNomenclature(
       QUEEN_API_URL,
@@ -76,7 +75,7 @@ export const initialize = ({
    *    embedded mode   : get data from database
    */
   setWaitingMessage(D.waitingDataSU);
-  if (standalone && !questionnaireUrl) {
+  if (standalone && !visualize) {
     const dataResponse = await getDataSurveyUnitById(
       QUEEN_API_URL,
       QUEEN_AUTHENTICATION_MODE
@@ -93,7 +92,7 @@ export const initialize = ({
       comment: surveyUnitComment,
     });
   }
-  if (standalone && questionnaireUrl) {
+  if (standalone && visualize) {
     await surveyUnitIdbService.addOrUpdateSU({
       id: '1234',
       data: {},

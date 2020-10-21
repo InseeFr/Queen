@@ -10,6 +10,7 @@ import { useAuth } from 'utils/hook';
 import Preloader from 'components/shared/preloader';
 import Error from 'components/shared/Error';
 import Synchronize from 'components/Synchronize';
+import Visualizer from 'components/visualizer';
 import { StyleWrapper } from './root.style';
 
 const Rooter = ({ configuration }) => {
@@ -40,7 +41,7 @@ const Rooter = ({ configuration }) => {
               <Route
                 path="/queen/visualize"
                 component={routeProps => (
-                  <OrchestratorManager {...routeProps} configuration={configuration} visualize />
+                  <Visualizer {...routeProps} configuration={configuration} />
                 )}
               />
               <Route path={standalone ? '/' : '/queen'} component={NotFound} />
