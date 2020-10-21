@@ -1,14 +1,12 @@
 import React from 'react';
 import D from 'i18n';
-import { QUEEN_URL } from 'utils/constants';
+import { QUESTIONNAIRE_EXAMPLE_URL } from 'utils/constants';
 import { Link } from 'react-router-dom';
 import { StyleWrapper } from './not-found.style';
 import { version } from '../../../../package.json';
 
 export default () => {
-  const questionnaireExampleUrl = encodeURIComponent(
-    `${QUEEN_URL}/static/questionnaire/simpsons.json`
-  );
+  const questionnaireExampleUrl = encodeURIComponent(QUESTIONNAIRE_EXAMPLE_URL);
   return (
     <StyleWrapper>
       <div className="content">
