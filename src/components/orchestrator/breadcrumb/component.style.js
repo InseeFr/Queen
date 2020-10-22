@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 const declarationColor = '#085394';
 
 export const StyleWrapper = styled.div`
@@ -11,9 +12,15 @@ export const StyleWrapper = styled.div`
   color: black;
   margin-top: 0.3em;
 
-  .breadcrumb-lunatic {
+  .breadcrumb-queen button {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
     text-transform: uppercase;
     font-size: 95%;
+    &:hover {
+      font-weight: bold;
+    }
 
     &::before {
       content: '\u3009';
@@ -21,13 +28,13 @@ export const StyleWrapper = styled.div`
       font-weight: bold;
     }
   }
-
-  .breadcrumb-element-lunatic {
+  button.breadcrumb-element-queen {
     &::before {
       content: '\u3009';
       margin-right: 0.8em;
       font-weight: bold;
     }
+
     margin-left: 0.8em;
     display: inline;
     padding-bottom: 3px;

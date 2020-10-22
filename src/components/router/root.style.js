@@ -4,32 +4,116 @@ const declarationColor = '#085394';
 const backgroundBodyColor = '#eeeeee';
 const borderColorCheckbox = '#aaaaaa';
 const backgroundColorCheckbox = '#d6d6d6';
+const backgroundColorCheckboxChecked = '#9fc5f8';
 const modalityLabelColor = 'black';
 const modalityLabelColorChecked = '#1d63a0';
 const modalityCodeBackgroundColor = 'white';
+const borderInput = '1px solid #767676';
+const mobileWidth = '750';
 
 export const StyleWrapper = styled.div`
-  .components .declaration-lunatic {
-    color: ${declarationColor};
-  }
+  height: 100%;
 
   .body-container {
+    flex: 1 1 auto;
     background-color: ${backgroundBodyColor};
     display: grid;
     grid-template-columns: auto 60px;
-    grid-template-rows: auto;
-    min-height: 75%;
+    grid-template-rows: 100%;
+  }
+
+  * {
+    font-family: Gotham SSm A, Gotham SSm B, sans-serif;
   }
 
   .components {
-    padding-top: 2em;
-    min-height: 80vh;
     display: grid;
     grid-template-rows: auto 60px;
-    .lunatic-component {
-      width: 80%;
+  }
+
+  .lunatic.lunatic-component {
+    width: 80%;
+    margin-left: 100px;
+    margin-top: 3em;
+    margin-right: auto;
+    @media (max-width: ${mobileWidth}px) {
       margin-left: auto;
-      margin-right: auto;
+    }
+
+    .datepicker-lunatic {
+      font-size: 100%;
+      margin-left: 1em;
+      border-radius: 10px;
+      border: ${borderInput};
+      padding: 5px;
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 5px ${declarationColor};
+      }
+    }
+
+    > label {
+      font-weight: bold;
+    }
+
+    .unit {
+      position: relative;
+      left: 0.5em;
+      font-weight: bold;
+    }
+
+    .declaration-lunatic {
+      color: ${declarationColor};
+      margin-top: 1em;
+      font-weight: normal;
+      font-size: 92%;
+    }
+
+    .label-top label {
+      font-weight: bold;
+    }
+    .lunatic-dropdown-label {
+      font-weight: bold;
+    }
+    .checkbox-boolean-modality label {
+      font-weight: bold;
+    }
+
+    fieldset legend {
+      font-weight: bold;
+    }
+
+    .field-container {
+      margin-top: 1em;
+    }
+    .textarea-lunatic {
+      padding: 0.5em;
+      font-size: 100%;
+      margin-left: 1em;
+      border-radius: 10px;
+      border: ${borderInput};
+      width: 55%;
+      min-width: 200px;
+      height: 10em;
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 5px ${declarationColor};
+      }
+    }
+    .input-lunatic {
+      padding-right: 0.5em;
+      padding-left: 0.5em;
+      font-size: 100%;
+      margin-left: 1em;
+      border-radius: 10px;
+      border: ${borderInput};
+      width: 55%;
+      min-width: 200px;
+      height: 1.5em;
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 5px ${declarationColor};
+      }
     }
   }
 
@@ -41,27 +125,40 @@ export const StyleWrapper = styled.div`
     }
   }
 
-  fieldset.checkbox-group {
+  .lunatic.lunatic-component fieldset.checkbox-group {
     padding: 0;
     margin: 0;
     border: none;
 
+    .field-container {
+      margin-top: 0;
+    }
     .checkbox-modality {
       white-space: nowrap;
       display: block;
       border-radius: 5px;
       border: 1px solid ${borderColorCheckbox};
       background-color: ${backgroundColorCheckbox};
-      padding: 0.8em;
       margin: 8px;
       width: 60%;
 
       &.content-checked {
-        background-color: ${backgroundColorCheckbox}-checked;
+        background-color: ${backgroundColorCheckboxChecked};
+        border-color: ${modalityLabelColorChecked};
+      }
+      label {
+        display: inline-block;
+        padding: 0.8em 0.5em 0.8em 1.7em;
+        position: relative;
+        right: 1.3em;
+        width: 92%;
+        @media (max-width: 800px) {
+          width: 85%;
+        }
       }
     }
 
-    .code {
+    .code-modality {
       position: relative;
       left: -1em;
       padding: 0.3em 0.5em 0.3em 0.5em;
@@ -84,7 +181,7 @@ export const StyleWrapper = styled.div`
       &:checked + label {
         color: ${modalityLabelColorChecked};
         font-weight: bold;
-        .code {
+        .code-modality {
           color: ${modalityCodeBackgroundColor};
           background-color: ${declarationColor};
           border-color: ${declarationColor};

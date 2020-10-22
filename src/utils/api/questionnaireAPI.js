@@ -14,3 +14,11 @@ export const getQuestionnaireById = (apiUrl, authenticationMode) => id => {
       .catch(e => reject(new Error(`Error during refreshToken : ${e.message}`)));
   });
 };
+
+export const getQuestionnaireByUrl = url => {
+  return new Promise((resolve, reject) => {
+    Axios.get(`${url}`)
+      .then(res => resolve(res))
+      .catch(e => reject(new Error(`Failed to fetch questionnaire (${url}): ${e.message}`)));
+  });
+};

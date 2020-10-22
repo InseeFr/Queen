@@ -1,8 +1,13 @@
 import styled from 'styled-components';
 
-const menuWidth = 250;
-const sequenceMenuWidth = 250;
-const subsequenceMenuWidth = 250;
+
+const menuWidthDesktop = 250;
+const sequenceMenuWidthDesktop = 375;
+const subsequenceMenuWidthDesktop = 250;
+
+const menuWidthMobile = 250;
+const sequenceMenuWidthMobile = 250;
+const subsequenceMenuWidthMobile = 250;
 
 export const StyleWrapper = styled.div`
   &.navigation {
@@ -10,6 +15,7 @@ export const StyleWrapper = styled.div`
   }
 
   .menu-icon {
+    cursor: pointer;
     margin-top: 7px;
     position: relative;
     z-index: 35;
@@ -19,20 +25,20 @@ export const StyleWrapper = styled.div`
 
   .menu {
     height: 100%;
-    width: ${menuWidth}px;
+    width: ${menuWidthDesktop}px;
     position: fixed;
     z-index: 30;
     top: 0;
-    left: -${menuWidth}px;
+    left: -${menuWidthDesktop}px;
     overflow-x: hidden; /* Disable horizontal scroll */
     transition: transform 250ms ease;
 
     background-color: white;
-    border-right: 1px solid #a3a3a3;
+    border-right: 1px solid #777777;
 
     .version {
       background-color: whitesmoke;
-      border-top: 1px solid black;
+      border-top: 1px solid #777777;
       position: fixed;
       width: 100%;
       left: 0;
@@ -43,13 +49,16 @@ export const StyleWrapper = styled.div`
     }
 
     &.slideIn {
-      transform: translateX(${menuWidth}px);
+      transform: translateX(${menuWidthDesktop}px);
     }
 
     .navigation-container {
       margin-top: 80px;
-      span {
-        padding-left: 0.5em;
+      span.go-to-navigation {
+        font-size: 80%;
+        color: #777777;
+        text-transform: uppercase;
+        padding-left: 1.2em;
       }
     }
     ul {
@@ -62,6 +71,7 @@ export const StyleWrapper = styled.div`
 
   .back-subnav-btn,
   .subnav-btn {
+    cursor: pointer;
     width: 100%;
     border: none;
     background-color: transparent;
@@ -73,6 +83,9 @@ export const StyleWrapper = styled.div`
     text-align: left;
     &.selected {
       background-color: #9fc5f8;
+      span {
+        font-weight: bold;
+      }
     }
     &:hover,
     &:focus {
@@ -80,42 +93,46 @@ export const StyleWrapper = styled.div`
       background-color: #9fc5f8;
     }
     &:disabled {
-      color: #928b94;
+      cursor: not-allowed;
+      color: #777777;
       font-weight: normal;
       background-color: transparent;
     }
   }
-  .subnav-btn {
-    span {
-      float: right;
-      font-weight: bold;
-    }
+  .subnav-btn span {
+    float: right;
   }
   .back-subnav-btn {
     padding-left: 6px;
     span {
       padding-right: 1em;
       float: left;
-      font-weight: bold;
     }
   }
 
   .sequence-navigation-container {
-    width: ${sequenceMenuWidth}px;
+    width: ${sequenceMenuWidthDesktop}px;
     height: 100%;
     position: absolute;
     top: 0;
-    left: -${sequenceMenuWidth}px;
+    left: -${sequenceMenuWidthDesktop}px;
     z-index: 29;
     overflow-x: hidden; /* Disable horizontal scroll */
     transition: transform 450ms ease;
     background-color: #eeeeee;
-    border-right: 1px solid #a3a3a3;
+    border-right: 1px solid #777777;
 
-    h3 {
+    .content {
+      > div {
+        margin-top: 45px;
+      }
+    }
+
+    .title {
       padding: 0.3em;
-      font-variant-caps: all-small-caps;
-      text-align: center;
+      padding-left: 1.2em;
+      text-transform: uppercase;
+      font-size: 80%;
     }
 
     ul {
@@ -123,16 +140,16 @@ export const StyleWrapper = styled.div`
     }
 
     &.slideIn {
-      transform: translateX(${menuWidth + sequenceMenuWidth}px);
+      transform: translateX(${menuWidthDesktop + sequenceMenuWidthDesktop}px);
     }
   }
 
   .subsequence-navigation-container {
-    width: ${subsequenceMenuWidth}px;
+    width: ${subsequenceMenuWidthDesktop}px;
     position: absolute;
     height: 100%;
     top: 0;
-    left: ${menuWidth - subsequenceMenuWidth}px;
+    left: ${menuWidthDesktop - subsequenceMenuWidthDesktop}px;
     z-index: 28;
     overflow-x: hidden; /* Disable horizontal scroll */
     transition: transform 450ms ease;
@@ -143,16 +160,25 @@ export const StyleWrapper = styled.div`
     }
 
     &.slideIn {
-      transform: translateX(${sequenceMenuWidth + subsequenceMenuWidth}px);
+      transform: translateX(${sequenceMenuWidthDesktop + subsequenceMenuWidthDesktop}px);
     }
   }
 
-  @media (max-width: ${menuWidth + sequenceMenuWidth + subsequenceMenuWidth}px) {
+  @media (max-width: ${menuWidthDesktop +
+      sequenceMenuWidthDesktop +
+      subsequenceMenuWidthDesktop}px) {
+
+    .menu {
+      width: ${menuWidthMobile}px;
+      left: -${menuWidthMobile}px;
+    }
+
     .sequence-navigation-container {
-      left: -${sequenceMenuWidth}px;
+      width: ${sequenceMenuWidthMobile}px;
+      left: -${sequenceMenuWidthMobile}px;
       z-index: 31;
       &.slideIn {
-        transform: translateX(${sequenceMenuWidth}px);
+        transform: translateX(${sequenceMenuWidthMobile}px);
       }
       .content {
         margin-top: 70px;
@@ -160,10 +186,11 @@ export const StyleWrapper = styled.div`
     }
 
     .subsequence-navigation-container {
-      left: -${subsequenceMenuWidth}px;
+      width: ${subsequenceMenuWidthMobile}px;
+      left: -${subsequenceMenuWidthMobile}px;
       z-index: 32;
       &.slideIn {
-        transform: translateX(${subsequenceMenuWidth}px);
+        transform: translateX(${subsequenceMenuWidthMobile}px);
       }
       .content {
         margin-top: 70px;

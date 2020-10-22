@@ -9,11 +9,10 @@ import D from 'i18n';
 import * as UQ from 'utils/questionnaire';
 import { sendCloseEvent } from 'utils/communication';
 import * as api from 'utils/api';
-// import simpsons from 'utils/fake-survey/simpsons';
 import Orchestrator from '../orchestrator';
 import NotFound from '../shared/not-found';
 
-const OrchestratorManager = ({ match, configuration }) => {
+const OrchestratorManager = ({ match, configuration, visualize = null }) => {
   const [init, setInit] = useState(false);
 
   const [questionnaire, setQuestionnaire] = useState(undefined);
@@ -35,14 +34,15 @@ const OrchestratorManager = ({ match, configuration }) => {
         setWaiting(true);
         const initOrchestrator = async () => {
           try {
-            const initialization = initialize(
+            const initialization = initialize({
+              visualize,
               configuration,
-              match.params.idQ,
-              match.params.idSU,
+              idQuestionnaire: match.params.idQ,
+              idSurveyUnit: match.params.idSU,
               setWaitingMessage,
               setQuestionnaire,
-              setSurveyUnit
-            );
+              setSurveyUnit,
+            });
             await initialization();
           } catch (e) {
             setError(true);
@@ -54,7 +54,7 @@ const OrchestratorManager = ({ match, configuration }) => {
         initOrchestrator();
       }
     }
-  }, [init, configuration, match.params.readonly, match.params.idQ, match.params.idSU]);
+  }, [init, configuration, match.params.readonly, match.params.idQ, match.params.idSU, visualize]);
 
   /**
    * Build special questionnaire for Queen
@@ -97,7 +97,7 @@ const OrchestratorManager = ({ match, configuration }) => {
   const saveSU = async unit => {
     if (!readonly) {
       await surveyUnitIdbService.addOrUpdateSU(unit);
-      if (configuration.standalone) await putSurveyUnit(unit);
+      if (configuration.standalone && !visualize) await putSurveyUnit(unit);
     }
   };
 
@@ -147,6 +147,7 @@ OrchestratorManager.propTypes = {
     QUEEN_API_URL: PropTypes.string.isRequired,
     QUEEN_AUTHENTICATION_MODE: PropTypes.oneOf(AUTHENTICATION_MODE_ENUM).isRequired,
   }).isRequired,
+  visualize: PropTypes.string.isRequired,
 };
 
 export default OrchestratorManager;

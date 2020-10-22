@@ -136,8 +136,8 @@ const Navigation = ({
   }, [surveyOpen, listRef, open, setMenuOpen, openCloseSubMenu]);
 
   const setNavigationPage = page => {
-    setPage(page);
     openCloseMenu();
+    setPage(page);
   };
 
   const setFocusItem = useCallback(index => () => setCurrentFocusItemIndex(index), [
@@ -152,6 +152,7 @@ const Navigation = ({
   const keysToHandle =
     open && !surveyOpen ? ['alt+b', 'esc', 'right', 'up', 'down'] : ['left', 'alt+b'];
   const keyboardShortcut = (key, e) => {
+    e.preventDefault();
     const index = currentFocusItemIndex;
     if (key === 'alt+b') {
       openCloseMenu();
@@ -194,7 +195,7 @@ const Navigation = ({
           {open && (
             <>
               <div className="navigation-container">
-                <span>{D.goToNavigation}</span>
+                <span className="go-to-navigation">{D.goToNavigation}</span>
                 <nav role="navigation">
                   <ul>
                     <button

@@ -4,17 +4,30 @@ const notificationUpdateHeight = '90px';
 const notificationHeight = '65px';
 const notificationHeightMobile = '185px';
 const mobileWidth = '550px';
+
+const infoColor = '#2e8ba6';
+const errorColor = '#bd362f';
+const successColor = '#51a351';
+
 export const StyleWrapper = styled.div`
   position: fixed;
   top: -${notificationHeight};
   z-index: 1500;
-  background-color: rgba(46, 139, 166, 0.9);
+  background-color: ${infoColor};
+  opacity: 0.9;
   left: 0%;
   width: 100%;
   margin: auto;
   height: ${notificationHeight};
   text-align: center;
   transition: transform 350ms ease;
+
+  &.error {
+    background-color: ${errorColor};
+  }
+  &.success {
+    background-color: ${successColor};
+  }
 
   &.update {
     top: -${notificationUpdateHeight};

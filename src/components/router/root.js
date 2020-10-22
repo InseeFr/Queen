@@ -4,22 +4,18 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import D from 'i18n';
 import { READ_ONLY } from 'utils/constants';
 import NotFound from 'components/shared/not-found';
-import Notification from 'components/shared/Notification';
+import ServiceWorkerNotification from 'components/shared/serviceWorkerNotification';
 import OrchestratorManager from 'components/orchestratorManager';
 import { useAuth } from 'utils/hook';
 import Preloader from 'components/shared/preloader';
 import Error from 'components/shared/Error';
-import useServiceWorker from 'utils/hook/useServiceWorker';
 import Synchronize from 'components/Synchronize';
+import Visualizer from 'components/visualizer';
 import { StyleWrapper } from './root.style';
 
 const Rooter = ({ configuration }) => {
   const { standalone } = configuration;
   const { loading, authenticated } = useAuth(configuration.QUEEN_AUTHENTICATION_MODE);
-  const serviceWorkerInfo = useServiceWorker({
-    authenticated,
-    standalone,
-  });
 
   return (
     <>
@@ -27,7 +23,7 @@ const Rooter = ({ configuration }) => {
       {!loading && !authenticated && <Error message={D.unauthorized} />}
       {!loading && authenticated && (
         <StyleWrapper>
-          <Notification serviceWorkerInfo={serviceWorkerInfo} />
+          <ServiceWorkerNotification authenticated={authenticated} standalone={standalone} />
           <Router>
             <Switch>
               <Route
@@ -42,6 +38,12 @@ const Rooter = ({ configuration }) => {
                   component={routeProps => <Synchronize {...routeProps} />}
                 />
               )}
+              <Route
+                path="/queen/visualize"
+                component={routeProps => (
+                  <Visualizer {...routeProps} configuration={configuration} />
+                )}
+              />
               <Route path={standalone ? '/' : '/queen'} component={NotFound} />
             </Switch>
           </Router>

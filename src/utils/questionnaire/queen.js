@@ -1,7 +1,5 @@
 import D from 'i18n';
-import React from 'react';
 import * as lunatic from '@inseefr/lunatic';
-import alphabet from 'utils/constants/alphabet';
 
 /**
  * Function to build Queen questionnaire.
@@ -12,9 +10,11 @@ import alphabet from 'utils/constants/alphabet';
  * @param {Array} components
  */
 export const buildQueenQuestionnaire = components => {
-  let seq;
+  let seqLabel;
+  let seqPage = 0;
   let idSeq;
-  let subseq;
+  let subseqLabel;
+  let subseqPage = 0;
   let idSubseq;
   let currentPage = 0;
   return Array.isArray(components)
@@ -31,8 +31,9 @@ export const buildQueenQuestionnaire = components => {
               ...component,
               idSequence: idSeq,
               idSubsequence: idSubseq,
-              sequence: seq,
-              subsequence: subseq,
+              sequence: { label: seqLabel, page: seqPage },
+              subsequence:
+                subseqLabel && subseqPage ? { label: subseqLabel, page: subseqPage } : null,
               page: currentPage,
             },
           ];
@@ -40,8 +41,9 @@ export const buildQueenQuestionnaire = components => {
         if (componentType === 'Sequence') {
           currentPage += 1;
           idSeq = id;
-          seq = label;
-          subseq = '';
+          seqLabel = label;
+          seqPage = currentPage;
+          subseqLabel = '';
           idSubseq = '';
           /**
            * if there is no declarations, we display a new declaration : D.newSequenceComment (cf Dictionary)
@@ -64,14 +66,15 @@ export const buildQueenQuestionnaire = components => {
               labelNav: label,
               label: '',
               declarations: newDeclarations,
-              sequence: seq,
+              sequence: { label: seqLabel, page: seqPage },
               page: currentPage,
             },
           ];
         }
         if (componentType === 'Subsequence') {
           idSubseq = id;
-          subseq = label;
+          subseqLabel = label;
+          subseqPage = currentPage + 1;
           /**
            * if there is no declarations, we "delete" this component
            */
@@ -88,8 +91,8 @@ export const buildQueenQuestionnaire = components => {
               ...component,
               labelNav: label,
               label: '',
-              sequence: seq,
-              subsequence: subseq,
+              sequence: { label: seqLabel, page: seqPage },
+              subsequence: { label: subseqLabel, page: subseqPage },
               idSequence: idSeq,
               goToPage: currentPage,
               page: currentPage,
@@ -103,8 +106,9 @@ export const buildQueenQuestionnaire = components => {
               ...component,
               idSequence: idSeq,
               idSubsequence: idSubseq,
-              sequence: seq,
-              subsequence: subseq,
+              sequence: { label: seqLabel, page: seqPage },
+              subsequence:
+                subseqLabel && subseqPage ? { label: subseqLabel, page: subseqPage } : null,
             },
           ];
         }
@@ -204,23 +208,12 @@ export const updateResponseFiltered = questionnaire => currentComponent => {
   return newQuestionnaire;
 };
 
-export const buildQueenOptions = (componentType, options, bindings) => {
-  let newOptions;
-  if (componentType === 'CheckboxOne') {
-    newOptions = options.map((option, index) => {
-      const myLabel = (
-        <span>
-          <span className="code">{options.length > 9 ? alphabet[index] : index + 1}</span>
-          {lunatic.interpret(['VTL'])(bindings)(option.label)}
-        </span>
-      );
-      return {
-        value: option.value,
-        label: myLabel,
-      };
-    });
-  } else {
-    newOptions = options || [];
+export const getKeyToHandle = (responses, options) => {
+  if (options) {
+    return options.length < 10 ? ['numeric'] : ['alphabetic'];
   }
-  return newOptions;
+  if (responses) {
+    return responses.length < 10 ? ['numeric'] : ['alphabetic'];
+  }
+  return [];
 };

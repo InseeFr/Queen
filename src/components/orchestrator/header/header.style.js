@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 
 const backgroundHeaderColor = 'white';
-const borderStyleHeader = '1px solid #a3a3a3';
+const borderStyleHeader = '1px solid #777777';
 const widthBorder = '59px'; //60(width grid template) - 1(border-width)
 
 export const StyleWrapper = styled.div`
   width: 100%;
+  flex: 0 1 65px;
   display: grid;
   grid-template-columns: 60px 60px auto 60px;
-  grid-template-rows: 65px;
-
   background-color: white;
   border-right: 0;
   border-left: 0;
@@ -36,6 +35,7 @@ export const StyleWrapper = styled.div`
     .insee-icon {
       padding: 0;
       border: none;
+      cursor: pointer;
       background-color: transparent;
     }
     .close-icon {
@@ -50,10 +50,9 @@ export const StyleWrapper = styled.div`
     padding: 0.4em;
     padding-left: 1em;
 
-    background-color: ${backgroundHeaderColor};
-
-    #header-title {
-      font-size: 90%;
+    .questionnaire-title {
+      text-transform: uppercase;
+      font-size: 80%;
     }
   }
 

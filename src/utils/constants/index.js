@@ -31,3 +31,6 @@ export const QUEEN_DATA_KEYS = [REFUSAL, DOESNT_KNOW];
 export const DIRECT_CONTINUE_COMPONENTS = ['CheckboxOne', 'Radio'];
 
 export const KEYBOARD_SHORTCUT_COMPONENTS = [...DIRECT_CONTINUE_COMPONENTS, 'CheckboxGroup'];
+
+export const QUESTIONNAIRE_EXAMPLE_URL = `${QUEEN_URL ||
+  window.location.origin}/static/questionnaire/simpsons.json`;
