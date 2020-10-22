@@ -34,7 +34,7 @@ const Visualizer = ({ location, ...other }) => {
       {questionnaireUrl && <OrchestratorManager {...other} visualize={questionnaireUrl} />}
       {!questionnaireUrl && (
         <>
-          <div className="content">
+          <div className="visualize-content">
             <h1 className="title">{D.visualizationTitlePage}</h1>
             <form onSubmit={goToQuestionnaire}>
               <label htmlFor="input-questionnaire" id="label-input-questionnaire">
