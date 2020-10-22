@@ -19,7 +19,7 @@ const Visualizer = ({ location, ...other }) => {
   useEffect(() => {
     const url = getQuestionnaire();
     if (questionnaireUrl !== url) setQuestionnaireUrl(url);
-  }, [location.search]);
+  }, [location.search, questionnaireUrl, getQuestionnaire]);
 
   const goToQuestionnaire = event => {
     history.push({
