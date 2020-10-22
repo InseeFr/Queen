@@ -125,24 +125,36 @@ export const StyleWrapper = styled.div`
     }
   }
 
-  fieldset.checkbox-group {
+  .lunatic.lunatic-component fieldset.checkbox-group {
     padding: 0;
     margin: 0;
     border: none;
 
+    .field-container {
+      margin-top: 0;
+    }
     .checkbox-modality {
       white-space: nowrap;
       display: block;
       border-radius: 5px;
       border: 1px solid ${borderColorCheckbox};
       background-color: ${backgroundColorCheckbox};
-      padding: 0.8em;
       margin: 8px;
       width: 60%;
 
       &.content-checked {
         background-color: ${backgroundColorCheckboxChecked};
         border-color: ${modalityLabelColorChecked};
+      }
+      label {
+        display: inline-block;
+        padding: 0.8em 0.5em 0.8em 1.7em;
+        position: relative;
+        right: 1.3em;
+        width: 92%;
+        @media (max-width: 800px) {
+          width: 85%;
+        }
       }
     }
 
