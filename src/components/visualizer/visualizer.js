@@ -8,18 +8,18 @@ import { version } from '../../../package.json';
 import { StyleWrapper } from './visualizer.style';
 
 const Visualizer = ({ location, ...other }) => {
-  const getQuestionnaire = () => {
+  const [questionnaireUrl, setQuestionnaireUrl] = useState(() => {
     const urlSearch = new URLSearchParams(location.search);
     return urlSearch.get('questionnaire') || null;
-  };
-  const [questionnaireUrl, setQuestionnaireUrl] = useState(getQuestionnaire);
+  });
   const [value, setValue] = useState('');
   const history = useHistory();
 
   useEffect(() => {
-    const url = getQuestionnaire();
+    const urlSearch = new URLSearchParams(location.search);
+    const url = urlSearch.get('questionnaire') || null;
     if (questionnaireUrl !== url) setQuestionnaireUrl(url);
-  }, [location.search, questionnaireUrl, getQuestionnaire]);
+  }, [location.search, questionnaireUrl]);
 
   const goToQuestionnaire = event => {
     history.push({
