@@ -92,7 +92,7 @@ export const initialize = ({
       comment: surveyUnitComment,
     });
   }
-  if (standalone && visualize) {
+  if (visualize) {
     await surveyUnitIdbService.addOrUpdateSU({
       id: '1234',
       data: {},
