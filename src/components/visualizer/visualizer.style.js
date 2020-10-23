@@ -2,10 +2,14 @@ import styled from 'styled-components';
 
 export const StyleWrapper = styled.div`
   height: 100vh;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: #f3f8ff;
+
+  .form-group {
+    margin-bottom: 0.5em;
+  }
 
   .visualize-content {
-    position: fixed;
+    position: relative;
     top: 10%;
     left: 0;
     margin: auto;
@@ -13,14 +17,22 @@ export const StyleWrapper = styled.div`
     height: 100%;
     text-align: center;
 
-    form {
-      margin-top: 4em;
+    h1 {
+      margin: 0;
     }
 
-    #label-input-questionnaire {
+    form {
+      margin-top: 4em;
+      padding-bottom: 3em;
+      background-color: #f3f8ff;
+    }
+
+    #label-input-questionnaire,
+    .label-input-variables {
       margin-right: 1em;
     }
-    .input-questionnaire {
+    .input-questionnaire,
+    .input-variables {
       padding-right: 0.5em;
       padding-left: 0.5em;
       font-size: 100%;
@@ -33,6 +45,9 @@ export const StyleWrapper = styled.div`
         outline: none;
         box-shadow: 0 0 5px #085394;
       }
+    }
+    .input-variables {
+      width: 10em;
     }
 
     .button-questionnaire {
