@@ -14,8 +14,8 @@ const visualizeMessage = {
     en: n => `Le questionnaire contains ${n} external variable${n > 1 ? 's' : ''}.`,
   },
   visualizeInstructions: {
-    fr: n => `Veuillez renseigner ${n > 1 ? 'leurs valeurs' : 'sa valeur'}.`,
-    en: n => `Please fill in ${n > 1 ? 'their values' : 'its value'}.`,
+    fr: n => `Vous pouvez renseigner ${n > 1 ? 'leurs valeurs' : 'sa valeur'}.`,
+    en: n => `You can fill in ${n > 1 ? 'their values' : 'its value'}.`,
   },
 };
 
