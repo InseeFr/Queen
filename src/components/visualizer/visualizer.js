@@ -9,7 +9,6 @@ import Preloader from 'components/shared/preloader';
 import Error from 'components/shared/Error';
 import { StyleWrapper } from './visualizer.style';
 import QuestionnaireForm from './questionnaireForm';
-import ExternalDataForm from './externalDataForm/externalDataForm';
 
 const Visualizer = ({ location, ...other }) => {
   const { configuration } = other;
@@ -19,8 +18,6 @@ const Visualizer = ({ location, ...other }) => {
     return urlSearch.get('questionnaire') || null;
   });
   const [questionnaire, setQuestionnaire] = useState(null);
-  const [externalVariables, setExternalVariables] = useState(null);
-  const [dataSU, setDataSU] = useState(null);
 
   const [surveyUnit, setSurveyUnit] = useState(undefined);
   const [error, setError] = useState(false);
@@ -36,8 +33,6 @@ const Visualizer = ({ location, ...other }) => {
       setError(null);
       setWaiting(false);
       setQuestionnaire(null);
-      setExternalVariables(null);
-      setDataSU(null);
       setSurveyUnit(null);
     }
     if (questionnaireUrl !== url) setQuestionnaireUrl(url);
@@ -66,40 +61,25 @@ const Visualizer = ({ location, ...other }) => {
   }, [questionnaire, questionnaireUrl, configuration]);
 
   const createFakeSurveyUnit = () => {
-    return {
+    const unit = {
       id: '1234',
       data: {},
       comment: {},
     };
+    surveyUnitIdbService.addOrUpdateSU(unit);
+    return unit;
   };
 
   useEffect(() => {
     if (questionnaireUrl && questionnaire && !surveyUnit) {
-      const variables = UQ.getExternalVariables(questionnaire);
-      if (Object.entries(variables).length === 0) {
-        setDataSU(UQ.buildSpecialQueenData({}));
-        setQuestionnaire({
-          ...questionnaire,
-          components: UQ.buildQueenQuestionnaire(questionnaire.components),
-        });
-        setSurveyUnit(createFakeSurveyUnit());
-        setWaiting(false);
-      } else {
-        setExternalVariables(variables);
-        setWaiting(false);
-      }
-    }
-  }, [questionnaireUrl, questionnaire, surveyUnit]);
-
-  useEffect(() => {
-    if (questionnaireUrl && questionnaire && dataSU && !surveyUnit) {
       setQuestionnaire({
         ...questionnaire,
         components: UQ.buildQueenQuestionnaire(questionnaire.components),
       });
       setSurveyUnit(createFakeSurveyUnit());
+      setWaiting(false);
     }
-  }, [questionnaireUrl, questionnaire, dataSU, surveyUnit]);
+  }, [questionnaireUrl, questionnaire, surveyUnit]);
 
   return (
     <StyleWrapper>
@@ -109,7 +89,7 @@ const Visualizer = ({ location, ...other }) => {
         <Orchestrator
           surveyUnit={surveyUnit}
           source={questionnaire}
-          dataSU={dataSU}
+          dataSU={UQ.buildSpecialQueenData({})}
           standalone={configuration.standalone}
           readonly={false}
           savingType="COLLECTED"
@@ -121,9 +101,6 @@ const Visualizer = ({ location, ...other }) => {
         />
       )}
       {!questionnaireUrl && <QuestionnaireForm />}
-      {!waiting && questionnaire && externalVariables && !surveyUnit && (
-        <ExternalDataForm externalData={externalVariables} setData={setDataSU} />
-      )}
     </StyleWrapper>
   );
 };

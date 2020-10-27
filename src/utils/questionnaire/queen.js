@@ -208,9 +208,6 @@ export const updateResponseFiltered = questionnaire => currentComponent => {
   return newQuestionnaire;
 };
 
-export const getExternalVariables = questionnaire =>
-  lunatic.getState(lunatic.mergeQuestionnaireAndData(questionnaire)({})).EXTERNAL;
-
 export const getKeyToHandle = (responses, options) => {
   if (options) {
     return options.length < 10 ? ['numeric'] : ['alphabetic'];
