@@ -33,6 +33,8 @@ const Visualizer = ({ location, ...other }) => {
     const urlSearch = new URLSearchParams(location.search);
     const url = urlSearch.get('questionnaire') || null;
     if (!url) {
+      setError(null);
+      setWaiting(false);
       setQuestionnaire(null);
       setExternalVariables(null);
       setDataSU(null);

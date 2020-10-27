@@ -35,6 +35,7 @@ const Orchestrator = ({
 
   const [pendingChangePage, setPendingChangePage] = useState(null);
   const [questionnaireUpdated, setQuestionnaireUpdated] = useState(true);
+  const [changedOnce, setChangedOnce] = useState(false);
 
   const { questionnaire, components, handleChange, bindings } = lunatic.useLunatic(
     source,
@@ -99,6 +100,7 @@ const Orchestrator = ({
   };
 
   const goPrevious = () => {
+    setChangedOnce(false);
     setPendingChangePage(null);
     setCurrentPage(UQ.getPreviousPage(filteredComponents)(currentPage));
   };
@@ -109,6 +111,7 @@ const Orchestrator = ({
       const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
       addValidatePage();
       setPendingChangePage(null);
+      setChangedOnce(false);
       setCurrentPage(nextPage);
     },
     [filteredComponents, saveQueen, addValidatePage, specialQueenData, currentPage]
@@ -125,6 +128,7 @@ const Orchestrator = ({
         reachesNotValidatePage[0] ||
         UQ.getNextPage(filteredComponents)(Math.max(...reachesValidatePage));
       setPendingChangePage(null);
+      setChangedOnce(false);
       setCurrentPage(pageOfLastComponentToValidate);
     },
     [saveQueen, addValidatePage, filteredComponents, specialQueenData]
@@ -156,13 +160,18 @@ const Orchestrator = ({
       setQuestionnaireUpdated(false);
       await handleChange(updatedValue);
       setQuestionnaireUpdated(true);
-      if (!isLastComponent && DIRECT_CONTINUE_COMPONENTS.includes(componentType)) {
+      setChangedOnce(true);
+    }
+  };
+  useEffect(() => {
+    if (!isLastComponent && DIRECT_CONTINUE_COMPONENTS.includes(componentType)) {
+      if (changedOnce) {
         setTimeout(() => {
           goNext();
         }, 100);
       }
     }
-  };
+  }, [questionnaire, changedOnce, isLastComponent, componentType, goNext]);
 
   useEffect(() => {
     if (questionnaireUpdated && pendingChangePage) {
