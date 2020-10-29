@@ -1,8 +1,8 @@
-const getUrlRegex = url => {
+const getQueenUrlRegex = url => {
   return url.replace('http', '^http').concat('/(.*)((.js)|(.png)|(.svg))');
 };
 
-const getUrlRegexJson = url => {
+const getQueenUrlRegexJson = url => {
   return url.replace('http', '^http').concat('/(.*)(.json)');
 };
 
@@ -16,7 +16,7 @@ const queenCacheName = 'queen-cache';
 console.log('Loading Queen SW into another SW');
 
 workbox.routing.registerRoute(
-  new RegExp(getUrlRegexJson(self._QUEEN_URL)),
+  new RegExp(getQueenUrlRegexJson(self._QUEEN_URL)),
   new workbox.strategies.NetworkFirst({
     cacheName: queenCacheName,
     plugins: [
@@ -28,7 +28,7 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
-  new RegExp(getUrlRegex(self._QUEEN_URL)),
+  new RegExp(getQueenUrlRegex(self._QUEEN_URL)),
   new workbox.strategies.CacheFirst({
     cacheName: queenCacheName,
     plugins: [
