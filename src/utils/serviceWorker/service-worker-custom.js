@@ -1,10 +1,25 @@
 importScripts('/service-worker.js');
 
 const getUrlRegex = function(url) {
-  return url.replace('http', '^http').concat('/(.*)((.ico)|(.png)|(.json))');
+  return url.replace('http', '^http').concat('/(.*)((.ico)|(.png))');
 };
 
+const getUrlRegexJson = function(url) {
+  return url.replace('http', '^http').concat('/(.*)(.json)');
+};
 const configurationCacheName = 'queen-cache';
+
+workbox.routing.registerRoute(
+  new RegExp(getUrlRegexJson(self.location.origin)),
+  new workbox.strategies.NetworkFirst({
+    cacheName: configurationCacheName,
+    plugins: [
+      new workbox.cacheableResponse.Plugin({
+        statuses: [0, 200],
+      }),
+    ],
+  })
+);
 
 workbox.routing.registerRoute(
   new RegExp(getUrlRegex(self.location.origin)),

@@ -1,5 +1,9 @@
 const getUrlRegex = url => {
-  return url.replace('http', '^http').concat('/(.*)((.json)|(.js)|(.png)|(.svg))');
+  return url.replace('http', '^http').concat('/(.*)((.js)|(.png)|(.svg))');
+};
+
+const getUrlRegexJson = url => {
+  return url.replace('http', '^http').concat('/(.*)(.json)');
 };
 
 const getQuestionnaireUrlRegex = () => '^http.*/api/campaign/(.){1,}/questionnaire';
@@ -10,6 +14,18 @@ const getResourceUrlRegex = () => '^http.*/api/nomenclature/(.){1,}';
 
 const queenCacheName = 'queen-cache';
 console.log('Loading Queen SW into another SW');
+
+workbox.routing.registerRoute(
+  new RegExp(getUrlRegexJson(self._QUEEN_URL)),
+  new workbox.strategies.NetworkFirst({
+    cacheName: queenCacheName,
+    plugins: [
+      new workbox.cacheableResponse.Plugin({
+        statuses: [0, 200],
+      }),
+    ],
+  })
+);
 
 workbox.routing.registerRoute(
   new RegExp(getUrlRegex(self._QUEEN_URL)),
