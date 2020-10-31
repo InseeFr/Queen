@@ -114,6 +114,10 @@ export const StyleWrapper = styled.div`
         outline: none;
         box-shadow: 0 0 5px ${declarationColor};
       }
+      &[type='number'] {
+        width: 7em;
+        min-width: 7em;
+      }
     }
   }
 
