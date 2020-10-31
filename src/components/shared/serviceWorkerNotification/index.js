@@ -32,8 +32,8 @@ const ServiceWorkerNotification = ({ authenticated, standalone }) => {
   };
 
   const close = () => {
-    if (isUpdateInstalled) clearUpdating();
     setOpen(false);
+    if (isUpdateInstalled) setTimeout(() => clearUpdating(), 1000);
   };
 
   return (
