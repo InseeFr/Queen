@@ -149,8 +149,12 @@ const Navigation = ({
     else if (index === listRef.length) listRef[0].current.focus();
     else listRef[index].current.focus();
   };
-  const keysToHandle =
-    open && !surveyOpen ? ['alt+b', 'esc', 'right', 'up', 'down'] : ['left', 'alt+b'];
+  const getKeysToHandle = () => {
+    if (open && !surveyOpen) return ['alt+b', 'esc', 'right', 'up', 'down'];
+    if (open && surveyOpen) return ['left', 'alt+b'];
+    return ['alt+b'];
+  };
+  const keysToHandle = getKeysToHandle();
   const keyboardShortcut = (key, e) => {
     e.preventDefault();
     const index = currentFocusItemIndex;
