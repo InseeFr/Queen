@@ -275,7 +275,7 @@ const Orchestrator = ({
                     ? key
                     : alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase()) + 1) - 1;
 
-                if (index < responsesName.length) {
+                if (index >= 0 && index < responsesName.length) {
                   updatedValue[responsesName[index]] = !responsesCollected[responsesName[index]];
                   onChange(updatedValue);
                 }
