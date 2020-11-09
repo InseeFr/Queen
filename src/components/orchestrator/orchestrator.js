@@ -262,11 +262,11 @@ const Orchestrator = ({
               const updatedValue = {};
               if (componentType === 'CheckboxOne') {
                 const index =
-                  options.length < 10
+                  (options.length < 10
                     ? key
-                    : alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase()) + 1;
-                if (index <= options.length) {
-                  updatedValue[responsesName[0]] = `${index}`;
+                    : alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase()) + 1) - 1;
+                if (index < options.length) {
+                  updatedValue[responsesName[0]] = options[index].value;
                   onChange(updatedValue);
                 }
               } else if (componentType === 'CheckboxGroup') {
