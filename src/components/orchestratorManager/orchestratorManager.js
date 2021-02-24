@@ -16,8 +16,6 @@ const OrchestratorManager = ({ match, configuration }) => {
   const [init, setInit] = useState(false);
 
   const [questionnaire, setQuestionnaire] = useState(undefined);
-  const [dataSU, setDataSU] = useState(undefined);
-
   const [surveyUnit, setSurveyUnit] = useState(undefined);
 
   const [waiting, setWaiting] = useState(false);
@@ -63,14 +61,11 @@ const OrchestratorManager = ({ match, configuration }) => {
     if (!init && questionnaire && surveyUnit) {
       const { data, ...other } = surveyUnit;
       setSurveyUnit(other);
-      const newDataSU = UQ.buildSpecialQueenData(data);
-      // TODO : replace simpsons by questionnaire when queen-bo render last version of lunatic questionnaire
       const newQuestionnaire = {
         ...questionnaire,
         components: UQ.buildQueenQuestionnaire(questionnaire.components),
       };
       setQuestionnaire(newQuestionnaire);
-      setDataSU(newDataSU);
 
       setWaiting(false);
       setInit(true);
@@ -117,7 +112,6 @@ const OrchestratorManager = ({ match, configuration }) => {
         <Orchestrator
           surveyUnit={surveyUnit}
           source={questionnaire}
-          dataSU={dataSU}
           standalone={configuration.standalone}
           readonly={readonly}
           savingType="COLLECTED"

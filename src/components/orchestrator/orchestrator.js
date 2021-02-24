@@ -20,15 +20,15 @@ const Orchestrator = ({
   preferences,
   features,
   source,
-  dataSU,
   filterDescription,
   save,
   close,
 }) => {
+  const { data } = surveyUnit;
   const [menuOpen, setMenuOpen] = useState(false);
   const [started, setStarted] = useState(() => {
-    if (dataSU.data.COLLECTED) {
-      return Object.keys(dataSU.data.COLLECTED).length > 0;
+    if (data.COLLECTED) {
+      return Object.keys(data.COLLECTED).length > 0;
     }
     return false;
   });
@@ -37,24 +37,17 @@ const Orchestrator = ({
   const [questionnaireUpdated, setQuestionnaireUpdated] = useState(true);
   const [changedOnce, setChangedOnce] = useState(false);
 
-  const { questionnaire, components, handleChange, bindings } = lunatic.useLunatic(
-    source,
-    dataSU.data,
-    {
-      savingType,
-      preferences,
-      features,
-    }
-  );
+  const { questionnaire, components, handleChange, bindings } = lunatic.useLunatic(source, data, {
+    savingType,
+    preferences,
+    features,
+  });
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [specialQueenData, setSpecialQueenData] = useState(dataSU.specialQueenData);
   const [comment /* , setComment */] = useState(surveyUnit.comment);
   const [validatePages, setValidatePages] = useState(() => {
-    const page = UQ.getFirstTitlePageBeforeFastForwardPage(questionnaire)(bindings)(
-      specialQueenData
-    );
+    const page = UQ.getFirstTitlePageBeforeFastForwardPage(questionnaire)(bindings);
     return page >= 1 ? Array.from(Array(page - 1), (_, i) => i + 1) : [];
   });
 
@@ -78,18 +71,13 @@ const Orchestrator = ({
   const pageFilter = UQ.findPageIndex(filteredComponents)(currentPage);
   const isLastComponent = filteredComponents.length - 1 === pageFilter;
   /**
-   *  This function update response values in questionnaire and specialQueenData.
+   *  This function update response values in questionnaire.
    *  At the end, it calls the saving method of its parent (saving into indexdb)
-   * @param {*} lastSpecialQueenData (specialQueenData update by "Refusal" and "doesn't know" buttons )
    */
-  const saveQueen = useCallback(
-    async (lastSpecialQueenData = specialQueenData) => {
-      setSpecialQueenData(lastSpecialQueenData); // update specialQueenData according to selected buttons
-      const dataToSave = UQ.getStateToSave(questionnaire)(lastSpecialQueenData);
-      await save({ ...surveyUnit, data: dataToSave, comment });
-    },
-    [comment, save, surveyUnit, questionnaire, specialQueenData, setSpecialQueenData]
-  );
+  const saveQueen = useCallback(async () => {
+    const dataToSave = UQ.getStateToSave(questionnaire);
+    await save({ ...surveyUnit, data: dataToSave, comment });
+  }, [comment, save, surveyUnit, questionnaire]);
 
   /**
    * @return boolean if user can continue to the next page.
@@ -105,34 +93,28 @@ const Orchestrator = ({
     setCurrentPage(UQ.getPreviousPage(filteredComponents)(currentPage));
   };
 
-  const goNext = useCallback(
-    async (lastSpecialQueenData = specialQueenData) => {
-      saveQueen(lastSpecialQueenData);
-      const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
-      addValidatePage();
-      setPendingChangePage(null);
-      setChangedOnce(false);
-      setCurrentPage(nextPage);
-    },
-    [filteredComponents, saveQueen, addValidatePage, specialQueenData, currentPage]
-  );
+  const goNext = useCallback(async () => {
+    saveQueen();
+    const nextPage = UQ.getNextPage(filteredComponents)(currentPage);
+    addValidatePage();
+    setPendingChangePage(null);
+    setChangedOnce(false);
+    setCurrentPage(nextPage);
+  }, [filteredComponents, saveQueen, addValidatePage, currentPage]);
 
-  const goFastForward = useCallback(
-    (lastSpecialQueenData = specialQueenData) => {
-      saveQueen(lastSpecialQueenData);
-      const newValidatePages = addValidatePage();
-      const filteredPage = filteredComponents.map(({ page }) => page);
-      const reachesValidatePage = filteredPage.filter(p => newValidatePages.includes(p));
-      const reachesNotValidatePage = filteredPage.filter(p => !newValidatePages.includes(p));
-      const pageOfLastComponentToValidate =
-        reachesNotValidatePage[0] ||
-        UQ.getNextPage(filteredComponents)(Math.max(...reachesValidatePage));
-      setPendingChangePage(null);
-      setChangedOnce(false);
-      setCurrentPage(pageOfLastComponentToValidate);
-    },
-    [saveQueen, addValidatePage, filteredComponents, specialQueenData]
-  );
+  const goFastForward = useCallback(() => {
+    saveQueen();
+    const newValidatePages = addValidatePage();
+    const filteredPage = filteredComponents.map(({ page }) => page);
+    const reachesValidatePage = filteredPage.filter(p => newValidatePages.includes(p));
+    const reachesNotValidatePage = filteredPage.filter(p => !newValidatePages.includes(p));
+    const pageOfLastComponentToValidate =
+      reachesNotValidatePage[0] ||
+      UQ.getNextPage(filteredComponents)(Math.max(...reachesValidatePage));
+    setPendingChangePage(null);
+    setChangedOnce(false);
+    setCurrentPage(pageOfLastComponentToValidate);
+  }, [saveQueen, addValidatePage, filteredComponents]);
 
   useEffect(() => {
     const start = async () => {
@@ -298,10 +280,6 @@ Orchestrator.propTypes = {
   features: PropTypes.arrayOf(PropTypes.string).isRequired,
   filterDescription: PropTypes.bool.isRequired,
   source: PropTypes.objectOf(PropTypes.any).isRequired,
-  dataSU: PropTypes.shape({
-    data: PropTypes.objectOf(PropTypes.any).isRequired,
-    specialQueenData: PropTypes.objectOf(PropTypes.any).isRequired,
-  }).isRequired,
   save: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
 };
