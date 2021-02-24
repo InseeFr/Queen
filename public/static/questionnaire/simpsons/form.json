@@ -387,7 +387,12 @@
         }
       ],
       "conditionFilter": "if ((not(cast(READY,integer)  <>  1))) then \"normal\" else \"hidden\"",
-      "bindingDependencies": ["ICE_FLAVOUR1", "ICE_FLAVOUR2", "ICE_FLAVOUR3", "ICE_FLAVOUR4"],
+      "bindingDependencies": [
+        "ICE_FLAVOUR1",
+        "ICE_FLAVOUR2",
+        "ICE_FLAVOUR3",
+        "ICE_FLAVOUR4"
+      ],
       "cells": [
         [
           { "value": "1", "label": "\"Vanilla\"" },
@@ -810,7 +815,11 @@
           }
         ],
 
-        [{ "colspan": 2, "value": "E", "label": "\"Total\"" }, { "headerCell": false }]
+        [
+          { "colspan": 2, "value": "E", "label": "\"Total\"" },
+
+          { "headerCell": false }
+        ]
       ]
     },
 
@@ -1782,7 +1791,12 @@
       "positioning": "HORIZONTAL",
       "label": "\"➡ 2. How has your feeling about the following characters evolved over time?\"",
       "conditionFilter": "if ((not(cast(READY,integer)  <>  1))) then \"normal\" else \"hidden\"",
-      "bindingDependencies": ["FEELCHAREV1", "FEELCHAREV2", "FEELCHAREV3", "FEELCHAREV4"],
+      "bindingDependencies": [
+        "FEELCHAREV1",
+        "FEELCHAREV2",
+        "FEELCHAREV3",
+        "FEELCHAREV4"
+      ],
       "cells": [
         [
           { "value": "1", "label": "\"Jay\"" },
