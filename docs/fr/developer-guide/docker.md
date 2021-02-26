@@ -23,10 +23,10 @@ Les variables d'environnements utilisées sont :
 | ------------------ | ------------------------------------------------------------------------------- | ----------------------------- |
 | QUEEN_URL          | Final URL of the Queen application                                              | http://localhost:5000         |
 | QUEEN_API_URL      | URL of the [back-office of Queen](https://github.com/InseeFr/Queen-Back-Office) | https://queen-bo.dev.insee.io |
-| authenticationType | The mode of authentication. Currently, Queen is supporting 'NONE' and 'OIDC'    | anonymous                     |
+| authenticationType | The mode of authentication: 'NONE' or 'OIDC'                                    | NONE                          |
 
 - Fichier oidc.json :
-  aucune valeur par défaut étant donné que le mode d'authentification par defaut est "anonymous".
+  aucune valeur par défaut étant donné que le mode d'authentification par defaut est "NONE".
 
 | Variable       | Valeur                             |
 | -------------- | ---------------------------------- |

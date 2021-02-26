@@ -14,11 +14,11 @@ A demo of this application can be found by the following [this link](https://que
 You can choose your configuration in the configuration.json file.
 There are three environments variables :
 
-| Variable                  | Value                                                                           | Default                       |
-| ------------------------- | ------------------------------------------------------------------------------- | ----------------------------- |
-| QUEEN_URL                 | Final URL of the Queen application                                              | http://localhost:5000         |
-| QUEEN_API_URL             | URL of the [back-office of Queen](https://github.com/InseeFr/Queen-Back-Office) | https://queen-bo.dev.insee.io |
-| QUEEN_AUTHENTICATION_MODE | The mode of authentication. Currently, Queen is supporting 'anonymous'          | anonymous                     |
+| Variable           | Value                                                                           | Default                       |
+| ------------------ | ------------------------------------------------------------------------------- | ----------------------------- |
+| QUEEN_URL          | Final URL of the Queen application                                              | http://localhost:5000         |
+| QUEEN_API_URL      | URL of the [back-office of Queen](https://github.com/InseeFr/Queen-Back-Office) | https://queen-bo.dev.insee.io |
+| authenticationType | The mode of authentication: 'NONE' or 'OIDC'                                    | NONE                          |
 
 ### With node :
 
@@ -39,7 +39,7 @@ For docker : default values of the configuration are defined in [.env](.env) fil
 
 To override environments variables you can do :
 
-- `docker run -p 80:80 -e QUEEN_URL=http://override.value.com -e QUEEN_API_URL=... -e QUEEN_AUTHENTICATION_MODE=... -t inseefr/queen`
+- `docker run -p 80:80 -e QUEEN_URL=http://override.value.com -e QUEEN_API_URL=... -e authenticationType=... -t inseefr/queen`
 
 ### As Web Component (micro-frontend)
 
