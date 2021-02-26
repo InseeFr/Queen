@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import { READ_ONLY } from 'utils/constants';
-import NotFound from 'components/shared/not-found';
 import OrchestratorManager from 'components/orchestratorManager';
 import Synchronize from 'components/Synchronize';
 import Visualizer from 'components/visualizer';
@@ -11,20 +10,22 @@ import { StyleWrapper } from './root.style';
 
 const Rooter = () => {
   const { standalone } = useContext(AppContext);
+  const { pathname } = useLocation();
 
   return (
     <StyleWrapper>
-      <Router>
-        <Switch>
-          <Route
-            path={`/queen/:${READ_ONLY}?/questionnaire/:idQ/survey-unit/:idSU`}
-            component={secure(OrchestratorManager)}
-          />
-          {standalone && <Route path="/queen/synchronize" component={secure(Synchronize)} />}
-          <Route path="/queen/visualize" component={Visualizer} />
-          <Route path={standalone ? '/' : '/queen'} component={NotFound} />
-        </Switch>
-      </Router>
+      <Switch>
+        <Route
+          path={`/queen/:${READ_ONLY}?/questionnaire/:idQ/survey-unit/:idSU`}
+          component={secure(OrchestratorManager)}
+        />
+        {!standalone && <Route path="/queen/synchronize" component={secure(Synchronize)} />}
+        <Route path="/queen/visualize" component={Visualizer} />
+        {!standalone && pathname.startsWith('/queen') && <Redirect to="/queen/visualize" />}
+        {standalone && !pathname.startsWith('/authentication') && (
+          <Redirect to="/queen/visualize" />
+        )}
+      </Switch>
     </StyleWrapper>
   );
 };

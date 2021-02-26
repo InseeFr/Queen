@@ -10,17 +10,21 @@ const usePutResourcesInCache = setResourceProgress => {
   const { getRequiredNomenclatures, getNomenclature } = useAPI();
 
   const putResourcesInCache = async campaignId => {
-    const resourcesResponse = await getRequiredNomenclatures(campaignId);
-    let i = 0;
-    setResourceProgress(0);
-    const resources = await resourcesResponse.data;
-    await resources.reduce(async (previousPromise, resourceId) => {
-      await previousPromise;
-      i += 1;
-      setResourceProgress(getPercent(i, resources.length));
-      return getNomenclature(resourceId);
-    }, Promise.resolve());
-    setResourceProgress(100);
+    const { data: resources, error, statusText } = await getRequiredNomenclatures(campaignId);
+    if (!error) {
+      let i = 0;
+      setResourceProgress(0);
+      await resources.reduce(async (previousPromise, resourceId) => {
+        const { error: errorR, statusText: statusTextR } = await previousPromise;
+        if (errorR) throw new Error(statusTextR);
+        i += 1;
+        setResourceProgress(getPercent(i, resources.length));
+        return getNomenclature(resourceId);
+      }, Promise.resolve());
+      setResourceProgress(100);
+    } else {
+      throw new Error(statusText);
+    }
   };
 
   return { putResourcesInCache };
@@ -37,8 +41,9 @@ const usePutSUInDataBase = () => {
         ...dR.data,
         comment: cR.data,
       });
+    } else {
+      throw new Error(dR.statusText || cR.statusText);
     }
-    Promise.reject();
   };
   return { putSurveyUnit };
 };
@@ -47,7 +52,7 @@ const usePutSUsInDataBaseByCampaignId = setSurveyUnitProgress => {
   const { putSurveyUnit } = usePutSUInDataBase();
 
   const putSUS = async campaignId => {
-    const { data: surveyUnits, error } = await getSurveyUnits(campaignId);
+    const { data: surveyUnits, error, statusText } = await getSurveyUnits(campaignId);
     let i = 0;
     if (!error) {
       await surveyUnits.reduce(async (previousPromise, { id }) => {
@@ -58,7 +63,7 @@ const usePutSUsInDataBaseByCampaignId = setSurveyUnitProgress => {
       }, Promise.resolve());
       setSurveyUnitProgress(100);
     } else {
-      Promise.reject();
+      throw new Error(statusText);
     }
   };
 
@@ -78,7 +83,7 @@ const useSendData = setSendingProgress => {
       const sendSurveyUnit = async () => {
         const { error: putDataError } = await putData(id, other);
         const { error: putCommentError } = await putComment(id, comment);
-        if (putDataError || putCommentError) Promise.reject();
+        if (putDataError || putCommentError) throw new Error(putDataError || putCommentError);
         i += 1;
         setSendingProgress(getPercent(i, surveyUnits.length));
       };
@@ -137,7 +142,8 @@ export const useSynchronisation = () => {
         setResourceProgress(0);
         setSurveyUnitProgress(0);
         setCurrent('questionnaire');
-        await getQuestionnaire(id);
+        const { error, statusText } = await getQuestionnaire(id);
+        if (error) throw new Error(statusText);
         setCurrent('resources');
         await putResourcesInCache(id);
         setCurrent('survey-units');

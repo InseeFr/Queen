@@ -30,7 +30,7 @@ const getErrorMessage = (response, type = 'q') => {
 
 export const useAPI = () => {
   const { authenticationType, oidcUser } = useAuth();
-  const { QUEEN_API_URL: apiUrl } = useContext(AppContext);
+  const { apiUrl } = useContext(AppContext);
 
   const getCampaigns = useCallback(() => {
     const token = authenticationType === OIDC ? oidcUser?.access_token : null;
