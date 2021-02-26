@@ -102,6 +102,7 @@ const SequenceNavigation = ({
       <button
         type="button"
         className="back-subnav-btn"
+        // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus
         ref={backButtonRef}
         onFocus={setFocusSequence(-1)}
@@ -120,6 +121,7 @@ const SequenceNavigation = ({
                 <div className="subnav" key={`subnav-${c.id}`}>
                   <button
                     ref={listRef[index]}
+                    // eslint-disable-next-line jsx-a11y/no-autofocus
                     autoFocus={index === 0}
                     type="button"
                     key={c.id}

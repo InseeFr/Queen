@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useCallback, useMemo } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
@@ -10,15 +12,7 @@ import { StyleWrapper } from './component.style';
 import SequenceNavigation from './sequenceNavigation';
 import SubsequenceNavigation from './subSequenceNavigation';
 
-const Navigation = ({
-  menuOpen,
-  setMenuOpen,
-  title,
-  questionnaire,
-  bindings,
-  setPage,
-  validatePages,
-}) => {
+const Navigation = ({ setMenuOpen, title, questionnaire, bindings, setPage, validatePages }) => {
   const [open, setOpen] = useState(false);
   const [surveyOpen, setSurveyOpen] = useState(false);
   const [currentFocusItemIndex, setCurrentFocusItemIndex] = useState(-1);
