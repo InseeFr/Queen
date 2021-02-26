@@ -7,9 +7,9 @@ metadata:
 spec:
   tls:
     - hosts:
-        - queen.demo.dev.sspcloud.fr
+        - queen.dev.insee.io
   rules:
-    - host: queen.demo.dev.sspcloud.fr
+    - host: queen.dev.insee.io
       http:
         paths:
           - path: /
