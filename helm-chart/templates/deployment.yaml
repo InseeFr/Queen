@@ -34,8 +34,10 @@ spec:
           image: "{{ .Values.ui.image.name }}:{{ .Values.ui.image.version }}"
           imagePullPolicy: {{ .Values.ui.image.pullPolicy }}
           env:
+          {{- range .Values.ingress.hosts }}
             - name: QUEEN_URL
-              value: "https://{{ .Values.ingress.hostname }}"
+              value: "https://{{ .host }}"
+          {{- end }}
             - name: QUEEN_API_URL
               value: "https://{{ .Values.api.hostname }}"
           ports:
