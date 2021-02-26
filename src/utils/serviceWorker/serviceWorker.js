@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-param-reassign */
 // This optional code is used to register a service worker.
 // register() is not called by default.
 
@@ -29,7 +32,7 @@ export function register(config) {
       return;
     }
 
-    const swUrl = `${publicUrl.origin}/service-worker-custom.js`;
+    const swUrl = `${publicUrl.origin}/service-worker.js`;
 
     if (isLocalhost) {
       // This is running on localhost. Let's check if a service worker still exists or not.

@@ -1,59 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+/* eslint-disable no-alert */
+import React, { useState, useEffect, useContext } from 'react';
+import { useParams } from 'react-router-dom';
 import Preloader from 'components/shared/preloader';
 import Error from 'components/shared/Error';
-import { initialize } from 'utils/initializeOrchestrator';
+import { AppContext } from 'components/app';
+import { useAPI, useAPIRemoteData } from 'utils/hook';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
-import { AUTHENTICATION_MODE_ENUM, READ_ONLY } from 'utils/constants';
+import { READ_ONLY } from 'utils/constants';
 import D from 'i18n';
 import * as UQ from 'utils/questionnaire';
 import { sendCloseEvent } from 'utils/communication';
-import * as api from 'utils/api';
 import Orchestrator from '../orchestrator';
 import NotFound from '../shared/not-found';
 
-const OrchestratorManager = ({ match, configuration }) => {
+const OrchestratorManager = () => {
+  const configuration = useContext(AppContext);
+  const { readonly: readonlyParam, idQ, idSU } = useParams();
+  const { surveyUnit, questionnaire, loadingMessage, errorMessage } = useAPIRemoteData(idSU, idQ);
+
+  const [source, setSource] = useState(null);
+  const { putData, putComment } = useAPI(idSU, idQ);
+
   const [init, setInit] = useState(false);
 
-  const [questionnaire, setQuestionnaire] = useState(undefined);
-  const [dataSU, setDataSU] = useState(undefined);
-
-  const [surveyUnit, setSurveyUnit] = useState(undefined);
-
-  const [waiting, setWaiting] = useState(false);
-  const [error, setError] = useState(false);
-
-  const [waitingMessage, setWaitingMessage] = useState(undefined);
-  const [errorMessage, setErrorMessage] = useState(undefined);
-  const [readonly, setReadonly] = useState(false);
-
-  useEffect(() => {
-    if (!init) {
-      if ([READ_ONLY, undefined].includes(match.params.readonly)) {
-        setReadonly(match.params.readonly === READ_ONLY);
-        setWaiting(true);
-        const initOrchestrator = async () => {
-          try {
-            const initialization = initialize({
-              configuration,
-              idQuestionnaire: match.params.idQ,
-              idSurveyUnit: match.params.idSU,
-              setWaitingMessage,
-              setQuestionnaire,
-              setSurveyUnit,
-            });
-            await initialization();
-          } catch (e) {
-            setError(true);
-            setErrorMessage(e.message);
-            setWaiting(false);
-            setInit(true);
-          }
-        };
-        initOrchestrator();
-      }
-    }
-  }, [init, configuration, match.params.readonly, match.params.idQ, match.params.idSU]);
+  const [readonly] = useState(readonlyParam === READ_ONLY);
 
   /**
    * Build special questionnaire for Queen
@@ -61,36 +31,26 @@ const OrchestratorManager = ({ match, configuration }) => {
    */
   useEffect(() => {
     if (!init && questionnaire && surveyUnit) {
-      const { data, ...other } = surveyUnit;
-      setSurveyUnit(other);
-      const newDataSU = UQ.buildSpecialQueenData(data);
-      // TODO : replace simpsons by questionnaire when queen-bo render last version of lunatic questionnaire
       const newQuestionnaire = {
         ...questionnaire,
         components: UQ.buildQueenQuestionnaire(questionnaire.components),
       };
-      setQuestionnaire(newQuestionnaire);
-      setDataSU(newDataSU);
-
-      setWaiting(false);
+      setSource(newQuestionnaire);
       setInit(true);
     }
   }, [init, questionnaire, surveyUnit]);
 
+  const [, /* sending */ setSending] = useState(false);
+  const [, /* errorSending */ setErrorSending] = useState(false);
+
   const putSurveyUnit = async unit => {
-    try {
-      await api.putDataSurveyUnitById(
-        configuration.QUEEN_API_URL,
-        configuration.QUEEN_AUTHENTICATION_MODE
-      )(unit.id, unit.data);
-      await api.putCommentSurveyUnitById(
-        configuration.QUEEN_API_URL,
-        configuration.QUEEN_AUTHENTICATION_MODE
-      )(unit.id, unit.comment);
-    } catch (e) {
-      setError(true);
-      setErrorMessage(`${D.putSurveyUnitFailed} : ${e.message}`);
-    }
+    const { comment, id, ...other } = unit;
+    setErrorSending(null);
+    setSending(true);
+    const { /* status, */ error: putDataError } = await putData(other);
+    const { /* status, */ error: putCommentError } = await putComment(comment);
+    setSending(false);
+    if (putDataError || putCommentError) setErrorSending('Error during sending');
   };
 
   const saveSU = async unit => {
@@ -110,14 +70,13 @@ const OrchestratorManager = ({ match, configuration }) => {
 
   return (
     <>
-      {![READ_ONLY, undefined].includes(match.params.readonly) && <NotFound />}
-      {waiting && <Preloader message={waitingMessage} />}
-      {error && <Error message={errorMessage} />}
-      {!waiting && !error && questionnaire && surveyUnit && (
+      {![READ_ONLY, undefined].includes(readonlyParam) && <NotFound />}
+      {loadingMessage && <Preloader message={loadingMessage} />}
+      {errorMessage && <Error message={errorMessage} />}
+      {init && !loadingMessage && !errorMessage && source && surveyUnit && (
         <Orchestrator
           surveyUnit={surveyUnit}
-          source={questionnaire}
-          dataSU={dataSU}
+          source={source}
           standalone={configuration.standalone}
           readonly={readonly}
           savingType="COLLECTED"
@@ -130,22 +89,6 @@ const OrchestratorManager = ({ match, configuration }) => {
       )}
     </>
   );
-};
-
-OrchestratorManager.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      readonly: PropTypes.node,
-      idQ: PropTypes.node,
-      idSU: PropTypes.node,
-    }),
-  }).isRequired,
-  configuration: PropTypes.shape({
-    standalone: PropTypes.bool.isRequired,
-    QUEEN_URL: PropTypes.string.isRequired,
-    QUEEN_API_URL: PropTypes.string.isRequired,
-    QUEEN_AUTHENTICATION_MODE: PropTypes.oneOf(AUTHENTICATION_MODE_ENUM).isRequired,
-  }).isRequired,
 };
 
 export default OrchestratorManager;

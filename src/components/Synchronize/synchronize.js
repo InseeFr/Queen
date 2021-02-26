@@ -47,7 +47,6 @@ const Synchronize = () => {
         redirect();
       }
     } catch (e) {
-      console.log(e.message);
       window.localStorage.setItem(QUEEN_SYNC_RESULT, QUEEN_SYNC_RESULT_FAILURE);
       redirect();
     }

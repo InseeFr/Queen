@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 const getAlphabet = () => {
   const alphabets = [];
   const start = 'A'.charCodeAt(0);

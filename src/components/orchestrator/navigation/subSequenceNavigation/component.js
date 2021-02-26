@@ -84,6 +84,7 @@ const SubsequenceNavigation = ({ sequence, close, setPage }) => {
       </button>
       <button
         type="button"
+        // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus
         className="subnav-btn"
         ref={listRef[0]}

@@ -4,7 +4,7 @@ import D from 'i18n';
 import { useServiceWorker } from 'utils/hook';
 import { StyleWrapper } from './notification.style';
 
-const ServiceWorkerNotification = ({ authenticated, standalone }) => {
+const ServiceWorkerNotification = ({ standalone }) => {
   const {
     isUpdating,
     isUpdateInstalled,
@@ -15,7 +15,6 @@ const ServiceWorkerNotification = ({ authenticated, standalone }) => {
     updateApp,
     clearUpdating,
   } = useServiceWorker({
-    authenticated,
     standalone,
   });
 
@@ -63,6 +62,5 @@ const ServiceWorkerNotification = ({ authenticated, standalone }) => {
 export default ServiceWorkerNotification;
 
 ServiceWorkerNotification.propTypes = {
-  authenticated: PropTypes.bool.isRequired,
   standalone: PropTypes.bool.isRequired,
 };

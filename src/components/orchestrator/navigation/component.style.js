@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-
 const menuWidthDesktop = 250;
 const sequenceMenuWidthDesktop = 375;
 const subsequenceMenuWidthDesktop = 250;
@@ -167,7 +166,6 @@ export const StyleWrapper = styled.div`
   @media (max-width: ${menuWidthDesktop +
       sequenceMenuWidthDesktop +
       subsequenceMenuWidthDesktop}px) {
-
     .menu {
       width: ${menuWidthMobile}px;
       left: -${menuWidthMobile}px;

@@ -1,26 +1,34 @@
 {
   "name": "queen",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "private": true,
   "dependencies": {
-    "@inseefr/lunatic": "^2.0.0-rc12",
+    "@axa-fr/react-oidc-context": "^3.1.6",
+    "@inseefr/lunatic": "^2.0.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "dexie": "^2.0.4",
     "keycloak-js": "^10.0.2",
+    "oidc-client": "^1.11.5",
     "prop-types": "^15.7.2",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "react-keyboard-event-handler": "^1.5.4",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^4.0.3",
     "react-shadow": "^18.1.0",
-    "styled-components": "^5.0.1"
+    "styled-components": "^5.0.1",
+    "workbox-cacheable-response": "^6.1.1",
+    "workbox-core": "^6.1.1",
+    "workbox-expiration": "^6.1.1",
+    "workbox-precaching": "^6.1.1",
+    "workbox-routing": "^6.1.1",
+    "workbox-strategies": "^6.1.1"
   },
   "scripts": {
     "start": "set PORT=5000 && react-scripts start",
-    "build": "react-scripts build && yarn post-build",
+    "build": "react-scripts build && npm run post-build",
     "post-build": "node ./configuration/build/build-sw.js && node ./configuration/build/manage-public-url.js && copy-and-watch configuration/files/* build",
     "test": "react-scripts test",
     "test:ci": "react-scripts test --watchAll=false --coverage --testResultsProcessor ./node_modules/jest-sonar-reporter",
@@ -47,7 +55,7 @@
     "copy-and-watch": "^0.1.4",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
-    "eslint": "^6.6.0",
+    "eslint": "^7.20.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-import": "^2.18.2",
@@ -55,6 +63,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
     "jest-sonar-reporter": "^2.0.0",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "workbox-build": "^6.1.1"
   }
 }

@@ -3,6 +3,7 @@
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": ["error"],
+    "react/prop-types": ["off"],
     "linebreak-style": 0,
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/jsx-props-no-spreading": ["off"],
@@ -19,9 +20,11 @@
     }
   },
   "globals": {
+    "self": true,
     "fetch": true,
     "window": true,
     "document": true,
-    "navigator": true
+    "navigator": true,
+    "alert": true
   }
 }

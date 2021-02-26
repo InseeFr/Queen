@@ -1,10 +1,8 @@
 const prefixEvent = 'QUEEN';
 
 const dispatchQueenEventWithData = data => {
-  const event = new CustomEvent(prefixEvent, { detail: data });
+  const event = new window.CustomEvent(prefixEvent, { detail: data });
   window.dispatchEvent(event);
-  console.log('event send');
-  console.log(event);
 };
 
 export const sendCloseEvent = idSU => {

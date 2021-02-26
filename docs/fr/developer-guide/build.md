@@ -53,13 +53,9 @@ Si vous trouvez une meilleure solution, merci de la proposer via des Pull Reques
 - **Etape 2 :** ajout du service-worker :
   `node ./configuration/build/build-sw.js`
 
-  - remplacement de `self.__precacheManifest` par `self.__queenPrecacheManifest` dans le fichier généré par workbox : `precache-manifest.[hash].js` + renommage du fichier (`precache-manifest.[hash].js` par `queen-precache-manifest.[hash].js`) afin d'éviter des interférences avec l'application parente
-  - ajout du service-worker externe (à importer via `importScripts` par une application parente)
-  - remplacement dans le service-worker original (pour le mode autonome) généré par react, de :
-    - `__PUBLIC_URL_TO_REPLACE__` par `''`
-    - `precache-manifest.[hash].js` par `queen-precache-manifest.[hash].js`
-    - `self.__precacheManifest` par `self.__queenPrecacheManifest`
+  - creation du service-worker externe (à importer via `importScripts` par une application parente) via workbox (injectManifest)
+  - remplacement dans le service-worker original (pour le mode autonome) généré par react de : `__PUBLIC_URL_TO_REPLACE__` par `''`
 
-- **Etape 3:** remplacement de l'expression `__PUBLIC_URL_TO_REPLACE__` : `yarn post-build`
+- **Etape 3:** remplacement de l'expression `__PUBLIC_URL_TO_REPLACE__` : `npm post-build`
   - `node ./configuration/build/manage-public-url.js` : Parcours des fichiers générés, on remplace l'expression `__PUBLIC_URL_TO_REPLACE__` par `(localStorage.getItem('QUEEN_URL') || '')`
-  - `copy-and-watch configuration/* build` : On ajoute les fichiers `configuration.json` et `keycloak.json` : à valoriser lors du déploiement de l'application.
+  - `copy-and-watch configuration/* build` : On ajoute les fichiers `configuration.json` et `oidc.json` : à valoriser lors du déploiement de l'application.

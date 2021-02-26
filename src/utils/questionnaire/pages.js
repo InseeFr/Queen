@@ -1,6 +1,5 @@
-import { getResponsesNameFromComponent, getCollectedResponse } from './queen';
 import * as lunatic from '@inseefr/lunatic';
-import { isInSpecialQueenData } from './specialQueenData';
+import { getCollectedResponse } from './queen';
 
 export const findPageIndex = components => page =>
   components ? components.findIndex(c => c.page === page) : -1;
@@ -24,37 +23,35 @@ export const getNextPage = components => currentPage => {
  * (TODO : alternative : the last component with response, return the following component)
  * @param {*} questionnaire
  */
-export const getFastForwardComponent = questionnaire => filteredComponents => specialQueenData => {
+export const getFastForwardComponent = questionnaire => filteredComponents => {
   const firstComponent = filteredComponents.filter(component => {
     const { componentType, page } = component;
-    const responsesName = getResponsesNameFromComponent(component);
     const collectedResponses = getCollectedResponse(questionnaire)(component);
     const keyResponses = Object.keys(collectedResponses);
     return (
       page &&
       !['Sequence', 'Subsequence', 'FilterDescription'].includes(componentType) &&
-      !isInSpecialQueenData(specialQueenData)(responsesName) &&
       keyResponses.length === 0
     );
   })[0];
   return firstComponent;
 };
 
-export const getFastForwardPage = questionnaire => bindings => specialQueenData => {
+export const getFastForwardPage = questionnaire => bindings => {
   const filterComponents = questionnaire.components.filter(
     ({ conditionFilter }) => lunatic.interpret(['VTL'])(bindings)(conditionFilter) === 'normal'
   );
-  const firstComponent = getFastForwardComponent(questionnaire)(filterComponents)(specialQueenData);
+  const firstComponent = getFastForwardComponent(questionnaire)(filterComponents);
   const lastPage = filterComponents[filterComponents.length - 1].page;
   const page = firstComponent ? firstComponent.page : lastPage;
   return page;
 };
 
-export const getFirstTitlePageBeforeFastForwardPage = questionnaire => bindings => specialQueenData => {
+export const getFirstTitlePageBeforeFastForwardPage = questionnaire => bindings => {
   const filterComponents = questionnaire.components.filter(
     ({ conditionFilter }) => lunatic.interpret(['VTL'])(bindings)(conditionFilter) === 'normal'
   );
-  const fastPage = getFastForwardPage(questionnaire)(bindings)(specialQueenData);
+  const fastPage = getFastForwardPage(questionnaire)(bindings);
   const componentsBefore = filterComponents.filter(component => {
     const { page, componentType } = component;
     return (

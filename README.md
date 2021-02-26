@@ -7,18 +7,18 @@ Web application for the management of questionnaires powered by Lunatic (https:/
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=InseeFr_Queen&metric=alert_status)](https://sonarcloud.io/dashboard?id=InseeFr_Queen)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-A demo of this application can be found by the following [this link](https://queen.demo.dev.sspcloud.fr/queen/questionnaire/simpsons2020x00/survey-unit/11).
+A demo of this application can be found by the following [this link](https://queen.dev.insee.io/queen/questionnaire/simpsons2020x00/survey-unit/11).
 
 ## Quick start :
 
 You can choose your configuration in the configuration.json file.
 There are three environments variables :
 
-| Variable                  | Value                                                                           | Default                               |
-| ------------------------- | ------------------------------------------------------------------------------- | ------------------------------------- |
-| QUEEN_URL                 | Final URL of the Queen application                                              | http://localhost:5000                 |
-| QUEEN_API_URL             | URL of the [back-office of Queen](https://github.com/InseeFr/Queen-Back-Office) | https://queen-bo.demo.dev.sspcloud.fr |
-| QUEEN_AUTHENTICATION_MODE | The mode of authentication. Currently, Queen is supporting 'anonymous'          | anonymous                             |
+| Variable           | Value                                                                           | Default                       |
+| ------------------ | ------------------------------------------------------------------------------- | ----------------------------- |
+| QUEEN_URL          | Final URL of the Queen application                                              | http://localhost:5000         |
+| QUEEN_API_URL      | URL of the [back-office of Queen](https://github.com/InseeFr/Queen-Back-Office) | https://queen-bo.dev.insee.io |
+| authenticationType | The mode of authentication: 'NONE' or 'OIDC'                                    | NONE                          |
 
 ### With node :
 
@@ -39,7 +39,7 @@ For docker : default values of the configuration are defined in [.env](.env) fil
 
 To override environments variables you can do :
 
-- `docker run -p 80:80 -e QUEEN_URL=http://override.value.com -e QUEEN_API_URL=... -e QUEEN_AUTHENTICATION_MODE=... -t inseefr/queen`
+- `docker run -p 80:80 -e QUEEN_URL=http://override.value.com -e QUEEN_API_URL=... -e authenticationType=... -t inseefr/queen`
 
 ### As Web Component (micro-frontend)
 

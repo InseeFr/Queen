@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: queen
@@ -16,6 +16,7 @@ spec:
         - name: queen
           image: inseefr/queen:latest
           env:
-           - name: QUEEN_URL
-             value: 'https://queen.demo.dev.sspcloud.fr'
-
+            - name: QUEEN_URL
+              value: "https://queen.dev.insee.io"
+            - name: QUEEN_API_URL
+              value: "https://queen-bo.dev.insee.io"

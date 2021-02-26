@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import D from 'i18n';
-import { QUESTIONNAIRE_EXAMPLE_URL } from 'utils/constants';
+import { QUESTIONNAIRE_EXAMPLE_URL, SIMPSONS } from 'utils/constants';
 import { useHistory } from 'react-router-dom';
 import { version } from '../../../../package.json';
 
@@ -11,7 +11,7 @@ const QuestionnaireForm = () => {
   const goToQuestionnaire = e => {
     history.push({
       pathname: '/queen/visualize',
-      search: `?questionnaire=${encodeURIComponent(value || QUESTIONNAIRE_EXAMPLE_URL)}`,
+      search: `?questionnaire=${encodeURIComponent(value || QUESTIONNAIRE_EXAMPLE_URL(SIMPSONS))}`,
     });
     e.preventDefault();
   };
@@ -26,15 +26,14 @@ const QuestionnaireForm = () => {
           </label>
           <input
             id="input-questionnaire"
+            className="input-questionnaire"
             type="input"
             value={value}
-            placeholder={QUESTIONNAIRE_EXAMPLE_URL}
+            placeholder={QUESTIONNAIRE_EXAMPLE_URL(SIMPSONS)}
             onChange={({ target: { value: v } }) => {
               setValue(v);
             }}
-            className="input-questionnaire"
           />
-
           <input type="submit" className="button-questionnaire" value={D.visualize} />
         </form>
       </div>

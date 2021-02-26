@@ -4,14 +4,14 @@ L'application Queen dispose de deux modes possibles : autonome et embarqué.
 
 Pour utilisé Queen en mode embarqué, c'est relativement simple.
 
-Admettons que l'application Queen est déservie via l'url `https://queen.insee.fr`.
+Admettons que l'application Queen est déservie via l'url `https://queen.dev.insee.io`.
 
 ## Charger l'application
 
-Pour charger l'application, il suffit d'importer le script `https://queen.insee.fr/entry.js` dans le fichier `index.html` de l'application "parente".
+Pour charger l'application, il suffit d'importer le script `https://queen.dev.insee.io/entry.js` dans le fichier `index.html` de l'application "parente".
 
 ```html
-<script src="https://queen.insee.fr/entry.js"></script>
+<script src="https://queen.dev.insee.io/entry.js"></script>
 ```
 
 ## Utiliser l'application
