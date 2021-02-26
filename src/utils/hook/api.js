@@ -114,7 +114,7 @@ export const useAPI = () => {
   };
 };
 
-const getSurveyUnit = async (standalone = false, idSurveyUnit) => {
+const getSurveyUnit = async (idSurveyUnit, standalone = false) => {
   const { getData, getComment } = useAPI();
   try {
     if (standalone) {
@@ -161,7 +161,7 @@ export const useAPIRemoteData = (surveyUnitID, questionnaireID) => {
           if (!qR.error) {
             setQuestionnaire(qR.data);
             setLoadingMessage(Dictionary.waitingDataSU);
-            const suR = await getSurveyUnit(standalone, surveyUnitID);
+            const suR = await getSurveyUnit(surveyUnitID, standalone);
             if (!suR.error && suR.surveyUnit) {
               setSurveyUnit(suR.surveyUnit);
               setLoadingMessage(false);

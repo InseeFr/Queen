@@ -5,7 +5,6 @@ import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
 import * as lunatic from '@inseefr/lunatic';
-// import * as UQ from 'utils/questionnaire';
 import { version } from '../../../../package.json';
 import MenuIcon from './menu.icon';
 import { StyleWrapper } from './component.style';
@@ -43,14 +42,6 @@ const Navigation = ({ setMenuOpen, title, questionnaire, bindings, setPage, vali
     },
     []
   );
-
-  // const lastPossiblePage = useMemo(() => {
-  //   return validatePages[validatePages.length - 1];
-  // }, [validatePages]);
-
-  // const lastPossiblePage = useMemo(() => {
-  //   return surveyOpen ? UQ.getFastForwardPage(questionnaire)(bindings)(null) : null;
-  // }, [surveyOpen, questionnaire, bindings]);
 
   const componentsVTL = questionnaire.components.reduce(
     (_, { componentType, labelNav, ...other }) => {

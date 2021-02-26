@@ -20,11 +20,11 @@ export const getNextPage = components => currentPage => {
 
 /**
  * Return the first component without response
- * (TODO : alternative : the last component with response, return the following component)
+ * ( alternative : the last component with response, return the following component)
  * @param {*} questionnaire
  */
 export const getFastForwardComponent = questionnaire => filteredComponents => {
-  const firstComponent = filteredComponents.filter(component => {
+  return filteredComponents.filter(component => {
     const { componentType, page } = component;
     const collectedResponses = getCollectedResponse(questionnaire)(component);
     const keyResponses = Object.keys(collectedResponses);
@@ -34,7 +34,6 @@ export const getFastForwardComponent = questionnaire => filteredComponents => {
       keyResponses.length === 0
     );
   })[0];
-  return firstComponent;
 };
 
 export const getFastForwardPage = questionnaire => bindings => {
@@ -43,8 +42,7 @@ export const getFastForwardPage = questionnaire => bindings => {
   );
   const firstComponent = getFastForwardComponent(questionnaire)(filterComponents);
   const lastPage = filterComponents[filterComponents.length - 1].page;
-  const page = firstComponent ? firstComponent.page : lastPage;
-  return page;
+  return firstComponent ? firstComponent.page : lastPage;
 };
 
 export const getFirstTitlePageBeforeFastForwardPage = questionnaire => bindings => {

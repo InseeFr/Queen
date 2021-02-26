@@ -47,7 +47,7 @@ const usePutSUsInDataBaseByCampaignId = setSurveyUnitProgress => {
   const { putSurveyUnit } = usePutSUInDataBase();
 
   const putSUS = async campaignId => {
-    const { data: surveyUnits, error, status, statusText } = await getSurveyUnits(campaignId);
+    const { data: surveyUnits, error } = await getSurveyUnits(campaignId);
     let i = 0;
     if (!error) {
       await surveyUnits.reduce(async (previousPromise, { id }) => {

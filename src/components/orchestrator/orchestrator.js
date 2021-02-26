@@ -64,7 +64,7 @@ const Orchestrator = ({
 
   const component = filteredComponents.find(({ page }) => page === currentPage);
   const { id, componentType, sequence, subsequence, options, responses, ...props } = component;
-  // TODO : get specialAnswer from component (specified in Pogues)
+  // get specialAnswer from component (specified in Pogues)
   // to wait, set to false by default
   // const specialAnswer = { refusal: false, doesntKnow: false };
 
@@ -81,7 +81,7 @@ const Orchestrator = ({
 
   /**
    * @return boolean if user can continue to the next page.
-   * TODO : manage "refusal" and "doesn't know" response
+   * (manage "refusal" and "doesn't know" response)
    */
   const goNextCondition = () => {
     return true;

@@ -5,7 +5,7 @@ import { NONE, OIDC } from 'utils/constants';
 import { AppContext } from 'components/app';
 
 const secure = WrappedComponent => {
-  const Component = props => {
+  return props => {
     const { authenticationType } = useContext(AppContext);
     const { otherProps } = props;
     const ReturnedComponent = <WrappedComponent {...otherProps} />;
@@ -13,7 +13,6 @@ const secure = WrappedComponent => {
     if (authenticationType === OIDC) return <OidcSecure>{ReturnedComponent}</OidcSecure>;
     return <div>{`Auth type ${authenticationType} is nor recognized`}</div>;
   };
-  return Component;
 };
 
 export default secure;
