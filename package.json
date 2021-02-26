@@ -18,11 +18,17 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "react-shadow": "^18.1.0",
-    "styled-components": "^5.0.1"
+    "styled-components": "^5.0.1",
+    "workbox-cacheable-response": "^6.1.1",
+    "workbox-core": "^6.1.1",
+    "workbox-expiration": "^6.1.1",
+    "workbox-precaching": "^6.1.1",
+    "workbox-routing": "^6.1.1",
+    "workbox-strategies": "^6.1.1"
   },
   "scripts": {
     "start": "set PORT=5000 && react-scripts start",
-    "build": "react-scripts build && yarn post-build",
+    "build": "react-scripts build && npm run post-build",
     "post-build": "node ./configuration/build/build-sw.js && node ./configuration/build/manage-public-url.js && copy-and-watch configuration/files/* build",
     "test": "react-scripts test",
     "test:ci": "react-scripts test --watchAll=false --coverage --testResultsProcessor ./node_modules/jest-sonar-reporter",
@@ -57,6 +63,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
     "jest-sonar-reporter": "^2.0.0",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "workbox-build": "^6.1.1"
   }
 }
