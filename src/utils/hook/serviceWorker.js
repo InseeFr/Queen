@@ -3,7 +3,7 @@ import * as serviceWorker from 'utils/serviceWorker/serviceWorker';
 
 const SW_UPDATE_KEY = 'installing-update';
 
-export const useServiceWorker = ({ authenticated, standalone }) => {
+export const useServiceWorker = ({ standalone }) => {
   const [isInstallingServiceWorker, setIsInstallingServiceWorker] = useState(false);
   const [waitingServiceWorker, setWaitingServiceWorker] = useState(null);
   const [isUpdateAvailable, setUpdateAvailable] = useState(false);
@@ -16,12 +16,12 @@ export const useServiceWorker = ({ authenticated, standalone }) => {
 
   const uninstall = () => {
     serviceWorker.unregister({
-      onUnregister: unregistered => {},
+      onUnregister: () => {},
     });
   };
 
   useEffect(() => {
-    if (authenticated && standalone) {
+    if (standalone) {
       serviceWorker.register({
         onInstalling: installing => {
           setIsInstallingServiceWorker(installing);
@@ -43,7 +43,7 @@ export const useServiceWorker = ({ authenticated, standalone }) => {
         },
       });
     }
-  }, [authenticated, standalone]);
+  }, [standalone]);
 
   const updateAssets = () => {
     if (waitingServiceWorker) {

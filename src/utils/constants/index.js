@@ -1,5 +1,8 @@
 export const KEYCLOAK = 'keycloak';
 export const ANONYMOUS = 'anonymous';
+export const OIDC = 'OIDC';
+export const NONE = 'NONE';
+export const AUTHENTICATION_TYPE_ENUM = [NONE, OIDC];
 export const AUTHENTICATION_MODE_ENUM = [ANONYMOUS, KEYCLOAK];
 
 export const READ_ONLY = 'readonly';

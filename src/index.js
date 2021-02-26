@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/app';
+import App from 'components/app';
+
 import { listenParentApp } from 'utils/communication';
 
 class QueenApp extends HTMLElement {
   mountPoint;
+
   componentAttributes = {};
 
   connectedCallback() {
@@ -24,6 +26,7 @@ class QueenApp extends HTMLElement {
   attributeChangedCallback(name, oldVal, newVal) {
     this.componentAttributes[name.toUpperCase()] = newVal;
   }
+
   reactProps() {
     return { ...this.componentAttributes };
   }

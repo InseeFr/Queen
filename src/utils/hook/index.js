@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
 
 export * from './auth';
+export * from './api';
 export * from './serviceWorker';
 export * from './configuration';
 
