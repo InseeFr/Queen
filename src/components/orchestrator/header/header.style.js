@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const backgroundHeaderColor = 'white';
 const borderStyleHeader = '1px solid #777777';
-const widthBorder = '59px'; //60(width grid template) - 1(border-width)
+const widthBorder = '59px'; // 60(width grid template) - 1(border-width)
 
 export const StyleWrapper = styled.div`
   width: 100%;

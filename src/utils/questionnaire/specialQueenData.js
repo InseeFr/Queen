@@ -30,20 +30,7 @@ export const buildSpecialQueenData = data => {
   return { data: { COLLECTED: newCOLLECTED, EXTERNAL, CALCULATED }, specialQueenData };
 };
 
-export const getStateToSave = questionnaire => specialQueenData => {
-  if (!specialQueenData) return lunatic.getState(questionnaire);
-  const { DOESNT_KNOW, REFUSAL } = { ...specialQueenData };
-  const state = lunatic.getState(questionnaire);
-  if (DOESNT_KNOW)
-    DOESNT_KNOW.forEach(varName => {
-      state.COLLECTED[varName].COLLECTED = CONST.DOESNT_KNOW_LABEL;
-    });
-  if (REFUSAL)
-    REFUSAL.forEach(varName => {
-      state.COLLECTED[varName].COLLECTED = CONST.REFUSAL_LABEL;
-    });
-  return state;
-};
+export const getStateToSave = questionnaire => lunatic.getState(questionnaire);
 
 export const removeResponseToSpecialQueenData = specialQueenData => responseName => {
   const newSpecialQueenData = { ...specialQueenData };

@@ -1,3 +1,9 @@
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.1.1/workbox-sw.js');
+
+const { CacheableResponsePlugin } = workbox.cacheableResponse;
+const { registerRoute } = workbox.routing;
+const { NetworkFirst, CacheFirst } = workbox.strategies;
+
 const getQueenUrlRegex = url => {
   return url.replace('http', '^http').concat('/(.*)((.js)|(.png)|(.svg))');
 };
@@ -13,61 +19,61 @@ const getRequiredResourceUrlRegex = () => '^http.*/api/campaign/(.){1,}/required
 const getResourceUrlRegex = () => '^http.*/api/nomenclature/(.){1,}';
 
 const queenCacheName = 'queen-cache';
-console.log('Loading Queen SW into another SW');
+console.log('"Loading Queen SW into another SW"');
 
-workbox.routing.registerRoute(
+registerRoute(
   new RegExp(getQueenUrlRegexJson(self._QUEEN_URL)),
-  new workbox.strategies.NetworkFirst({
+  new NetworkFirst({
     cacheName: queenCacheName,
     plugins: [
-      new workbox.cacheableResponse.Plugin({
+      new CacheableResponsePlugin({
         statuses: [0, 200],
       }),
     ],
   })
 );
 
-workbox.routing.registerRoute(
+registerRoute(
   new RegExp(getQueenUrlRegex(self._QUEEN_URL)),
-  new workbox.strategies.CacheFirst({
+  new CacheFirst({
     cacheName: queenCacheName,
     plugins: [
-      new workbox.cacheableResponse.Plugin({
+      new CacheableResponsePlugin({
         statuses: [0, 200],
       }),
     ],
   })
 );
 
-workbox.routing.registerRoute(
+registerRoute(
   new RegExp(getQuestionnaireUrlRegex()),
-  new workbox.strategies.CacheFirst({
+  new CacheFirst({
     cacheName: 'queen-questionnaire',
     plugins: [
-      new workbox.cacheableResponse.Plugin({
+      new CacheableResponsePlugin({
         statuses: [0, 200],
       }),
     ],
   })
 );
 
-workbox.routing.registerRoute(
+registerRoute(
   new RegExp(getRequiredResourceUrlRegex()),
-  new workbox.strategies.CacheFirst({
+  new CacheFirst({
     cacheName: 'queen-resource',
     plugins: [
-      new workbox.cacheableResponse.Plugin({
+      new CacheableResponsePlugin({
         statuses: [0, 200],
       }),
     ],
   })
 );
-workbox.routing.registerRoute(
+registerRoute(
   new RegExp(getResourceUrlRegex()),
-  new workbox.strategies.CacheFirst({
+  new CacheFirst({
     cacheName: 'queen-resource',
     plugins: [
-      new workbox.cacheableResponse.Plugin({
+      new CacheableResponsePlugin({
         statuses: [0, 200],
       }),
     ],
@@ -75,20 +81,11 @@ workbox.routing.registerRoute(
 );
 
 const queenPrecacheController = async () => {
-  const responseFromQueen = await fetch(`${self._QUEEN_URL}/manifest.json`);
-  const { icons } = await responseFromQueen.json();
-  let urlsToPrecache = [
-    `${self._QUEEN_URL}/entry.js`,
-    `${self._QUEEN_URL}/keycloak.json`,
-    `${self._QUEEN_URL}/manifest.json`,
-    `${self._QUEEN_URL}/configuration.json`,
-    `${self._QUEEN_URL}/asset-manifest.json`,
-  ].concat(icons.map(({ src }) => `${self._QUEEN_URL}/${src}`));
   const cache = await caches.open(queenCacheName);
-  urlsToPrecache = self.__queenPrecacheManifest.reduce((_, { url }) => {
-    if (!url.endsWith('.html')) return [..._, `${self._QUEEN_URL}${url}`];
-    return _;
-  }, urlsToPrecache);
+  const urlsToPrecache = self.__WB_MANIFEST.reduce(
+    (_, { url }) => [..._, `${self._QUEEN_URL}/${url}`],
+    []
+  );
   await cache.addAll(urlsToPrecache);
 };
 

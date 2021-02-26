@@ -1,73 +1,19 @@
-import { useState, useEffect } from 'react';
-import {
-  QUEEN_USER_KEY,
-  GUEST_QUEEN_USER,
-  KEYCLOAK,
-  ANONYMOUS,
-  AUTHORIZED_ROLES,
-} from 'utils/constants';
-import { keycloakAuthentication, getTokenInfo } from 'utils/keycloak';
+import { useContext } from 'react';
+import { NONE, OIDC } from 'utils/constants';
+/* pb with this import */
+// eslint-disable-next-line import/no-unresolved
+import { useReactOidc } from '@axa-fr/react-oidc-context';
+import { AppContext } from 'components/app';
 
-const isAuthorized = roles => roles.filter(r => AUTHORIZED_ROLES.includes(r)).length > 0;
-
-const isLocalStorageTokenValid = () => {
-  const interviewer = JSON.parse(window.localStorage.getItem(QUEEN_USER_KEY));
-  if (interviewer && interviewer.roles) {
-    const { roles } = interviewer;
-    if (isAuthorized(roles)) {
-      return true;
-    }
+export const useAuth = () => {
+  const { authenticationType } = useContext(AppContext);
+  if (authenticationType === NONE) return { authenticationType, name: 'Fake User' };
+  if (authenticationType === OIDC) {
+    /**
+     * Assume this conditional hook does not break anything
+     */
+    const { oidcUser, login, logout } = useReactOidc();
+    return { authenticationType, oidcUser, login, logout };
   }
-  return false;
-};
-
-export const useAuth = authenticationMode => {
-  const [authenticated, setAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  const accessAuthorized = () => {
-    setLoading(false);
-    setAuthenticated(true);
-  };
-
-  const accessDenied = () => {
-    setLoading(false);
-    setAuthenticated(false);
-  };
-
-  useEffect(() => {
-    switch (authenticationMode) {
-      case KEYCLOAK:
-        keycloakAuthentication({ onLoad: 'login-required', checkLoginIframe: false })
-          .then(auth => {
-            if (auth) {
-              const interviewerInfos = getTokenInfo();
-              const { roles } = interviewerInfos;
-              if (isAuthorized(roles)) {
-                window.localStorage.setItem(QUEEN_USER_KEY, JSON.stringify(interviewerInfos));
-                accessAuthorized();
-              } else {
-                // authenticated without right role
-                accessDenied();
-              }
-              // offline mode
-            } else if (isLocalStorageTokenValid()) {
-              accessAuthorized();
-            } else {
-              accessDenied();
-            }
-          })
-          .catch(() => {
-            return isLocalStorageTokenValid() ? accessAuthorized() : accessDenied();
-          });
-        break;
-      case ANONYMOUS:
-        window.localStorage.setItem(QUEEN_USER_KEY, JSON.stringify(GUEST_QUEEN_USER));
-        accessAuthorized();
-        break;
-      default:
-        break;
-    }
-  }, [authenticationMode]);
-  return { authenticated, loading };
+  throw new Error(`Auth type ${authenticationType} is nor recognized`);
 };

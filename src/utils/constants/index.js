@@ -1,5 +1,8 @@
 export const KEYCLOAK = 'keycloak';
 export const ANONYMOUS = 'anonymous';
+export const OIDC = 'OIDC';
+export const NONE = 'NONE';
+export const AUTHENTICATION_TYPE_ENUM = [NONE, OIDC];
 export const AUTHENTICATION_MODE_ENUM = [ANONYMOUS, KEYCLOAK];
 
 export const READ_ONLY = 'readonly';
@@ -32,5 +35,15 @@ export const DIRECT_CONTINUE_COMPONENTS = ['CheckboxOne', 'Radio'];
 
 export const KEYBOARD_SHORTCUT_COMPONENTS = [...DIRECT_CONTINUE_COMPONENTS, 'CheckboxGroup'];
 
-export const QUESTIONNAIRE_EXAMPLE_URL = `${QUEEN_URL ||
-  window.location.origin}/static/questionnaire/simpsons.json`;
+export const SIMPSONS = 'simpsons';
+export const TIC = 'tic';
+export const DEFAULT = 'default';
+
+export const QUESTIONNAIRE_EXAMPLES = [SIMPSONS, TIC];
+
+export const QUESTIONNAIRE_EXAMPLE_URL = q =>
+  `${QUEEN_URL || window.location.origin}/static/questionnaire/${q}/form.json`;
+export const DATA_EXAMPLE_URL = q =>
+  `${QUEEN_URL || window.location.origin}/static/questionnaire/${q}/data.json`;
+
+export const DEFAULT_DATA_URL = DATA_EXAMPLE_URL(DEFAULT);

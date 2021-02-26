@@ -1,118 +1,101 @@
-import * as api from 'utils/api';
+/* eslint-disable no-unused-vars */
 import D from 'i18n';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
-import { QUEEN_URL } from 'utils/constants';
-import { kc } from 'utils/keycloak';
+import { useAPI } from 'utils/hook';
 import { useState } from 'react';
-
-const getConfiguration = async () => {
-  const response = await fetch(`${QUEEN_URL}/configuration.json`);
-  const configuration = await response.json();
-  return configuration;
-};
 
 const getPercent = (n, length) => Math.round((100 * n) / length);
 
-const putQuestionnaireInCache = async (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id) => {
-  await api.getQuestionnaireById(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE)(id);
-};
+const usePutResourcesInCache = setResourceProgress => {
+  const { getRequiredNomenclatures, getNomenclature } = useAPI();
 
-const putResourcesInCache = (
-  QUEEN_API_URL,
-  QUEEN_AUTHENTICATION_MODE,
-  campaignId
-) => async setResourceProgress => {
-  const resourcesResponse = await api.getListRequiredNomenclature(
-    QUEEN_API_URL,
-    QUEEN_AUTHENTICATION_MODE
-  )(campaignId);
-  let i = 0;
-  setResourceProgress(0);
-  const resources = await resourcesResponse.data;
-  await resources.reduce(async (previousPromise, resourceId) => {
-    await previousPromise;
-    i += 1;
-    setResourceProgress(getPercent(i, resources.length));
-    return api.getNomenclatureById(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE)(resourceId);
-  }, Promise.resolve());
-  setResourceProgress(100);
-};
-
-const putSurveyUnitInDataBase = async (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id) => {
-  const dataResponse = await api.getDataSurveyUnitById(
-    QUEEN_API_URL,
-    QUEEN_AUTHENTICATION_MODE
-  )(id);
-  const surveyUnitData = await dataResponse.data;
-  const commentResponse = await api.getCommentSurveyUnitById(
-    QUEEN_API_URL,
-    QUEEN_AUTHENTICATION_MODE
-  )(id);
-  const surveyUnitComment = await commentResponse.data;
-  await surveyUnitIdbService.addOrUpdateSU({
-    id,
-    data: surveyUnitData,
-    comment: surveyUnitComment,
-  });
-};
-
-const putSurveyUnitsInDataBaseByCampaignId = (
-  QUEEN_API_URL,
-  QUEEN_AUTHENTICATION_MODE,
-  campaignId
-) => async setSurveyUnitProgress => {
-  const surveyUnitsResponse = await api.getSurveyUnitByIdCampaign(
-    QUEEN_API_URL,
-    QUEEN_AUTHENTICATION_MODE
-  )(campaignId);
-  const surveyUnits = await surveyUnitsResponse.data;
-  let i = 0;
-  setSurveyUnitProgress(0);
-
-  await surveyUnits.reduce(async (previousPromise, { id }) => {
-    await previousPromise;
-    i += 1;
-    setSurveyUnitProgress(getPercent(i, surveyUnits.length));
-    return putSurveyUnitInDataBase(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id);
-  }, Promise.resolve());
-  setSurveyUnitProgress(100);
-};
-
-const sendData = (QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE) => async setSendingProgress => {
-  const surveyUnits = await surveyUnitIdbService.getAll();
-  let i = 0;
-  setSendingProgress(0);
-  await surveyUnits.reduce(async (previousPromise, surveyUnit) => {
-    await previousPromise;
-    const { id, data, comment } = surveyUnit;
-    const sendSurveyUnit = async () => {
-      await api.putDataSurveyUnitById(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE)(id, data);
-      await api.putCommentSurveyUnitById(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE)(id, comment);
+  const putResourcesInCache = async campaignId => {
+    const resourcesResponse = await getRequiredNomenclatures(campaignId);
+    let i = 0;
+    setResourceProgress(0);
+    const resources = await resourcesResponse.data;
+    await resources.reduce(async (previousPromise, resourceId) => {
+      await previousPromise;
       i += 1;
-      setSendingProgress(getPercent(i, surveyUnits.length));
-    };
-    return sendSurveyUnit();
-  }, Promise.resolve());
+      setResourceProgress(getPercent(i, resources.length));
+      return getNomenclature(resourceId);
+    }, Promise.resolve());
+    setResourceProgress(100);
+  };
+
+  return { putResourcesInCache };
+};
+
+const usePutSUInDataBase = () => {
+  const { getData, getComment } = useAPI();
+  const putSurveyUnit = async id => {
+    const dR = await getData(id);
+    const cR = await getComment(id);
+    if (!dR.error && !cR.error) {
+      await surveyUnitIdbService.addOrUpdateSU({
+        id,
+        ...dR.data,
+        comment: cR.data,
+      });
+    }
+    Promise.reject();
+  };
+  return { putSurveyUnit };
+};
+const usePutSUsInDataBaseByCampaignId = setSurveyUnitProgress => {
+  const { getSurveyUnits } = useAPI();
+  const { putSurveyUnit } = usePutSUInDataBase();
+
+  const putSUS = async campaignId => {
+    const { data: surveyUnits, error, status, statusText } = await getSurveyUnits(campaignId);
+    let i = 0;
+    if (!error) {
+      await surveyUnits.reduce(async (previousPromise, { id }) => {
+        await previousPromise;
+        i += 1;
+        setSurveyUnitProgress(getPercent(i, surveyUnits.length));
+        return putSurveyUnit(id);
+      }, Promise.resolve());
+      setSurveyUnitProgress(100);
+    } else {
+      Promise.reject();
+    }
+  };
+
+  return { putSUS };
+};
+
+const useSendData = setSendingProgress => {
+  const { putData, putComment } = useAPI();
+
+  const send = async () => {
+    const surveyUnits = await surveyUnitIdbService.getAll();
+    let i = 0;
+    setSendingProgress(0);
+    await surveyUnits.reduce(async (previousPromise, surveyUnit) => {
+      await previousPromise;
+      const { id, comment, ...other } = surveyUnit;
+      const sendSurveyUnit = async () => {
+        const { error: putDataError } = await putData(id, other);
+        const { error: putCommentError } = await putComment(id, comment);
+        if (putDataError || putCommentError) Promise.reject();
+        i += 1;
+        setSendingProgress(getPercent(i, surveyUnits.length));
+      };
+      return sendSurveyUnit();
+    }, Promise.resolve());
+  };
+
+  return { send };
 };
 
 const clean = async () => {
   await surveyUnitIdbService.deleteAll();
 };
 
-const authentication = () =>
-  new Promise((resolve, reject) => {
-    if (navigator.onLine) {
-      kc.init()
-        .then(authenticated => {
-          resolve(authenticated);
-        })
-        .catch(e => reject(e));
-    } else {
-      resolve();
-    }
-  });
-
 export const useSynchronisation = () => {
+  const { getCampaigns, getQuestionnaire } = useAPI();
+
   const [waitingMessage, setWaitingMessage] = useState(null);
   const [sendingProgress, setSendingProgress] = useState(null);
   const [campaignProgress, setCampaignProgress] = useState(null);
@@ -120,21 +103,20 @@ export const useSynchronisation = () => {
   const [surveyUnitProgress, setSurveyUnitProgress] = useState(0);
   const [current, setCurrent] = useState(null);
 
+  const { send: sendData } = useSendData(setSendingProgress);
+  const { putResourcesInCache } = usePutResourcesInCache(setResourceProgress);
+  const { putSUS: putSurveyUnitsInDataBaseByCampaignId } = usePutSUsInDataBaseByCampaignId(
+    setSurveyUnitProgress
+  );
+
   const synchronize = async () => {
     setWaitingMessage(D.waitingConfiguration);
     // (0) : get configuration
-    const { QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE } = await getConfiguration();
-
-    // (1) : authentication
-    setWaitingMessage(D.waitingAuthentication);
-    if (QUEEN_AUTHENTICATION_MODE === 'keycloak') {
-      await authentication();
-    }
 
     setWaitingMessage(D.waitingSendingData);
     setCurrent('send');
     // (2) : send the local data to server
-    await sendData(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE)(setSendingProgress);
+    await sendData();
 
     setSendingProgress(null);
 
@@ -144,7 +126,7 @@ export const useSynchronisation = () => {
 
     // (4) : Get the data
     setWaitingMessage(D.waintingData);
-    const campaignsResponse = await api.getCampaigns(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE);
+    const campaignsResponse = await getCampaigns();
     const campaigns = await campaignsResponse.data;
     let i = 0;
     setCampaignProgress(0);
@@ -155,19 +137,11 @@ export const useSynchronisation = () => {
         setResourceProgress(0);
         setSurveyUnitProgress(0);
         setCurrent('questionnaire');
-        await putQuestionnaireInCache(QUEEN_API_URL, QUEEN_AUTHENTICATION_MODE, id);
+        await getQuestionnaire(id);
         setCurrent('resources');
-        await putResourcesInCache(
-          QUEEN_API_URL,
-          QUEEN_AUTHENTICATION_MODE,
-          id
-        )(setResourceProgress);
+        await putResourcesInCache(id);
         setCurrent('survey-units');
-        await putSurveyUnitsInDataBaseByCampaignId(
-          QUEEN_API_URL,
-          QUEEN_AUTHENTICATION_MODE,
-          id
-        )(setSurveyUnitProgress);
+        await putSurveyUnitsInDataBaseByCampaignId(id);
         setCurrent(null);
         i += 1;
         setCampaignProgress(getPercent(i, campaigns.length));
