@@ -5,6 +5,6 @@
   "QUEEN_API_URL": "${QUEEN_API_URL}",
   "_QUEEN_API_URL_COMMENT_": "URL of the back-office of Queen application",
 
-  "QUEEN_AUTHENTICATION_MODE": "${QUEEN_AUTHENTICATION_MODE}",
-  "_QUEEN_AUTHENTICATION_MODE_COMMENT_": "The mode of authentication: 'anonymous' or 'keycloak'"
+  "authenticationType": "${authenticationType}",
+  "_authenticationType_comment_": "The mode of authentication: 'NONE' or 'OIDC'"
 }
