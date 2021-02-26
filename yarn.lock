@@ -11047,10 +11047,10 @@ react-scripts@^4.0.3:
   optionalDependencies:
     fsevents "^2.1.3"
 
-react-shadow@^18.1.0:
-  version "18.4.2"
-  resolved "https://registry.yarnpkg.com/react-shadow/-/react-shadow-18.4.2.tgz#df96f1ca80e1d450b778bd3fc11aa09bd47af692"
-  integrity sha512-morQkJH3+RRboxr0L4I19PeNwGEHBH/8vc52JAA07/QA1x1wEINRzZYntLEc96VDAbQlo/xrI7HKdyIJsUKzmQ==
+react-shadow@^19.0.2:
+  version "19.0.2"
+  resolved "https://registry.yarnpkg.com/react-shadow/-/react-shadow-19.0.2.tgz#af2594efe467ffc8d24789022280a5d2f6fae9cb"
+  integrity sha512-v0XXiMwIDgnvtT1DX4DU7VRgJO1k1nItDuedvWAWMhHaahagcJti4ffliwdBGRb9O77TFUz0nNKPzNxQQ9y1Ow==
   dependencies:
     humps "^2.0.1"
     react-use "^15.3.3"
