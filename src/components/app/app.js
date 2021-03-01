@@ -1,5 +1,5 @@
 import React from 'react';
-import root from 'react-shadow/styled-components';
+import root from 'react-shadow/material-ui';
 import { BrowserRouter } from 'react-router-dom';
 import Rooter from 'components/router';
 import { StyleProvider } from 'components/style';
