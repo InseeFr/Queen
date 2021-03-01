@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import D from 'i18n';
-import ProgressBar from 'components/shared/ProgressBar';
 import Preloader from 'components/shared/preloader';
+import { ProgressBar } from 'components/shared/ProgressBar';
+import { AppVersion, Button } from 'components/designSystem';
+import { Box, Container, makeStyles, Typography } from '@material-ui/core';
 import {
   QUEEN_SYNC_RESULT,
   QUEEN_SYNC_RESULT_SUCCESS,
@@ -10,10 +12,16 @@ import {
   SYNCHRONIZE_KEY,
 } from 'utils/constants';
 import { useSynchronisation } from 'utils/synchronize';
-import { StyleWrapper } from './synchronize.style';
-import { version } from '../../../package.json';
+import { SimpleLabelProgress } from './SimpleLabelProgress';
+
+const useStyles = makeStyles(theme => ({
+  welcome: { textAlign: 'center', paddingTop: '3em' },
+  details: { padding: '3em' },
+  button: { marginTop: theme.spacing(3) },
+}));
 
 const Synchronize = () => {
+  const classes = useStyles();
   const [toSynchronize] = useState(() => {
     const sync = window.localStorage.getItem(SYNCHRONIZE_KEY);
     return sync === 'true';
@@ -34,21 +42,24 @@ const Synchronize = () => {
     window.location = window.location.origin;
   };
 
+  const endOfSync = success => {
+    const resultKey = success ? QUEEN_SYNC_RESULT_SUCCESS : QUEEN_SYNC_RESULT_FAILURE;
+    window.localStorage.setItem(QUEEN_SYNC_RESULT, resultKey);
+    setTimeout(() => redirect(), 800);
+  };
+
   const launchSynchronize = useCallback(async () => {
     try {
       if (navigator.onLine) {
         window.localStorage.setItem(QUEEN_SYNC_RESULT, QUEEN_SYNC_RESULT_PENDING);
         setPending(true);
         await synchronize();
-        window.localStorage.setItem(QUEEN_SYNC_RESULT, QUEEN_SYNC_RESULT_SUCCESS);
-        redirect();
+        endOfSync(true);
       } else {
-        window.localStorage.setItem(QUEEN_SYNC_RESULT, QUEEN_SYNC_RESULT_FAILURE);
-        redirect();
+        endOfSync(false);
       }
     } catch (e) {
-      window.localStorage.setItem(QUEEN_SYNC_RESULT, QUEEN_SYNC_RESULT_FAILURE);
-      redirect();
+      endOfSync(false);
     }
   }, [synchronize]);
 
@@ -59,51 +70,50 @@ const Synchronize = () => {
   }, [toSynchronize, pending, launchSynchronize]);
 
   return (
-    <>
+    <Container>
       {!pending && !toSynchronize && (
-        <StyleWrapper>
-          <div className="content">
-            <h1>{D.syncPage}</h1>
-            <h2>{D.manualSync}</h2>
-            <button type="button" onClick={() => launchSynchronize()}>
-              {D.synchronizeButton}
-            </button>
-          </div>
-
-          <div className="version">{`Version ${version}`}</div>
-        </StyleWrapper>
+        <Box className={classes.welcome}>
+          <Typography variant="h3">{D.syncPage}</Typography>
+          <Typography>{D.manualSync}</Typography>
+          <Button className={classes.button} onClick={launchSynchronize}>
+            {D.synchronizeButton}
+          </Button>
+        </Box>
       )}
       {pending && (
-        <StyleWrapper>
+        <>
           <Preloader title={D.syncInProgress} message={waitingMessage} />
-          {!!sendingProgress && <ProgressBar value={sendingProgress} />}
-          {!sendingProgress && campaignProgress !== null && (
-            <div className="sync-detail">
-              <p>
-                <span className={current === 'questionnaire' ? 'current' : ''}>
-                  {`${D.waitingLoadingCampaigns} : `}
-                </span>
-                <ProgressBar value={campaignProgress} />
-              </p>
+          <Box className={classes.details}>
+            {!!sendingProgress && <ProgressBar value={sendingProgress} />}
+            {!sendingProgress && campaignProgress !== null && (
+              <>
+                <SimpleLabelProgress
+                  label={D.waitingLoadingCampaigns}
+                  value={campaignProgress}
+                  current={current === 'questionnaire'}
+                />
 
-              <p>
-                <span className={current === 'resources' ? 'current' : ''}>
-                  {`${D.waitingLoadingResources} : `}
-                </span>
-                <ProgressBar value={resourceProgress} />
-              </p>
-
-              <p>
-                <span className={current === 'survey-units' ? 'current' : ''}>
-                  {`${D.waitingLoadingSU} : `}
-                </span>
-                <ProgressBar value={surveyUnitProgress} />
-              </p>
-            </div>
-          )}
-        </StyleWrapper>
+                {!!resourceProgress && (
+                  <SimpleLabelProgress
+                    label={D.waitingLoadingResources}
+                    value={resourceProgress}
+                    current={current === 'resources'}
+                  />
+                )}
+                {!!surveyUnitProgress && (
+                  <SimpleLabelProgress
+                    label={D.waitingLoadingSU}
+                    value={surveyUnitProgress}
+                    current={current === 'survey-units'}
+                  />
+                )}
+              </>
+            )}
+          </Box>
+        </>
       )}
-    </>
+      <AppVersion />
+    </Container>
   );
 };
 
