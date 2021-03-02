@@ -1,16 +1,29 @@
 import React from 'react';
 import D from 'i18n';
-import { StyleWrapper } from './error.style';
-import { version } from '../../../../package.json';
+import { Box, makeStyles, Typography } from '@material-ui/core';
+import { AppVersion } from 'components/designSystem';
 
-const Error = ({ message = '' }) => (
-  <StyleWrapper>
-    <div className="error">
-      <h2>{D.errorOccurred}</h2>
-      <h3>{message}</h3>
-    </div>
-    <div className="version">{`Version ${version}`}</div>
-  </StyleWrapper>
-);
+const useStyles = makeStyles(theme => ({
+  box: { padding: '3em', textAlign: 'center' },
+  message: { marginTop: '2em' },
+  title: {
+    color: theme.palette.error.main,
+  },
+}));
+
+const Error = ({ message = '' }) => {
+  const classes = useStyles();
+  return (
+    <Box className={classes.box}>
+      <Typography variant="h3" className={classes.title}>
+        {D.errorOccurred}
+      </Typography>
+      <Typography className={classes.message} variant="h4">
+        {message}
+      </Typography>
+      <AppVersion />
+    </Box>
+  );
+};
 
 export default Error;
