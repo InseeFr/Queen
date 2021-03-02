@@ -14,7 +14,7 @@ import Helper from './helper';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    paddingBottom: theme.spacing(3),
+    paddingBottom: theme.spacing(4),
   },
   title: {
     textAlign: 'center',
