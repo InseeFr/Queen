@@ -6,6 +6,7 @@ import Loader from 'components/shared/preloader';
 import { buildOidcConfiguration } from 'utils/oidc/build-configuration';
 import { AppContext } from 'components/app';
 import Error from 'components/shared/Error';
+import { QUEEN_URL } from 'utils/constants';
 
 const AuthProviderOIDC = ({ children }) => {
   const conf = useContext(AppContext);
@@ -13,7 +14,7 @@ const AuthProviderOIDC = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${window.location.origin}/oidc.json`)
+    fetch(`${QUEEN_URL}/oidc.json`)
       .then(r => r.json())
       .then(r => {
         setOidcConf(r);
