@@ -6,6 +6,7 @@ import { API } from 'utils/api';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import { DEFAULT_DATA_URL, OIDC } from 'utils/constants';
 import { useAuth } from './auth';
+import { useAsyncValue } from '.';
 
 const clean = async (standalone = false) => {
   try {
@@ -114,29 +115,33 @@ export const useAPI = () => {
   };
 };
 
-const getSurveyUnit = async (idSurveyUnit, standalone = false) => {
+const useGetSurveyUnit = () => {
   const { getData, getComment } = useAPI();
-  try {
-    if (standalone) {
-      const dR = await getData(idSurveyUnit);
-      const cR = await getComment(idSurveyUnit);
-      if (!dR.error && !cR.error) {
-        await surveyUnitIdbService.addOrUpdateSU({
-          id: idSurveyUnit,
-          ...dR.data,
-          comment: cR.data,
-        });
-      } else {
-        if (dR.error) return dR;
-        return cR;
-      }
-    }
-    return { surveyUnit: await surveyUnitIdbService.get(idSurveyUnit) };
-  } catch (error) {
-    return { error };
-  }
-};
+  const refreshGetDate = useAsyncValue(getData);
+  const refreshGetComment = useAsyncValue(getComment);
 
+  return async (idSurveyUnit, standalone = false) => {
+    try {
+      if (standalone) {
+        const dR = await refreshGetDate.current(idSurveyUnit);
+        const cR = await refreshGetComment.current(idSurveyUnit);
+        if (!dR.error && !cR.error) {
+          await surveyUnitIdbService.addOrUpdateSU({
+            id: idSurveyUnit,
+            ...dR.data,
+            comment: cR.data,
+          });
+        } else {
+          if (dR.error) return dR;
+          return cR;
+        }
+      }
+      return { surveyUnit: await surveyUnitIdbService.get(idSurveyUnit) };
+    } catch (error) {
+      return { error };
+    }
+  };
+};
 export const useAPIRemoteData = (surveyUnitID, questionnaireID) => {
   const { standalone } = useContext(AppContext);
   const [questionnaire, setQuestionnaire] = useState(null);
@@ -146,6 +151,7 @@ export const useAPIRemoteData = (surveyUnitID, questionnaireID) => {
   const [errorMessage, setErrorMessage] = useState(null);
 
   const { getQuestionnaire } = useAPI();
+  const getSurveyUnit = useGetSurveyUnit();
 
   useEffect(() => {
     if (questionnaireID && surveyUnitID) {
@@ -175,6 +181,7 @@ export const useAPIRemoteData = (surveyUnitID, questionnaireID) => {
       load();
     }
     // assume that we don't resend request to get data and questionnaire when token was refreshed
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [surveyUnitID, questionnaireID]);
 
   return { loadingMessage, errorMessage, surveyUnit, questionnaire };
@@ -216,7 +223,7 @@ export const useRemoteData = (questionnaireUrl, dataUrl) => {
       };
       load();
     }
-  }, [questionnaireUrl, dataUrl]);
+  }, [questionnaireUrl, dataUrl, standalone]);
 
   return { loadingMessage, errorMessage, data, questionnaire };
 };
