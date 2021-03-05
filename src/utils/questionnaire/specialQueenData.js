@@ -27,7 +27,10 @@ export const buildSpecialQueenData = data => {
       }
     });
   }
-  return { data: { COLLECTED: newCOLLECTED, EXTERNAL, CALCULATED }, specialQueenData };
+  return {
+    data: { COLLECTED: newCOLLECTED, EXTERNAL, CALCULATED },
+    specialQueenData,
+  };
 };
 
 export const getStateToSave = questionnaire => lunatic.getState(questionnaire);

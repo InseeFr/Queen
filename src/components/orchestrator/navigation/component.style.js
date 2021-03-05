@@ -164,8 +164,8 @@ export const StyleWrapper = styled.div`
   }
 
   @media (max-width: ${menuWidthDesktop +
-      sequenceMenuWidthDesktop +
-      subsequenceMenuWidthDesktop}px) {
+    sequenceMenuWidthDesktop +
+    subsequenceMenuWidthDesktop}px) {
     .menu {
       width: ${menuWidthMobile}px;
       left: -${menuWidthMobile}px;

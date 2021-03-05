@@ -26,7 +26,8 @@ export const clean = () => {
 };
 
 let isInit = false;
-export default o => {
+
+const observer = o => {
   if (!isInit) {
     isInit = true;
     init();
@@ -36,3 +37,4 @@ export default o => {
     o(navigator.onLine);
   }
 };
+export default observer;

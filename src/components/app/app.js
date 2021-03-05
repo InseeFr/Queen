@@ -18,7 +18,7 @@ const App = () => {
   return (
     <root.div id="queen-container" style={customStyle}>
       {configuration && (
-        <AppContext.Provider value={configuration}>
+        <AppContext.Provider value={{ ...configuration }}>
           <StyleProvider>
             <ServiceWorkerNotification standalone={configuration.standalone} />
             <AuthProvider authType={configuration.authenticationType}>

@@ -1,12 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
+import { ArrowRightAlt } from '@material-ui/icons';
+import { Button } from 'components/designSystem';
 import PropTypes from 'prop-types';
 import D from 'i18n';
 import { StyleWrapper } from './continue.style';
 
-const Button = ({ readonly, canContinue, isLastComponent, page, setPendingChangePage }) => {
+const ButtonContinue = ({ readonly, canContinue, isLastComponent, page, setPendingChangePage }) => {
   const lastLabel = readonly ? D.simpleQuit : D.saveAndQuit;
   const getNextLabel = isLastComponent ? lastLabel : D.continueButton;
+
+  const rootRef = useRef(null);
 
   const continueButtonRef = useRef();
 
@@ -43,10 +47,10 @@ const Button = ({ readonly, canContinue, isLastComponent, page, setPendingChange
   }, [focus, pageChanging, setPendingChangePage]);
 
   const componentToDisplay = (
-    <>
+    <div ref={rootRef}>
       <StyleWrapper>
         <div className="continue-button">
-          <button
+          <Button
             ref={continueButtonRef}
             aria-label={getNextLabel}
             type="button"
@@ -54,9 +58,10 @@ const Button = ({ readonly, canContinue, isLastComponent, page, setPendingChange
             onFocus={onfocus(true)}
             onBlur={onfocus(false)}
             disabled={!canContinue && !readonly}
+            endIcon={!isLastComponent && <ArrowRightAlt />}
           >
-            {`${getNextLabel} ${(!isLastComponent && '\u2192') || ''}`}
-          </button>
+            {getNextLabel}
+          </Button>
           <span className="help">{` ${D.helpShortCut} `}</span>
           <span>{D.ctrlEnter}</span>
         </div>
@@ -66,7 +71,7 @@ const Button = ({ readonly, canContinue, isLastComponent, page, setPendingChange
         onKeyEvent={keyboardShortcut}
         handleFocusableElements
       />
-    </>
+    </div>
   );
 
   return (
@@ -77,7 +82,7 @@ const Button = ({ readonly, canContinue, isLastComponent, page, setPendingChange
   );
 };
 
-Button.propTypes = {
+ButtonContinue.propTypes = {
   readonly: PropTypes.bool.isRequired,
   canContinue: PropTypes.bool.isRequired,
   isLastComponent: PropTypes.bool.isRequired,
@@ -85,4 +90,4 @@ Button.propTypes = {
   setPendingChangePage: PropTypes.func.isRequired,
 };
 
-export default React.memo(Button);
+export default React.memo(ButtonContinue);

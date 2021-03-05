@@ -13,28 +13,21 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const Button = ({
-  className,
-  color,
-  children,
-  disabled,
-  onClick,
-  startIcon,
-  endIcon,
-  ...other
-}) => {
-  const classes = useStyles();
-
-  return (
-    <MuiButton
-      className={`${classes.root} ${className}`}
-      disabled={disabled}
-      onClick={onClick}
-      startIcon={startIcon}
-      endIcon={endIcon}
-      {...other}
-    >
-      {children}
-    </MuiButton>
-  );
-};
+export const Button = React.forwardRef(
+  ({ className, color, children, disabled, onClick, startIcon, endIcon, ...other }, ref) => {
+    const classes = useStyles();
+    return (
+      <MuiButton
+        ref={ref}
+        className={`${classes.root} ${className}`}
+        disabled={disabled}
+        onClick={onClick}
+        startIcon={startIcon}
+        endIcon={endIcon}
+        {...other}
+      >
+        {children}
+      </MuiButton>
+    );
+  }
+);
