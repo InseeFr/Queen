@@ -1,6 +1,6 @@
 {
   "name": "queen",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "dependencies": {
     "@axa-fr/react-oidc-context": "^3.1.6",
@@ -12,7 +12,6 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "dexie": "^2.0.4",
-    "idb-suggester": "^0.2.24",
     "keycloak-js": "^10.0.2",
     "oidc-client": "^1.11.5",
     "prop-types": "^15.7.2",

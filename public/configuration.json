@@ -1,10 +1,10 @@
 {
-  "queenUrl": "http://localhost:5001",
+  "queenUrl": "http://localhost:5000",
   "_queenUrl_comment_": "Final URL of the Queen application",
 
   "apiUrl": "https://queen-bo.dev.insee.io",
   "_apiUrl_comment_": "URL of the back-office of Queen application",
 
-  "authenticationType": "OIDC",
+  "authenticationType": "NONE",
   "_authenticationType_comment_": "The mode of authentication: 'NONE' or 'OIDC'"
 }
