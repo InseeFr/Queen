@@ -15,11 +15,12 @@ function buildSW() {
 
   workboxBuild
     .injectManifest({
-      swSrc: 'src/utils/serviceWorker/external-sw.js', // this is your sw template file
-      swDest: 'build/queen-service-worker.js', // this will be created in the build step
+      swSrc: 'src/utils/serviceWorker/external-sw.js', // SW template file
+      swDest: 'build/queen-service-worker.js', // Final SW file
+      maximumFileSizeToCacheInBytes: 5000000, // limit (in Bytes) of cacheable files
       globDirectory: 'build',
       globPatterns: ['**/*.js', '**/*.png', '**/*.svg', '**/*.json'],
-      globIgnores: ['**/service-worker.js'],
+      globIgnores: ['**/service-worker.js'], // don't cache service-worker file
     })
     .then(({ count, size, warnings }) => {
       // Optionally, log any warnings and details.
