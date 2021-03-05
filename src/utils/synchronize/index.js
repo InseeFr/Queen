@@ -1,98 +1,13 @@
-/* eslint-disable no-unused-vars */
 import D from 'i18n';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
-import { useAPI } from 'utils/hook';
 import { useState } from 'react';
-
-const getPercent = (n, length) => Math.round((100 * n) / length);
-
-const usePutResourcesInCache = setResourceProgress => {
-  const { getRequiredNomenclatures, getNomenclature } = useAPI();
-
-  const putResourcesInCache = async campaignId => {
-    const { data: resources, error, statusText } = await getRequiredNomenclatures(campaignId);
-    if (!error) {
-      let i = 0;
-      setResourceProgress(0);
-      await resources.reduce(async (previousPromise, resourceId) => {
-        const { error: errorR, statusText: statusTextR } = await previousPromise;
-        if (errorR) throw new Error(statusTextR);
-        i += 1;
-        setResourceProgress(getPercent(i, resources.length));
-        return getNomenclature(resourceId);
-      }, Promise.resolve());
-      setResourceProgress(100);
-    } else {
-      throw new Error(statusText);
-    }
-  };
-
-  return { putResourcesInCache };
-};
-
-const usePutSUInDataBase = () => {
-  const { getData, getComment } = useAPI();
-  const putSurveyUnit = async id => {
-    const dR = await getData(id);
-    const cR = await getComment(id);
-    if (!dR.error && !cR.error) {
-      await surveyUnitIdbService.addOrUpdateSU({
-        id,
-        ...dR.data,
-        comment: cR.data,
-      });
-    } else {
-      throw new Error(dR.statusText || cR.statusText);
-    }
-  };
-  return { putSurveyUnit };
-};
-const usePutSUsInDataBaseByCampaignId = setSurveyUnitProgress => {
-  const { getSurveyUnits } = useAPI();
-  const { putSurveyUnit } = usePutSUInDataBase();
-
-  const putSUS = async campaignId => {
-    const { data: surveyUnits, error, statusText } = await getSurveyUnits(campaignId);
-    let i = 0;
-    if (!error) {
-      await surveyUnits.reduce(async (previousPromise, { id }) => {
-        await previousPromise;
-        i += 1;
-        setSurveyUnitProgress(getPercent(i, surveyUnits.length));
-        return putSurveyUnit(id);
-      }, Promise.resolve());
-      setSurveyUnitProgress(100);
-    } else {
-      throw new Error(statusText);
-    }
-  };
-
-  return { putSUS };
-};
-
-const useSendData = setSendingProgress => {
-  const { putData, putComment } = useAPI();
-
-  const send = async () => {
-    const surveyUnits = await surveyUnitIdbService.getAll();
-    let i = 0;
-    setSendingProgress(0);
-    await surveyUnits.reduce(async (previousPromise, surveyUnit) => {
-      await previousPromise;
-      const { id, comment, ...other } = surveyUnit;
-      const sendSurveyUnit = async () => {
-        const { error: putDataError } = await putData(id, other);
-        const { error: putCommentError } = await putComment(id, comment);
-        if (putDataError || putCommentError) throw new Error(putDataError || putCommentError);
-        i += 1;
-        setSendingProgress(getPercent(i, surveyUnits.length));
-      };
-      return sendSurveyUnit();
-    }, Promise.resolve());
-  };
-
-  return { send };
-};
+import { useAPI, useAsyncValue } from 'utils/hook';
+import { getPercent } from 'utils';
+import {
+  usePutResourcesInCache,
+  useSaveSUsToLocalDataBase,
+  useSendSurveyUnits,
+} from 'utils/hook/synchronize';
 
 const clean = async () => {
   await surveyUnitIdbService.deleteAll();
@@ -101,6 +16,9 @@ const clean = async () => {
 export const useSynchronisation = () => {
   const { getCampaigns, getQuestionnaire } = useAPI();
 
+  const refrehGetCampaigns = useAsyncValue(getCampaigns);
+  const refrehGetQuestionnaire = useAsyncValue(getQuestionnaire);
+
   const [waitingMessage, setWaitingMessage] = useState(null);
   const [sendingProgress, setSendingProgress] = useState(null);
   const [campaignProgress, setCampaignProgress] = useState(null);
@@ -108,51 +26,48 @@ export const useSynchronisation = () => {
   const [surveyUnitProgress, setSurveyUnitProgress] = useState(0);
   const [current, setCurrent] = useState(null);
 
-  const { send: sendData } = useSendData(setSendingProgress);
-  const { putResourcesInCache } = usePutResourcesInCache(setResourceProgress);
-  const { putSUS: putSurveyUnitsInDataBaseByCampaignId } = usePutSUsInDataBaseByCampaignId(
-    setSurveyUnitProgress
-  );
+  const sendData = useSendSurveyUnits(setSendingProgress);
+  const putResourcesInCache = usePutResourcesInCache(setResourceProgress);
+  const saveSurveyUnitsToLocalDataBase = useSaveSUsToLocalDataBase(setSurveyUnitProgress);
+
+  const getAllCampaign = async id => {
+    setResourceProgress(0);
+    setSurveyUnitProgress(0);
+    setCurrent('questionnaire');
+    const { error, statusText } = await refrehGetQuestionnaire.current(id);
+    if (error) throw new Error(statusText);
+    setCurrent('resources');
+    await putResourcesInCache(id);
+    setCurrent('survey-units');
+    await saveSurveyUnitsToLocalDataBase(id);
+    setCurrent(null);
+  };
 
   const synchronize = async () => {
-    setWaitingMessage(D.waitingConfiguration);
-    // (0) : get configuration
-
+    // (2) : send the local data to server
     setWaitingMessage(D.waitingSendingData);
     setCurrent('send');
-    // (2) : send the local data to server
     await sendData();
 
     setSendingProgress(null);
 
     // (3) : clean
+    setCurrent('clean');
     setWaitingMessage(D.waitingCleaning);
     await clean();
 
     // (4) : Get the data
     setWaitingMessage(D.waintingData);
-    const campaignsResponse = await getCampaigns();
+    const campaignsResponse = await refrehGetCampaigns.current();
     const campaigns = await campaignsResponse.data;
     let i = 0;
     setCampaignProgress(0);
 
     await campaigns.reduce(async (previousPromise, { id }) => {
       await previousPromise;
-      const getAllCampaign = async () => {
-        setResourceProgress(0);
-        setSurveyUnitProgress(0);
-        setCurrent('questionnaire');
-        const { error, statusText } = await getQuestionnaire(id);
-        if (error) throw new Error(statusText);
-        setCurrent('resources');
-        await putResourcesInCache(id);
-        setCurrent('survey-units');
-        await putSurveyUnitsInDataBaseByCampaignId(id);
-        setCurrent(null);
-        i += 1;
-        setCampaignProgress(getPercent(i, campaigns.length));
-      };
-      return getAllCampaign();
+      i += 1;
+      setCampaignProgress(getPercent(i, campaigns.length));
+      return getAllCampaign(id);
     }, Promise.resolve());
   };
 
