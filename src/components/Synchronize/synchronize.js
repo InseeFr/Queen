@@ -13,11 +13,13 @@ import {
 } from 'utils/constants';
 import { useSynchronisation } from 'utils/synchronize';
 import { SimpleLabelProgress } from './SimpleLabelProgress';
+import { IconStatus } from './IconStatus';
 
 const useStyles = makeStyles(theme => ({
   welcome: { textAlign: 'center', paddingTop: '3em' },
-  details: { padding: '3em' },
+  details: { padding: '3em', paddingTop: '1em' },
   button: { marginTop: theme.spacing(3) },
+  icon: { textAlign: 'center', marginTop: '0.5em' },
 }));
 
 const Synchronize = () => {
@@ -26,8 +28,8 @@ const Synchronize = () => {
     const sync = window.localStorage.getItem(SYNCHRONIZE_KEY);
     return sync === 'true';
   });
-
   const [pending, setPending] = useState(false);
+
   const {
     synchronize,
     current,
@@ -38,15 +40,30 @@ const Synchronize = () => {
     surveyUnitProgress,
   } = useSynchronisation();
 
+  const [currentJob, setCurrentJob] = useState(null);
+
+  useEffect(() => {
+    if (current) {
+      if (current === 'send') setCurrentJob('upload');
+      else setCurrentJob('download');
+    }
+  }, [current]);
+
   const redirect = () => {
     window.location = window.location.origin;
   };
 
-  const endOfSync = success => {
-    const resultKey = success ? QUEEN_SYNC_RESULT_SUCCESS : QUEEN_SYNC_RESULT_FAILURE;
-    window.localStorage.setItem(QUEEN_SYNC_RESULT, resultKey);
-    setTimeout(() => redirect(), 800);
-  };
+  const endOfSync = useCallback(
+    success => {
+      setCurrentJob(success ? 'success' : 'failure');
+      window.localStorage.setItem(
+        QUEEN_SYNC_RESULT,
+        success ? QUEEN_SYNC_RESULT_SUCCESS : QUEEN_SYNC_RESULT_FAILURE
+      );
+      setTimeout(() => redirect(), 800);
+    },
+    [setCurrentJob]
+  );
 
   const launchSynchronize = useCallback(async () => {
     try {
@@ -61,7 +78,7 @@ const Synchronize = () => {
     } catch (e) {
       endOfSync(false);
     }
-  }, [synchronize]);
+  }, [endOfSync, synchronize]);
 
   useEffect(() => {
     if (toSynchronize && !pending) {
@@ -83,6 +100,11 @@ const Synchronize = () => {
       {pending && (
         <>
           <Preloader title={D.syncInProgress} message={waitingMessage} />
+          {waitingMessage && (
+            <div className={classes.icon}>
+              <IconStatus current={currentJob} />
+            </div>
+          )}
           <Box className={classes.details}>
             {!!sendingProgress && <ProgressBar value={sendingProgress} />}
             {!sendingProgress && campaignProgress !== null && (
