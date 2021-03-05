@@ -1,5 +1,8 @@
 const navigationMessage = {
-  newSequenceComment: { fr: 'Changement de séquence', en: 'Changing the sequence' },
+  newSequenceComment: {
+    fr: 'Changement de séquence',
+    en: 'Changing the sequence',
+  },
   goToNavigation: { fr: 'Allez vers ...', en: 'Go to ...' },
   goBackNavigation: { fr: 'Retour', en: 'Go back' },
   backToBeginning: {
