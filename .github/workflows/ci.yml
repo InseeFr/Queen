@@ -40,6 +40,8 @@ jobs:
       - name: Get current version
         id: version
         run: echo "::set-output name=version::$(jq -r .version package.json)"
+        with:
+          file: ./package.json
       - name: Checkout branch "master"
         uses: actions/checkout@v2
         with:
