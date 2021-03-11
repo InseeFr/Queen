@@ -37,17 +37,17 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Get current version
-        id: version
-        uses: notiz-dev/github-action-json-property@release
-        with:
-          path: './package.json'
-          prop_path: 'version'
-      - run: echo ${{steps.version.outputs.prop}}
       - name: Checkout branch "master"
         uses: actions/checkout@v2
         with:
           ref: 'master'
+      - name: Get current version
+          id: version
+          uses: notiz-dev/github-action-json-property@release
+          with:
+            path: 'package.json'
+            prop_path: 'version'
+            - run: echo ${{steps.version.outputs.prop}}
       - name: Release snapshot
         id: release-snapshot
         uses: actions/create-release@latest
