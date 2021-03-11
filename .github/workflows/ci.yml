@@ -37,10 +37,8 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout branch "master"
+      - name: Checkout current branch
         uses: actions/checkout@v2
-        with:
-          ref: 'master'
       - name: Get current version
         id: version
         uses: notiz-dev/github-action-json-property@release
