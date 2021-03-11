@@ -19,7 +19,6 @@ jobs:
         with:
           node-version: 14
       - run: yarn --frozen-lockfile
-
   build:
     runs-on: ubuntu-latest
     steps:
@@ -34,7 +33,28 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build
-          path: build                
+          path: build
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get current version
+        id: version
+        run: echo "::set-output name=version::$(jq -r .version package.json)"
+      - name: Checkout branch "master"
+        uses: actions/checkout@v2
+        with:
+          ref: 'master'
+      - name: Release snapshot
+        id: release-snapshot
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          push: ${{ github.event_name != 'pull_request' }}
+          tag_name: ${{ steps.version.outputs.version }}
+          release_name: ${{ steps.version.outputs.version }}
+          draft: false
+          prerelease: false
   docker:
     needs: build
     runs-on: ubuntu-latest
