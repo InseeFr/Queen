@@ -1,43 +1,41 @@
-import styled from 'styled-components';
+import { makeStyles } from '@material-ui/core';
 
-const declarationColor = '#085394';
+export const useStyles = makeStyles(theme => ({
+  root: props => ({
+    paddingBottom: `${!props.subsequence ? '3px' : '0px'}`,
+    borderBottom: `${!props.subsequence ? `${theme.palette.declarations.main} 2px solid` : ''}`,
+    width: 'max-content',
+    color: 'black',
+    marginTop: '0.3em',
+  }),
 
-export const StyleWrapper = styled.div`
-  &.sequence {
-    padding-bottom: 3px;
-    border-bottom: ${declarationColor} 2px solid;
-  }
+  breadcrumbButton: {
+    cursor: 'pointer',
+    backgroundColor: 'transparent',
+    border: 'none',
+    textTransform: 'uppercase',
+    fontSize: '95%',
+    '&:hover': {
+      fontWeight: 'bold',
+    },
 
-  width: max-content;
-  color: black;
-  margin-top: 0.3em;
+    '&::before': {
+      content: "'\u3009'",
+      marginRight: '0.8em',
+      fontWeight: 'bold',
+    },
+  },
 
-  .breadcrumb-queen button {
-    cursor: pointer;
-    background-color: transparent;
-    border: none;
-    text-transform: uppercase;
-    font-size: 95%;
-    &:hover {
-      font-weight: bold;
-    }
+  subsequenceButton: {
+    '&::before': {
+      content: "'\u3009'",
+      marginRight: '0.8em',
+      fontWeight: 'bold',
+    },
 
-    &::before {
-      content: '\u3009';
-      margin-right: 0.8em;
-      font-weight: bold;
-    }
-  }
-  button.breadcrumb-element-queen {
-    &::before {
-      content: '\u3009';
-      margin-right: 0.8em;
-      font-weight: bold;
-    }
-
-    margin-left: 0.8em;
-    display: inline;
-    padding-bottom: 3px;
-    border-bottom: ${declarationColor} 2px solid;
-  }
-`;
+    marginLeft: '0.8em',
+    display: 'inline',
+    paddingBottom: '3px',
+    borderBottom: `${theme.palette.declarations.main} 2px solid`,
+  },
+}));

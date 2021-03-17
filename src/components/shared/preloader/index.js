@@ -2,19 +2,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import imgPreloader from 'img/preloader.svg';
 import D from 'i18n';
-import { version } from '../../../../package.json';
-import { StyleWrapper } from './preloader.style';
+import { makeStyles, Typography } from '@material-ui/core';
 
-const Preloader = ({ title, message }) => (
-  <StyleWrapper className="preloader-container">
-    <div className="preloader">
-      <img src={imgPreloader} alt="waiting..." />
-      <h2>{title}</h2>
-      <h3>{message}</h3>
+const useStyles = makeStyles({
+  root: {
+    margin: 'auto',
+    width: '100%',
+    height: '100%',
+    textAlign: 'center',
+  },
+  title: {
+    color: '#292664',
+  },
+});
+
+const Preloader = ({ title, message }) => {
+  const classes = useStyles();
+  return (
+    <div className={classes.root}>
+      <img src={imgPreloader} alt="waiting..." className={classes.svg} />
+      <Typography variant="h3" className={classes.title}>
+        {title}
+      </Typography>
+      <Typography variant="h4">{message}</Typography>
     </div>
-    <div className="version">{`Version ${version}`}</div>
-  </StyleWrapper>
-);
+  );
+};
 
 Preloader.defaultProps = {
   title: D.pleaseWait,

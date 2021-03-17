@@ -405,13 +405,7 @@
             }
           ],
           "conditionFilter": "\"normal\"",
-          "bindingDependencies": [
-            "DATENAIS",
-            "DATEENQ",
-            "LIB_FEMININ",
-            "G_PRENOM",
-            "LNAIS"
-          ],
+          "bindingDependencies": ["DATENAIS", "DATEENQ", "LIB_FEMININ", "G_PRENOM", "LNAIS"],
           "options": [
             {
               "value": "1",
@@ -470,13 +464,7 @@
             }
           ],
           "conditionFilter": "\"normal\"",
-          "bindingDependencies": [
-            "G_PRENOM",
-            "NATIO1N1",
-            "NATIO1N2",
-            "NATIO1N3",
-            "NATIO1N4"
-          ],
+          "bindingDependencies": ["G_PRENOM", "NATIO1N1", "NATIO1N2", "NATIO1N3", "NATIO1N4"],
           "responses": [
             {
               "id": "kbcackq2-QOP-kg21tn5w",
@@ -880,13 +868,7 @@
       "min": 0,
       "iterations": "count(G_PRENOM)",
       "conditionFilter": "\"normal\"",
-      "bindingDependencies": [
-        "G_PRENOM",
-        "SITUA",
-        "LIB_PRONOM",
-        "TRAVAIL",
-        "DIPLOME"
-      ],
+      "bindingDependencies": ["G_PRENOM", "SITUA", "LIB_PRONOM", "TRAVAIL", "DIPLOME"],
       "loopDependencies": ["G_PRENOM"],
       "components": [
         {

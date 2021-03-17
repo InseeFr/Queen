@@ -1,13 +1,16 @@
 {
   "name": "queen",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "private": true,
   "dependencies": {
     "@axa-fr/react-oidc-context": "^3.1.6",
-    "@inseefr/lunatic": "^2.0.2",
+    "@inseefr/lunatic": "^2.1.0",
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
+    "@material-ui/styles": "^4.11.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
-    "axios": "^0.21.1",
     "dexie": "^2.0.4",
     "keycloak-js": "^10.0.2",
     "oidc-client": "^1.11.5",
@@ -15,9 +18,10 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-keyboard-event-handler": "^1.5.4",
+    "react-markdown": "^5.0.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
-    "react-shadow": "^18.1.0",
+    "react-shadow": "^19.0.2",
     "styled-components": "^5.0.1",
     "workbox-cacheable-response": "^6.1.1",
     "workbox-core": "^6.1.1",
@@ -35,7 +39,51 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "react-app/jest",
+      "prettier",
+      "plugin:react-hooks/recommended",
+      "plugin:jsx-a11y/recommended",
+      "plugin:import/warnings"
+    ],
+    "plugins": [
+      "prettier",
+      "jsx-a11y"
+    ],
+    "rules": {
+      "react/prop-types": [
+        "off"
+      ],
+      "prettier/prettier": [
+        1,
+        {
+          "arrowParens": "avoid"
+        }
+      ]
+    },
+    "globals": {
+      "fetch": true,
+      "window": true,
+      "document": true,
+      "navigator": true
+    },
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "paths": [
+            "src"
+          ]
+        }
+      }
+    }
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "endOfLine": "auto",
+    "arrowParens": "avoid"
   },
   "browserslist": {
     "production": [
@@ -55,15 +103,14 @@
     "copy-and-watch": "^0.1.4",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
-    "eslint": "^7.20.0",
     "eslint-config-airbnb": "^18.0.1",
-    "eslint-config-prettier": "^6.5.0",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-react": "^7.16.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "jest-sonar-reporter": "^2.0.0",
-    "prettier": "^1.18.2",
+    "prettier": "^2.2.1",
     "workbox-build": "^6.1.1"
   }
 }

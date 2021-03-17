@@ -5,14 +5,21 @@ import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
 import * as lunatic from '@inseefr/lunatic';
-// import * as UQ from 'utils/questionnaire';
 import { version } from '../../../../package.json';
 import MenuIcon from './menu.icon';
-import { StyleWrapper } from './component.style';
+import { useStyles } from './component.style';
 import SequenceNavigation from './sequenceNavigation';
 import SubsequenceNavigation from './subSequenceNavigation';
 
-const Navigation = ({ setMenuOpen, title, questionnaire, bindings, setPage, validatePages }) => {
+const Navigation = ({
+  className,
+  setMenuOpen,
+  title,
+  questionnaire,
+  bindings,
+  setPage,
+  validatePages,
+}) => {
   const [open, setOpen] = useState(false);
   const [surveyOpen, setSurveyOpen] = useState(false);
   const [currentFocusItemIndex, setCurrentFocusItemIndex] = useState(-1);
@@ -43,14 +50,6 @@ const Navigation = ({ setMenuOpen, title, questionnaire, bindings, setPage, vali
     },
     []
   );
-
-  // const lastPossiblePage = useMemo(() => {
-  //   return validatePages[validatePages.length - 1];
-  // }, [validatePages]);
-
-  // const lastPossiblePage = useMemo(() => {
-  //   return surveyOpen ? UQ.getFastForwardPage(questionnaire)(bindings)(null) : null;
-  // }, [surveyOpen, questionnaire, bindings]);
 
   const componentsVTL = questionnaire.components.reduce(
     (_, { componentType, labelNav, ...other }) => {
@@ -177,82 +176,86 @@ const Navigation = ({ setMenuOpen, title, questionnaire, bindings, setPage, vali
     [listRef]
   );
 
+  const classes = useStyles();
+
   return (
-    <>
-      <StyleWrapper className="header-item navigation">
-        <button
-          ref={listRef[0]}
-          type="button"
-          className="menu-icon"
-          onClick={openCloseMenu}
-          onFocus={setFocusItem(0)}
-        >
-          <MenuIcon width={48} color={open ? '#E30342' : '#000000'} />
-        </button>
-        <div className={`menu${open ? ' slideIn' : ''}`}>
-          {open && (
-            <>
-              <div className="navigation-container">
-                <span className="go-to-navigation">{D.goToNavigation}</span>
-                <nav role="navigation">
-                  <ul>
-                    <button
-                      type="button"
-                      className={`subnav-btn ${currentFocusItemIndex === 1 ? 'selected' : ''}`}
-                      ref={listRef[1]}
-                      onFocus={setFocusItem(1)}
-                      onClick={openCloseSubMenu}
-                      onKeyDown={handleFinalTab}
-                    >
-                      {D.surveyNavigation}
-                      <span>{'\u3009'}</span>
-                    </button>
-                  </ul>
-                </nav>
-              </div>
-              <div className="version">{`Version ${version}`}</div>
-            </>
-          )}
-        </div>
+    <div className={className}>
+      <button
+        ref={listRef[0]}
+        type="button"
+        className={classes.menuIcon}
+        onClick={openCloseMenu}
+        onFocus={setFocusItem(0)}
+      >
+        <MenuIcon width={48} color={open ? '#E30342' : '#000000'} />
+      </button>
+      <div className={`${classes.menu}${open ? ' slideIn' : ''}`}>
         {open && (
           <>
-            <div className={`sequence-navigation-container${surveyOpen ? ' slideIn' : ''}`}>
-              {surveyOpen && (
-                <SequenceNavigation
-                  title={title}
-                  components={navigationComponents}
+            <div className={classes.navigationContainer}>
+              <span className={classes.goToNavigationSpan}>{D.goToNavigation}</span>
+              <nav role="navigation">
+                <ul>
+                  <button
+                    type="button"
+                    className={`${classes.subNavButton} ${
+                      currentFocusItemIndex === 1 ? 'selected' : ''
+                    }`}
+                    ref={listRef[1]}
+                    onFocus={setFocusItem(1)}
+                    onClick={openCloseSubMenu}
+                    onKeyDown={handleFinalTab}
+                  >
+                    {D.surveyNavigation}
+                    <span>{'\u3009'}</span>
+                  </button>
+                </ul>
+              </nav>
+            </div>
+            <div className={classes.version}>{`Version ${version}`}</div>
+          </>
+        )}
+      </div>
+      {open && (
+        <>
+          <div className={`${classes.sequenceNavigationContainer}${surveyOpen ? ' slideIn' : ''}`}>
+            {surveyOpen && (
+              <SequenceNavigation
+                title={title}
+                components={navigationComponents}
+                setPage={setNavigationPage}
+                setSelectedSequence={setSelectedSequence}
+                subSequenceOpen={!!selectedSequence}
+                close={openCloseSubMenu}
+              />
+            )}
+          </div>
+          {surveyOpen && (
+            <div
+              className={`${classes.subsequenceNavigationContainer}${
+                selectedSequence ? ' slideIn' : ''
+              }`}
+            >
+              {selectedSequence && selectedSequence.components.length > 0 && (
+                <SubsequenceNavigation
+                  sequence={selectedSequence}
+                  close={() => setSelectedSequence(undefined)}
                   setPage={setNavigationPage}
-                  setSelectedSequence={setSelectedSequence}
-                  subSequenceOpen={!!selectedSequence}
-                  close={openCloseSubMenu}
                 />
               )}
             </div>
-            {surveyOpen && (
-              <div
-                className={`subsequence-navigation-container${selectedSequence ? ' slideIn' : ''}`}
-              >
-                {selectedSequence && selectedSequence.components.length > 0 && (
-                  <SubsequenceNavigation
-                    sequence={selectedSequence}
-                    close={() => setSelectedSequence(undefined)}
-                    setPage={setNavigationPage}
-                  />
-                )}
-              </div>
-            )}
-          </>
-        )}
+          )}
+        </>
+      )}
 
-        {open && <div className="background-menu" onClick={openCloseMenu} />}
+      {open && <div className={classes.backgroundMenu} onClick={openCloseMenu} />}
 
-        <KeyboardEventHandler
-          handleKeys={keysToHandle}
-          onKeyEvent={keyboardShortcut}
-          handleFocusableElements
-        />
-      </StyleWrapper>
-    </>
+      <KeyboardEventHandler
+        handleKeys={keysToHandle}
+        onKeyEvent={keyboardShortcut}
+        handleFocusableElements
+      />
+    </div>
   );
 };
 

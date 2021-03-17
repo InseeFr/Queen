@@ -1,6 +1,8 @@
 import React from 'react';
-import root from 'react-shadow/styled-components';
+import root from 'react-shadow/material-ui';
+import { BrowserRouter } from 'react-router-dom';
 import Rooter from 'components/router';
+import { StyleProvider } from 'components/style';
 import { AuthProvider } from 'components/auth';
 import ServiceWorkerNotification from 'components/shared/serviceWorkerNotification';
 import D from 'i18n';
@@ -16,11 +18,15 @@ const App = () => {
   return (
     <root.div id="queen-container" style={customStyle}>
       {configuration && (
-        <AppContext.Provider value={configuration}>
-          <ServiceWorkerNotification standalone={configuration.standalone} />
-          <AuthProvider authType={configuration.authenticationType}>
-            <Rooter configuration={configuration} />
-          </AuthProvider>
+        <AppContext.Provider value={{ ...configuration }}>
+          <StyleProvider>
+            <ServiceWorkerNotification standalone={configuration.standalone} />
+            <AuthProvider authType={configuration.authenticationType}>
+              <BrowserRouter>
+                <Rooter />
+              </BrowserRouter>
+            </AuthProvider>
+          </StyleProvider>
         </AppContext.Provider>
       )}
       {!configuration && <Preloader message={D.waitingConfiguration} />}

@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import Preloader from 'components/shared/preloader';
 import Error from 'components/shared/Error';
+import NotFound from 'components/shared/not-found';
 import { AppContext } from 'components/app';
 import { useAPI, useAPIRemoteData } from 'utils/hook';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
@@ -11,7 +12,6 @@ import D from 'i18n';
 import * as UQ from 'utils/questionnaire';
 import { sendCloseEvent } from 'utils/communication';
 import Orchestrator from '../orchestrator';
-import NotFound from '../shared/not-found';
 
 const OrchestratorManager = () => {
   const configuration = useContext(AppContext);

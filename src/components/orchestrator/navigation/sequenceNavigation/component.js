@@ -2,6 +2,7 @@ import React, { useState, useCallback, useRef, useEffect } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
+import { useStyles } from '../component.style';
 
 const SequenceNavigation = ({
   title,
@@ -97,11 +98,13 @@ const SequenceNavigation = ({
     }
   };
 
+  const classes = useStyles();
+
   return (
     <div className="content">
       <button
         type="button"
-        className="back-subnav-btn"
+        className={`${classes.subNavButton} ${classes.backSubnavButton}`}
         // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus
         ref={backButtonRef}
@@ -113,7 +116,7 @@ const SequenceNavigation = ({
         {D.goBackNavigation}
       </button>
       <div>
-        <div className="title">{title}</div>
+        <div className={classes.title}>{title}</div>
         <nav role="navigation">
           <ul>
             {components.map((c, index) => {
@@ -125,7 +128,7 @@ const SequenceNavigation = ({
                     autoFocus={index === 0}
                     type="button"
                     key={c.id}
-                    className={`subnav-btn ${
+                    className={`${classes.subNavButton} ${
                       currentFocusSequenceIndex === index ? 'selected' : ''
                     }`}
                     disabled={!c.reachable}

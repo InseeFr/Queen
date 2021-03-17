@@ -81,7 +81,12 @@ export const buildQueenQuestionnaire = components => {
           if (!declarations || declarations.length === 0) {
             return [
               ..._,
-              { ...component, labelNav: label, idSequence: idSeq, goToPage: currentPage + 1 },
+              {
+                ...component,
+                labelNav: label,
+                idSequence: idSeq,
+                goToPage: currentPage + 1,
+              },
             ];
           }
           currentPage += 1;

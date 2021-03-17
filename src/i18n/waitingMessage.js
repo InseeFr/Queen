@@ -1,6 +1,9 @@
 const waitingMessage = {
   pleaseWait: { fr: 'Veuillez patienter ...', en: 'Please wait ...' },
-  syncInProgress: { fr: 'Synchronisation en cours ...', en: 'Synchronization in progress' },
+  syncInProgress: {
+    fr: 'Synchronisation en cours ...',
+    en: 'Synchronization in progress',
+  },
   waitingQuestionnaire: {
     fr: 'Chargement du questionnaire',
     en: 'Loading questionnaire',

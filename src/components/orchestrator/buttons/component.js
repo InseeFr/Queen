@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
-import IconFastForward from './fastForward.icon';
-import IconNextBack from './nextBack.icon';
-import { StyleWrapper } from './component.style';
+import { useStyles } from './component.style';
+import { Button, IconButton } from 'components/designSystem';
+import { PlayArrow, SkipNext } from '@material-ui/icons';
 
 const Buttons = ({
   readonly,
@@ -15,6 +15,8 @@ const Buttons = ({
   pagePrevious,
   setPendingChangePage,
 }) => {
+  const classes = useStyles();
+
   const nextButtonRef = useRef();
   const fastNextButtonRef = useRef();
   const returnLabel = page === 0 ? '' : D.goBackReturn;
@@ -61,51 +63,55 @@ const Buttons = ({
 
   return (
     <>
-      <StyleWrapper id="buttons" className={!returnLabel && 'btn-alone'}>
+      <div id="buttons" className={classes.root}>
         {returnLabel && (
-          <div className="short-button navigation">
-            <button className="navigation-button short" type="button" onClick={pagePrevious}>
-              <IconNextBack back className="next-icon" />
-            </button>
-            <span>{D.goBackReturn}</span>
+          <div className={classes.navigation}>
+            <IconButton
+              ariaLabel={D.goBackReturnLabel}
+              className={classes.previousIcon}
+              type="button"
+              onClick={pagePrevious}
+            >
+              <PlayArrow fontSize="small" />
+            </IconButton>
+            <span className={classes.shortButtonSpan}>{D.goBackReturn}</span>
           </div>
         )}
         {((readonly && !isLastComponent) || (!isLastComponent && rereading)) && (
-          <div className="short-button next navigation">
-            <button
+          <div className={`${classes.navigation} ${classes.nextButton}`}>
+            <IconButton
               ref={nextButtonRef}
-              aria-label={D.nextButtonLabel}
-              className="navigation-button short"
+              ariaLabel={D.nextButtonLabel}
               type="button"
               onClick={localPageNext}
               onFocus={onfocusNext(true)}
               onBlur={onfocusNext(false)}
               disabled={!canContinue && !readonly}
             >
-              <IconNextBack className="next-icon" />
-            </button>
-            <span>{D.nextButton}</span>
+              <PlayArrow fontSize="small" />
+            </IconButton>
+            <span className={classes.shortButtonSpan}>{D.nextButton}</span>
           </div>
         )}
         {!readonly && rereading && !isLastComponent && (
-          <div className="fast-button navigation">
-            <button
+          <div className={`${classes.navigation} ${classes.fastButtonWrapper}`}>
+            <Button
               ref={fastNextButtonRef}
-              className="navigation-button"
+              className={classes.fastButton}
               type="button"
+              endIcon={<SkipNext fontSize="large" />}
               onClick={localPageFastForward}
               onFocus={onfocusFastForward(true)}
               onBlur={onfocusFastForward(false)}
             >
               {`${D.fastForward}`}
-              <IconFastForward className="fast-icon" />
-            </button>
-            <span>
+            </Button>
+            <span className={classes.fastButtonSpan}>
               <b>{D.ctrlEnd}</b>
             </span>
           </div>
         )}
-      </StyleWrapper>
+      </div>
       <KeyboardEventHandler
         handleKeys={keysToHandle}
         onKeyEvent={keyboardShortcut}

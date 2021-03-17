@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
 export * from './auth';
@@ -10,4 +11,14 @@ export const useVisuQuery = () => {
   const questionnaireUrl = searchUrl.get('questionnaire');
   const dataUrl = searchUrl.get('data');
   return { questionnaireUrl, dataUrl };
+};
+
+// https://css-tricks.com/dealing-with-stale-props-and-states-in-reacts-functional-components/
+// hooks use for synchronization
+export const useAsyncValue = f => {
+  const refreshFunction = useRef(f);
+  useEffect(() => {
+    refreshFunction.current = f;
+  }, [f]);
+  return refreshFunction;
 };

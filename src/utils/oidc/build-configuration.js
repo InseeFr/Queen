@@ -16,11 +16,10 @@ const getCurrentSurvey = path => {
 export const buildOidcConfiguration = ({ oidcConf, conf }) => {
   const { origin, pathname } = window.location;
   const { portail } = conf;
-  const config = {
+  return {
     ...oidcConf,
     redirect_uri: `${origin}/authentication/callback`,
     post_logout_redirect_uri: `${portail}/${getCurrentSurvey(pathname)}`,
     silent_redirect_uri: `${origin}/authentication/silent_callback`,
   };
-  return config;
 };

@@ -2,6 +2,7 @@ import React, { useState, useCallback, useRef } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
+import { useStyles } from '../component.style';
 
 const SubsequenceNavigation = ({ sequence, close, setPage }) => {
   const [currentFocusSubsequenceIndex, setCurrentFocusSubsequenceIndex] = useState(-1);
@@ -70,11 +71,13 @@ const SubsequenceNavigation = ({ sequence, close, setPage }) => {
     [setPage]
   );
 
+  const classes = useStyles();
+
   return (
     <div className="content">
       <button
         type="button"
-        className="back-subnav-btn"
+        className={`${classes.subNavButton} ${classes.backSubnavButton}`}
         ref={backButtonRef}
         onFocus={setFocusSubsequence(-1)}
         onClick={close}
@@ -86,7 +89,7 @@ const SubsequenceNavigation = ({ sequence, close, setPage }) => {
         type="button"
         // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus
-        className="subnav-btn"
+        className={classes.subNavButton}
         ref={listRef[0]}
         onClick={changePage(sequence)}
         onFocus={setFocusSubsequence(0)}
@@ -103,7 +106,7 @@ const SubsequenceNavigation = ({ sequence, close, setPage }) => {
                   ref={listRef[index + 1]}
                   type="button"
                   key={c.id}
-                  className="subnav-btn"
+                  className={classes.subNavButton}
                   disabled={!c.reachable}
                   onClick={changePage(c)}
                   onFocus={setFocusSubsequence(index + 1)}

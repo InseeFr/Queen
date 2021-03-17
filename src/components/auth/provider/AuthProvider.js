@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { addOnlineStatusObserver } from 'utils';
 import { NONE, OIDC } from 'utils/constants';
-import AuthProviderNone from './none';
-import AuthProviderOIDC from './oidc';
+import AuthProviderNone from './AuthProviderNone';
+import AuthProviderOIDC from './AuthProviderOIDC';
 
 const AuthProvider = ({ authType, children }) => {
   const [init, setInit] = useState(false);

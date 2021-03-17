@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
+import { ArrowRightAlt } from '@material-ui/icons';
+import { Button } from 'components/designSystem';
 import PropTypes from 'prop-types';
 import D from 'i18n';
-import { StyleWrapper } from './continue.style';
+import { useStyles } from './continue.style';
 
-const Button = ({ readonly, canContinue, isLastComponent, page, setPendingChangePage }) => {
+const ButtonContinue = ({ readonly, canContinue, isLastComponent, page, setPendingChangePage }) => {
+  const classes = useStyles();
+
   const lastLabel = readonly ? D.simpleQuit : D.saveAndQuit;
   const getNextLabel = isLastComponent ? lastLabel : D.continueButton;
 
@@ -43,30 +47,27 @@ const Button = ({ readonly, canContinue, isLastComponent, page, setPendingChange
   }, [focus, pageChanging, setPendingChangePage]);
 
   const componentToDisplay = (
-    <>
-      <StyleWrapper>
-        <div className="continue-button">
-          <button
-            ref={continueButtonRef}
-            aria-label={getNextLabel}
-            type="button"
-            onClick={pageNextFunction}
-            onFocus={onfocus(true)}
-            onBlur={onfocus(false)}
-            disabled={!canContinue && !readonly}
-          >
-            {`${getNextLabel} ${(!isLastComponent && '\u2192') || ''}`}
-          </button>
-          <span className="help">{` ${D.helpShortCut} `}</span>
-          <span>{D.ctrlEnter}</span>
-        </div>
-      </StyleWrapper>
+    <div className={classes.wrapperButton}>
+      <Button
+        ref={continueButtonRef}
+        aria-label={getNextLabel}
+        type="button"
+        onClick={pageNextFunction}
+        onFocus={onfocus(true)}
+        onBlur={onfocus(false)}
+        disabled={!canContinue && !readonly}
+        endIcon={!isLastComponent && <ArrowRightAlt />}
+      >
+        {getNextLabel}
+      </Button>
+      <span className={classes.help}>{` ${D.helpShortCut} `}</span>
+      <span className={classes.labelHelp}>{D.ctrlEnter}</span>
       <KeyboardEventHandler
         handleKeys={keysToHandle}
         onKeyEvent={keyboardShortcut}
         handleFocusableElements
       />
-    </>
+    </div>
   );
 
   return (
@@ -77,7 +78,7 @@ const Button = ({ readonly, canContinue, isLastComponent, page, setPendingChange
   );
 };
 
-Button.propTypes = {
+ButtonContinue.propTypes = {
   readonly: PropTypes.bool.isRequired,
   canContinue: PropTypes.bool.isRequired,
   isLastComponent: PropTypes.bool.isRequired,
@@ -85,4 +86,4 @@ Button.propTypes = {
   setPendingChangePage: PropTypes.func.isRequired,
 };
 
-export default React.memo(Button);
+export default React.memo(ButtonContinue);
