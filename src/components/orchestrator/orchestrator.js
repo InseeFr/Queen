@@ -9,8 +9,9 @@ import { sendStartedEvent, sendCompletedEvent } from 'utils/communication';
 import Header from './header';
 import Buttons from './buttons';
 import ContinueButton from './buttons/continue';
-import { StyleWrapper } from './orchestrator.style';
 import NavBar from './rightNavbar';
+import { useCustomLunaticStyles } from './lunaticStyle/style';
+import { useStyles } from './orchestrator.style';
 
 const Orchestrator = ({
   surveyUnit,
@@ -24,6 +25,8 @@ const Orchestrator = ({
   save,
   close,
 }) => {
+  const classes = useStyles();
+  const lunaticClasses = useCustomLunaticStyles();
   const { data } = surveyUnit;
   const [menuOpen, setMenuOpen] = useState(false);
   const [started, setStarted] = useState(() => {
@@ -168,7 +171,7 @@ const Orchestrator = ({
   const keyToHandle = UQ.getKeyToHandle(responses, options);
 
   return (
-    <StyleWrapper>
+    <div className={classes.root}>
       <Header
         menuOpen={menuOpen}
         setMenuOpen={setMenuOpen}
@@ -182,10 +185,10 @@ const Orchestrator = ({
         setPage={setCurrentPage}
         validatePages={validatePages}
       />
-      <div className="body-container">
-        <div className="components">
+      <div className={classes.bodyContainer}>
+        <div className={classes.components}>
           <div
-            className={`lunatic lunatic-component ${
+            className={`${lunaticClasses.lunatic} lunatic lunatic-component ${
               options && options.length >= 8 ? 'split-fieldset' : ''
             }`}
             key={`component-${id}`}
@@ -267,7 +270,7 @@ const Orchestrator = ({
           />
         )}
       </div>
-    </StyleWrapper>
+    </div>
   );
 };
 

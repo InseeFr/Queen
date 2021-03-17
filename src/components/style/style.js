@@ -16,7 +16,21 @@ const StyleProvider = ({ children }) => {
           secondary: {
             main: '#FFFFFF',
           },
-          background: {},
+          declarations: {
+            main: '#085394',
+          },
+          background: {
+            default: '#eeeeee',
+          },
+        },
+        breakpoints: {
+          values: {
+            xs: 0,
+            sm: 460,
+            md: 750,
+            lg: 875,
+            xl: 1200,
+          },
         },
       }),
     [prefersDarkMode]

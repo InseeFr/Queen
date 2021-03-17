@@ -1,69 +1,57 @@
-import styled from 'styled-components';
+import { makeStyles } from '@material-ui/core';
 
 const backgroundHeaderColor = 'white';
 const borderStyleHeader = '1px solid #777777';
 const widthBorder = '59px'; // 60(width grid template) - 1(border-width)
 
-export const StyleWrapper = styled.div`
-  width: 100%;
-  flex: 0 1 65px;
-  display: grid;
-  grid-template-columns: 60px 60px auto 60px;
-  background-color: white;
-  border-right: 0;
-  border-left: 0;
-  border-bottom: ${borderStyleHeader};
+export const useStyles = makeStyles(theme => ({
+  root: props => ({
+    width: '100%',
+    flex: '0 1 65px',
+    display: 'grid',
+    gridTemplateColumns: `${props.standalone ? '60px 60px auto' : '60px 60px auto 60px'}`,
+    backgroundColor: 'white',
+    borderRight: 0,
+    borderLeft: 0,
+    borderBottom: `${borderStyleHeader}`,
+  }),
+  headerItemNavigation: {
+    height: '100%',
+    width: `${widthBorder}`,
+    borderRight: `${borderStyleHeader}`,
+  },
+  headerClose: {
+    width: `${widthBorder}`,
+    borderLeft: `${borderStyleHeader}`,
+  },
+  headerLogo: {
+    padding: '6px',
+    marginLeft: '2px',
+    justifySelf: 'center',
+    alignSelf: 'center',
+    height: '50px',
+    width: 'auto',
+    backgroundColor: `${backgroundHeaderColor}`,
+  },
+  inseeIcon: {
+    padding: 0,
+    border: 'none',
+    cursor: 'pointer',
+    backgroundColor: 'transparent',
+  },
+  closeIcon: {
+    marginTop: '11px',
+    marginLeft: '3px',
+    backgroundColor: 'transparent',
+    border: 'none',
+  },
 
-  &.standalone {
-    grid-template-columns: 60px 60px auto;
-  }
-
-  .header-item {
-    &.navigation {
-      height: 100%;
-      width: ${widthBorder};
-      border-right: ${borderStyleHeader};
-    }
-    &.header-close {
-      width: ${widthBorder};
-      border-left: ${borderStyleHeader};
-    }
-    .header-logo {
-      padding: 6px;
-      margin-left: 2px;
-    }
-    .insee-icon {
-      padding: 0;
-      border: none;
-      cursor: pointer;
-      background-color: transparent;
-    }
-    .close-icon {
-      margin-top: 11px;
-      margin-left: 3px;
-      background-color: transparent;
-      border: none;
-    }
-  }
-
-  .header-title {
-    padding: 0.4em;
-    padding-left: 1em;
-
-    .questionnaire-title {
-      text-transform: uppercase;
-      font-size: 80%;
-    }
-  }
-
-  .header-logo {
-    // horizontal align
-    justify-self: center;
-    // vertical align
-    align-self: center;
-    height: 50px;
-    width: auto;
-
-    background-color: ${backgroundHeaderColor};
-  }
-`;
+  headerTitle: {
+    padding: '0.4em',
+    paddingLeft: '1em',
+  },
+  questionnaireTitle: {
+    textTransform: 'uppercase',
+    fontSize: '80%',
+  },
+}));

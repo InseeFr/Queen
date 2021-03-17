@@ -4,13 +4,13 @@ import { ArrowRightAlt } from '@material-ui/icons';
 import { Button } from 'components/designSystem';
 import PropTypes from 'prop-types';
 import D from 'i18n';
-import { StyleWrapper } from './continue.style';
+import { useStyles } from './continue.style';
 
 const ButtonContinue = ({ readonly, canContinue, isLastComponent, page, setPendingChangePage }) => {
+  const classes = useStyles();
+
   const lastLabel = readonly ? D.simpleQuit : D.saveAndQuit;
   const getNextLabel = isLastComponent ? lastLabel : D.continueButton;
-
-  const rootRef = useRef(null);
 
   const continueButtonRef = useRef();
 
@@ -47,25 +47,21 @@ const ButtonContinue = ({ readonly, canContinue, isLastComponent, page, setPendi
   }, [focus, pageChanging, setPendingChangePage]);
 
   const componentToDisplay = (
-    <div ref={rootRef}>
-      <StyleWrapper>
-        <div className="continue-button">
-          <Button
-            ref={continueButtonRef}
-            aria-label={getNextLabel}
-            type="button"
-            onClick={pageNextFunction}
-            onFocus={onfocus(true)}
-            onBlur={onfocus(false)}
-            disabled={!canContinue && !readonly}
-            endIcon={!isLastComponent && <ArrowRightAlt />}
-          >
-            {getNextLabel}
-          </Button>
-          <span className="help">{` ${D.helpShortCut} `}</span>
-          <span>{D.ctrlEnter}</span>
-        </div>
-      </StyleWrapper>
+    <div className={classes.wrapperButton}>
+      <Button
+        ref={continueButtonRef}
+        aria-label={getNextLabel}
+        type="button"
+        onClick={pageNextFunction}
+        onFocus={onfocus(true)}
+        onBlur={onfocus(false)}
+        disabled={!canContinue && !readonly}
+        endIcon={!isLastComponent && <ArrowRightAlt />}
+      >
+        {getNextLabel}
+      </Button>
+      <span className={classes.help}>{` ${D.helpShortCut} `}</span>
+      <span className={classes.labelHelp}>{D.ctrlEnter}</span>
       <KeyboardEventHandler
         handleKeys={keysToHandle}
         onKeyEvent={keyboardShortcut}
