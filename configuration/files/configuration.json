@@ -1,9 +1,9 @@
 {
-  "QUEEN_URL": "${QUEEN_URL}",
-  "_QUEEN_URL_COMMENT_": "Final URL of the Queen application",
+  "queenUrl": "${QUEEN_URL}",
+  "_queenUrl_comment_": "Final URL of the Queen application",
 
-  "QUEEN_API_URL": "${QUEEN_API_URL}",
-  "_QUEEN_API_URL_COMMENT_": "URL of the back-office of Queen application",
+  "apiUrl": "${QUEEN_API_URL}",
+  "_apiUrl_comment_": "URL of the back-office of Queen application",
 
   "authenticationType": "${authenticationType}",
   "_authenticationType_comment_": "The mode of authentication: 'NONE' or 'OIDC'"

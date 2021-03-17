@@ -53,9 +53,7 @@
       "conditionFilter": "\"normal\"",
       "bindingDependencies": ["PRENOMSI"],
       "lines": { "min": 3, "max": 3 },
-      "headers": [
-        { "headerCell": true, "label": "\"Prénoms des habitants du logement\"" }
-      ],
+      "headers": [{ "headerCell": true, "label": "\"Prénoms des habitants du logement\"" }],
       "components": [
         {
           "componentType": "Textarea",
@@ -362,13 +360,7 @@
           "mandatory": false,
           "label": "\"➡ 3. À titre personnel, \" || cast(cast(if (cast(STOC,string)=\"3\") then cast(PRENOMSI,string) || \" est-\" || cast(il_elleInd,string) || \" usufruiti\" || cast(erInd,string) || \" de ce logement\" else if (cast(STOC,string)=\"1\" or cast(STOC,string)=\"2\") then \"le nom de \" || cast(PRENOMSI,string) ||  \" figure-t-il sur l\"\"acte de propriété\" else if (cast(STOC,string)=\"4\") then \"le nom de \" || cast(PRENOMSI,string) || \" figure-t-il sur le bail de location\" else \"9\",string),string) || \" ? \"",
           "conditionFilter": "if ((( cast(STOC,string) =\"1\" or cast(STOC,string) =\"2\" or cast(STOC,string) =\"3\" or cast(STOC,string) =\"4\" ))) then \"normal\" else \"hidden\"",
-          "bindingDependencies": [
-            "STOC",
-            "PRENOMSI",
-            "il_elleInd",
-            "erInd",
-            "STOCA"
-          ],
+          "bindingDependencies": ["STOC", "PRENOMSI", "il_elleInd", "erInd", "STOCA"],
           "options": [
             { "value": "1", "label": "\"Oui\"" },
 
@@ -383,12 +375,7 @@
           "mandatory": false,
           "label": "\"➡ 4. Comment \" || cast(cast(PRENOMSI,string),string) || \" occupe-t-\" || cast(cast(il_elleInd,string),string) || \" ce logement ?\"",
           "conditionFilter": "if ((cast(STOC,string)=\"1\" or cast(STOC,string)=\"2\")) then \"normal\" else \"hidden\"",
-          "bindingDependencies": [
-            "PRENOMSI",
-            "il_elleInd",
-            "SEXEIND",
-            "STOCB_P"
-          ],
+          "bindingDependencies": ["PRENOMSI", "il_elleInd", "SEXEIND", "STOCB_P"],
           "options": [
             {
               "value": "1",
@@ -424,13 +411,7 @@
           "mandatory": false,
           "label": "\"➡ 5. Comment \" || cast(cast(PRENOMSI,string),string) || \" occupe-t-\" || cast(cast(il_elleInd,string),string) || \" ce logement ?\"",
           "conditionFilter": "if ((cast(STOC,string)=\"3\" or cast(STOC,string)=\"4\")) then \"normal\" else \"hidden\"",
-          "bindingDependencies": [
-            "PRENOMSI",
-            "il_elleInd",
-            "SEXEIND",
-            "STOC",
-            "STOCB_NP"
-          ],
+          "bindingDependencies": ["PRENOMSI", "il_elleInd", "SEXEIND", "STOC", "STOCB_NP"],
           "options": [
             {
               "value": "1",
@@ -1150,14 +1131,7 @@
         }
       ],
       "conditionFilter": "\"normal\"",
-      "bindingDependencies": [
-        "SEXEIND",
-        "EAMIG1",
-        "EAMIG2",
-        "EAMIG3",
-        "EAMIG4",
-        "EAMIG5"
-      ],
+      "bindingDependencies": ["SEXEIND", "EAMIG1", "EAMIG2", "EAMIG3", "EAMIG4", "EAMIG5"],
       "responses": [
         {
           "id": "joisg9xf-QOP-kf89kxpb",
@@ -1405,15 +1379,7 @@
         }
       ],
       "conditionFilter": "\"normal\"",
-      "bindingDependencies": [
-        "MAA2A",
-        "MARRIVC",
-        "MAA2AC",
-        "MAA2MC",
-        "MAA2M",
-        "PrenomCJ",
-        "MAA3"
-      ],
+      "bindingDependencies": ["MAA2A", "MARRIVC", "MAA2AC", "MAA2MC", "MAA2M", "PrenomCJ", "MAA3"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
 
@@ -2552,16 +2518,7 @@
         }
       ],
       "conditionFilter": "\"normal\"",
-      "bindingDependencies": [
-        "HUA",
-        "HUI",
-        "HPI",
-        "KAO1",
-        "KAO2",
-        "KAO3",
-        "KAO4",
-        "KAO5"
-      ],
+      "bindingDependencies": ["HUA", "HUI", "HPI", "KAO1", "KAO2", "KAO3", "KAO4", "KAO5"],
       "responses": [
         {
           "id": "jruuncm0-QOP-kf89fkow",

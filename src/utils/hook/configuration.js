@@ -10,7 +10,7 @@ export const useConfiguration = () => {
         const response = await fetch(`${QUEEN_URL}/configuration.json`);
         const configurationResponse = await response.json();
         configurationResponse.standalone =
-          configurationResponse.QUEEN_URL === window.location.origin;
+          configurationResponse.queenUrl === window.location.origin;
         setConfiguration(configurationResponse);
       };
       loadConfiguration();

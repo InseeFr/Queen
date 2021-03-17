@@ -1,22 +1,48 @@
+import { DEFAULT_DATA_URL } from 'utils/constants';
+import buttonMessage from './buttonMessage';
+
 const visualizeMessage = {
   visualizationTitlePage: {
     fr: 'Page de visualisation de questionnaire',
     en: 'Questionnaire preview page',
   },
-  questionnaireUrl: { fr: 'URL du questionnaire', en: 'Questionnaire URL' },
-  externalVariablesTitlePage: {
-    fr: 'Variables externes',
-    en: 'External variables',
+  labelQuest: {
+    fr: 'Questionnaire',
+    en: 'Questionnaire',
   },
-  visualizeInformations: {
-    fr: n =>
-      `Le questionnaire contient ${n} variable${n > 1 ? 's' : ''} externe${n > 1 ? 's' : ''}.`,
-    en: n => `Le questionnaire contains ${n} external variable${n > 1 ? 's' : ''}.`,
+  helperTextQuest: {
+    fr: `L'url d'un json de questionnaire au format Lunatic-model`,
+    en: `The url of a json of questionnaire in Lunatic-model format`,
   },
-  visualizeInstructions: {
-    fr: n => `Vous pouvez renseigner ${n > 1 ? 'leurs valeurs' : 'sa valeur'}.`,
-    en: n => `You can fill in ${n > 1 ? 'their values' : 'its value'}.`,
+  labelData: {
+    fr: 'Données',
+    en: 'Data',
   },
+  helperTextData: {
+    fr: `L'url d'un json de données (de réponse)`,
+    en: `The url of a data (response) json.`,
+  },
+  accordionHelperTitle: {
+    fr: 'Aide',
+    en: 'Help',
+  },
+  accordionHelperSubtitle: {
+    fr: 'Comment visualiser un questionnaire ?',
+    en: 'How do I preview a questionnaire ?',
+  },
+  accordionHelperBody: {
+    fr: `Seul le champ "Questionnaire" est obligatoire, si aucune valeur n'est renseignée pour les autres champs, les valeurs par défaut sont appliquées. \n\n Les valeurs par défaut des json sont disponible ici : \n - [données](${DEFAULT_DATA_URL}) \n\n Vous pouvez également choisir un exemple de questionnaire directement. \n\n Une fois les valeurs renseignées, il vous suffit de cliquer sur le bouton "${buttonMessage?.visualize?.fr}".`,
+    en: `Only the "Questionnaire" field is mandatory, if no value is filled in for the other fields, the default values are applied. \n\n Default json values are available here : \n - [data](${DEFAULT_DATA_URL}) \n\n You can also choose an example questionnaire directly. \n\n Once you have filled in the values, just click on the "${buttonMessage?.visualize?.en}" button.`,
+  },
+  chooseExamples: {
+    fr: 'Ou choisir un exemple :',
+    en: 'Or choose an example',
+  },
+  labelExamples: {
+    fr: 'Exemples',
+    en: 'Examples',
+  },
+  labelNone: { fr: 'Aucun', en: 'None' },
 };
 
 export default visualizeMessage;

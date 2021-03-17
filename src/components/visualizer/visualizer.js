@@ -8,7 +8,6 @@ import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-servic
 import Preloader from 'components/shared/preloader';
 import Error from 'components/shared/Error';
 import { useRemoteData, useVisuQuery } from 'utils/hook';
-import { StyleWrapper } from './visualizer.style';
 import QuestionnaireForm from './questionnaireForm';
 
 const Visualizer = () => {
@@ -47,7 +46,7 @@ const Visualizer = () => {
   }, [questionnaireUrl, questionnaire, data]);
 
   return (
-    <StyleWrapper>
+    <>
       {loadingMessage && <Preloader message={loadingMessage} />}
       {errorMessage && <Error message={errorMessage} />}
       {!waiting && questionnaireUrl && source && surveyUnit && (
@@ -65,7 +64,7 @@ const Visualizer = () => {
         />
       )}
       {!questionnaireUrl && <QuestionnaireForm />}
-    </StyleWrapper>
+    </>
   );
 };
 

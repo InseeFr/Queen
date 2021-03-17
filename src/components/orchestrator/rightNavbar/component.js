@@ -1,21 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleWrapper } from './component.style';
+import { useStyles } from './component.style';
 
 const NavBar = ({ nbModules, page, children }) => {
+  const classes = useStyles();
+
   const currentPage = page;
   const nbTotalPage = nbModules;
 
   return (
-    <StyleWrapper className="nav-bar">
-      <div className="page">
-        <div className="label-page">n° page</div>
+    <div className={classes.root}>
+      <div className={classes.page}>
+        <div className={classes.labelPage}>n° page</div>
         <div>
           <b>{`${currentPage}/${nbTotalPage}`}</b>
         </div>
       </div>
       {children}
-    </StyleWrapper>
+    </div>
   );
 };
 

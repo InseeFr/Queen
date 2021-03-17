@@ -7,7 +7,7 @@ import insee from 'img/insee.png';
 import Navigation from '../navigation';
 import CloseIcon from './quit.icon';
 import BreadcrumbQueen from '../breadcrumb';
-import { StyleWrapper } from './header.style';
+import { useStyles } from './header.style';
 
 const Header = ({
   menuOpen,
@@ -22,6 +22,7 @@ const Header = ({
   setPage,
   validatePages,
 }) => {
+  const classes = useStyles({ standalone });
   const setToFirstPage = useCallback(() => setPage(1), [setPage]);
   const quitButtonRef = useRef();
 
@@ -43,8 +44,9 @@ const Header = ({
   };
 
   return (
-    <StyleWrapper className={`${standalone ? 'standalone' : ''}`}>
+    <div className={classes.root}>
       <Navigation
+        className={classes.headerItemNavigation}
         menuOpen={menuOpen}
         setMenuOpen={setMenuOpen}
         title={title}
@@ -56,15 +58,15 @@ const Header = ({
       <div className="header-item">
         <button
           type="button"
-          className="insee-icon"
+          className={classes.inseeIcon}
           title={D.backToBeginning}
           onClick={setToFirstPage}
         >
-          <img id="logo" src={insee} alt="Logo de L'Insee" className="header-logo" />
+          <img id="logo" src={insee} alt="Logo de L'Insee" className={classes.headerLogo} />
         </button>
       </div>
-      <div className="header-item header-title">
-        <span className="questionnaire-title">{title}</span>
+      <div className={classes.headerTitle}>
+        <span className={classes.questionnaireTitle}>{title}</span>
         {sequence && (
           <BreadcrumbQueen
             sequence={sequenceBinded}
@@ -75,8 +77,8 @@ const Header = ({
       </div>
       {!standalone && (
         <>
-          <div className="header-item header-close">
-            <button ref={quitButtonRef} type="button" className="close-icon" onClick={quit}>
+          <div className={classes.headerClose}>
+            <button ref={quitButtonRef} type="button" className={classes.closeIcon} onClick={quit}>
               <CloseIcon width={40} />
             </button>
           </div>
@@ -87,7 +89,7 @@ const Header = ({
           />
         </>
       )}
-    </StyleWrapper>
+    </div>
   );
 };
 
