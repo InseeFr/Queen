@@ -58,6 +58,10 @@ const errorMessage = {
     fr: `Une erreur inconnue s'est produite, veuillez contacter l'assistance ou réessayer plus tard.`,
     en: `An unknown error occurred, please contact support or try again later.`,
   },
+  noAuthFile: {
+    fr: "Aucun fichier de configuration pour l'authentification n'a été trouvé.",
+    en: 'No configuration file for authentication was found.',
+  },
 };
 
 export default errorMessage;
