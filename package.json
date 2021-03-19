@@ -1,6 +1,6 @@
 {
   "name": "queen",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "private": true,
   "dependencies": {
     "@axa-fr/react-oidc-context": "^3.1.6",
