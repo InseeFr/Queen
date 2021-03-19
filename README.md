@@ -2,7 +2,7 @@
 
 Web application for the management of questionnaires powered by Lunatic (https://github.com/InseeFr/Lunatic)
 
-![Build](https://github.com/InseeFr/Queen/actions/workflows/ci.yml/badge.svg)
+![Build](https://github.com/InseeFr/Queen/actions/workflows/release.yml/badge.svg)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=InseeFr_Queen&metric=coverage)](https://sonarcloud.io/dashboard?id=InseeFr_Queen)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=InseeFr_Queen&metric=alert_status)](https://sonarcloud.io/dashboard?id=InseeFr_Queen)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
