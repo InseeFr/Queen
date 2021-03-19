@@ -8,15 +8,9 @@ const getSurveyUnits = apiUrl => id => token =>
   getRequest(`${apiUrl}/api/campaign/${id}/survey-units`)(token);
 
 /* SurveyUnit's data */
-const getData = apiUrl => id => token => getRequest(`${apiUrl}/api/survey-unit/${id}/data`)(token);
-const putData = apiUrl => id => token => body =>
-  putRequest(`${apiUrl}/api/survey-unit/${id}/data`)(token)(body);
-
-/* SurveyUnit's comment */
-const getComment = apiUrl => id => token =>
-  getRequest(`${apiUrl}/api/survey-unit/${id}/comment`)(token);
-const putComment = apiUrl => id => token => body =>
-  putRequest(`${apiUrl}/api/survey-unit/${id}/comment`)(token)(body);
+const getUeData = apiUrl => id => token => getRequest(`${apiUrl}/api/survey-unit/${id}`)(token);
+const putUeData = apiUrl => id => token => body =>
+  putRequest(`${apiUrl}/api/survey-unit/${id}`)(token)(body);
 
 /* Campaigns */
 const getCampaigns = apiUrl => token => getRequest(`${apiUrl}/api/campaigns`)(token);
@@ -32,10 +26,8 @@ const getNomenclature = apiUrl => id => token =>
 export const API = {
   getRequest,
   getSurveyUnits,
-  getData,
-  putData,
-  getComment,
-  putComment,
+  getUeData,
+  putUeData,
   getCampaigns,
   getQuestionnaire,
   getRequiredNomenclatures,
