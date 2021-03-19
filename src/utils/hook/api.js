@@ -70,34 +70,18 @@ export const useAPI = () => {
     [apiUrl, authenticationType, oidcUser]
   );
 
-  const getData = useCallback(
+  const getUeData = useCallback(
     surveyUnitID => {
       const token = authenticationType === OIDC ? oidcUser?.access_token : null;
-      return API.getData(apiUrl)(surveyUnitID)(token);
+      return API.getUeData(apiUrl)(surveyUnitID)(token);
     },
     [apiUrl, authenticationType, oidcUser]
   );
 
-  const putData = useCallback(
+  const putUeData = useCallback(
     (surveyUnitID, body) => {
       const token = authenticationType === OIDC ? oidcUser?.access_token : null;
-      return API.putData(apiUrl)(surveyUnitID)(token)(body);
-    },
-    [apiUrl, authenticationType, oidcUser]
-  );
-
-  const getComment = useCallback(
-    surveyUnitID => {
-      const token = authenticationType === OIDC ? oidcUser?.access_token : null;
-      return API.getComment(apiUrl)(surveyUnitID)(token);
-    },
-    [apiUrl, authenticationType, oidcUser]
-  );
-
-  const putComment = useCallback(
-    (surveyUnitID, body) => {
-      const token = authenticationType === OIDC ? oidcUser?.access_token : null;
-      return API.putComment(apiUrl)(surveyUnitID)(token)(body);
+      return API.putUeData(apiUrl)(surveyUnitID)(token)(body);
     },
     [apiUrl, authenticationType, oidcUser]
   );
@@ -108,33 +92,25 @@ export const useAPI = () => {
     getRequiredNomenclatures,
     getNomenclature,
     getQuestionnaire,
-    getData,
-    putData,
-    getComment,
-    putComment,
+    getUeData,
+    putUeData,
   };
 };
 
 const useGetSurveyUnit = () => {
-  const { getData, getComment } = useAPI();
-  const refreshGetDate = useAsyncValue(getData);
-  const refreshGetComment = useAsyncValue(getComment);
+  const { getUeData } = useAPI();
+  const refreshGetData = useAsyncValue(getUeData);
 
   return async (idSurveyUnit, standalone = false) => {
     try {
       if (standalone) {
-        const dR = await refreshGetDate.current(idSurveyUnit);
-        const cR = await refreshGetComment.current(idSurveyUnit);
-        if (!dR.error && !cR.error) {
+        const dR = await refreshGetData.current(idSurveyUnit);
+        if (!dR.error) {
           await surveyUnitIdbService.addOrUpdateSU({
             id: idSurveyUnit,
             ...dR.data,
-            comment: cR.data,
           });
-        } else {
-          if (dR.error) return dR;
-          return cR;
-        }
+        } else return dR;
       }
       return { surveyUnit: await surveyUnitIdbService.get(idSurveyUnit) };
     } catch (error) {
@@ -190,7 +166,7 @@ export const useAPIRemoteData = (surveyUnitID, questionnaireID) => {
 export const useRemoteData = (questionnaireUrl, dataUrl) => {
   const { standalone } = useContext(AppContext);
   const [questionnaire, setQuestionnaire] = useState(null);
-  const [data, setData] = useState(null);
+  const [surveyUnit, setSurveyUnit] = useState(null);
 
   const [loadingMessage, setLoadingMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -199,7 +175,7 @@ export const useRemoteData = (questionnaireUrl, dataUrl) => {
     if (questionnaireUrl) {
       setErrorMessage(null);
       setQuestionnaire(null);
-      setData(null);
+      setSurveyUnit(null);
       const fakeToken = null;
       const load = async () => {
         setLoadingMessage(Dictionary.waitingCleaning);
@@ -212,7 +188,7 @@ export const useRemoteData = (questionnaireUrl, dataUrl) => {
             setLoadingMessage(Dictionary.waintingData);
             const dR = await API.getRequest(dataUrl || DEFAULT_DATA_URL)(fakeToken);
             if (!dR.error) {
-              setData(dR.data);
+              setSurveyUnit(dR.data);
               setLoadingMessage(null);
             } else setErrorMessage(getErrorMessage(dR, 'd'));
             setLoadingMessage(null);
@@ -225,5 +201,5 @@ export const useRemoteData = (questionnaireUrl, dataUrl) => {
     }
   }, [questionnaireUrl, dataUrl, standalone]);
 
-  return { loadingMessage, errorMessage, data, questionnaire };
+  return { loadingMessage, errorMessage, surveyUnit, questionnaire };
 };

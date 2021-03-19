@@ -8,6 +8,7 @@ import {
   useSaveSUsToLocalDataBase,
   useSendSurveyUnits,
 } from 'utils/hook/synchronize';
+import { usePutQuestionnairesInCache } from 'utils/hook/synchronize/questionnaires';
 
 const clean = async () => {
   await surveyUnitIdbService.deleteAll();
@@ -27,13 +28,16 @@ export const useSynchronisation = () => {
   const [current, setCurrent] = useState(null);
 
   const sendData = useSendSurveyUnits(setSendingProgress);
+  const putQuestionnairesInCache = usePutQuestionnairesInCache();
   const putResourcesInCache = usePutResourcesInCache(setResourceProgress);
   const saveSurveyUnitsToLocalDataBase = useSaveSUsToLocalDataBase(setSurveyUnitProgress);
 
-  const getAllCampaign = async id => {
+  const getAllCampaign = async campaign => {
+    const { id, questionnairesId } = campaign;
     setResourceProgress(0);
     setSurveyUnitProgress(0);
     setCurrent('questionnaire');
+    await putQuestionnairesInCache(questionnairesId);
     const { error, statusText } = await refrehGetQuestionnaire.current(id);
     if (error) throw new Error(statusText);
     setCurrent('resources');
@@ -63,11 +67,11 @@ export const useSynchronisation = () => {
     let i = 0;
     setCampaignProgress(0);
 
-    await campaigns.reduce(async (previousPromise, { id }) => {
+    await campaigns.reduce(async (previousPromise, campaign) => {
       await previousPromise;
       i += 1;
       setCampaignProgress(getPercent(i, campaigns.length));
-      return getAllCampaign(id);
+      return getAllCampaign(campaign);
     }, Promise.resolve());
   };
 

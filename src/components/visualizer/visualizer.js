@@ -19,15 +19,14 @@ const Visualizer = () => {
   const [waiting, setWaiting] = useState(false);
 
   const { questionnaireUrl, dataUrl } = useVisuQuery();
-  const { data, questionnaire, loadingMessage, errorMessage } = useRemoteData(
+  const { surveyUnit: suData, questionnaire, loadingMessage, errorMessage } = useRemoteData(
     questionnaireUrl,
     dataUrl
   );
 
-  const createFakeSurveyUnit = dataOfSu => {
+  const createFakeSurveyUnit = surveyUnit => {
     const unit = {
-      ...dataOfSu,
-      comment: {},
+      ...surveyUnit,
       id: '1234',
     };
     surveyUnitIdbService.addOrUpdateSU(unit);
@@ -35,15 +34,15 @@ const Visualizer = () => {
   };
 
   useEffect(() => {
-    if (questionnaireUrl && questionnaire && data) {
+    if (questionnaireUrl && questionnaire && suData) {
       setSource({
         ...questionnaire,
         components: UQ.buildQueenQuestionnaire(questionnaire.components),
       });
-      setSurveyUnit(createFakeSurveyUnit(data));
+      setSurveyUnit(createFakeSurveyUnit(suData));
       setWaiting(false);
     }
-  }, [questionnaireUrl, questionnaire, data]);
+  }, [questionnaireUrl, questionnaire, suData]);
 
   return (
     <>
