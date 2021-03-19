@@ -8,19 +8,17 @@ export const usePutResourcesInCache = updateProgress => {
   const refreshGetNomenclature = useAsyncValue(getNomenclature);
 
   const putResourcesInCache = async campaignId => {
-    const { data: resources, error, statusText } = await refreshGetRequiredNomenclatures.current(
-      campaignId
-    );
-    if (!error) {
+    const { data, error, statusText } = await refreshGetRequiredNomenclatures.current(campaignId);
+    if (!error && data) {
       let i = 0;
       updateProgress(0);
-      await resources.reduce(async (previousPromise, resourceId) => {
-        const { error: errorR, statusText: statusTextR } = await previousPromise;
-        if (errorR) throw new Error(statusTextR);
+      await data.reduce(async (previousPromise, resourceId) => {
+        const { error, statusText } = await previousPromise;
+        if (error) throw new Error(statusText);
         i += 1;
-        updateProgress(getPercent(i, resources.length));
+        updateProgress(getPercent(i, data.length));
         return refreshGetNomenclature.current(resourceId);
-      }, Promise.resolve());
+      }, Promise.resolve({}));
       updateProgress(100);
     } else {
       throw new Error(statusText);

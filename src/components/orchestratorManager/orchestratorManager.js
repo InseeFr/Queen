@@ -19,7 +19,7 @@ const OrchestratorManager = () => {
   const { surveyUnit, questionnaire, loadingMessage, errorMessage } = useAPIRemoteData(idSU, idQ);
 
   const [source, setSource] = useState(null);
-  const { putData, putComment } = useAPI(idSU, idQ);
+  const { putUeData } = useAPI(idSU, idQ);
 
   const [init, setInit] = useState(false);
 
@@ -44,13 +44,12 @@ const OrchestratorManager = () => {
   const [, /* errorSending */ setErrorSending] = useState(false);
 
   const putSurveyUnit = async unit => {
-    const { comment, id, ...other } = unit;
+    const { id, ...other } = unit;
     setErrorSending(null);
     setSending(true);
-    const { /* status, */ error: putDataError } = await putData(other);
-    const { /* status, */ error: putCommentError } = await putComment(comment);
+    const { /* status, */ error: putDataError } = await putUeData(other);
     setSending(false);
-    if (putDataError || putCommentError) setErrorSending('Error during sending');
+    if (putDataError) setErrorSending('Error during sending');
   };
 
   const saveSU = async unit => {
