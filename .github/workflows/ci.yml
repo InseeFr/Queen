@@ -49,7 +49,10 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1.6.0
         with:
-          images: inseefr/queen 
+          images: inseefr/queen
+          tag-semver: |
+            {{version}}
+            {{major}}.{{minor}}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
