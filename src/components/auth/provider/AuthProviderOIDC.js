@@ -20,11 +20,9 @@ const AuthProviderOIDC = ({ children }) => {
     fetch(`${QUEEN_URL}/oidc.json`)
       .then(r => r.json())
       .then(r => {
-        console.log(r);
         setOidcConf(
           buildOidcConfiguration({
             oidcConf: r.config,
-            conf,
           })
         );
         setLoading(false);
