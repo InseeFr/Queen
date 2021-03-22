@@ -44,7 +44,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1.6.0
         with:
-          images: inseefr/queen
+          images: laurentc35/queen
           tag-semver: |
             {{version}}
             {{major}}.{{minor}}
