@@ -1,7 +1,6 @@
 /* eslint-disable no-alert */
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from 'components/app';
-import D from 'i18n';
 import Orchestrator from 'components/orchestrator';
 import * as UQ from 'utils/questionnaire';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
