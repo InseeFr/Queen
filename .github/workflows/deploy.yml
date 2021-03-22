@@ -1,8 +1,9 @@
 name: Docker image publication 
 
 on:
-  release:
-    types: [published]
+  create:
+    tags:
+      - '*'
 
 jobs:
   install:
