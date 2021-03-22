@@ -1,6 +1,6 @@
 /* eslint-disable no-alert */
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import Preloader from 'components/shared/preloader';
 import Error from 'components/shared/Error';
 import NotFound from 'components/shared/not-found';
@@ -8,7 +8,6 @@ import { AppContext } from 'components/app';
 import { useAPI, useAPIRemoteData } from 'utils/hook';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import { READ_ONLY } from 'utils/constants';
-import D from 'i18n';
 import * as UQ from 'utils/questionnaire';
 import { sendCloseEvent } from 'utils/communication';
 import Orchestrator from '../orchestrator';
@@ -16,6 +15,7 @@ import Orchestrator from '../orchestrator';
 const OrchestratorManager = () => {
   const configuration = useContext(AppContext);
   const { readonly: readonlyParam, idQ, idSU } = useParams();
+  const history = useHistory();
   const { surveyUnit, questionnaire, loadingMessage, errorMessage } = useAPIRemoteData(idSU, idQ);
 
   const [source, setSource] = useState(null);
@@ -61,7 +61,7 @@ const OrchestratorManager = () => {
 
   const closeOrchestrator = () => {
     if (configuration.standalone) {
-      alert(D.closeWindow);
+      history.push('/');
     } else {
       sendCloseEvent(surveyUnit.id);
     }
