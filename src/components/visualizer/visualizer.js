@@ -9,6 +9,7 @@ import Preloader from 'components/shared/preloader';
 import Error from 'components/shared/Error';
 import { useRemoteData, useVisuQuery } from 'utils/hook';
 import QuestionnaireForm from './questionnaireForm';
+import { useHistory } from 'react-router';
 
 const Visualizer = () => {
   const configuration = useContext(AppContext);
@@ -23,6 +24,7 @@ const Visualizer = () => {
     questionnaireUrl,
     dataUrl
   );
+  const history = useHistory();
 
   const createFakeSurveyUnit = surveyUnit => {
     const unit = {
@@ -59,7 +61,7 @@ const Visualizer = () => {
           features={['VTL']}
           filterDescription={false}
           save={unit => surveyUnitIdbService.addOrUpdateSU(unit)}
-          close={() => alert(D.closeWindow)}
+          close={() => history.push('/')}
         />
       )}
       {!questionnaireUrl && <QuestionnaireForm />}

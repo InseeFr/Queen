@@ -17,23 +17,23 @@ const AuthProviderOIDC = ({ children }) => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch(`${QUEEN_URL}/oidc.json`)
+    fetch(`${QUEEN_URL}/keycloak.json`)
       .then(r => r.json())
       .then(r => {
         setOidcConf(
-          buildOidcConfiguration({
-            oidcConf: r.config,
+          buildOidcConfigurationFromKeycloak({
+            keycloakConf: r,
           })
         );
         setLoading(false);
       })
       .catch(() => {
-        fetch(`${QUEEN_URL}/keycloak.json`)
+        fetch(`${QUEEN_URL}/oidc.json`)
           .then(r => r.json())
           .then(r => {
             setOidcConf(
-              buildOidcConfigurationFromKeycloak({
-                keycloakConf: r,
+              buildOidcConfiguration({
+                oidcConf: r.config,
               })
             );
             setLoading(false);

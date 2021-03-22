@@ -1,7 +1,5 @@
 export const buildOidcConfiguration = ({ oidcConf }) => {
   const { origin } = window.location;
-  if (Object.values(oidcConf).filter(v => `${v}`.match(/\$\{\w+\}/)).length > 0)
-    throw new Error(`Oidc file contains \${VAR} string.`);
   return {
     ...oidcConf,
     redirect_uri: `${origin}/authentication/callback`,
