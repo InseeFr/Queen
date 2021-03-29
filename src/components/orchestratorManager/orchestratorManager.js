@@ -79,7 +79,7 @@ const OrchestratorManager = () => {
           standalone={configuration.standalone}
           readonly={readonly}
           savingType="COLLECTED"
-          preferences={['COLLECTED']}
+          preferences={['PREVIOUS', 'COLLECTED']}
           features={['VTL']}
           filterDescription={false}
           save={saveSU}
