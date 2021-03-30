@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from 'components/app';
 import Orchestrator from 'components/orchestrator';
@@ -56,7 +55,7 @@ const Visualizer = () => {
           standalone={configuration.standalone}
           readonly={false}
           savingType="COLLECTED"
-          preferences={['COLLECTED']}
+          preferences={['PREVIOUS', 'COLLECTED']}
           features={['VTL']}
           filterDescription={false}
           save={unit => surveyUnitIdbService.addOrUpdateSU(unit)}

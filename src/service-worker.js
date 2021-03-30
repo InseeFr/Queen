@@ -62,11 +62,11 @@ registerRoute(
   })
 );
 
-const getUrlRegex = function(url) {
+const getUrlRegex = function (url) {
   return url.replace('http', '^http').concat('/(.*)((.ico)|(.png))');
 };
 
-const getUrlRegexJson = function(url) {
+const getUrlRegexJson = function (url) {
   return url.replace('http', '^http').concat('/(.*)(.json)');
 };
 const configurationCacheName = 'queen-cache';
@@ -98,14 +98,15 @@ registerRoute(
 const queenPrecacheController = async () => {
   const responseFromQueen = await fetch('/manifest.json');
   const { icons } = await responseFromQueen.json();
-  const urlsToPrecache = [
-    `/keycloak.json`,
-    `/manifest.json`,
-    `/configuration.json`,
-    `/static/questionnaire/simpsons/form.json`,
-  ].concat(icons.map(({ src }) => src));
+  const urlsToPrecache = [`/manifest.json`, `/configuration.json`].concat(
+    icons.map(({ src }) => src)
+  );
   const cache = await self.caches.open(configurationCacheName);
   await cache.addAll(urlsToPrecache);
+  cache
+    .add(`keycloak.json`)
+    .catch(() => cache.add(`oidc.json`))
+    .catch(() => console.error('Failed to cache auth file'));
 };
 
 self.addEventListener('install', event => {

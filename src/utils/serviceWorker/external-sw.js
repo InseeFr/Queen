@@ -87,6 +87,10 @@ const queenPrecacheController = async () => {
     []
   );
   await cache.addAll(urlsToPrecache);
+  cache
+    .add(`${self._QUEEN_URL}/keycloak.json`)
+    .catch(() => cache.add(`${self._QUEEN_URL}/oidc.json`))
+    .catch(() => console.error('Failed to cache auth file'));
 };
 
 self.addEventListener('install', event => {
