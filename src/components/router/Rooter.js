@@ -19,8 +19,12 @@ const Rooter = () => {
       />
       {!standalone && <Route path="/queen/synchronize" component={secure(Synchronize)} />}
       <Route path="/queen/visualize" component={Visualizer} />
-      {!standalone && pathname.startsWith('/queen') && <Redirect to="/queen/visualize" />}
-      {standalone && !pathname.startsWith('/authentication') && <Redirect to="/queen/visualize" />}
+      {!standalone &&
+        !pathname.startsWith('/queen/authentication') &&
+        pathname.startsWith('/queen') && <Redirect to="/queen/visualize" />}
+      {standalone && !pathname.startsWith('/queen/authentication') && (
+        <Redirect to="/queen/visualize" />
+      )}
     </Switch>
   );
 };

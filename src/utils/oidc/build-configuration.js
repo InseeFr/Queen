@@ -2,9 +2,9 @@ export const buildOidcConfiguration = ({ oidcConf }) => {
   const { origin } = window.location;
   return {
     ...oidcConf,
-    redirect_uri: `${origin}/authentication/callback`,
+    redirect_uri: `${origin}/queen/authentication/callback`,
     post_logout_redirect_uri: `${origin}/`,
-    silent_redirect_uri: `${origin}/authentication/silent_callback`,
+    silent_redirect_uri: `${origin}/queen/authentication/silent_callback`,
   };
 };
 
@@ -14,11 +14,11 @@ export const buildOidcConfigurationFromKeycloak = ({ keycloakConf }) => {
   return {
     authority: `${authServer}/realms/${realm}`,
     client_id: resource,
-    redirect_uri: `${origin}/authentication/callback`,
+    redirect_uri: `${origin}/queen/authentication/callback`,
     response_type: 'code',
     post_logout_redirect_uri: `${origin}/`,
     scope: 'openid profile email',
-    silent_redirect_uri: `${origin}/authentication/silent_callback`,
+    silent_redirect_uri: `${origin}/queen/authentication/silent_callback`,
     automaticSilentRenew: true,
     loadUserInfo: true,
   };
