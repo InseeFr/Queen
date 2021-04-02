@@ -1,13 +1,16 @@
 {
   "id": "jn0aqcy4qf2020qf2",
   "modele": "LOGEMENT_A",
-  "enoCoreVersion": "2.2.1",
-  "lunaticModelVersion": "2.0.0",
+  "enoCoreVersion": "2.2.4-dev-xml-lunatic-pagination",
+  "lunaticModelVersion": "2.1.0",
+  "pagination": "question",
+  "maxPage": "108",
   "label": "_2_a_6_logement_2020",
   "components": [
     {
       "id": "kbhr7mgy",
       "componentType": "Sequence",
+      "page": "1",
       "label": "\"I - Bloc de données antérieures\"",
       "declarations": [
         {
@@ -17,18 +20,33 @@
           "label": "\"Cette partie sur les données antérieures est temporaire.Elle permet actuellement de pouvoir personnalisé ce questionnaire en fonction de certaines variables du TCM (qui est, pour le moment, dissocié de ce questionnaire Pogues).\""
         }
       ],
-      "conditionFilter": "\"normal\""
+      "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "kbhr7mgy",
+          "page": "1",
+          "label": "\"I - Bloc de données antérieures\""
+        }
+      }
     },
 
     {
       "id": "kk5m994y",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "2",
       "min": 0,
       "max": 15,
       "decimals": 0,
       "label": "\"➡ 1. nbhab : nombre de personnes du logement\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "kbhr7mgy",
+          "page": "1",
+          "label": "\"I - Bloc de données antérieures\""
+        }
+      },
       "bindingDependencies": ["NBHAB"],
       "response": { "name": "NBHAB" }
     },
@@ -37,9 +55,17 @@
       "id": "kbs069o7",
       "componentType": "Textarea",
       "mandatory": false,
+      "page": "3",
       "maxLength": 255,
       "label": "\"➡ 2. Prénom du répondant\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "kbhr7mgy",
+          "page": "1",
+          "label": "\"I - Bloc de données antérieures\""
+        }
+      },
       "bindingDependencies": ["PrenomRep"],
       "response": { "name": "PrenomRep" }
     },
@@ -48,9 +74,17 @@
       "id": "kkcaxcs3",
       "componentType": "RosterForLoop",
       "mandatory": false,
+      "page": "4",
       "positioning": "HORIZONTAL",
       "label": "\"➡ 3. Tableau de Prénoms\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "kbhr7mgy",
+          "page": "1",
+          "label": "\"I - Bloc de données antérieures\""
+        }
+      },
       "bindingDependencies": ["PRENOMSI"],
       "lines": { "min": 3, "max": 3 },
       "headers": [{ "headerCell": true, "label": "\"Prénoms des habitants du logement\"" }],
@@ -69,8 +103,16 @@
       "id": "kf5dcpm7",
       "componentType": "Radio",
       "mandatory": false,
+      "page": "6",
       "label": "\"➡ 4. Sexe du répondant\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "kbhr7mgy",
+          "page": "1",
+          "label": "\"I - Bloc de données antérieures\""
+        }
+      },
       "bindingDependencies": ["SEXEREP"],
       "options": [
         { "value": "1", "label": "\"Masculin\"" },
@@ -83,35 +125,64 @@
     {
       "id": "kl6sw80e",
       "componentType": "Sequence",
+      "page": "7",
       "label": "\"II - Données antérieures 2\"",
-      "conditionFilter": "\"normal\""
+      "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "kl6sw80e", "page": "7", "label": "\"II - Données antérieures 2\"" }
+      }
     },
 
     {
       "id": "kl6qsgru",
       "componentType": "Loop",
+      "page": "8",
+      "maxPage": "2",
       "min": 0,
       "iterations": "count(PRENOMSI)",
+      "depth": 1,
+      "paginatedLoop": true,
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "kl6sw80e", "page": "7", "label": "\"II - Données antérieures 2\"" }
+      },
       "bindingDependencies": ["PRENOMSI", "AGEI", "SEXEIND"],
       "loopDependencies": ["PRENOMSI"],
       "components": [
         {
           "id": "kl6tb4aw",
           "componentType": "Subsequence",
+          "goToPage": "8.1",
           "label": "\"TEST_boucle\"",
-          "conditionFilter": "\"normal\""
+          "conditionFilter": "\"normal\"",
+          "hierarchy": {
+            "sequence": {
+              "id": "kl6sw80e",
+              "page": "7",
+              "label": "\"II - Données antérieures 2\""
+            },
+            "subSequence": { "id": "kl6tb4aw", "page": "8.1", "label": "\"TEST_boucle\"" }
+          }
         },
 
         {
           "id": "kkcbg4hc",
           "componentType": "InputNumber",
           "mandatory": false,
+          "page": "8.1",
           "min": 0,
           "max": 200,
           "decimals": 0,
-          "label": "\"➡ 1. Quel est l'age de \" || cast(cast(PRENOMSI,string),string) || \"? \"",
+          "label": "\"➡ 5. Quel est l’age de \" || cast(cast(PRENOMSI,string),string) || \"? \"",
           "conditionFilter": "\"normal\"",
+          "hierarchy": {
+            "sequence": {
+              "id": "kl6sw80e",
+              "page": "7",
+              "label": "\"II - Données antérieures 2\""
+            },
+            "subSequence": { "id": "kl6tb4aw", "page": "8.1", "label": "\"TEST_boucle\"" }
+          },
           "bindingDependencies": ["PRENOMSI", "AGEI"],
           "response": { "name": "AGEI" }
         },
@@ -120,8 +191,17 @@
           "id": "kf5doq69",
           "componentType": "Radio",
           "mandatory": false,
-          "label": "\"➡ 2. Quel est le sexe de \" || cast(cast(PRENOMSI,string),string) || \" ? \"",
+          "page": "8.2",
+          "label": "\"➡ 6. Quel est le sexe de \" || cast(cast(PRENOMSI,string),string) || \" ? \"",
           "conditionFilter": "\"normal\"",
+          "hierarchy": {
+            "sequence": {
+              "id": "kl6sw80e",
+              "page": "7",
+              "label": "\"II - Données antérieures 2\""
+            },
+            "subSequence": { "id": "kl6tb4aw", "page": "8.1", "label": "\"TEST_boucle\"" }
+          },
           "bindingDependencies": ["PRENOMSI", "SEXEIND"],
           "options": [
             { "value": "1", "label": "\"Masculin\"" },
@@ -136,17 +216,27 @@
     {
       "id": "kk5nwmtz",
       "componentType": "Subsequence",
+      "goToPage": "9",
       "label": "\"Autre_DA\"",
-      "conditionFilter": "\"normal\""
+      "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "kl6sw80e", "page": "7", "label": "\"II - Données antérieures 2\"" },
+        "subSequence": { "id": "kk5nwmtz", "page": "9", "label": "\"Autre_DA\"" }
+      }
     },
 
     {
       "id": "kbs06tco",
       "componentType": "Textarea",
       "mandatory": false,
+      "page": "9",
       "maxLength": 255,
-      "label": "\"➡ 3. Prénom du conjoint du répondant\"",
+      "label": "\"➡ 7. Prénom du conjoint du répondant\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "kl6sw80e", "page": "7", "label": "\"II - Données antérieures 2\"" },
+        "subSequence": { "id": "kk5nwmtz", "page": "9", "label": "\"Autre_DA\"" }
+      },
       "bindingDependencies": ["PrenomCJ"],
       "response": { "name": "PrenomCJ" }
     },
@@ -155,8 +245,13 @@
       "id": "kf5cyx99",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 4. Sexe du conjoint\"",
+      "page": "10",
+      "label": "\"➡ 8. Sexe du conjoint\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "kl6sw80e", "page": "7", "label": "\"II - Données antérieures 2\"" },
+        "subSequence": { "id": "kk5nwmtz", "page": "9", "label": "\"Autre_DA\"" }
+      },
       "bindingDependencies": ["SEXECJ"],
       "options": [
         { "value": "1", "label": "\"Masculin\"" },
@@ -170,8 +265,13 @@
       "id": "kbujw6oy",
       "componentType": "CheckboxOne",
       "mandatory": false,
-      "label": "\"➡ 5. UNLOG ? \"",
+      "page": "11",
+      "label": "\"➡ 9. UNLOG ? \"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "kl6sw80e", "page": "7", "label": "\"II - Données antérieures 2\"" },
+        "subSequence": { "id": "kk5nwmtz", "page": "9", "label": "\"Autre_DA\"" }
+      },
       "bindingDependencies": ["UNLOG"],
       "options": [
         { "value": "1", "label": "\"vit uniquement dans le logement\"" },
@@ -185,42 +285,35 @@
       "id": "kd8qd4ou",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 6. HTLC type de logement \"",
+      "page": "12",
+      "label": "\"➡ 10. HTLC type de logement \"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "kl6sw80e", "page": "7", "label": "\"II - Données antérieures 2\"" },
+        "subSequence": { "id": "kk5nwmtz", "page": "9", "label": "\"Autre_DA\"" }
+      },
       "bindingDependencies": ["HTLC"],
       "options": [
         { "value": "1", "label": "\"Une maison individuelle ​\"" },
 
-        {
-          "value": "2",
-          "label": "\"Un logement dans un immeuble collectif ​\""
-        },
+        { "value": "2", "label": "\"Un logement dans un immeuble collectif ​\"" },
 
-        {
-          "value": "3",
-          "label": "\"Une pièce indépendante ayant sa propre entrée ​\""
-        },
+        { "value": "3", "label": "\"Une pièce indépendante ayant sa propre entrée ​\"" },
 
         {
           "value": "4",
           "label": "\"Un logement-foyer pour personnes âgées, étudiants, travailleurs,... ​\""
         },
 
-        {
-          "value": "5",
-          "label": "\"Une ferme, un bâtiment d'exploitation agricole ​\""
-        },
+        { "value": "5", "label": "\"Une ferme, un bâtiment d’exploitation agricole ​\"" },
 
-        { "value": "6", "label": "\"Une chambre d'hôtel ​\"" },
+        { "value": "6", "label": "\"Une chambre d’hôtel ​\"" },
 
-        {
-          "value": "7",
-          "label": "\"Une construction provisoire, une habitation de fortune ​\""
-        },
+        { "value": "7", "label": "\"Une construction provisoire, une habitation de fortune ​\"" },
 
         {
           "value": "8",
-          "label": "\"Un logement dans un immeuble collectif à usage autre que d'habitation (usines, bureaux, commerces, bâtiments publics,...)\""
+          "label": "\"Un logement dans un immeuble collectif à usage autre que d’habitation (usines, bureaux, commerces, bâtiments publics,...)\""
         }
       ],
       "response": { "name": "HTLC" }
@@ -230,8 +323,13 @@
       "id": "kd904zk3",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 7. Le logement fait-il partie d'un immeuble collectif ?\"",
+      "page": "13",
+      "label": "\"➡ 11. Le logement fait-il partie d’un immeuble collectif ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "kl6sw80e", "page": "7", "label": "\"II - Données antérieures 2\"" },
+        "subSequence": { "id": "kk5nwmtz", "page": "9", "label": "\"Autre_DA\"" }
+      },
       "bindingDependencies": ["INDCOLL"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -245,8 +343,13 @@
       "id": "kd902in1",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 8. La maison fait-elle partie d'une résidence ou d'un 'village' en copropriété ?\"",
+      "page": "14",
+      "label": "\"➡ 12. La maison fait-elle partie d’une résidence ou d’un ’’village’’ en copropriété ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "kl6sw80e", "page": "7", "label": "\"II - Données antérieures 2\"" },
+        "subSequence": { "id": "kk5nwmtz", "page": "9", "label": "\"Autre_DA\"" }
+      },
       "bindingDependencies": ["ICOI"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -259,51 +362,79 @@
     {
       "id": "jn0cmg7j",
       "componentType": "Sequence",
+      "page": "15",
       "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\"",
-      "conditionFilter": "\"normal\""
+      "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        }
+      }
     },
 
     {
       "id": "jn0ccyw1",
       "componentType": "Subsequence",
-      "label": "\"Statut d'occupation du ménage\"",
-      "conditionFilter": "\"normal\""
+      "goToPage": "16",
+      "label": "\"Statut d’occupation du ménage\"",
+      "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": {
+          "id": "jn0ccyw1",
+          "page": "16",
+          "label": "\"Statut d’occupation du ménage\""
+        }
+      }
     },
 
     {
       "id": "jn0cttir",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 1. Comment votre ménage occupe-t-il ce logement ?\"",
+      "page": "16",
+      "label": "\"➡ 13. Comment votre ménage occupe-t-il ce logement ?\"",
       "declarations": [
         {
           "id": "jn0d8za4-SI",
           "declarationType": "STATEMENT",
           "position": "BEFORE_QUESTION_TEXT",
-          "label": "\"On désigne ici le ménage comme étant l'ensemble des occupants du logement. \""
+          "label": "\"On désigne ici le ménage comme étant l’ensemble des occupants du logement. \""
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": {
+          "id": "jn0ccyw1",
+          "page": "16",
+          "label": "\"Statut d’occupation du ménage\""
+        }
+      },
       "bindingDependencies": ["STOC"],
       "options": [
-        {
-          "value": "1",
-          "label": "\"Propriétaire accédant (remboursement d'emprunt en cours) \""
-        },
+        { "value": "1", "label": "\"Propriétaire accédant (remboursement d’emprunt en cours) \"" },
 
         {
           "value": "2",
-          "label": "\"Propriétaire non accédant (ne remboursant plus d'emprunts) \""
+          "label": "\"Propriétaire non accédant (ne remboursant plus d’emprunts) \""
         },
 
         { "value": "3", "label": "\"Usufruitier y compris en viager \"" },
 
         { "value": "4", "label": "\"Locataireou sous-locataire\"" },
 
-        {
-          "value": "5",
-          "label": "\"Logé gratuitement, avec un paiement éventuel de charges\""
-        }
+        { "value": "5", "label": "\"Logé gratuitement, avec un paiement éventuel de charges\"" }
       ],
       "response": { "name": "STOC" }
     },
@@ -312,8 +443,21 @@
       "id": "jn0e3nhg",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 2. Plus précisément, comment votre ménage occupe-t-il ce logement ?\"",
+      "page": "17",
+      "label": "\"➡ 14. Plus précisément, comment votre ménage occupe-t-il ce logement ?\"",
       "conditionFilter": "if (((cast(STOC,string)=\"1\") or (cast(STOC,string)=\"2\"))) then \"normal\" else \"hidden\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": {
+          "id": "jn0ccyw1",
+          "page": "16",
+          "label": "\"Statut d’occupation du ménage\""
+        }
+      },
       "bindingDependencies": ["STOCP"],
       "options": [
         {
@@ -332,35 +476,63 @@
     {
       "id": "kl809dku",
       "componentType": "Loop",
+      "page": "18",
+      "maxPage": "3",
       "min": 0,
       "iterations": "count(PRENOMSI)",
+      "depth": 1,
+      "paginatedLoop": true,
       "conditionFilter": "\"normal\"",
-      "bindingDependencies": [
-        "STOC",
-        "PRENOMSI",
-        "il_elleInd",
-        "erInd",
-        "STOCA",
-        "SEXEIND",
-        "STOCB_P",
-        "STOCB_NP"
-      ],
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        }
+      },
+      "bindingDependencies": ["STOC", "PRENOMSI", "SEXEIND", "STOCA", "STOCB_P", "STOCB_NP"],
       "loopDependencies": ["PRENOMSI"],
       "components": [
         {
           "id": "jo776s4d",
           "componentType": "Subsequence",
-          "label": "\"Statut d'occupation individuel\"",
-          "conditionFilter": "\"normal\""
+          "goToPage": "18.1",
+          "label": "\"Statut d’occupation individuel\"",
+          "conditionFilter": "\"normal\"",
+          "hierarchy": {
+            "sequence": {
+              "id": "jn0cmg7j",
+              "page": "15",
+              "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+            },
+            "subSequence": {
+              "id": "jo776s4d",
+              "page": "18.1",
+              "label": "\"Statut d’occupation individuel\""
+            }
+          }
         },
 
         {
           "id": "kblv5zy6",
           "componentType": "Radio",
           "mandatory": false,
-          "label": "\"➡ 3. À titre personnel, \" || cast(cast(if (cast(STOC,string)=\"3\") then cast(PRENOMSI,string) || \" est-\" || cast(il_elleInd,string) || \" usufruiti\" || cast(erInd,string) || \" de ce logement\" else if (cast(STOC,string)=\"1\" or cast(STOC,string)=\"2\") then \"le nom de \" || cast(PRENOMSI,string) ||  \" figure-t-il sur l\"\"acte de propriété\" else if (cast(STOC,string)=\"4\") then \"le nom de \" || cast(PRENOMSI,string) || \" figure-t-il sur le bail de location\" else \"9\",string),string) || \" ? \"",
+          "page": "18.1",
+          "label": "\"➡ 15. À titre personnel, \" || cast(cast(if (cast(STOC,string)=\"3\") then cast(PRENOMSI,string) || \" est-\" || cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string) || \" usufruiti\" || cast(if (cast(SEXEIND,string) =\"2\") then \"ère\" else \"er\",string) || \" de ce logement\" else if (cast(STOC,string)=\"1\" or cast(STOC,string)=\"2\") then \"le nom de \" || cast(PRENOMSI,string) ||  \" figure-t-il sur l\"\"acte de propriété\" else if (cast(STOC,string)=\"4\") then \"le nom de \" || cast(PRENOMSI,string) || \" figure-t-il sur le bail de location\" else \"9\",string),string) || \" ? \"",
           "conditionFilter": "if ((( cast(STOC,string) =\"1\" or cast(STOC,string) =\"2\" or cast(STOC,string) =\"3\" or cast(STOC,string) =\"4\" ))) then \"normal\" else \"hidden\"",
-          "bindingDependencies": ["STOC", "PRENOMSI", "il_elleInd", "erInd", "STOCA"],
+          "hierarchy": {
+            "sequence": {
+              "id": "jn0cmg7j",
+              "page": "15",
+              "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+            },
+            "subSequence": {
+              "id": "jo776s4d",
+              "page": "18.1",
+              "label": "\"Statut d’occupation individuel\""
+            }
+          },
+          "bindingDependencies": ["STOC", "PRENOMSI", "SEXEIND", "STOCA"],
           "options": [
             { "value": "1", "label": "\"Oui\"" },
 
@@ -373,9 +545,22 @@
           "id": "jo78hx1p",
           "componentType": "Radio",
           "mandatory": false,
-          "label": "\"➡ 4. Comment \" || cast(cast(PRENOMSI,string),string) || \" occupe-t-\" || cast(cast(il_elleInd,string),string) || \" ce logement ?\"",
+          "page": "18.2",
+          "label": "\"➡ 16. Comment \" || cast(cast(PRENOMSI,string),string) || \" occupe-t-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" ce logement ?\"",
           "conditionFilter": "if ((cast(STOC,string)=\"1\" or cast(STOC,string)=\"2\")) then \"normal\" else \"hidden\"",
-          "bindingDependencies": ["PRENOMSI", "il_elleInd", "SEXEIND", "STOCB_P"],
+          "hierarchy": {
+            "sequence": {
+              "id": "jn0cmg7j",
+              "page": "15",
+              "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+            },
+            "subSequence": {
+              "id": "jo776s4d",
+              "page": "18.1",
+              "label": "\"Statut d’occupation individuel\""
+            }
+          },
+          "bindingDependencies": ["PRENOMSI", "SEXEIND", "STOCB_P"],
           "options": [
             {
               "value": "1",
@@ -409,9 +594,22 @@
           "id": "kbtdexm5",
           "componentType": "Radio",
           "mandatory": false,
-          "label": "\"➡ 5. Comment \" || cast(cast(PRENOMSI,string),string) || \" occupe-t-\" || cast(cast(il_elleInd,string),string) || \" ce logement ?\"",
+          "page": "18.3",
+          "label": "\"➡ 17. Comment \" || cast(cast(PRENOMSI,string),string) || \" occupe-t-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" ce logement ?\"",
           "conditionFilter": "if ((cast(STOC,string)=\"3\" or cast(STOC,string)=\"4\")) then \"normal\" else \"hidden\"",
-          "bindingDependencies": ["PRENOMSI", "il_elleInd", "SEXEIND", "STOC", "STOCB_NP"],
+          "hierarchy": {
+            "sequence": {
+              "id": "jn0cmg7j",
+              "page": "15",
+              "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+            },
+            "subSequence": {
+              "id": "jo776s4d",
+              "page": "18.1",
+              "label": "\"Statut d’occupation individuel\""
+            }
+          },
+          "bindingDependencies": ["PRENOMSI", "SEXEIND", "STOC", "STOCB_NP"],
           "options": [
             {
               "value": "1",
@@ -441,15 +639,29 @@
     {
       "id": "joh85k5c",
       "componentType": "Subsequence",
+      "goToPage": "19",
       "label": "\"Situation des enfants majeurs\"",
-      "conditionFilter": "\"normal\""
+      "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": {
+          "id": "joh85k5c",
+          "page": "19",
+          "label": "\"Situation des enfants majeurs\""
+        }
+      }
     },
 
     {
       "id": "joh8lowu",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 6. \" || cast(cast(if (cast(UNLOG,string)=\"2\") then \"Sans compter l\"\"autre logement où \" ||  cast(il_elleInd,string)  || ' vit actuellement ||  ' else \"\",string),string) || \" $PrenomInd$ a-t-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" déjà vécu dans un logement indépendant pendant plus de trois mois ? \"",
+      "page": "19",
+      "label": "\"➡ 18. \" || cast(cast(if (cast(UNLOG,string)=\"2\") then \"Sans compter l\"\"autre logement où \" ||  cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string)  || ' vit actuellement ||  ' else \"\",string),string) || \" $PrenomInd$ a-t-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" déjà vécu dans un logement indépendant pendant plus de trois mois ? \"",
       "declarations": [
         {
           "id": "joh8lowu-joh8sgg3",
@@ -459,7 +671,19 @@
         }
       ],
       "conditionFilter": "\"normal\"",
-      "bindingDependencies": ["UNLOG", "il_elleInd", "SEXEIND", "EPAS"],
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": {
+          "id": "joh85k5c",
+          "page": "19",
+          "label": "\"Situation des enfants majeurs\""
+        }
+      },
+      "bindingDependencies": ["UNLOG", "SEXEIND", "EPAS"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
 
@@ -472,7 +696,8 @@
       "id": "joh8ixt2",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 7. Au total, pendant combien de temps $PrenomInd$ a-t-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" vécu dans un logement indépendant ? \"",
+      "page": "20",
+      "label": "\"➡ 19. Au total, pendant combien de temps $PrenomInd$ a-t-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" vécu dans un logement indépendant ? \"",
       "declarations": [
         {
           "id": "joh8ixt2-joh97u9u",
@@ -482,11 +707,23 @@
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": {
+          "id": "joh85k5c",
+          "page": "19",
+          "label": "\"Situation des enfants majeurs\""
+        }
+      },
       "bindingDependencies": ["SEXEIND", "EPASB"],
       "options": [
         { "value": "1", "label": "\" Moins de 6 mois \"" },
 
-        { "value": "2", "label": "\"De 6 mois à moins d'1 an\"" },
+        { "value": "2", "label": "\"De 6 mois à moins d’1 an\"" },
 
         { "value": "3", "label": "\"De 1 an à moins de 2 ans \"" },
 
@@ -501,13 +738,26 @@
       "id": "kcnccgjg",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 8. Depuis quand $PrenomInd$ est-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" venu\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"e\" else \"\",string),string) || \" ou revenu\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"e\" else \"\",string),string) || \" vivre chez vous ? \"",
+      "page": "21",
+      "label": "\"➡ 20. Depuis quand $PrenomInd$ est-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" venu\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"e\" else \"\",string),string) || \" ou revenu\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"e\" else \"\",string),string) || \" vivre chez vous ? \"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": {
+          "id": "joh85k5c",
+          "page": "19",
+          "label": "\"Situation des enfants majeurs\""
+        }
+      },
       "bindingDependencies": ["SEXEIND", "EPASC"],
       "options": [
         { "value": "1", "label": "\"Depuis moins de 6 mois \"" },
 
-        { "value": "2", "label": "\"Entre 6 mois et moins d'1 an\"" },
+        { "value": "2", "label": "\"Entre 6 mois et moins d’1 an\"" },
 
         { "value": "3", "label": "\"Entre 1 an et moins de 3 ans \"" },
 
@@ -521,7 +771,8 @@
     {
       "id": "ke8nuj6h",
       "componentType": "CheckboxGroup",
-      "label": "\"➡ 9. À quelle occasion $PrenomInd$ est-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" venu\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"e\" else \"\",string),string) || \" ou revenu\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"e\" else \"\",string),string) || \" vivre avec vous après avoir eu un logement indépendant ?\"",
+      "page": "22",
+      "label": "\"➡ 21. À quelle occasion $PrenomInd$ est-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" venu\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"e\" else \"\",string),string) || \" ou revenu\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"e\" else \"\",string),string) || \" vivre avec vous après avoir eu un logement indépendant ?\"",
       "declarations": [
         {
           "id": "ke8nuj6h-ke8oclus",
@@ -531,6 +782,18 @@
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": {
+          "id": "joh85k5c",
+          "page": "19",
+          "label": "\"Situation des enfants majeurs\""
+        }
+      },
       "bindingDependencies": [
         "SEXEIND",
         "ERET1",
@@ -550,19 +813,19 @@
       "responses": [
         {
           "id": "ke8nuj6h-QOP-kf8947em",
-          "label": "\"Lors de la perte d'un emploi (licenciement, démission y c. pour chercher du travail, retraite...)\"",
+          "label": "\"Lors de la perte d’un emploi (licenciement, démission y c. pour chercher du travail, retraite...)\"",
           "response": { "name": "ERET1" }
         },
 
         {
           "id": "ke8nuj6h-QOP-kf897430",
-          "label": "\"Lors d'un changement de lieu de travail (y c. reprise de l’exploitation, de l’entreprise)\"",
+          "label": "\"Lors d’un changement de lieu de travail (y c. reprise de l’exploitation, de l’entreprise)\"",
           "response": { "name": "ERET2" }
         },
 
         {
           "id": "ke8nuj6h-QOP-kf89d84l",
-          "label": "\"À la suite d'une rupture familiale (divorce, séparation), ou d’un deuil\"",
+          "label": "\"À la suite d’une rupture familiale (divorce, séparation), ou d’un deuil\"",
           "response": { "name": "ERET3" }
         },
 
@@ -632,8 +895,9 @@
       "id": "ke8mw0jy",
       "componentType": "Table",
       "mandatory": false,
+      "page": "23",
       "positioning": "HORIZONTAL",
-      "label": "\"➡ 10. À quelle occasion $PrenomInd$ est-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" venu\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"e\" else \"\",string),string) || \" ou revenu\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"e\" else \"\",string),string) || \" vivre avec vous après avoir eu un logement indépendant ?\"",
+      "label": "\"➡ 22. À quelle occasion $PrenomInd$ est-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" venu\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"e\" else \"\",string),string) || \" ou revenu\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"e\" else \"\",string),string) || \" vivre avec vous après avoir eu un logement indépendant ?\"",
       "declarations": [
         {
           "id": "ke8mw0jy-ke8mlky6",
@@ -643,6 +907,18 @@
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": {
+          "id": "joh85k5c",
+          "page": "19",
+          "label": "\"Situation des enfants majeurs\""
+        }
+      },
       "bindingDependencies": [
         "SEXEIND",
         "ERET_test1",
@@ -663,7 +939,7 @@
         [
           {
             "value": "1",
-            "label": "\"Lors de la perte d'un emploi (licenciement, démission y c. pour chercher du travail, retraite...) \""
+            "label": "\"Lors de la perte d’un emploi (licenciement, démission y c. pour chercher du travail, retraite...) \""
           },
 
           {
@@ -682,7 +958,7 @@
         [
           {
             "value": "2",
-            "label": "\" Lors d'un changement de lieu de travail (y c. reprise de l’exploitation, de l’entreprise) \""
+            "label": "\" Lors d’un changement de lieu de travail (y c. reprise de l’exploitation, de l’entreprise) \""
           },
 
           {
@@ -701,7 +977,7 @@
         [
           {
             "value": "3",
-            "label": "\"À la suite d'une rupture familiale (divorce, séparation), ou d’un deuil\""
+            "label": "\"À la suite d’une rupture familiale (divorce, séparation), ou d’un deuil\""
           },
 
           {
@@ -895,8 +1171,21 @@
       "id": "joirni0x",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 11. $PrenomInd$ envisage-t-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" d'aller habiter dans un logement indépendant dans les six mois qui viennent ?\"",
+      "page": "24",
+      "label": "\"➡ 23. $PrenomInd$ envisage-t-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" d’aller habiter dans un logement indépendant dans les six mois qui viennent ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": {
+          "id": "joh85k5c",
+          "page": "19",
+          "label": "\"Situation des enfants majeurs\""
+        }
+      },
       "bindingDependencies": ["SEXEIND", "EPROJ"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -912,16 +1201,26 @@
       "id": "joirve2f",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 12. $PrenomInd$ a-t-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" actuellement les moyens financiers lui permettant d'avoir un logement indépendant ?\"",
+      "page": "25",
+      "label": "\"➡ 24. $PrenomInd$ a-t-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" actuellement les moyens financiers lui permettant d’avoir un logement indépendant ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": {
+          "id": "joh85k5c",
+          "page": "19",
+          "label": "\"Situation des enfants majeurs\""
+        }
+      },
       "bindingDependencies": ["SEXEIND", "EPROJB"],
       "options": [
         { "value": "1", "label": "\"Oui, par ses propre moyens\"" },
 
-        {
-          "value": "2",
-          "label": "\"Oui, mais seulement grâce à l'aide de sa famille\""
-        },
+        { "value": "2", "label": "\"Oui, mais seulement grâce à l’aide de sa famille\"" },
 
         { "value": "3", "label": "\"Non\"" },
 
@@ -934,16 +1233,26 @@
       "id": "joirtz3j",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 13. $PrenomInd$ aurait-t-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" les moyens financiers d’obtenir un logement indépendant ?\"",
+      "page": "26",
+      "label": "\"➡ 25. $PrenomInd$ aurait-t-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" les moyens financiers d’obtenir un logement indépendant ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": {
+          "id": "joh85k5c",
+          "page": "19",
+          "label": "\"Situation des enfants majeurs\""
+        }
+      },
       "bindingDependencies": ["SEXEIND", "EPROJC"],
       "options": [
         { "value": "1", "label": "\"Oui, par ses propre moyens\"" },
 
-        {
-          "value": "2",
-          "label": "\"Oui, mais seulement grâce à l'aide de sa famille\""
-        },
+        { "value": "2", "label": "\"Oui, mais seulement grâce à l’aide de sa famille\"" },
 
         { "value": "3", "label": "\"Non\"" },
 
@@ -956,8 +1265,21 @@
       "id": "joisp3u9",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 14. Si $PrenomInd$ en avait les moyens financiers, quitterait-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" le logement ?\"",
+      "page": "27",
+      "label": "\"➡ 26. Si $PrenomInd$ en avait les moyens financiers, quitterait-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" le logement ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": {
+          "id": "joh85k5c",
+          "page": "19",
+          "label": "\"Situation des enfants majeurs\""
+        }
+      },
       "bindingDependencies": ["SEXEIND", "EPROJD"],
       "options": [
         { "value": "1", "label": "\" Oui \"" },
@@ -980,21 +1302,39 @@
     {
       "id": "jsygk7m7",
       "componentType": "Subsequence",
+      "goToPage": "28",
       "label": "\"Hébergement\"",
-      "conditionFilter": "\"normal\""
+      "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": { "id": "jsygk7m7", "page": "28", "label": "\"Hébergement\"" }
+      }
     },
 
     {
       "id": "joisq6l3",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 15. Depuis quand $PrenomInd$ vit-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" chez vous ?\"",
+      "page": "28",
+      "label": "\"➡ 27. Depuis quand $PrenomInd$ vit-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" chez vous ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": { "id": "jsygk7m7", "page": "28", "label": "\"Hébergement\"" }
+      },
       "bindingDependencies": ["SEXEIND", "EAMIA"],
       "options": [
         { "value": "1", "label": "\"Depuis moins de 6 mois \"" },
 
-        { "value": "2", "label": "\"Entre 6 mois et moins d'1 an\"" },
+        { "value": "2", "label": "\"Entre 6 mois et moins d’1 an\"" },
 
         { "value": "3", "label": "\"Entre 1 an et moins de 3 ans \"" },
 
@@ -1008,7 +1348,8 @@
     {
       "id": "joisrd48",
       "componentType": "CheckboxGroup",
-      "label": "\"➡ 16. Pour quelles raisons $PrenomInd$ est-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" chez vous ?\"",
+      "page": "29",
+      "label": "\"➡ 28. Pour quelles raisons $PrenomInd$ est-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" chez vous ?\"",
       "declarations": [
         {
           "id": "joisrd48-kcncq2gh",
@@ -1018,6 +1359,14 @@
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": { "id": "jsygk7m7", "page": "28", "label": "\"Hébergement\"" }
+      },
       "bindingDependencies": [
         "SEXEIND",
         "EAMID1",
@@ -1105,8 +1454,17 @@
       "id": "joisxqz8",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 17. $PrenomInd$ est-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" actuellement à la recherche d'un logement indépendant ?\"",
+      "page": "30",
+      "label": "\"➡ 29. $PrenomInd$ est-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" actuellement à la recherche d’un logement indépendant ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": { "id": "jsygk7m7", "page": "28", "label": "\"Hébergement\"" }
+      },
       "bindingDependencies": ["SEXEIND", "EAMIF"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -1121,7 +1479,8 @@
     {
       "id": "joisg9xf",
       "componentType": "CheckboxGroup",
-      "label": "\"➡ 18. Quels types de recherches $PrenomInd$ a-t-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" effectués ?\"",
+      "page": "31",
+      "label": "\"➡ 30. Quels types de recherches $PrenomInd$ a-t-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" effectués ?\"",
       "declarations": [
         {
           "id": "joisg9xf-kcnjocyr",
@@ -1131,6 +1490,14 @@
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": { "id": "jsygk7m7", "page": "28", "label": "\"Hébergement\"" }
+      },
       "bindingDependencies": ["SEXEIND", "EAMIG1", "EAMIG2", "EAMIG3", "EAMIG4", "EAMIG5"],
       "responses": [
         {
@@ -1157,11 +1524,7 @@
           "response": { "name": "EAMIG4" }
         },
 
-        {
-          "id": "joisg9xf-QOP-kf896pyh",
-          "label": "\" Autre \"",
-          "response": { "name": "EAMIG5" }
-        }
+        { "id": "joisg9xf-QOP-kf896pyh", "label": "\" Autre \"", "response": { "name": "EAMIG5" } }
       ]
     },
 
@@ -1169,8 +1532,17 @@
       "id": "joismxwd",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 19. $PrenomInd$ a-t-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" actuellement les moyens financiers lui permettant d'avoir un logement indépendant ?\"",
+      "page": "32",
+      "label": "\"➡ 31. $PrenomInd$ a-t-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" actuellement les moyens financiers lui permettant d’avoir un logement indépendant ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": { "id": "jsygk7m7", "page": "28", "label": "\"Hébergement\"" }
+      },
       "bindingDependencies": ["SEXEIND", "EAMIH"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -1186,8 +1558,17 @@
       "id": "joisw2ix",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 20. Si $PrenomInd$ en avait les moyens financiers, quitterait-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" le logement ?\"",
+      "page": "33",
+      "label": "\"➡ 32. Si $PrenomInd$ en avait les moyens financiers, quitterait-\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" le logement ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": { "id": "jsygk7m7", "page": "28", "label": "\"Hébergement\"" }
+      },
       "bindingDependencies": ["SEXEIND", "EAMII"],
       "options": [
         { "value": "1", "label": "\" Oui \"" },
@@ -1211,8 +1592,17 @@
       "id": "joisv09w",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 21. Est-il prévu que $PrenomInd$ parte de votre foyer lorsqu'\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" aura fini ses études, aura trouvé du travail ou changera de lieu de travail ?\"",
+      "page": "34",
+      "label": "\"➡ 33. Est-il prévu que $PrenomInd$ parte de votre foyer lorsqu’\" || cast(cast(if (cast(SEXEIND,string) =\"2\") then \"elle\" else \"il\",string),string) || \" aura fini ses études, aura trouvé du travail ou changera de lieu de travail ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jn0cmg7j",
+          "page": "15",
+          "label": "\"III - STATUT D’OCCUPATION ET HÉBERGEMENT\""
+        },
+        "subSequence": { "id": "jsygk7m7", "page": "28", "label": "\"Hébergement\"" }
+      },
       "bindingDependencies": ["SEXEIND", "EAMIJ"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -1227,26 +1617,42 @@
     {
       "id": "jojt89iv",
       "componentType": "Sequence",
-      "label": "\"IV - Date d'installation dans le logement\"",
-      "conditionFilter": "\"normal\""
+      "page": "35",
+      "label": "\"IV - Date d’installation dans le logement\"",
+      "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jojt89iv",
+          "page": "35",
+          "label": "\"IV - Date d’installation dans le logement\""
+        }
+      }
     },
 
     {
       "id": "jojtbo85",
       "componentType": "Datepicker",
       "mandatory": false,
+      "page": "36",
       "min": "1900",
       "max": "year-from-date(current-date())",
-      "label": "\"➡ 1. En quelle année êtes-vous arrivé\" || cast(cast(if (cast(SEXEREP,string)=\"2\") then \"e\" else \"\",string),string) || \" dans ce logement ?\"",
+      "label": "\"➡ 34. En quelle année êtes-vous arrivé\" || cast(cast(if (cast(SEXEREP,string)=\"2\") then \"e\" else \"\",string),string) || \" dans ce logement ?\"",
       "declarations": [
         {
           "id": "jojtbo85-kcojhwas",
           "declarationType": "INSTRUCTION",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"En cas de départ puis retour dans le logement, indiquer la dernière date d'arrivée dans le logement.\""
+          "label": "\"En cas de départ puis retour dans le logement, indiquer la dernière date d’arrivée dans le logement.\""
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jojt89iv",
+          "page": "35",
+          "label": "\"IV - Date d’installation dans le logement\""
+        }
+      },
       "bindingDependencies": ["SEXEREP", "MAA2A"],
       "dateFormat": "YYYY",
       "response": { "name": "MAA2A" }
@@ -1256,8 +1662,16 @@
       "id": "jojt16mt",
       "componentType": "Dropdown",
       "mandatory": false,
-      "label": "\"➡ 2. Quel est le mois de votre arrivé en \" || cast(cast(MAA2A,string),string) || \" ? \"",
-      "conditionFilter": "if ((cast(MAA2A,string) >= (cast(ANNEENQ,number) -4))) then \"normal\" else \"hidden\"",
+      "page": "37",
+      "label": "\"➡ 35. Quel est le mois de votre arrivé en \" || cast(cast(MAA2A,string),string) || \" ? \"",
+      "conditionFilter": "if ((cast(MAA2A,string) >= (cast(number(substr(string(current-date()),1,4)),number) -4))) then \"normal\" else \"hidden\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jojt89iv",
+          "page": "35",
+          "label": "\"IV - Date d’installation dans le logement\""
+        }
+      },
       "bindingDependencies": ["MAA2A", "MAA2M"],
       "options": [
         { "value": "1", "label": "\"Janvier - 01\"" },
@@ -1291,9 +1705,17 @@
       "id": "jojt3qxp",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 3. \" || cast(cast(PrenomCJ,string),string) || \" est-\" || cast(cast(il_elleCJ,string),string) || \" arrivé\" || cast(cast(eCJ,string),string) || \" dans ce logement en même temps que vous ?\"",
+      "page": "38",
+      "label": "\"➡ 36. \" || cast(cast(PrenomCJ,string),string) || \" est-\" || cast(cast(if (cast(SEXECJ,string) =\"2\") then \"elle\" else \"il\",string),string) || \" arrivé\" || cast(cast(if (cast(SEXECJ,string) =\"2\") then \"e\" else \"\",string),string) || \" dans ce logement en même temps que vous ?\"",
       "conditionFilter": "\"normal\"",
-      "bindingDependencies": ["PrenomCJ", "il_elleCJ", "eCJ", "MARRIVC"],
+      "hierarchy": {
+        "sequence": {
+          "id": "jojt89iv",
+          "page": "35",
+          "label": "\"IV - Date d’installation dans le logement\""
+        }
+      },
+      "bindingDependencies": ["PrenomCJ", "SEXECJ", "MARRIVC"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
 
@@ -1306,9 +1728,10 @@
       "id": "jojtnq9z",
       "componentType": "Datepicker",
       "mandatory": false,
+      "page": "39",
       "min": "1900",
       "max": "year-from-date(current-date())",
-      "label": "\"➡ 4. En quelle année \" || cast(cast(PrenomCJ,string),string) || \" est-\" || cast(cast(il_elleCJ,string),string) || \" arrivé\" || cast(cast(eCJ,string),string) || \" dans ce logement ?\"",
+      "label": "\"➡ 37. En quelle année \" || cast(cast(PrenomCJ,string),string) || \" est-\" || cast(cast(if (cast(SEXECJ,string) =\"2\") then \"elle\" else \"il\",string),string) || \" arrivé\" || cast(cast(if (cast(SEXECJ,string) =\"2\") then \"e\" else \"\",string),string) || \" dans ce logement ?\"",
       "declarations": [
         {
           "id": "jojtnq9z-kbjfctt0",
@@ -1318,7 +1741,14 @@
         }
       ],
       "conditionFilter": "if ((cast(MARRIVC,string) = \"2\")) then \"normal\" else \"hidden\"",
-      "bindingDependencies": ["PrenomCJ", "il_elleCJ", "eCJ", "MAA2AC"],
+      "hierarchy": {
+        "sequence": {
+          "id": "jojt89iv",
+          "page": "35",
+          "label": "\"IV - Date d’installation dans le logement\""
+        }
+      },
+      "bindingDependencies": ["PrenomCJ", "SEXECJ", "MAA2AC"],
       "dateFormat": "YYYY",
       "response": { "name": "MAA2AC" }
     },
@@ -1327,8 +1757,16 @@
       "id": "jor73af6",
       "componentType": "Dropdown",
       "mandatory": false,
-      "label": "\"➡ 5. Quel est le mois de son arrivé dans le logement en \" || cast(cast(MAA2AC,string),string) || \" ? \"",
-      "conditionFilter": "if ((cast(MARRIVC,string) = \"2\") and (cast(MAA2AC,string) >= (cast(ANNEENQ,number) -4))) then \"normal\" else \"hidden\"",
+      "page": "40",
+      "label": "\"➡ 38. Quel est le mois de son arrivé dans le logement en \" || cast(cast(MAA2AC,string),string) || \" ? \"",
+      "conditionFilter": "if ((cast(MARRIVC,string) = \"2\") and (cast(MAA2AC,string) >= (cast(number(substr(string(current-date()),1,4)),number) -4))) then \"normal\" else \"hidden\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jojt89iv",
+          "page": "35",
+          "label": "\"IV - Date d’installation dans le logement\""
+        }
+      },
       "bindingDependencies": ["MAA2AC", "MAA2MC"],
       "options": [
         { "value": "1", "label": "\"Janvier - 01\"" },
@@ -1362,7 +1800,8 @@
       "id": "jojtsgsr",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 6. Au moment de \" || cast(cast(if ((cast(MAA2A,string) <> \"\" and cast(MARRIVC,string)=\"2\") and ((cast(MAA2AC,string) <> \"\" and cast(MAA2AC,string)<cast(MAA2A,string)) or (cast(MAA2AC,string)=cast(MAA2A,string) and cast(MAA2MC,string)<cast(MAA2M,string))) ) then \"l\"\"arrivé de \" || cast(PrenomCJ,string)  || \" en \" || cast(MAA2AC,string) else if (cast(MAA2A,string) <> \"\") then \"votre arrivé en \" || cast(MAA2A,string) else \"votre arrivé\",string),string) || \", une autre personne du ménage actuel habitait-elle déjà dans ce logement ?\"",
+      "page": "41",
+      "label": "\"➡ 39. Au moment de \" || cast(cast(if ((cast(MAA2A,string) <> \"\" and cast(MARRIVC,string)=\"2\") and ((cast(MAA2AC,string) <> \"\" and cast(MAA2AC,string)<cast(MAA2A,string)) or (cast(MAA2AC,string)=cast(MAA2A,string) and cast(MAA2MC,string)<cast(MAA2M,string))) ) then \"l\"\"arrivé de \" || cast(PrenomCJ,string)  || \" en \" || cast(MAA2AC,string) else if (cast(MAA2A,string) <> \"\") then \"votre arrivé en \" || cast(MAA2A,string) else \"votre arrivé\",string),string) || \", une autre personne du ménage actuel habitait-elle déjà dans ce logement ?\"",
       "declarations": [
         {
           "id": "jojtsgsr-jojugiau",
@@ -1379,6 +1818,13 @@
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jojt89iv",
+          "page": "35",
+          "label": "\"IV - Date d’installation dans le logement\""
+        }
+      },
       "bindingDependencies": ["MAA2A", "MARRIVC", "MAA2AC", "MAA2MC", "MAA2M", "PrenomCJ", "MAA3"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -1392,10 +1838,18 @@
       "id": "jojtutyy",
       "componentType": "Datepicker",
       "mandatory": false,
+      "page": "42",
       "min": "1900",
       "max": "year-from-date(current-date())",
-      "label": "\"➡ 7. Depuis quelle année cette personne habitait-elle ce logement ?\"",
+      "label": "\"➡ 40. Depuis quelle année cette personne habitait-elle ce logement ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jojt89iv",
+          "page": "35",
+          "label": "\"IV - Date d’installation dans le logement\""
+        }
+      },
       "bindingDependencies": ["MAA3A"],
       "dateFormat": "YYYY",
       "response": { "name": "MAA3A" }
@@ -1405,8 +1859,16 @@
       "id": "jojtizrx",
       "componentType": "Dropdown",
       "mandatory": false,
-      "label": "\"➡ 8. Quel est le mois de son arrivé dans le logement en \" || cast(cast(MAA3A,string),string) || \" ?\"",
+      "page": "43",
+      "label": "\"➡ 41. Quel est le mois de son arrivé dans le logement en \" || cast(cast(MAA3A,string),string) || \" ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jojt89iv",
+          "page": "35",
+          "label": "\"IV - Date d’installation dans le logement\""
+        }
+      },
       "bindingDependencies": ["MAA3A", "MAA3M"],
       "options": [
         { "value": "1", "label": "\"Janvier - 01\"" },
@@ -1440,52 +1902,55 @@
       "id": "kbi168bg",
       "componentType": "Textarea",
       "mandatory": false,
+      "page": "44",
       "maxLength": 255,
-      "label": "\"➡ 9. Question temporaire pour vérifier la valeur des variables intermédiaires de date :\"",
+      "label": "\"➡ 42. Question temporaire pour vérifier la valeur des variables intermédiaires de date :\"",
       "declarations": [
         {
           "id": "kbi168bg-kbjkbyq7",
           "declarationType": "INSTRUCTION",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"MAA2AT : \" || cast(cast(if ( ( cast(MAA2A,string) > cast(ANNEENQ,number) -1 ) or ( (cast(MAA2A,string) = cast(ANNEENQ,number) -1) and (number(cast(MAA2M,string)) > cast(MOISENQ,number)) and (cast(MAA2M,string) <> \"\") ) or ( (cast(MAA2A,string) = cast(ANNEENQ,number) -1) and (cast(MAA2M,string)=\"\") and (cast(MOISENQ,number)<=6) ) ) then 1 else if ( ( cast(MAA2A,string) > cast(ANNEENQ,number) -4 ) or ( (cast(MAA2A,string) = cast(ANNEENQ,number) -4) and (number(cast(MAA2M,string)) > cast(MOISENQ,number)) and (cast(MAA2M,string)  <> \"\") ) or ( (cast(MAA2A,string) = cast(ANNEENQ,number) -4) and (cast(MAA2M,string) = \"\") and (cast(MOISENQ,number)<=6) ) ) then 2 else if ( cast(MAA2A,string) > cast(ANNEENQ,number) -8 ) then 3 else if ( cast(MAA2A,string) > cast(ANNEENQ,number) -12) then 4 else if ( cast(MAA2A,string)  <>  \"\") then \"5\" else \"9\",number),string) || \" \""
+          "label": "\"MAA2AT : \" || cast(cast(if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string) <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2M,string)=\"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string)  <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2A,string)  <>  \"\") then \"5\" else \"9\",number),string) || \" \""
         },
 
         {
           "id": "kbi168bg-kbjka517",
           "declarationType": "INSTRUCTION",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"MAA2ATC : \" || cast(cast(if (cast(MARRIVC,string)= \"1\") then cast(MAA2AT,number) else if ( ( cast(MAA2AC,string) > cast(ANNEENQ,number) -1 ) or ( (cast(MAA2AC,string) = cast(ANNEENQ,number) -1) and (number(cast(MAA2MC,string)) > cast(MOISENQ,number)) and (cast(MAA2MC,string)  <> \"\") ) or ( (cast(MAA2AC,string) = cast(ANNEENQ,number) -1) and (cast(MAA2MC,string) = \"\") and (cast(MOISENQ,number)<=6) ) ) then 1 else if ( ( cast(MAA2AC,string) > cast(ANNEENQ,number) -4 ) or ( (cast(MAA2AC,string) = cast(ANNEENQ,number) -4) and (number(cast(MAA2MC,string)) > cast(MOISENQ,number)) and (cast(MAA2MC,string)  <> \"\") ) or ( (cast(MAA2AC,string) = cast(ANNEENQ,number) -4) and (cast(MAA2MC,string) = \"\") and (cast(MOISENQ,number)<=6) ) ) then 2 else if ( cast(MAA2AC,string) > cast(ANNEENQ,number) -8 ) then 3 else if ( cast(MAA2AC,string) > cast(ANNEENQ,number) -12) then 4 else if ( cast(MAA2AC,string)  <>  \"\") then \"5\" else \"\",number),string) || \" \""
+          "label": "\"MAA2ATC : \" || cast(cast(if (cast(MARRIVC,string)= \"1\") then cast(if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string) <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2M,string)=\"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string)  <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2A,string)  <>  \"\") then \"5\" else \"9\",number) else if ( ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2MC,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2MC,string)  <> \"\") ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2MC,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2MC,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2MC,string)  <> \"\") ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2MC,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2AC,string)  <>  \"\") then \"5\" else \"\",number),string) || \" \""
         },
 
         {
           "id": "kbi168bg-kbjk1587",
           "declarationType": "INSTRUCTION",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"MAA3AT : \" || cast(cast(if ( ( cast(MAA3A,string) > cast(ANNEENQ,number) -1 ) or ( (cast(MAA3A,string) = cast(ANNEENQ,number) -1) and (number(cast(MAA3M,string)) > cast(MOISENQ,number)) and (cast(MAA3M,string)  <> \"\") ) or ( (cast(MAA3A,string) = cast(ANNEENQ,number) -1) and (cast(MAA3M,string) = \"\") and (cast(MOISENQ,number)<=6) ) ) then 1 else if ( ( cast(MAA3A,string) > cast(ANNEENQ,number) -4 ) or ( (cast(MAA3A,string) = cast(ANNEENQ,number) -4) and (number(cast(MAA3M,string)) > cast(MOISENQ,number)) and (cast(MAA3M,string)  <> \"\") ) or ( (cast(MAA3A,string) = cast(ANNEENQ,number) -4) and (cast(MAA3M,string) = \"\") and (cast(MOISENQ,number)<=6) ) ) then 2 else if ( cast(MAA3A,string) > cast(ANNEENQ,number) -8 ) then 3 else if ( cast(MAA3A,string) > cast(ANNEENQ,number) -12) then 4 else if ( cast(MAA3A,string)  <>  \"\") then \"5\" else \"\",number),string) || \" \""
+          "label": "\"MAA3AT : \" || cast(cast(if ( ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA3M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA3M,string)  <> \"\") ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA3M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA3M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA3M,string)  <> \"\") ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA3M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA3A,string)  <>  \"\") then \"5\" else \"\",number),string) || \" \""
         },
 
         {
           "id": "kbi168bg-kbjkcgl5",
           "declarationType": "INSTRUCTION",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"MAA1AT : \" || cast(cast(if (cast(MAA3,string)=\"1\" and cast(MAA3AT,number)  <> \"\" and cast(MAA3AT,number)>=cast(MAA2AT,number) and cast(MAA3AT,number)>=cast(MAA2ATC,number) ) then cast(MAA3AT,number) else if (cast(MAA2ATC,number) = \"\" or cast(MARRIVC,string) <>  \"2\" ) then cast(MAA2AT,number) else if (cast(MAA2AT,number)  <>  \"\" and cast(MAA2AT,number) >= cast(MAA2ATC,number) ) then cast(MAA2AT,number) else if (cast(MAA2AT,number)  <>  \"\" and cast(MAA2AT,number) < cast(MAA2ATC,number)) then cast(MAA2ATC,number) else if (cast(MAA2AT,number) = \"\" ) then cast(MAA2ATC,number) else \"\",number),string) || \" \""
+          "label": "\"MAA1AT : \" || cast(cast(if (cast(MAA3,string)=\"1\" and cast(if ( ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA3M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA3M,string)  <> \"\") ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA3M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA3M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA3M,string)  <> \"\") ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA3M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA3A,string)  <>  \"\") then \"5\" else \"\",number)  <> \"\" and cast(if ( ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA3M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA3M,string)  <> \"\") ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA3M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA3M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA3M,string)  <> \"\") ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA3M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA3A,string)  <>  \"\") then \"5\" else \"\",number)>=cast(if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string) <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2M,string)=\"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string)  <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2A,string)  <>  \"\") then \"5\" else \"9\",number) and cast(if ( ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA3M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA3M,string)  <> \"\") ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA3M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA3M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA3M,string)  <> \"\") ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA3M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA3A,string)  <>  \"\") then \"5\" else \"\",number)>=cast(if (cast(MARRIVC,string)= \"1\") then cast(if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string) <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2M,string)=\"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string)  <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2A,string)  <>  \"\") then \"5\" else \"9\",number) else if ( ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2MC,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2MC,string)  <> \"\") ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2MC,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2MC,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2MC,string)  <> \"\") ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2MC,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2AC,string)  <>  \"\") then \"5\" else \"\",number) ) then cast(if ( ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA3M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA3M,string)  <> \"\") ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA3M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA3M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA3M,string)  <> \"\") ) or ( (cast(MAA3A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA3M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA3A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA3A,string)  <>  \"\") then \"5\" else \"\",number) else if (cast(if (cast(MARRIVC,string)= \"1\") then cast(if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string) <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2M,string)=\"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string)  <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2A,string)  <>  \"\") then \"5\" else \"9\",number) else if ( ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2MC,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2MC,string)  <> \"\") ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2MC,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2MC,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2MC,string)  <> \"\") ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2MC,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2AC,string)  <>  \"\") then \"5\" else \"\",number) = \"\" or cast(MARRIVC,string) <>  \"2\" ) then cast(if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string) <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2M,string)=\"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string)  <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2A,string)  <>  \"\") then \"5\" else \"9\",number) else if (cast(if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string) <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2M,string)=\"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string)  <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2A,string)  <>  \"\") then \"5\" else \"9\",number)  <>  \"\" and cast(if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string) <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2M,string)=\"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string)  <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2A,string)  <>  \"\") then \"5\" else \"9\",number) >= cast(if (cast(MARRIVC,string)= \"1\") then cast(if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string) <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2M,string)=\"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string)  <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2A,string)  <>  \"\") then \"5\" else \"9\",number) else if ( ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2MC,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2MC,string)  <> \"\") ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2MC,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2MC,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2MC,string)  <> \"\") ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2MC,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2AC,string)  <>  \"\") then \"5\" else \"\",number) ) then cast(if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string) <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2M,string)=\"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string)  <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2A,string)  <>  \"\") then \"5\" else \"9\",number) else if (cast(if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string) <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2M,string)=\"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string)  <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2A,string)  <>  \"\") then \"5\" else \"9\",number)  <>  \"\" and cast(if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string) <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2M,string)=\"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string)  <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2A,string)  <>  \"\") then \"5\" else \"9\",number) < cast(if (cast(MARRIVC,string)= \"1\") then cast(if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string) <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2M,string)=\"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string)  <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2A,string)  <>  \"\") then \"5\" else \"9\",number) else if ( ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2MC,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2MC,string)  <> \"\") ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2MC,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2MC,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2MC,string)  <> \"\") ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2MC,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2AC,string)  <>  \"\") then \"5\" else \"\",number)) then cast(if (cast(MARRIVC,string)= \"1\") then cast(if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string) <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2M,string)=\"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string)  <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2A,string)  <>  \"\") then \"5\" else \"9\",number) else if ( ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2MC,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2MC,string)  <> \"\") ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2MC,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2MC,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2MC,string)  <> \"\") ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2MC,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2AC,string)  <>  \"\") then \"5\" else \"\",number) else if (cast(if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string) <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2M,string)=\"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string)  <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2A,string)  <>  \"\") then \"5\" else \"9\",number) = \"\" ) then cast(if (cast(MARRIVC,string)= \"1\") then cast(if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string) <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2M,string)=\"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2M,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2M,string)  <> \"\") ) or ( (cast(MAA2A,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2M,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2A,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2A,string)  <>  \"\") then \"5\" else \"9\",number) else if ( ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -1 ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (number(cast(MAA2MC,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2MC,string)  <> \"\") ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -1) and (cast(MAA2MC,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 1 else if ( ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -4 ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (number(cast(MAA2MC,string)) > cast(substr(string(current-date()),6,2),number)) and (cast(MAA2MC,string)  <> \"\") ) or ( (cast(MAA2AC,string) = cast(number(substr(string(current-date()),1,4)),number) -4) and (cast(MAA2MC,string) = \"\") and (cast(substr(string(current-date()),6,2),number)<=6) ) ) then 2 else if ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -8 ) then 3 else if ( cast(MAA2AC,string) > cast(number(substr(string(current-date()),1,4)),number) -12) then 4 else if ( cast(MAA2AC,string)  <>  \"\") then \"5\" else \"\",number) else \"\",number),string) || \" \""
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": {
+          "id": "jojt89iv",
+          "page": "35",
+          "label": "\"IV - Date d’installation dans le logement\""
+        }
+      },
       "bindingDependencies": [
         "MAA2A",
-        "ANNEENQ",
         "MAA2M",
-        "MOISENQ",
         "MARRIVC",
-        "MAA2AT",
         "MAA2AC",
         "MAA2MC",
         "MAA3A",
         "MAA3M",
         "MAA3",
-        "MAA3AT",
-        "MAA2ATC",
         "TEMPS1_1"
       ],
       "response": { "name": "TEMPS1_1" }
@@ -1494,6 +1959,7 @@
     {
       "id": "jojuy3c4",
       "componentType": "Sequence",
+      "page": "45",
       "label": "\"V - Taille du logement\"",
       "declarations": [
         {
@@ -1503,15 +1969,22 @@
           "label": "\"Nous allons maintenant passer à la description de votre logement.\""
         }
       ],
-      "conditionFilter": "\"normal\""
+      "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      }
     },
 
     {
       "id": "jojuueml",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 1. Avez-vous une cuisine ?\"",
+      "page": "46",
+      "label": "\"➡ 43. Avez-vous une cuisine ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
       "bindingDependencies": ["KCU1"],
       "options": [
         { "value": "1", "label": "\"Oui, une cuisine séparée\"" },
@@ -1523,10 +1996,7 @@
           "label": "\"Seulement une petite installation pour faire la cuisine, avec évier (exemple : kitchenette)\""
         },
 
-        {
-          "value": "4",
-          "label": "\"Non, pas d'installation pour faire la cuisine \""
-        }
+        { "value": "4", "label": "\"Non, pas d’installation pour faire la cuisine \"" }
       ],
       "response": { "name": "KCU1" }
     },
@@ -1535,8 +2005,12 @@
       "id": "jojuno0d",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 2. Quelle est la surface de la cuisine ?\"",
+      "page": "47",
+      "label": "\"➡ 44. Quelle est la surface de la cuisine ?\"",
       "conditionFilter": "if ((cast(KCU1,string)=\"1\")) then \"normal\" else \"hidden\"",
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
       "bindingDependencies": ["KCU2"],
       "options": [
         { "value": "1", "label": "\" Moins de 4 m² \"" },
@@ -1554,7 +2028,8 @@
       "id": "jojuwst2",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 3. Y a-t-il, dans le logement, des pièces réservées exclusivement à une activité professionnelle, comme un cabinet de dentiste ou d'avocat par exemple ?\"",
+      "page": "48",
+      "label": "\"➡ 45. Y a-t-il, dans le logement, des pièces réservées exclusivement à une activité professionnelle, comme un cabinet de dentiste ou d’avocat par exemple ?\"",
       "declarations": [
         {
           "id": "kkpnqrqh-SI",
@@ -1571,6 +2046,9 @@
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
       "bindingDependencies": ["HUP"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -1584,11 +2062,15 @@
       "id": "jojv1e5e",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "49",
       "min": 1,
       "max": 9,
       "decimals": 0,
-      "label": "\"➡ 4. Combien avez-vous de pièces à usage exclusivement professionnel ?\"",
+      "label": "\"➡ 46. Combien avez-vous de pièces à usage exclusivement professionnel ?\"",
       "conditionFilter": "if ((cast(HUP,string)=\"1\")) then \"normal\" else \"hidden\"",
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
       "bindingDependencies": ["HPP"],
       "response": { "name": "HPP" }
     },
@@ -1597,11 +2079,15 @@
       "id": "jojuz9k3",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "50",
       "min": 1,
       "max": 997,
       "decimals": 0,
-      "label": "\"➡ 5. Quelle est la surface totale de \" || cast(cast(if (cast(HPP,number)=1) then \"votre pièce\" else \"vos pièces\",string),string) || \" à usage exclusivement professionnel(en m²)?\"",
+      "label": "\"➡ 47. Quelle est la surface totale de \" || cast(cast(if (cast(HPP,number)=1) then \"votre pièce\" else \"vos pièces\",string),string) || \" à usage exclusivement professionnel(en m²)?\"",
       "conditionFilter": "if ((cast(HUP,string)=\"1\") and (cast(HPP,number)>0)) then \"normal\" else \"hidden\"",
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
       "bindingDependencies": ["HPP", "HSP"],
       "response": { "name": "HSP" }
     },
@@ -1610,16 +2096,20 @@
       "id": "jojv79ut",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 6. Y a-t-il des pièces annexes à usage d'habitation rattachées au logement avec une entrée indépendante telles que, par exemple, des chambres de bonne ou d’anciens garages réaménagés en studios… ?\"",
+      "page": "51",
+      "label": "\"➡ 48. Y a-t-il des pièces annexes à usage d’habitation rattachées au logement avec une entrée indépendante telles que, par exemple, des chambres de bonne ou d’anciens garages réaménagés en studios… ?\"",
       "declarations": [
         {
           "id": "jojv79ut-jrj0gbrz",
           "declarationType": "INSTRUCTION",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"Ne pas compter les pièces qui n'ont pas un usage d'habitation: débarras, buanderies, garages...\""
+          "label": "\"Ne pas compter les pièces qui n’ont pas un usage d’habitation: débarras, buanderies, garages...\""
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
       "bindingDependencies": ["HUA"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -1633,11 +2123,15 @@
       "id": "jojv3ha7",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "52",
       "min": 1,
       "max": 9,
       "decimals": 0,
-      "label": "\"➡ 7. Combien avez-vous de pièces annexes à usage d'habitation ?\"",
+      "label": "\"➡ 49. Combien avez-vous de pièces annexes à usage d’habitation ?\"",
       "conditionFilter": "if ((cast(HUA,string)=\"1\")) then \"normal\" else \"hidden\"",
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
       "bindingDependencies": ["HPA"],
       "response": { "name": "HPA" }
     },
@@ -1646,8 +2140,12 @@
       "id": "kkqol4a8",
       "componentType": "CheckboxOne",
       "mandatory": false,
-      "label": "\"➡ 8. Cette pièce annexe est-elle louée, sous-loué ou prêtée à des tiers ?\"",
+      "page": "53",
+      "label": "\"➡ 50. Cette pièce annexe est-elle louée, sous-loué ou prêtée à des tiers ?\"",
       "conditionFilter": "if ((cast(HUA,string)=\"1\")) then \"normal\" else \"hidden\"",
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
       "bindingDependencies": ["HUL_BIS"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -1660,7 +2158,8 @@
     {
       "id": "kkqw7noi",
       "componentType": "CheckboxGroup",
-      "label": "\"➡ 9. Quel usage faites vous des \" || cast(cast(HPA,number),string) || \" pièces annexes ? \"",
+      "page": "54",
+      "label": "\"➡ 51. Quel usage faites vous des \" || cast(cast(HPA,number),string) || \" pièces annexes ? \"",
       "declarations": [
         {
           "id": "kkqw7noi-kkqw9iid",
@@ -1670,6 +2169,9 @@
         }
       ],
       "conditionFilter": "if ((cast(HUA,string)=\"1\")) then \"normal\" else \"hidden\"",
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
       "bindingDependencies": ["HPA", "HUL_HUI1", "HUL_HUI2"],
       "responses": [
         {
@@ -1680,7 +2182,7 @@
 
         {
           "id": "kkqw7noi-QOP-kkqwnhdj",
-          "label": "\"Elles sont réservées à votre usage personnel, ou au logement d'un salarié à votre service (employé de maison, jeune fille au pair..)\"",
+          "label": "\"Elles sont réservées à votre usage personnel, ou au logement d’un salarié à votre service (employé de maison, jeune fille au pair..)\"",
           "response": { "name": "HUL_HUI2" }
         }
       ]
@@ -1690,11 +2192,15 @@
       "id": "jojuzbus",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "55",
       "min": 1,
       "max": 9,
       "decimals": 0,
-      "label": "\"➡ 10. Combien de pièces annexes sont-elles réservées à votre usage personnel ou au logement d'un salarié à votre service ?\"",
+      "label": "\"➡ 52. Combien de pièces annexes sont-elles réservées à votre usage personnel ou au logement d’un salarié à votre service ?\"",
       "conditionFilter": "if ((cast(HUA,string)=\"1\")) then \"normal\" else \"hidden\"",
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
       "bindingDependencies": ["HPI"],
       "response": { "name": "HPI" }
     },
@@ -1703,17 +2209,21 @@
       "id": "kkqo7tvp",
       "componentType": "Table",
       "mandatory": false,
+      "page": "56",
       "positioning": "HORIZONTAL",
-      "label": "\"➡ 11. Parmi les \" || cast(cast(HPA,number),string) || \" pièces annexes, combien sont-elles... ? \"",
+      "label": "\"➡ 53. Parmi les \" || cast(cast(HPA,number),string) || \" pièces annexes, combien sont-elles... ? \"",
       "declarations": [
         {
           "id": "kkqouct8-SI",
           "declarationType": "STATEMENT",
           "position": "BEFORE_QUESTION_TEXT",
-          "label": "\"Ici on s'intéresse à l'usage que vous faites de ces pièces annexes. Sont-elles plutôt louées, sous louées ou prêtées à des tiers ? Ou plutôt réservées à votre usage personnel ou au logement d'un salarié à votre service (employé de maison ou jeune fille au pair par exemple) ?​\""
+          "label": "\"Ici on s’intéresse à l’usage que vous faites de ces pièces annexes. Sont-elles plutôt louées, sous louées ou prêtées à des tiers ? Ou plutôt réservées à votre usage personnel ou au logement d’un salarié à votre service (employé de maison ou jeune fille au pair par exemple) ?​\""
         }
       ],
       "conditionFilter": "if ((cast(HUA,string)=\"1\") and (cast(HPA,number)>1)) then \"normal\" else \"hidden\"",
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
       "bindingDependencies": ["HPA", "HUI_BIS11", "HUI_BIS21"],
       "cells": [
         [
@@ -1723,10 +2233,7 @@
         ],
 
         [
-          {
-            "value": "1",
-            "label": "\"- Louées, sous louées ou prêtées à des tiers :\""
-          },
+          { "value": "1", "label": "\"- Louées, sous louées ou prêtées à des tiers :\"" },
 
           {
             "componentType": "InputNumber",
@@ -1742,7 +2249,7 @@
         [
           {
             "value": "2",
-            "label": "\"- Réservées à votre usage personnel ou au logement d'un salarié à votre service :\""
+            "label": "\"- Réservées à votre usage personnel ou au logement d’un salarié à votre service :\""
           },
 
           {
@@ -1762,8 +2269,12 @@
       "id": "jojvcfyb",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 12. \" || cast(cast(if (cast(HPA,number)=1) then \"Cette pièce annexe\" else \"L\"\"une de ces pièces annexes\",string),string) || \" est-elle louée, sous-louée ou prêtée à des tiers ?\"",
+      "page": "57",
+      "label": "\"➡ 54. \" || cast(cast(if (cast(HPA,number)=1) then \"Cette pièce annexe\" else \"L\"\"une de ces pièces annexes\",string),string) || \" est-elle louée, sous-louée ou prêtée à des tiers ?\"",
       "conditionFilter": "if ((cast(HUA,string)=\"1\")) then \"normal\" else \"hidden\"",
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
       "bindingDependencies": ["HPA", "HUL"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -1777,8 +2288,12 @@
       "id": "jojv4tm3",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 13. Parmi les pièces annexes à usage d'habitation rattachées au logement, une ou plusieurs sont-elles réservées à votre usage personnel ou au logement d'un salarié à votre service(employé de maison,jeune fille au pair,...)?\"",
+      "page": "58",
+      "label": "\"➡ 55. Parmi les pièces annexes à usage d’habitation rattachées au logement, une ou plusieurs sont-elles réservées à votre usage personnel ou au logement d’un salarié à votre service(employé de maison,jeune fille au pair,...)?\"",
       "conditionFilter": "if ((cast(HUA,string)=\"1\")) then \"normal\" else \"hidden\"",
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
       "bindingDependencies": ["HUI"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -1792,11 +2307,15 @@
       "id": "jojv5bnw",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "59",
       "min": 1,
       "max": 997,
       "decimals": 0,
-      "label": "\"➡ 14. Quelle est la surface totale de \" || cast(cast(if (cast(HPI,number)=1) then \"cette pièce réservée\" else \"ces pièces réservées\",string),string) || \" à votre usage personnel ou au logement d'un salarié à votre service(en m²)?\"",
+      "label": "\"➡ 56. Quelle est la surface totale de \" || cast(cast(if (cast(HPI,number)=1) then \"cette pièce réservée\" else \"ces pièces réservées\",string),string) || \" à votre usage personnel ou au logement d’un salarié à votre service(en m²)?\"",
       "conditionFilter": "if ((cast(HUA,string)=\"1\")) then \"normal\" else \"hidden\"",
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
       "bindingDependencies": ["HPI", "HSI"],
       "response": { "name": "HSI" }
     },
@@ -1805,27 +2324,31 @@
       "id": "jojvgfei",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "60",
       "min": 0,
       "max": 97,
       "decimals": 0,
-      "label": "\"➡ 15. \" || cast(cast(if (cast(KCU1,string)=\"1\" or cast(HPP,number)>0 or cast(HPA,number)>0) then \"En dehors \" || cast(libHPH2,string) || ' ||  combien' else \"Combien\",string),string) || \" avez-vous de pièces d'habitation (ou de pièces habitables) ?\"",
+      "label": "\"➡ 57. \" || cast(cast(if (cast(KCU1,string)=\"1\" or cast(HPP,number)>0 or cast(HPA,number)>0) then \"En dehors \" || cast(if (cast(KCU1,string)=\"1\" and cast(HPP,number)>0 and cast(HPA,number)>0) then cast(if (cast(KCU1,string)=\"1\") then \"de la cuisine\" else \"\",string) || ' ||  ' || cast(if (cast(HPP,number)=1) then \"de la pièce professionnelle\" else if (cast(HPP,number)>1) then \"des pièces professionnelles\" else \"\",string) || \" et \" || cast(if (cast(HPA,number)=1) then \"de la pièce annexe\" else if (cast(HPA,number)>1) then \"des pièces annexes\" else \"\",string) else if (cast(KCU1,string)=\"1\" and cast(HPP,number)>0) then cast(if (cast(KCU1,string)=\"1\") then \"de la cuisine\" else \"\",string) || \" et \" || cast(if (cast(HPP,number)=1) then \"de la pièce professionnelle\" else if (cast(HPP,number)>1) then \"des pièces professionnelles\" else \"\",string) else if (cast(KCU1,string)=\"1\" and cast(HPA,number)>0) then cast(if (cast(KCU1,string)=\"1\") then \"de la cuisine\" else \"\",string) || \" et \" || cast(if (cast(HPA,number)=1) then \"de la pièce annexe\" else if (cast(HPA,number)>1) then \"des pièces annexes\" else \"\",string) else if (cast(KCU1,string)=\"1\") then cast(if (cast(KCU1,string)=\"1\") then \"de la cuisine\" else \"\",string) else if (cast(HPP,number)>0 and cast(HPA,number)>0) then cast(if (cast(HPP,number)=1) then \"de la pièce professionnelle\" else if (cast(HPP,number)>1) then \"des pièces professionnelles\" else \"\",string) || \" et \" || cast(if (cast(HPA,number)=1) then \"de la pièce annexe\" else if (cast(HPA,number)>1) then \"des pièces annexes\" else \"\",string) else if (cast(HPP,number)>0) then cast(if (cast(HPP,number)=1) then \"de la pièce professionnelle\" else if (cast(HPP,number)>1) then \"des pièces professionnelles\" else \"\",string) else if (cast(HPA,number)>0) then cast(if (cast(HPA,number)=1) then \"de la pièce annexe\" else if (cast(HPA,number)>1) then \"des pièces annexes\" else \"\",string) else \"\",string) || ' ||  combien' else \"Combien\",string),string) || \" avez-vous de pièces d’habitation (ou de pièces habitables) ?\"",
       "declarations": [
         {
           "id": "jojvgfei-js0htd7x",
           "declarationType": "INSTRUCTION",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"S'il existe une pièce partagée par une cloison provisoire ou une amorce de cloison, compter cette pièce pour deux.\""
+          "label": "\"S’il existe une pièce partagée par une cloison provisoire ou une amorce de cloison, compter cette pièce pour deux.\""
         },
 
         {
           "id": "jojvgfei-kd5qr5s5",
           "declarationType": "INSTRUCTION",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"Ne pas compter comme pièce d'habitation les pièces telles que : cuisine, entrée, couloir, salle de bains, W-C, véranda...\""
+          "label": "\"Ne pas compter comme pièce d’habitation les pièces telles que : cuisine, entrée, couloir, salle de bains, W-C, véranda...\""
         }
       ],
       "conditionFilter": "\"normal\"",
-      "bindingDependencies": ["KCU1", "HPP", "HPA", "libHPH2", "HPH"],
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
+      "bindingDependencies": ["KCU1", "HPP", "HPA", "HPH"],
       "response": { "name": "HPH" }
     },
 
@@ -1833,10 +2356,11 @@
       "id": "jojv4yqe",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "61",
       "min": 0,
       "max": 97,
       "decimals": 0,
-      "label": "\"➡ 16. Parmi ces pièces, combien de chambres à coucher avez-vous ?\"",
+      "label": "\"➡ 58. Parmi ces pièces, combien de chambres à coucher avez-vous ?\"",
       "declarations": [
         {
           "id": "jojv4yqe-js0hn6b6",
@@ -1846,6 +2370,9 @@
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
       "bindingDependencies": ["HCHA"],
       "response": { "name": "HCHA" }
     },
@@ -1854,10 +2381,11 @@
       "id": "jojvc0vt",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "62",
       "min": 1,
       "max": 997,
       "decimals": 0,
-      "label": "\"➡ 17. Quelle est la surface totale habitable de votre logement\" || cast(cast(if (cast(HPP,number)>0 and cast(HPA,number)>0) then ' ||  en dehors ' || cast(libHPHp,string) || \" et \" || cast(libHPHa,string) else if (cast(HPP,number)>0 or cast(HPA,number)>0) then ' ||  en dehors ' || cast(libHPHp,string) || cast(libHPHa,string) else \" \",string),string) || \" (en m²) ?\"",
+      "label": "\"➡ 59. Quelle est la surface totale habitable de votre logement\" || cast(cast(if (cast(HPP,number)>0 and cast(HPA,number)>0) then ' ||  en dehors ' || cast(if (cast(HPP,number)=1) then \"de la pièce professionnelle\" else if (cast(HPP,number)>1) then \"des pièces professionnelles\" else \"\",string) || \" et \" || cast(if (cast(HPA,number)=1) then \"de la pièce annexe\" else if (cast(HPA,number)>1) then \"des pièces annexes\" else \"\",string) else if (cast(HPP,number)>0 or cast(HPA,number)>0) then ' ||  en dehors ' || cast(if (cast(HPP,number)=1) then \"de la pièce professionnelle\" else if (cast(HPP,number)>1) then \"des pièces professionnelles\" else \"\",string) || cast(if (cast(HPA,number)=1) then \"de la pièce annexe\" else if (cast(HPA,number)>1) then \"des pièces annexes\" else \"\",string) else \" \",string),string) || \" (en m²) ?\"",
       "declarations": [
         {
           "id": "jojvc0vt-js0hxdsp",
@@ -1881,7 +2409,10 @@
         }
       ],
       "conditionFilter": "\"normal\"",
-      "bindingDependencies": ["HPP", "HPA", "libHPHp", "libHPHa", "HST"],
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
+      "bindingDependencies": ["HPP", "HPA", "HST"],
       "response": { "name": "HST" }
     },
 
@@ -1889,8 +2420,12 @@
       "id": "jojv1ux1",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 18. Compte tenu du nombre de personnes de votre ménage, comment estimez-vous le nombre de pièces dont vous disposez ?\"",
+      "page": "63",
+      "label": "\"➡ 60. Compte tenu du nombre de personnes de votre ménage, comment estimez-vous le nombre de pièces dont vous disposez ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
       "bindingDependencies": ["HPEUP"],
       "options": [
         { "value": "1", "label": "\"Très insuffisant \"" },
@@ -1910,8 +2445,12 @@
       "id": "jojv8086",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 19. Quelle est la hauteur sous plafond de votre pièce principale ?\"",
+      "page": "64",
+      "label": "\"➡ 61. Quelle est la hauteur sous plafond de votre pièce principale ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
       "bindingDependencies": ["HAUT"],
       "options": [
         { "value": "1", "label": "\"Moins de 2,20 mètres \"" },
@@ -1929,11 +2468,15 @@
       "id": "jojvphni",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "65",
       "min": 1,
       "max": 2.2,
       "decimals": 2,
-      "label": "\"➡ 20. Quelle est la hauteur de votre plafond ? (en m)\"",
+      "label": "\"➡ 62. Quelle est la hauteur de votre plafond ? (en m)\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jojuy3c4", "page": "45", "label": "\"V - Taille du logement\"" }
+      },
       "bindingDependencies": ["HAUT2"],
       "response": { "name": "HAUT2" }
     },
@@ -1941,24 +2484,32 @@
     {
       "id": "jrupc7mi",
       "componentType": "Sequence",
+      "page": "66",
       "label": "\"VI - Dépendances du logement\"",
-      "conditionFilter": "\"normal\""
+      "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      }
     },
 
     {
       "id": "jrupq1i5",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 1. Avez-vous une véranda ?\"",
+      "page": "67",
+      "label": "\"➡ 63. Avez-vous une véranda ?\"",
       "declarations": [
         {
           "id": "jrupq1i5-jrupk9tg",
           "declarationType": "INSTRUCTION",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"Pour qu'un local soit considéré comme une véranda, il devra être habitable tout au long de l'année, ceci suppose qu'il soit entièrement clos et couvert, et puisse être chauffé si le climat le nécessite.\""
+          "label": "\"Pour qu’un local soit considéré comme une véranda, il devra être habitable tout au long de l’année, ceci suppose qu’il soit entièrement clos et couvert, et puisse être chauffé si le climat le nécessite.\""
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["KVE"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -1972,11 +2523,15 @@
       "id": "jrupsr80",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "68",
       "min": 1,
       "max": 997,
       "decimals": 0,
-      "label": "\"➡ 2. Quelle est la surface de cette véranda (en m²) ?\"",
+      "label": "\"➡ 64. Quelle est la surface de cette véranda (en m²) ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["KSV"],
       "response": { "name": "KSV" }
     },
@@ -1985,8 +2540,12 @@
       "id": "jrupy93h",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 3. La surface de la véranda a t-elle été prise en compte dans la surface totale du logement (\" || cast(cast(HST,number),string) || \" m²) que vous avez indiquée précédemment ?\"",
+      "page": "69",
+      "label": "\"➡ 65. La surface de la véranda a t-elle été prise en compte dans la surface totale du logement (\" || cast(cast(HST,number),string) || \" m²) que vous avez indiquée précédemment ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["HST", "KSV1"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -2000,8 +2559,12 @@
       "id": "jrupzl7m",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 4. Avez-vous un balcon\" || cast(cast(if (cast(HTLC,string)=\"2\") then \", une terrasse\" else \"\",string),string) || \" ou une loggia ?\"",
+      "page": "70",
+      "label": "\"➡ 66. Avez-vous un balcon\" || cast(cast(if (cast(HTLC,string)=\"2\") then \", une terrasse\" else \"\",string),string) || \" ou une loggia ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["HTLC", "KBA"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -2015,10 +2578,11 @@
       "id": "jrupx7iz",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "71",
       "min": 1,
       "max": 997,
       "decimals": 0,
-      "label": "\"➡ 5. Quelle est la surface des balcons, loggias (en m²) ?\"",
+      "label": "\"➡ 67. Quelle est la surface des balcons, loggias (en m²) ?\"",
       "declarations": [
         {
           "id": "jrupx7iz-kd8qy7cc",
@@ -2028,6 +2592,9 @@
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["HTLC", "KSB"],
       "response": { "name": "KSB" }
     },
@@ -2036,8 +2603,12 @@
       "id": "jruq98v2",
       "componentType": "CheckboxOne",
       "mandatory": false,
-      "label": "\"➡ 6. \" || cast(cast(if (cast(HTLC,string)=\"2\") then \"Dans votre résidence, avez-vous\" else \"Avez-vous\",string),string) || \" un jardin, un terrain ou une cour réservés à votre usage personnel ?\"",
+      "page": "72",
+      "label": "\"➡ 68. \" || cast(cast(if (cast(HTLC,string)=\"2\") then \"Dans votre résidence, avez-vous\" else \"Avez-vous\",string),string) || \" un jardin, un terrain ou une cour réservés à votre usage personnel ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["HTLC", "KJA"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -2051,19 +2622,23 @@
       "id": "jruq8x6e",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "73",
       "min": 1,
       "max": 99997,
       "decimals": 0,
-      "label": "\"➡ 7. Quelle est la surface totale du lot (terrain, maison...) (en m²) ?\"",
+      "label": "\"➡ 69. Quelle est la surface totale du lot (terrain, maison...) (en m²) ?\"",
       "declarations": [
         {
           "id": "jruq8x6e-js06xqg5",
           "declarationType": "INSTRUCTION",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"Prendre en compte le terrain sur lequel est construite la maison et réservé à l'usage personnel (sans usage exclusivement professionnel) y compris les parcelles séparées par un chemin.\""
+          "label": "\"Prendre en compte le terrain sur lequel est construite la maison et réservé à l’usage personnel (sans usage exclusivement professionnel) y compris les parcelles séparées par un chemin.\""
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["KSJPI"],
       "response": { "name": "KSJPI" }
     },
@@ -2072,8 +2647,12 @@
       "id": "jruq85av",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 8. Pouvez-vous néanmoins indiquer dans quelle tranche se situe la surface du lot (terrain, maison...) ?\"",
+      "page": "74",
+      "label": "\"➡ 70. Pouvez-vous néanmoins indiquer dans quelle tranche se situe la surface du lot (terrain, maison...) ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["KSJPIT"],
       "options": [
         { "value": "1", "label": "\"Inférieur à 300 m²\"" },
@@ -2093,10 +2672,11 @@
       "id": "jruq4was",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "75",
       "min": 1,
       "max": 99997,
       "decimals": 0,
-      "label": "\"➡ 9. Quelle est, en m², l'emprise au sol de la maison (la surface couverte) ?\"",
+      "label": "\"➡ 71. Quelle est, en m², l’emprise au sol de la maison (la surface couverte) ?\"",
       "declarations": [
         {
           "id": "jruq4was-jruq9370",
@@ -2113,6 +2693,9 @@
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["KSMI"],
       "response": { "name": "KSMI" }
     },
@@ -2121,11 +2704,15 @@
       "id": "jruq6fv0",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "76",
       "min": 1,
       "max": 99997,
       "decimals": 0,
-      "label": "\"➡ 10. Quelle est la surface de ces espaces privatifs attenant au logement (en m²) ?\"",
+      "label": "\"➡ 72. Quelle est la surface de ces espaces privatifs attenant au logement (en m²) ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["KSJPC"],
       "response": { "name": "KSJPC" }
     },
@@ -2134,7 +2721,8 @@
       "id": "jruqlf39",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 11. Disposez-vous d'espaces extérieurs (jardin, terrain, cour...) en tant que parties communes de la résidence ou de la copropriété ?\"",
+      "page": "77",
+      "label": "\"➡ 73. Disposez-vous d’espaces extérieurs (jardin, terrain, cour...) en tant que parties communes de la résidence ou de la copropriété ?\"",
       "declarations": [
         {
           "id": "jruqlf39-jruse4ew",
@@ -2144,6 +2732,9 @@
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["KJC"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -2157,8 +2748,12 @@
       "id": "jrusmgfq",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 12. Quelle est la surface de ces espaces partagés ?\"",
+      "page": "78",
+      "label": "\"➡ 74. Quelle est la surface de ces espaces partagés ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["KSJC"],
       "options": [
         { "value": "1", "label": "\"Moins de 200 m²\"" },
@@ -2173,13 +2768,14 @@
     {
       "id": "jrusjpqy",
       "componentType": "CheckboxGroup",
-      "label": "\"➡ 13. Disposez-vous d'un emplacement privatif de stationnement situé DANS \" || cast(cast(if (cast(HTLC,string)=\"1\" or cast(HTLC,string)=\"5\") then \"la propriété\" else \"l\"\"immeuble\",string),string) || \" (utilisation pour votre usage personnel ou location) ?\"",
+      "page": "79",
+      "label": "\"➡ 75. Disposez-vous d’un emplacement privatif de stationnement situé DANS \" || cast(cast(if (cast(HTLC,string)=\"1\" or cast(HTLC,string)=\"5\") then \"la propriété\" else \"l\"\"immeuble\",string),string) || \" (utilisation pour votre usage personnel ou location) ?\"",
       "declarations": [
         {
           "id": "jrusjpqy-jruszc8j",
           "declarationType": "INSTRUCTION",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"Prendre en compte l'ensemble des emplacements existants, même s'ils sont utilisés pour entreposer du matériel par exemple.\""
+          "label": "\"Prendre en compte l’ensemble des emplacements existants, même s’ils sont utilisés pour entreposer du matériel par exemple.\""
         },
 
         {
@@ -2190,6 +2786,9 @@
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["HTLC", "KGA1", "KGA2", "KGA3", "KGA4"],
       "responses": [
         {
@@ -2221,7 +2820,8 @@
     {
       "id": "jrut4vl7",
       "componentType": "CheckboxGroup",
-      "label": "\"➡ 14. Disposez-vous d'un emplacement privatif de stationnement situé EN DEHORS de \" || cast(cast(if (cast(HTLC,string)=\"1\" or cast(HTLC,string)=\"5\") then \"la propriété\" else \"l\"\"immeuble\",string),string) || \" (utilisation pour votre usage personnel ou location) ?\"",
+      "page": "80",
+      "label": "\"➡ 76. Disposez-vous d’un emplacement privatif de stationnement situé EN DEHORS de \" || cast(cast(if (cast(HTLC,string)=\"1\" or cast(HTLC,string)=\"5\") then \"la propriété\" else \"l\"\"immeuble\",string),string) || \" (utilisation pour votre usage personnel ou location) ?\"",
       "declarations": [
         {
           "id": "jrut4vl7-jrut167a",
@@ -2231,6 +2831,9 @@
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["HTLC", "KGA11", "KGA12", "KGA13", "KGA14"],
       "responses": [
         {
@@ -2263,7 +2866,8 @@
       "id": "jrut0i0j",
       "componentType": "CheckboxOne",
       "mandatory": false,
-      "label": "\"➡ 15. Disposez-vous d'une cave ou d'un sous-sol (même si vous ne l'utilisez pas) ?\"",
+      "page": "81",
+      "label": "\"➡ 77. Disposez-vous d’une cave ou d’un sous-sol (même si vous ne l’utilisez pas) ?\"",
       "declarations": [
         {
           "id": "jrut0i0j-jrusw7aw",
@@ -2273,6 +2877,9 @@
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["KCA"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -2286,8 +2893,12 @@
       "id": "jrusu349",
       "componentType": "CheckboxOne",
       "mandatory": false,
-      "label": "\"➡ 16. Disposez-vous, dans les parties communes de \" || cast(cast(if (cast(HTLC,string)=\"2\" or cast(HTLC,string)=\"6\" or cast(HTLC,string)=\"8\" or cast(INDCOLL,string)=\"1\") then \"l\"\"immeuble\" else if (cast(ICOI,string)=\"1\") then \"la copropriété\" else \"l\"\"immeuble ou de la copropriété\",string),string) || \", d'un local fermé où vous pouvez déposer un vélo ou une poussette ?\"",
+      "page": "82",
+      "label": "\"➡ 78. Disposez-vous, dans les parties communes de \" || cast(cast(if (cast(HTLC,string)=\"2\" or cast(HTLC,string)=\"6\" or cast(HTLC,string)=\"8\" or cast(INDCOLL,string)=\"1\") then \"l\"\"immeuble\" else if (cast(ICOI,string)=\"1\") then \"la copropriété\" else \"l\"\"immeuble ou de la copropriété\",string),string) || \", d’un local fermé où vous pouvez déposer un vélo ou une poussette ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["HTLC", "INDCOLL", "ICOI", "KVELO"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -2303,8 +2914,12 @@
       "id": "jrutj5co",
       "componentType": "CheckboxOne",
       "mandatory": false,
-      "label": "\"➡ 17. Disposez-vous d'un grenier ou de combles non aménagés en pièces d'habitation ?\"",
+      "page": "83",
+      "label": "\"➡ 79. Disposez-vous d’un grenier ou de combles non aménagés en pièces d’habitation ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["KGRA"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -2318,8 +2933,12 @@
       "id": "jruto2vj",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 18. Le grenier ou les combles sont-ils aménageables en pièces d'habitation ?\"",
+      "page": "84",
+      "label": "\"➡ 80. Le grenier ou les combles sont-ils aménageables en pièces d’habitation ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["KGRB"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -2333,8 +2952,12 @@
       "id": "jruu4ry3",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 19. Disposez-vous d'un sous-sol non aménagé en pièces d'habitation ?\"",
+      "page": "85",
+      "label": "\"➡ 81. Disposez-vous d’un sous-sol non aménagé en pièces d’habitation ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["KSOA"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -2348,8 +2971,12 @@
       "id": "jrutz3sh",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 20. Votre sous-sol est-il aménageable en pièces d'habitation ?\"",
+      "page": "86",
+      "label": "\"➡ 82. Votre sous-sol est-il aménageable en pièces d’habitation ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["KSOB"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -2363,8 +2990,12 @@
       "id": "jruubukg",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 21. Disposez-vous d'une grange non aménagée en pièces d'habitation ?\"",
+      "page": "87",
+      "label": "\"➡ 83. Disposez-vous d’une grange non aménagée en pièces d’habitation ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["KGRAA"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -2378,8 +3009,12 @@
       "id": "jruu5coc",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 22. Votre grange est-elle aménageable en pièces d'habitation ?\"",
+      "page": "88",
+      "label": "\"➡ 84. Votre grange est-elle aménageable en pièces d’habitation ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["KGRAB"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -2393,7 +3028,8 @@
       "id": "jruue197",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 23. Avez-vous une piscine fixe d'une profondeur de plus de 1m ?\"",
+      "page": "89",
+      "label": "\"➡ 85. Avez-vous une piscine fixe d’une profondeur de plus de 1m ?\"",
       "declarations": [
         {
           "id": "jruue197-jruu3t31",
@@ -2403,6 +3039,9 @@
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jrupc7mi", "page": "66", "label": "\"VI - Dépendances du logement\"" }
+      },
       "bindingDependencies": ["KPISC"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -2415,25 +3054,33 @@
     {
       "id": "kf87ka15",
       "componentType": "Sequence",
-      "label": "\"VII - TEST d'une page filtrée\"",
+      "page": "90",
+      "label": "\"VII - TEST d’une page filtrée\"",
       "declarations": [
         {
           "id": "kf87ka15-kf886rqz",
           "declarationType": "INSTRUCTION",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"Cette page existe juste pr tester le cas d'une page filtrée (pr tester le calcul des pages dans les paradonnées).\""
+          "label": "\"Cette page existe juste pr tester le cas d’une page filtrée (pr tester le calcul des pages dans les paradonnées).\""
         }
       ],
-      "conditionFilter": "\"normal\""
+      "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "kf87ka15", "page": "90", "label": "\"VII - TEST d’une page filtrée\"" }
+      }
     },
 
     {
       "id": "kf88er6w",
       "componentType": "Table",
       "mandatory": false,
+      "page": "91",
       "positioning": "HORIZONTAL",
-      "label": "\"➡ 1. Tableau TEST\"",
+      "label": "\"➡ 86. Tableau TEST\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "kf87ka15", "page": "90", "label": "\"VII - TEST d’une page filtrée\"" }
+      },
       "bindingDependencies": ["TABtest11", "TABtest21", "TABtest31"],
       "cells": [
         [
@@ -2501,14 +3148,19 @@
     {
       "id": "jruugqqi",
       "componentType": "Sequence",
+      "page": "92",
       "label": "\"VIII - Équipement sanitaire\"",
-      "conditionFilter": "\"normal\""
+      "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jruugqqi", "page": "92", "label": "\"VIII - Équipement sanitaire\"" }
+      }
     },
 
     {
       "id": "jruuncm0",
       "componentType": "CheckboxGroup",
-      "label": "\"➡ 1. Comment votre logement \" || cast(cast(if (cast(HUA,string)=\"1\" and cast(HUI,string) =\"1\" and cast(HPI,number) = 1 ) then \" (sans oublier la pièce annexe)\" else if (cast(HUA,string)=\"1\" and cast(HUI,string) =\"1\" and cast(HPI,number) > 1 ) then \" (sans oublier les pièces annexes)\" else \"\",string),string) || \" est-il alimenté en eau ?\"",
+      "page": "93",
+      "label": "\"➡ 87. Comment votre logement \" || cast(cast(if (cast(HUA,string)=\"1\" and cast(HUI,string) =\"1\" and cast(HPI,number) = 1 ) then \" (sans oublier la pièce annexe)\" else if (cast(HUA,string)=\"1\" and cast(HUI,string) =\"1\" and cast(HPI,number) > 1 ) then \" (sans oublier les pièces annexes)\" else \"\",string),string) || \" est-il alimenté en eau ?\"",
       "declarations": [
         {
           "id": "jruuncm0-jruuyr2g",
@@ -2518,11 +3170,14 @@
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jruugqqi", "page": "92", "label": "\"VIII - Équipement sanitaire\"" }
+      },
       "bindingDependencies": ["HUA", "HUI", "HPI", "KAO1", "KAO2", "KAO3", "KAO4", "KAO5"],
       "responses": [
         {
           "id": "jruuncm0-QOP-kf89fkow",
-          "label": "\"Eau chaude par chaudière collective ou installation collective de l'immeuble\"",
+          "label": "\"Eau chaude par chaudière collective ou installation collective de l’immeuble\"",
           "response": { "name": "KAO1" }
         },
 
@@ -2546,7 +3201,7 @@
 
         {
           "id": "jruuncm0-QOP-kf894hxd",
-          "label": "\"Pas d'eau courante dans le logement\"",
+          "label": "\"Pas d’eau courante dans le logement\"",
           "response": { "name": "KAO5" }
         }
       ]
@@ -2556,11 +3211,15 @@
       "id": "jruv1ren",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "94",
       "min": 1,
       "max": 9,
       "decimals": 0,
-      "label": "\"➡ 2. Combien d'appareils indépendants(chauffe-eau, cumulus...)utilisez-vous pour vous alimenter en eau chaude ?\"",
+      "label": "\"➡ 88. Combien d’appareils indépendants(chauffe-eau, cumulus...)utilisez-vous pour vous alimenter en eau chaude ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jruugqqi", "page": "92", "label": "\"VIII - Équipement sanitaire\"" }
+      },
       "bindingDependencies": ["NBAPPAR"],
       "response": { "name": "NBAPPAR" }
     },
@@ -2568,7 +3227,8 @@
     {
       "id": "jruuoidx",
       "componentType": "CheckboxGroup",
-      "label": "\"➡ 3. Quel\" || cast(cast(if (cast(NBAPPAR,number)>1 and cast(NBAPPAR,number) <> \"\" ) then \"s\" else \"\",string),string) || \" combustible\" || cast(cast(if (cast(NBAPPAR,number)>1 and cast(NBAPPAR,number) <> \"\" ) then \"s\" else \"\",string),string) || \" ou énergie\" || cast(cast(if (cast(NBAPPAR,number)>1 and cast(NBAPPAR,number) <> \"\" ) then \"s\" else \"\",string),string) || \" \" || cast(cast(if (cast(NBAPPAR,number)>1 and cast(NBAPPAR,number) <> \"\" ) then \"sont\" else \"est\",string),string) || \" utilisé\" || cast(cast(if (cast(NBAPPAR,number)>1 and cast(NBAPPAR,number) <> \"\" ) then \"s\" else \"\",string),string) || \" par \" || cast(cast(if (cast(NBAPPAR,number)>1 and cast(NBAPPAR,number) <> \"\" ) then \"ces\" else \"cet\",string),string) || \" appareil\" || cast(cast(if (cast(NBAPPAR,number)>1 and cast(NBAPPAR,number) <> \"\" ) then \"s\" else \"\",string),string) || \" indépendant\" || cast(cast(if (cast(NBAPPAR,number)>1 and cast(NBAPPAR,number) <> \"\" ) then \"s\" else \"\",string),string) || \" ?\"",
+      "page": "95",
+      "label": "\"➡ 89. Quel\" || cast(cast(if (cast(NBAPPAR,number)>1 and cast(NBAPPAR,number) <> \"\" ) then \"s\" else \"\",string),string) || \" combustible\" || cast(cast(if (cast(NBAPPAR,number)>1 and cast(NBAPPAR,number) <> \"\" ) then \"s\" else \"\",string),string) || \" ou énergie\" || cast(cast(if (cast(NBAPPAR,number)>1 and cast(NBAPPAR,number) <> \"\" ) then \"s\" else \"\",string),string) || \" \" || cast(cast(if (cast(NBAPPAR,number)>1 and cast(NBAPPAR,number) <> \"\" ) then \"sont\" else \"est\",string),string) || \" utilisé\" || cast(cast(if (cast(NBAPPAR,number)>1 and cast(NBAPPAR,number) <> \"\" ) then \"s\" else \"\",string),string) || \" par \" || cast(cast(if (cast(NBAPPAR,number)>1 and cast(NBAPPAR,number) <> \"\" ) then \"ces\" else \"cet\",string),string) || \" appareil\" || cast(cast(if (cast(NBAPPAR,number)>1 and cast(NBAPPAR,number) <> \"\" ) then \"s\" else \"\",string),string) || \" indépendant\" || cast(cast(if (cast(NBAPPAR,number)>1 and cast(NBAPPAR,number) <> \"\" ) then \"s\" else \"\",string),string) || \" ?\"",
       "declarations": [
         {
           "id": "jruuoidx-jruv0kza",
@@ -2578,6 +3238,9 @@
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jruugqqi", "page": "92", "label": "\"VIII - Équipement sanitaire\"" }
+      },
       "bindingDependencies": [
         "NBAPPAR",
         "KCEC1",
@@ -2615,17 +3278,9 @@
           "response": { "name": "KCEC4" }
         },
 
-        {
-          "id": "jruuoidx-QOP-kf89cz5l",
-          "label": "\"Charbon\"",
-          "response": { "name": "KCEC5" }
-        },
+        { "id": "jruuoidx-QOP-kf89cz5l", "label": "\"Charbon\"", "response": { "name": "KCEC5" } },
 
-        {
-          "id": "jruuoidx-QOP-kf89aie8",
-          "label": "\"Bois\"",
-          "response": { "name": "KCEC6" }
-        },
+        { "id": "jruuoidx-QOP-kf89aie8", "label": "\"Bois\"", "response": { "name": "KCEC6" } },
 
         {
           "id": "jruuoidx-QOP-kf892x6k",
@@ -2633,17 +3288,9 @@
           "response": { "name": "KCEC7" }
         },
 
-        {
-          "id": "jruuoidx-QOP-kf89c1zg",
-          "label": "\"Solaire\"",
-          "response": { "name": "KCEC8" }
-        },
+        { "id": "jruuoidx-QOP-kf89c1zg", "label": "\"Solaire\"", "response": { "name": "KCEC8" } },
 
-        {
-          "id": "jruuoidx-QOP-kf894lsc",
-          "label": "\"Autres\"",
-          "response": { "name": "KCEC9" }
-        }
+        { "id": "jruuoidx-QOP-kf894lsc", "label": "\"Autres\"", "response": { "name": "KCEC9" } }
       ]
     },
 
@@ -2651,8 +3298,12 @@
       "id": "jruv1cla",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 4. Disposez-vous de W-C à l'intérieur du logement ?\"",
+      "page": "96",
+      "label": "\"➡ 90. Disposez-vous de W-C à l’intérieur du logement ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jruugqqi", "page": "92", "label": "\"VIII - Équipement sanitaire\"" }
+      },
       "bindingDependencies": ["KWC1"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -2668,11 +3319,15 @@
       "id": "jruvcfmt",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "97",
       "min": 0,
       "max": 9,
       "decimals": 0,
-      "label": "\"➡ 5. Combien avez-vous de W-C indépendants dans votre logement(situésdans une pièce où il n'y a que des W-C) ?\"",
+      "label": "\"➡ 91. Combien avez-vous de W-C indépendants dans votre logement(situésdans une pièce où il n’y a que des W-C) ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jruugqqi", "page": "92", "label": "\"VIII - Équipement sanitaire\"" }
+      },
       "bindingDependencies": ["KWCI"],
       "response": { "name": "KWCI" }
     },
@@ -2681,11 +3336,15 @@
       "id": "jruv6u52",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "98",
       "min": 0,
       "max": 9,
       "decimals": 0,
-      "label": "\"➡ 6. Combien avez-vous de W-C situés dans une autre pièce(salle d'eau par exemple)?\"",
+      "label": "\"➡ 92. Combien avez-vous de W-C situés dans une autre pièce(salle d’eau par exemple)?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jruugqqi", "page": "92", "label": "\"VIII - Équipement sanitaire\"" }
+      },
       "bindingDependencies": ["KWCD"],
       "response": { "name": "KWCD" }
     },
@@ -2694,8 +3353,12 @@
       "id": "jruva8uu",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 7. Possédez-vous une salle d'eau ou une salle de bains ?(pièce réservée à l'hygiène, contenant une douche ou une baignoire)\"",
+      "page": "99",
+      "label": "\"➡ 93. Possédez-vous une salle d’eau ou une salle de bains ?(pièce réservée à l’hygiène, contenant une douche ou une baignoire)\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jruugqqi", "page": "92", "label": "\"VIII - Équipement sanitaire\"" }
+      },
       "bindingDependencies": ["KBD"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -2709,9 +3372,13 @@
       "id": "kksgd6fv",
       "componentType": "Table",
       "mandatory": false,
+      "page": "100",
       "positioning": "HORIZONTAL",
-      "label": "\"➡ 8. Combien avez-vous de salle d'eau ou salle de bain ?\"",
+      "label": "\"➡ 94. Combien avez-vous de salle d’eau ou salle de bain ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jruugqqi", "page": "92", "label": "\"VIII - Équipement sanitaire\"" }
+      },
       "bindingDependencies": ["TEST_KSE1", "TEST_KSE2"],
       "cells": [
         [
@@ -2747,10 +3414,7 @@
         ],
 
         [
-          {
-            "value": "KSE2",
-            "label": "\"- Avec douche mais sans baignoire :\""
-          },
+          { "value": "KSE2", "label": "\"- Avec douche mais sans baignoire :\"" },
 
           {
             "componentType": "Dropdown",
@@ -2787,11 +3451,15 @@
       "id": "jruvefyq",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "101",
       "min": 0,
       "max": 9,
       "decimals": 0,
-      "label": "\"➡ 9. Combien avez-vous de salles de bain avec baignoire(et éventuellement une douche)?\"",
+      "label": "\"➡ 95. Combien avez-vous de salles de bain avec baignoire(et éventuellement une douche)?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jruugqqi", "page": "92", "label": "\"VIII - Équipement sanitaire\"" }
+      },
       "bindingDependencies": ["KSE1"],
       "response": { "name": "KSE1" }
     },
@@ -2800,11 +3468,15 @@
       "id": "jruv1ekw",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "102",
       "min": 0,
       "max": 9,
       "decimals": 0,
-      "label": "\"➡ 10. Combien avez-vous de salles d'eau avec douche(sans baignoire)?\"",
+      "label": "\"➡ 96. Combien avez-vous de salles d’eau avec douche(sans baignoire)?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jruugqqi", "page": "92", "label": "\"VIII - Équipement sanitaire\"" }
+      },
       "bindingDependencies": ["KSE3"],
       "response": { "name": "KSE3" }
     },
@@ -2813,8 +3485,12 @@
       "id": "jruv164k",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 11. Avez-vous... ?\"",
+      "page": "103",
+      "label": "\"➡ 97. Avez-vous... ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jruugqqi", "page": "92", "label": "\"VIII - Équipement sanitaire\"" }
+      },
       "bindingDependencies": ["KDLK"],
       "options": [
         {
@@ -2832,10 +3508,7 @@
           "label": "\"Ni baignoire ni douche, mais un ou plusieurs lavabos dans une pièce destinée à un autre usage\""
         },
 
-        {
-          "value": "4",
-          "label": "\"Seulement l’eau à l’évier de la cuisine\""
-        },
+        { "value": "4", "label": "\"Seulement l’eau à l’évier de la cuisine\"" },
 
         { "value": "5", "label": "\"Autre cas\"" }
       ],
@@ -2845,7 +3518,8 @@
     {
       "id": "jruvkltj",
       "componentType": "CheckboxGroup",
-      "label": "\"➡ 12. Comment la consommation d'eau est-elle payée ?\"",
+      "page": "104",
+      "label": "\"➡ 98. Comment la consommation d’eau est-elle payée ?\"",
       "declarations": [
         {
           "id": "jruvkltj-kdadl4bb",
@@ -2858,10 +3532,13 @@
           "id": "jruvkltj-kdad9o44",
           "declarationType": "INSTRUCTION",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"Le montant doit inclure l'abonnement, les taxes et les frais ou taxes d'assainissement.\""
+          "label": "\"Le montant doit inclure l’abonnement, les taxes et les frais ou taxes d’assainissement.\""
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jruugqqi", "page": "92", "label": "\"VIII - Équipement sanitaire\"" }
+      },
       "bindingDependencies": ["CCEP1", "CCEP2", "CCEP3", "CCEP4", "CCEP5"],
       "responses": [
         {
@@ -2884,13 +3561,13 @@
 
         {
           "id": "jruvkltj-QOP-kf89jmth",
-          "label": "\"La consommation d'eau n'est pas payée par le ménage\"",
+          "label": "\"La consommation d’eau n’est pas payée par le ménage\"",
           "response": { "name": "CCEP4" }
         },
 
         {
           "id": "jruvkltj-QOP-kf89cb3a",
-          "label": "\"Pas de dépense d'eau (eau tirée du puits, source...)\"",
+          "label": "\"Pas de dépense d’eau (eau tirée du puits, source...)\"",
           "response": { "name": "CCEP5" }
         }
       ]
@@ -2900,10 +3577,11 @@
       "id": "jruvng5h",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "105",
       "min": 1,
       "max": 9997,
       "decimals": 0,
-      "label": "\"➡ 13. Quel est le montant total de la consommation d'eau du logement payé au cours des 12 derniers mois(ramener éventuellement le montant à 12 mois) ?\"",
+      "label": "\"➡ 99. Quel est le montant total de la consommation d’eau du logement payé au cours des 12 derniers mois(ramener éventuellement le montant à 12 mois) ?\"",
       "declarations": [
         {
           "id": "jruvng5h-jruvqn1h",
@@ -2934,6 +3612,9 @@
         }
       ],
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jruugqqi", "page": "92", "label": "\"VIII - Équipement sanitaire\"" }
+      },
       "bindingDependencies": ["COM7"],
       "response": { "name": "COM7" }
     },
@@ -2942,8 +3623,12 @@
       "id": "jruvshay",
       "componentType": "Radio",
       "mandatory": false,
-      "label": "\"➡ 14. Une partie de la dépense correspond-elle à un usage professionnel ?\"",
+      "page": "106",
+      "label": "\"➡ 100. Une partie de la dépense correspond-elle à un usage professionnel ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jruugqqi", "page": "92", "label": "\"VIII - Équipement sanitaire\"" }
+      },
       "bindingDependencies": ["CUP7"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
@@ -2957,11 +3642,15 @@
       "id": "jruvjk1d",
       "componentType": "InputNumber",
       "mandatory": false,
+      "page": "107",
       "min": 0,
       "max": 100,
       "decimals": 0,
-      "label": "\"➡ 15. Quelle est la part de la dépense qui correspond à cet usage professionnel ?\"",
+      "label": "\"➡ 101. Quelle est la part de la dépense qui correspond à cet usage professionnel ?\"",
       "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jruugqqi", "page": "92", "label": "\"VIII - Équipement sanitaire\"" }
+      },
       "bindingDependencies": ["CPM7"],
       "unit": "%",
       "response": { "name": "CPM7" }
@@ -2970,6 +3659,7 @@
     {
       "id": "jncyvas0",
       "componentType": "Sequence",
+      "page": "108",
       "label": "\"IX - FINLOGEMENT\"",
       "declarations": [
         {
@@ -2979,15 +3669,14 @@
           "label": "\"Fin de sequence\""
         }
       ],
-      "conditionFilter": "\"normal\""
+      "conditionFilter": "\"normal\"",
+      "hierarchy": {
+        "sequence": { "id": "jncyvas0", "page": "108", "label": "\"IX - FINLOGEMENT\"" }
+      }
     }
   ],
   "variables": [
-    {
-      "variableType": "EXTERNAL",
-      "name": "COMPLEMENT_STOC_MODALITE1",
-      "value": null
-    },
+    { "variableType": "EXTERNAL", "name": "COMPLEMENT_STOC_MODALITE1", "value": null },
 
     { "variableType": "EXTERNAL", "name": "ANNEE_ENQ", "value": null },
 
