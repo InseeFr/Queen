@@ -18,7 +18,7 @@ const QueenRedirect = () => {
   useEffect(() => {
     if (!idQuestionnaire && !errorMessage) {
       const load = async () => {
-        const response = await getSurveyUnit(idSU, false);
+        const response = await getSurveyUnit(idSU, standalone);
         if (!response.error && response.surveyUnit && response.surveyUnit.questionnaireId) {
           setIdQuestionnaire(response.surveyUnit.questionnaireId);
         } else setErrorMessage(`${D.failedToLoadSurveyUnit} ${idSU}.`);
