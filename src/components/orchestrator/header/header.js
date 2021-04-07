@@ -76,6 +76,7 @@ const Header = ({
           <BreadcrumbQueen
             sequence={sequenceBinded}
             subsequence={subSequenceBinded}
+            currentPage={page}
             setPage={setPage}
           />
         )}

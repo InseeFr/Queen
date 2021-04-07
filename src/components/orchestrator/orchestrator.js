@@ -12,6 +12,8 @@ import ContinueButton from './buttons/continue';
 import NavBar from './rightNavbar';
 import { useCustomLunaticStyles } from './lunaticStyle/style';
 import { useStyles } from './orchestrator.style';
+import { Backdrop, CircularProgress } from '@material-ui/core';
+import SimpleLoader from 'components/shared/preloader/simple';
 
 const Orchestrator = ({
   surveyUnit,
@@ -30,6 +32,7 @@ const Orchestrator = ({
   const topRef = useRef();
   const lunaticClasses = useCustomLunaticStyles();
   const { data } = surveyUnit;
+  const [changingPage, setChangingPage] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [started, setStarted] = useState(() => {
     if (data.COLLECTED) {
@@ -93,12 +96,14 @@ const Orchestrator = ({
     }
     setCurrentPage(page);
     goToTop();
+    setChangingPage(false);
     // assume, we don't want to goNext each time goNext is updated, only the first time
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, queenFlow]);
 
   const changePage = useCallback(
     type => {
+      setChangingPage(true);
       setQueenFlow(type);
       setPendingChangePage(null);
       setChangedOnce(false);
@@ -113,7 +118,6 @@ const Orchestrator = ({
     },
     [addValidatePage, goNext, goPrevious, saveQueen, setPage]
   );
-
   useEffect(() => {
     const start = async () => {
       setStarted(true);
@@ -147,16 +151,17 @@ const Orchestrator = ({
   const { maxLocalPages, occurences, currentComponent } = UQ.getInfoFromCurrentPage(components)(
     bindings
   )(page)(maxPage);
-
   const { componentType: currentComponentType, hierarchy } = currentComponent || {};
 
   useEffect(() => {
     if (!isLastPage && DIRECT_CONTINUE_COMPONENTS.includes(currentComponentType) && changedOnce) {
+      setChangingPage(true);
       setTimeout(() => {
         changePage('next');
       }, 200);
     }
-  }, [questionnaire, changedOnce, isLastPage, currentComponentType, changePage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [questionnaire, changedOnce, isLastPage, currentComponentType]);
 
   useEffect(() => {
     if (questionnaireUpdated && pendingChangePage) {
@@ -183,6 +188,8 @@ const Orchestrator = ({
         validatePages={validatePages}
       />
       <div className={classes.bodyContainer}>
+        {changingPage && <SimpleLoader />}
+
         <div className={classes.components} ref={topRef}>
           {components.map(component => {
             const { id, componentType, options, responses } = component;
@@ -269,6 +276,7 @@ const Orchestrator = ({
               />
             )}
         </div>
+
         <NavBar page={currentPage} maxPages={maxLocalPages} occurences={occurences}>
           <Buttons
             readonly={readonly}

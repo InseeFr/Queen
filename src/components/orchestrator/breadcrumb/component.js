@@ -1,10 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useStyles } from './component.style';
+import { getIterations } from 'utils/questionnaire';
 
-const BreadcrumbQueen = ({ sequence, subsequence, setPage }) => {
+const getNewPage = page => iterations => {
+  if (page.includes('.')) {
+    const [root, ...rest] = page.split('.');
+    return `${root}.${rest.map((p, i) => `${p}#${iterations[i]}`).join('.')}`;
+  }
+  return page;
+};
+
+const BreadcrumbQueen = ({ sequence, subsequence, setPage, currentPage }) => {
   const classes = useStyles({ sequence, subsequence, setPage });
-  const changePage = page => setPage(page);
+  const changePage = page => {
+    const iterations = getIterations(currentPage);
+    const newPage = getNewPage(page)(iterations);
+    setPage(newPage);
+  };
 
   return (
     <div className={classes.root}>
@@ -39,6 +52,7 @@ BreadcrumbQueen.propTypes = {
     label: PropTypes.string,
     page: PropTypes.string,
   }),
+  currentPage: PropTypes.string.isRequired,
   setPage: PropTypes.func.isRequired,
 };
 

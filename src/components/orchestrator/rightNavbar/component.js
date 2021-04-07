@@ -22,7 +22,7 @@ const NavBar = ({ maxPages, page, children, occurences }) => {
         {displayPages.map((pages, i) => {
           const { localScopePage, localScopeMaxPage } = pages;
           return (
-            <>
+            <React.Fragment key={`${localScopePage}-${i}`}>
               {occurencesOrdered && occurencesOrdered[i] && (
                 <div className={classes.page}>
                   <div className={classes.labelPage}>Occurence</div>
@@ -35,13 +35,13 @@ const NavBar = ({ maxPages, page, children, occurences }) => {
                   })}
                 </div>
               )}
-              <div key={`${localScopePage}-${i}`} className={classes.page}>
+              <div className={classes.page}>
                 <div className={classes.labelPage}>n° page</div>
                 <div>
                   <b>{`${localScopePage}/${localScopeMaxPage}`}</b>
                 </div>
               </div>
-            </>
+            </React.Fragment>
           );
         })}
       </div>
