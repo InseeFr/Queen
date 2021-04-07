@@ -19,7 +19,7 @@ const Rooter = () => {
         component={secure(OrchestratorManager)}
       />
       <Route path={`/queen/:${READ_ONLY}?/survey-unit/:idSU`} component={secure(QueenRedirect)} />
-      {standalone && <Route path="/queen/synchronize" component={secure(Synchronize)} />}
+      {!standalone && <Route path="/queen/synchronize" component={secure(Synchronize)} />}
       <Route path="/queen/visualize" component={Visualizer} />
       {!standalone &&
         !pathname.startsWith('/queen/authentication') &&
