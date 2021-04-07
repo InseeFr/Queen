@@ -1,62 +1,84 @@
-import * as lunatic from '@inseefr/lunatic';
-import { getCollectedResponse } from './queen';
+export const getPageWithoutAnyIteration = currentPage =>
+  currentPage
+    .split('.')
+    .map(e => e.split('#')[0])
+    .join('.');
 
-export const findPageIndex = components => page =>
-  components ? components.findIndex(c => c.page === page) : -1;
+export const getMaxValidatedPage = pages => pages[pages.length - 1];
 
-export const getPreviousPage = components => currentPage => {
-  if (!components || !currentPage) return 1;
-  const index = findPageIndex(components)(currentPage);
-  if (index <= 0) return 1;
-  return components[index - 1].page || components[index + 1].goToPage - 1 || 1;
+const filterPageLoop = currentPage => ({ page, componentType }) => {
+  const currentPageWithoutIteration = getPageWithoutAnyIteration(currentPage);
+  return currentPageWithoutIteration.startsWith(page) && componentType === 'Loop';
 };
 
-export const getNextPage = components => currentPage => {
-  if (!components || !currentPage) return 1;
-  const index = findPageIndex(components)(currentPage);
-  if (index < 0 || index >= components.length - 1) return components[components.length - 1].page;
-  return components[index + 1].page || components[index + 1].goToPage || 1;
+export const getMaxPages = components => currentPage => localMaxPage => {
+  const filterComponentsLoop = components.filter(c => filterPageLoop(currentPage)(c));
+  if (filterComponentsLoop.length > 0) {
+    const { maxPage, components: componentsOfLoop } = filterComponentsLoop[0];
+    if (maxPage) return [localMaxPage, ...getMaxPages(componentsOfLoop)(currentPage)(maxPage)];
+  }
+  return [localMaxPage];
 };
 
-/**
- * Return the first component without response
- * ( alternative : the last component with response, return the following component)
- * @param {*} questionnaire
- */
-export const getFastForwardComponent = questionnaire => filteredComponents => {
-  return filteredComponents.filter(component => {
-    const { componentType, page } = component;
-    const collectedResponses = getCollectedResponse(questionnaire)(component);
-    const keyResponses = Object.keys(collectedResponses);
-    return (
-      page &&
-      !['Sequence', 'Subsequence', 'FilterDescription'].includes(componentType) &&
-      keyResponses.length === 0
-    );
-  })[0];
+export const getCurrentComponent = components => currentPage => {
+  const currentPageWithoutIteration = getPageWithoutAnyIteration(currentPage);
+  const filterComponentsLoop = components.filter(c => filterPageLoop(currentPage)(c));
+  if (filterComponentsLoop.length > 0) {
+    const { maxPage, components: componentsOfLoop } = filterComponentsLoop[0];
+    if (maxPage) return getCurrentComponent(componentsOfLoop)(currentPage);
+  }
+  return components.filter(({ page }) => page === currentPageWithoutIteration).pop();
 };
 
-export const getFastForwardPage = questionnaire => bindings => {
-  const filterComponents = questionnaire.components.filter(
-    ({ conditionFilter }) => lunatic.interpret(['VTL'])(bindings)(conditionFilter) === 'normal'
-  );
-  const firstComponent = getFastForwardComponent(questionnaire)(filterComponents);
-  const lastPage = filterComponents[filterComponents.length - 1].page;
-  return firstComponent ? firstComponent.page : lastPage;
+export const getIterations = currentPage => {
+  return currentPage.split('.').reduce((_, e) => {
+    const splitted = e.split('#');
+    if (splitted.length > 1) return [..._, parseInt(splitted[1], 10)];
+    return _;
+  }, []);
 };
 
-export const getFirstTitlePageBeforeFastForwardPage = questionnaire => bindings => {
-  const filterComponents = questionnaire.components.filter(
-    ({ conditionFilter }) => lunatic.interpret(['VTL'])(bindings)(conditionFilter) === 'normal'
-  );
-  const fastPage = getFastForwardPage(questionnaire)(bindings);
-  const componentsBefore = filterComponents.filter(component => {
-    const { page, componentType } = component;
-    return (
-      page &&
-      page < fastPage &&
-      !['Sequence', 'Subsequence', 'FilterDescription'].includes(componentType)
-    );
+const getDepthBindings = values => indexes => {
+  if (Array.isArray(values) && indexes.length > 0) {
+    const [firstIndex, ...other] = indexes;
+    return getDepthBindings(values[firstIndex])(other);
+  }
+  return values;
+};
+
+export const getQueenBindings = bindings => currentPage => {
+  const indexes = getIterations(currentPage).map(i => i - 1);
+  const keysBindings = Object.keys(bindings);
+  const newBindings = {};
+  keysBindings.forEach(k => {
+    if (Array.isArray(bindings[k])) {
+      newBindings[k] = getDepthBindings(bindings[k])(indexes);
+    } else {
+      newBindings[k] = bindings[k];
+    }
   });
-  return componentsBefore.length > 0 ? fastPage : 1;
+  return newBindings;
+};
+
+const getCurrentOccurrences = components => bindings => currentPage => {
+  const filterComponentsLoop = components.filter(c => filterPageLoop(currentPage)(c));
+  if (filterComponentsLoop.length > 0) {
+    const { loopDependencies, components: componentsOfLoop } = filterComponentsLoop[0];
+    if (loopDependencies) {
+      const queenBindings = getQueenBindings(bindings)(currentPage);
+      return [
+        loopDependencies.map(variable => queenBindings[variable]),
+        ...getCurrentOccurrences(componentsOfLoop)(bindings)(currentPage),
+      ];
+    }
+  }
+  return [];
+};
+
+export const getInfoFromCurrentPage = components => bindings => currentPage => maxPage => {
+  const occurences = getCurrentOccurrences(components)(bindings)(currentPage);
+  const iterations = getIterations(currentPage);
+  const maxLocalPages = getMaxPages(components)(currentPage)(maxPage);
+  const currentComponent = getCurrentComponent(components)(currentPage);
+  return { maxLocalPages, occurences, currentComponent, iterations };
 };
