@@ -51,41 +51,43 @@ const Navigation = ({
     []
   );
 
-  const componentsVTL = questionnaire.components.reduce(
-    (_, { componentType, labelNav, ...other }) => {
-      if (componentType === 'Sequence') {
-        const { page } = other;
-        return [
-          ..._,
-          {
-            componentType,
-            labelNav: getVtlLabel(labelNav),
-            reachable: validatePages.includes(page) && filterComponentsPage.includes(page),
-            ...other,
-          },
-        ];
-      }
-      if (componentType === 'Subsequence') {
-        const { goToPage } = other;
-        return [
-          ..._,
-          {
-            componentType,
-            labelNav: getVtlLabel(labelNav),
-            reachable: validatePages.includes(goToPage) && filterComponentsPage.includes(goToPage),
-            ...other,
-          },
-        ];
-      }
-      return _;
-    },
-    []
-  );
+  const componentsVTL = questionnaire.components.reduce((_, { componentType, label, ...other }) => {
+    if (componentType === 'Sequence') {
+      const { page } = other;
+      return [
+        ..._,
+        {
+          componentType,
+          labelNav: getVtlLabel(label),
+          reachable: validatePages.includes(page) && filterComponentsPage.includes(page),
+          ...other,
+        },
+      ];
+    }
+    if (componentType === 'Subsequence') {
+      const { goToPage } = other;
+      return [
+        ..._,
+        {
+          componentType,
+          labelNav: getVtlLabel(label),
+          reachable: validatePages.includes(goToPage) && filterComponentsPage.includes(goToPage),
+          ...other,
+        },
+      ];
+    }
+    return _;
+  }, []);
 
   const getSubsequenceComponents = useMemo(
     () => id =>
       componentsVTL.filter(
-        ({ componentType, idSequence }) => componentType === 'Subsequence' && idSequence === id
+        ({
+          componentType,
+          hierarchy: {
+            sequence: { id: idSequence },
+          },
+        }) => componentType === 'Subsequence' && idSequence === id
       ),
     [componentsVTL]
   );
@@ -266,7 +268,7 @@ Navigation.propTypes = {
   bindings: PropTypes.objectOf(PropTypes.any).isRequired,
   questionnaire: PropTypes.objectOf(PropTypes.any).isRequired,
   setPage: PropTypes.func.isRequired,
-  validatePages: PropTypes.arrayOf(PropTypes.number).isRequired,
+  validatePages: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default React.memo(Navigation, comparison);

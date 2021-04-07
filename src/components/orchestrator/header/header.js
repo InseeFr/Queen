@@ -1,5 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
+import * as UQ from 'utils/questionnaire';
 import PropTypes from 'prop-types';
 import * as lunatic from '@inseefr/lunatic';
 import D from 'i18n';
@@ -14,27 +15,31 @@ const Header = ({
   setMenuOpen,
   standalone,
   title,
+  page,
   quit,
-  sequence,
-  subsequence,
+  hierarchy,
   questionnaire,
   bindings,
   setPage,
   validatePages,
 }) => {
   const classes = useStyles({ standalone });
-  const setToFirstPage = useCallback(() => setPage(1), [setPage]);
+  const setToFirstPage = useCallback(() => setPage('1'), [setPage]);
   const quitButtonRef = useRef();
+
+  const queenBindings = UQ.getQueenBindings(bindings)(page);
+
+  const { sequence, subSequence } = hierarchy || {};
 
   const sequenceBinded = {
     ...sequence,
-    label: lunatic.interpret(['VTL'])(bindings)(sequence.label),
+    label: lunatic.interpret(['VTL'])(queenBindings)(sequence?.label),
   };
 
-  const subSequenceBinded = subsequence
+  const subSequenceBinded = subSequence
     ? {
-        ...subsequence,
-        label: lunatic.interpret(['VTL'])(bindings)(subsequence.label),
+        ...subSequence,
+        label: lunatic.interpret(['VTL'])(queenBindings)(subSequence?.label),
       }
     : null;
 
