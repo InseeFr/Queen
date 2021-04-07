@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from 'components/app';
 import Orchestrator from 'components/orchestrator';
-import * as UQ from 'utils/questionnaire';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import Preloader from 'components/shared/preloader';
 import Error from 'components/shared/Error';
@@ -35,10 +34,7 @@ const Visualizer = () => {
 
   useEffect(() => {
     if (questionnaireUrl && questionnaire && suData) {
-      setSource({
-        ...questionnaire,
-        components: UQ.buildQueenQuestionnaire(questionnaire.components),
-      });
+      setSource(questionnaire);
       setSurveyUnit(createFakeSurveyUnit(suData));
       setWaiting(false);
     }
@@ -57,6 +53,7 @@ const Visualizer = () => {
           savingType="COLLECTED"
           preferences={['PREVIOUS', 'COLLECTED']}
           features={['VTL']}
+          pagination={true}
           filterDescription={false}
           save={unit => surveyUnitIdbService.addOrUpdateSU(unit)}
           close={() => history.push('/')}

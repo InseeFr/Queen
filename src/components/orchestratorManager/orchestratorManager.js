@@ -8,7 +8,6 @@ import { AppContext } from 'components/app';
 import { useAPI, useAPIRemoteData } from 'utils/hook';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import { READ_ONLY } from 'utils/constants';
-import * as UQ from 'utils/questionnaire';
 import { sendCloseEvent } from 'utils/communication';
 import Orchestrator from '../orchestrator';
 
@@ -31,11 +30,7 @@ const OrchestratorManager = () => {
    */
   useEffect(() => {
     if (!init && questionnaire && surveyUnit) {
-      const newQuestionnaire = {
-        ...questionnaire,
-        components: UQ.buildQueenQuestionnaire(questionnaire.components),
-      };
-      setSource(newQuestionnaire);
+      setSource(questionnaire);
       setInit(true);
     }
   }, [init, questionnaire, surveyUnit]);
@@ -81,6 +76,7 @@ const OrchestratorManager = () => {
           savingType="COLLECTED"
           preferences={['PREVIOUS', 'COLLECTED']}
           features={['VTL']}
+          pagination={true}
           filterDescription={false}
           save={saveSU}
           close={closeOrchestrator}
