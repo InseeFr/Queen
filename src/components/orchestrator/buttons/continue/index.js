@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import D from 'i18n';
 import { useStyles } from './continue.style';
 
-const ButtonContinue = ({ readonly, canContinue, isLastComponent, page, setPendingChangePage }) => {
+const ButtonContinue = ({ readonly, isLastComponent, page, setPendingChangePage }) => {
   const classes = useStyles();
 
   const lastLabel = readonly ? D.simpleQuit : D.saveAndQuit;
@@ -32,7 +32,7 @@ const ButtonContinue = ({ readonly, canContinue, isLastComponent, page, setPendi
 
   const keyboardShortcut = (key, e) => {
     e.preventDefault();
-    if (key === 'alt+enter' && canContinue) {
+    if (key === 'alt+enter') {
       if (continueButtonRef && continueButtonRef.current) {
         continueButtonRef.current.focus();
         pageNextFunction();
@@ -55,7 +55,7 @@ const ButtonContinue = ({ readonly, canContinue, isLastComponent, page, setPendi
         onClick={pageNextFunction}
         onFocus={onfocus(true)}
         onBlur={onfocus(false)}
-        disabled={!canContinue && !readonly}
+        disabled={readonly}
         endIcon={!isLastComponent && <ArrowRightAlt />}
       >
         {getNextLabel}
@@ -80,9 +80,8 @@ const ButtonContinue = ({ readonly, canContinue, isLastComponent, page, setPendi
 
 ButtonContinue.propTypes = {
   readonly: PropTypes.bool.isRequired,
-  canContinue: PropTypes.bool.isRequired,
   isLastComponent: PropTypes.bool.isRequired,
-  page: PropTypes.number.isRequired,
+  page: PropTypes.string.isRequired,
   setPendingChangePage: PropTypes.func.isRequired,
 };
 

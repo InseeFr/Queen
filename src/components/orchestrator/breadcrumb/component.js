@@ -33,11 +33,11 @@ const BreadcrumbQueen = ({ sequence, subsequence, setPage }) => {
 BreadcrumbQueen.propTypes = {
   sequence: PropTypes.shape({
     label: PropTypes.string,
-    page: PropTypes.number,
+    page: PropTypes.string,
   }).isRequired,
   subsequence: PropTypes.shape({
     label: PropTypes.string,
-    page: PropTypes.number,
+    page: PropTypes.string,
   }),
   setPage: PropTypes.func.isRequired,
 };
