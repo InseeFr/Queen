@@ -12,7 +12,6 @@ import ContinueButton from './buttons/continue';
 import NavBar from './rightNavbar';
 import { useCustomLunaticStyles } from './lunaticStyle/style';
 import { useStyles } from './orchestrator.style';
-import { Backdrop, CircularProgress } from '@material-ui/core';
 import SimpleLoader from 'components/shared/preloader/simple';
 
 const Orchestrator = ({
