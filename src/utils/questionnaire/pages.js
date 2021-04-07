@@ -27,7 +27,12 @@ export const getCurrentComponent = components => currentPage => {
     const { maxPage, components: componentsOfLoop } = filterComponentsLoop[0];
     if (maxPage) return getCurrentComponent(componentsOfLoop)(currentPage);
   }
-  return components.filter(({ page }) => page === currentPageWithoutIteration).pop();
+  return components
+    .filter(
+      ({ page, componentType }) =>
+        page === currentPageWithoutIteration && componentType !== 'FilterDescription'
+    )
+    .pop();
 };
 
 export const getIterations = currentPage => {

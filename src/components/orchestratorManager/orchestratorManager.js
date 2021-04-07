@@ -10,6 +10,7 @@ import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-servic
 import { READ_ONLY } from 'utils/constants';
 import { sendCloseEvent } from 'utils/communication';
 import Orchestrator from '../orchestrator';
+import { checkVersions } from 'utils/questionnaire';
 
 const OrchestratorManager = () => {
   const configuration = useContext(AppContext);
@@ -17,6 +18,7 @@ const OrchestratorManager = () => {
   const history = useHistory();
   const { surveyUnit, questionnaire, loadingMessage, errorMessage } = useAPIRemoteData(idSU, idQ);
 
+  const [error, setError] = useState(null);
   const [source, setSource] = useState(null);
   const { putUeData } = useAPI(idSU, idQ);
 
@@ -24,16 +26,21 @@ const OrchestratorManager = () => {
 
   const [readonly] = useState(readonlyParam === READ_ONLY);
 
-  /**
-   * Build special questionnaire for Queen
-   * Build special data of survey-unit for Queen
-   */
   useEffect(() => {
     if (!init && questionnaire && surveyUnit) {
-      setSource(questionnaire);
-      setInit(true);
+      const { valid, error: questionnaireError } = checkVersions(questionnaire);
+      if (valid) {
+        setSource(questionnaire);
+        setInit(true);
+      } else {
+        setError(questionnaireError);
+      }
     }
   }, [init, questionnaire, surveyUnit]);
+
+  useEffect(() => {
+    if (errorMessage) setError(errorMessage);
+  }, [errorMessage]);
 
   const [, /* sending */ setSending] = useState(false);
   const [, /* errorSending */ setErrorSending] = useState(false);
@@ -66,7 +73,7 @@ const OrchestratorManager = () => {
     <>
       {![READ_ONLY, undefined].includes(readonlyParam) && <NotFound />}
       {loadingMessage && <Preloader message={loadingMessage} />}
-      {errorMessage && <Error message={errorMessage} />}
+      {error && <Error message={error} />}
       {init && !loadingMessage && !errorMessage && source && surveyUnit && (
         <Orchestrator
           surveyUnit={surveyUnit}

@@ -7,14 +7,14 @@ import Error from 'components/shared/Error';
 import { useRemoteData, useVisuQuery } from 'utils/hook';
 import QuestionnaireForm from './questionnaireForm';
 import { useHistory } from 'react-router';
+import { checkVersions } from 'utils/questionnaire';
 
 const Visualizer = () => {
   const configuration = useContext(AppContext);
 
   const [surveyUnit, setSurveyUnit] = useState(undefined);
+  const [error, setError] = useState(null);
   const [source, setSource] = useState(null);
-
-  const [waiting, setWaiting] = useState(false);
 
   const { questionnaireUrl, dataUrl } = useVisuQuery();
   const { surveyUnit: suData, questionnaire, loadingMessage, errorMessage } = useRemoteData(
@@ -34,17 +34,25 @@ const Visualizer = () => {
 
   useEffect(() => {
     if (questionnaireUrl && questionnaire && suData) {
-      setSource(questionnaire);
-      setSurveyUnit(createFakeSurveyUnit(suData));
-      setWaiting(false);
+      const { valid, error: questionnaireError } = checkVersions(questionnaire);
+      if (valid) {
+        setSource(questionnaire);
+        setSurveyUnit(createFakeSurveyUnit(suData));
+      } else {
+        setError(questionnaireError);
+      }
     }
   }, [questionnaireUrl, questionnaire, suData]);
+
+  useEffect(() => {
+    if (errorMessage) setError(errorMessage);
+  }, [errorMessage]);
 
   return (
     <>
       {loadingMessage && <Preloader message={loadingMessage} />}
-      {errorMessage && <Error message={errorMessage} />}
-      {!waiting && questionnaireUrl && source && surveyUnit && (
+      {error && <Error message={error} />}
+      {questionnaireUrl && source && surveyUnit && (
         <Orchestrator
           surveyUnit={surveyUnit}
           source={source}

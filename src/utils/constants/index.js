@@ -47,3 +47,6 @@ export const DATA_EXAMPLE_URL = q =>
   `${QUEEN_URL || window.location.origin}/static/questionnaire/${q}/data.json`;
 
 export const DEFAULT_DATA_URL = DATA_EXAMPLE_URL(DEFAULT);
+
+export const LUNATIC_MODEL_VERSION = '2.1.0';
+export const ENO_CORE_VERSION = '2.2.5';

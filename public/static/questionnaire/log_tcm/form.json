@@ -1,7 +1,7 @@
 {
   "id": "jr9atbisqf2",
   "modele": "Questionnaire_1",
-  "enoCoreVersion": "2.2.4-dev-xml-lunatic-pagination",
+  "enoCoreVersion": "2.2.5-dev-xml-lunatic-pagination",
   "lunaticModelVersion": "2.1.0",
   "pagination": "question",
   "maxPage": "38",
