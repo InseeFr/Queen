@@ -2,6 +2,7 @@ import React, { useState, useCallback, useRef } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
+import '@a11y/focus-trap';
 import { useStyles } from '../component.style';
 
 const SubsequenceNavigation = ({ sequence, close, setPage }) => {
@@ -75,50 +76,52 @@ const SubsequenceNavigation = ({ sequence, close, setPage }) => {
 
   return (
     <div className="content">
-      <button
-        type="button"
-        className={`${classes.subNavButton} ${classes.backSubnavButton}`}
-        ref={backButtonRef}
-        onFocus={setFocusSubsequence(-1)}
-        onClick={close}
-      >
-        <span>{'\u3008'}</span>
-        {D.goBackNavigation}
-      </button>
-      <button
-        type="button"
-        // eslint-disable-next-line jsx-a11y/no-autofocus
-        autoFocus
-        className={classes.subNavButton}
-        ref={listRef[0]}
-        onClick={changePage(sequence)}
-        onFocus={setFocusSubsequence(0)}
-        onKeyDown={lastIndexFocusable === 0 ? handleFinalTab : null}
-      >
-        {sequence.labelNav}
-      </button>
-      <nav role="navigation">
-        <ul>
-          {sequence.components.map((c, index) => {
-            return (
-              <div className="subnav" key={`subnav-${c.id}`}>
-                <button
-                  ref={listRef[index + 1]}
-                  type="button"
-                  key={c.id}
-                  className={classes.subNavButton}
-                  disabled={!c.reachable}
-                  onClick={changePage(c)}
-                  onFocus={setFocusSubsequence(index + 1)}
-                  onKeyDown={index + 1 === lastIndexFocusable ? handleFinalTab : null}
-                >
-                  {`${c.labelNav}`}
-                </button>
-              </div>
-            );
-          })}
-        </ul>
-      </nav>
+      <focus-trap>
+        <button
+          type="button"
+          className={`${classes.subNavButton} ${classes.backSubnavButton}`}
+          ref={backButtonRef}
+          onFocus={setFocusSubsequence(-1)}
+          onClick={close}
+        >
+          <span>{'\u3008'}</span>
+          {D.goBackNavigation}
+        </button>
+        <button
+          type="button"
+          // eslint-disable-next-line jsx-a11y/no-autofocus
+          autoFocus
+          className={classes.subNavButton}
+          ref={listRef[0]}
+          onClick={changePage(sequence)}
+          onFocus={setFocusSubsequence(0)}
+          onKeyDown={lastIndexFocusable === 0 ? handleFinalTab : null}
+        >
+          {sequence.labelNav}
+        </button>
+        <nav role="navigation">
+          <ul>
+            {sequence.components.map((c, index) => {
+              return (
+                <div className="subnav" key={`subnav-${c.id}`}>
+                  <button
+                    ref={listRef[index + 1]}
+                    type="button"
+                    key={c.id}
+                    className={classes.subNavButton}
+                    disabled={!c.reachable}
+                    onClick={changePage(c)}
+                    onFocus={setFocusSubsequence(index + 1)}
+                    onKeyDown={index + 1 === lastIndexFocusable ? handleFinalTab : null}
+                  >
+                    {`${c.labelNav}`}
+                  </button>
+                </div>
+              );
+            })}
+          </ul>
+        </nav>
+      </focus-trap>
       <KeyboardEventHandler
         handleKeys={keysToHandle}
         onKeyEvent={keyboardShortcut}
