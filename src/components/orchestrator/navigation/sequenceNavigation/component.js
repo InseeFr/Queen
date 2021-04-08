@@ -2,6 +2,7 @@ import React, { useState, useCallback, useRef, useEffect } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
+import '@a11y/focus-trap';
 import { useStyles } from '../component.style';
 
 const SequenceNavigation = ({
@@ -36,7 +37,6 @@ const SequenceNavigation = ({
     if (reachable) return [..._, index];
     return _;
   }, []);
-  const lastIndexFocusable = reachableIndexes[reachableIndexes.length - 1];
 
   const setCurrentFocus = next => index => {
     const indexOfIndex = reachableIndexes.indexOf(index);
@@ -73,13 +73,6 @@ const SequenceNavigation = ({
 
   const open = sequence => () => openSubComponents(sequence);
 
-  const handleFinalTab = useCallback(e => {
-    if (e.key === 'Tab') {
-      e.preventDefault();
-      backButtonRef.current.focus();
-    }
-  }, []);
-
   const keysToHandle = subSequenceOpen ? ['left', 'esc'] : ['left', 'right', 'esc', 'up', 'down'];
   const keyboardShortcut = (key, e) => {
     e.preventDefault();
@@ -102,49 +95,49 @@ const SequenceNavigation = ({
 
   return (
     <div className="content">
-      <button
-        type="button"
-        className={`${classes.subNavButton} ${classes.backSubnavButton}`}
-        // eslint-disable-next-line jsx-a11y/no-autofocus
-        autoFocus
-        ref={backButtonRef}
-        onFocus={setFocusSequence(-1)}
-        onKeyDown={lastIndexFocusable === -1 ? handleFinalTab : null}
-        onClick={close}
-      >
-        <span>{'\u3008'}</span>
-        {D.goBackNavigation}
-      </button>
-      <div>
-        <div className={classes.title}>{title}</div>
-        <nav role="navigation">
-          <ul>
-            {components.map((c, index) => {
-              return (
-                <div className="subnav" key={`subnav-${c.id}`}>
-                  <button
-                    ref={listRef[index]}
-                    // eslint-disable-next-line jsx-a11y/no-autofocus
-                    autoFocus={index === 0}
-                    type="button"
-                    key={c.id}
-                    className={`${classes.subNavButton} ${
-                      currentFocusSequenceIndex === index ? 'selected' : ''
-                    }`}
-                    disabled={!c.reachable}
-                    onClick={open(c)}
-                    onFocus={setFocusSequence(index)}
-                    onKeyDown={index === lastIndexFocusable ? handleFinalTab : null}
-                  >
-                    {c.labelNav}
-                    <span>{`${c.components.length > 0 ? '\u3009' : ''} `}</span>
-                  </button>
-                </div>
-              );
-            })}
-          </ul>
-        </nav>
-      </div>
+      <focus-trap>
+        <button
+          type="button"
+          className={`${classes.subNavButton} ${classes.backSubnavButton}`}
+          // eslint-disable-next-line jsx-a11y/no-autofocus
+          autoFocus
+          ref={backButtonRef}
+          onFocus={setFocusSequence(-1)}
+          onClick={close}
+        >
+          <span>{'\u3008'}</span>
+          {D.goBackNavigation}
+        </button>
+        <div>
+          <div className={classes.title}>{title}</div>
+          <nav role="navigation">
+            <ul>
+              {components.map((c, index) => {
+                return (
+                  <div className="subnav" key={`subnav-${c.id}`}>
+                    <button
+                      ref={listRef[index]}
+                      // eslint-disable-next-line jsx-a11y/no-autofocus
+                      autoFocus={index === 0}
+                      type="button"
+                      key={c.id}
+                      className={`${classes.subNavButton} ${
+                        currentFocusSequenceIndex === index ? 'selected' : ''
+                      }`}
+                      disabled={!c.reachable}
+                      onClick={open(c)}
+                      onFocus={setFocusSequence(index)}
+                    >
+                      {c.labelNav}
+                      <span>{`${c.components.length > 0 ? '\u3009' : ''} `}</span>
+                    </button>
+                  </div>
+                );
+              })}
+            </ul>
+          </nav>
+        </div>
+      </focus-trap>
       <KeyboardEventHandler
         handleKeys={keysToHandle}
         onKeyEvent={keyboardShortcut}

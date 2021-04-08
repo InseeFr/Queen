@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
@@ -10,6 +10,7 @@ import MenuIcon from './menu.icon';
 import { useStyles } from './component.style';
 import SequenceNavigation from './sequenceNavigation';
 import SubsequenceNavigation from './subSequenceNavigation';
+import '@a11y/focus-trap';
 
 const Navigation = ({
   className,
@@ -168,24 +169,21 @@ const Navigation = ({
       setCurrentFocus(index - 1);
     }
   };
-  const handleFinalTab = useCallback(
-    e => {
-      if (e.key === 'Tab') {
-        e.preventDefault();
-        listRef[0].current.focus();
-      }
-    },
-    [listRef]
-  );
-
   const classes = useStyles();
 
-  return (
-    <div className={className}>
+  const [trapFocus, setTrapFocus] = useState(false);
+  useEffect(() => {
+    setTimeout(() => setTrapFocus(open), 250);
+  }, [open]);
+
+  const menu = (
+    <>
       <button
         ref={listRef[0]}
         type="button"
         className={classes.menuIcon}
+        // eslint-disable-next-line jsx-a11y/no-autofocus
+        autoFocus
         onClick={openCloseMenu}
         onFocus={setFocusItem(0)}
       >
@@ -206,7 +204,6 @@ const Navigation = ({
                     ref={listRef[1]}
                     onFocus={setFocusItem(1)}
                     onClick={openCloseSubMenu}
-                    onKeyDown={handleFinalTab}
                   >
                     {D.surveyNavigation}
                     <span>{'\u3009'}</span>
@@ -218,6 +215,13 @@ const Navigation = ({
           </>
         )}
       </div>
+    </>
+  );
+
+  return (
+    <div className={className}>
+      {trapFocus && <focus-trap>{menu}</focus-trap>}
+      {!trapFocus && menu}
       {open && (
         <>
           <div className={`${classes.sequenceNavigationContainer}${surveyOpen ? ' slideIn' : ''}`}>
