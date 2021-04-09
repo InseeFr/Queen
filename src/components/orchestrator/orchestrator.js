@@ -151,7 +151,6 @@ const Orchestrator = ({
     bindings
   )(page)(maxPage);
   const { componentType: currentComponentType, hierarchy } = currentComponent || {};
-
   useEffect(() => {
     if (!isLastPage && DIRECT_CONTINUE_COMPONENTS.includes(currentComponentType) && changedOnce) {
       setChangingPage(true);
@@ -197,7 +196,9 @@ const Orchestrator = ({
             if (componentType !== 'FilterDescription')
               return (
                 <div
-                  className={`${lunaticClasses.lunatic} lunatic lunatic-component ${
+                  className={`${
+                    lunaticClasses.lunatic
+                  } ${currentComponentType} lunatic lunatic-component ${
                     options && options.length >= 8 ? 'split-fieldset' : ''
                   }`}
                   key={`component-${id}`}
@@ -216,9 +217,7 @@ const Orchestrator = ({
                     writable
                     readOnly={readonly}
                     disabled={readonly}
-                    keyboardSelection={
-                      componentType === 'CheckboxGroup' || componentType === 'CheckboxOne'
-                    }
+                    keyboardSelection={currentComponentType !== 'Radio'}
                     currentPage={page}
                     setPage={setPage}
                     flow={flow}

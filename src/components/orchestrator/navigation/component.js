@@ -11,6 +11,15 @@ import { useStyles } from './component.style';
 import SequenceNavigation from './sequenceNavigation';
 import SubsequenceNavigation from './subSequenceNavigation';
 import '@a11y/focus-trap';
+import { ButtonItemMenu } from 'components/designSystem';
+import {
+  createArrayOfRef,
+  createReachableElement,
+  getNewFocusElementIndex,
+  NEXT_FOCUS,
+  PREVIOUS_FOCUS,
+} from 'utils/navigation';
+import StopNavigation from './stopNavigation';
 
 const Navigation = ({
   className,
@@ -23,7 +32,7 @@ const Navigation = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [surveyOpen, setSurveyOpen] = useState(false);
-  const [currentFocusItemIndex, setCurrentFocusItemIndex] = useState(-1);
+  const [stopOpen, setStopOpen] = useState(false);
   const [selectedSequence, setSelectedSequence] = useState(undefined);
 
   const getVtlLabel = label => {
@@ -111,62 +120,86 @@ const Navigation = ({
         }, [])
       : null;
   }, [surveyOpen, componentsVTL, getSubsequenceComponents]);
+  const offset = 1;
 
-  const [listRef] = useState([React.createRef(), React.createRef()]);
+  const menuItemsSurvey = [D.surveyNavigation, 'Boucle...'];
+  const menuItemsQuality = ['Commentaire', 'Arrêt'];
 
-  const openCloseSubMenu = useCallback(() => {
-    if (surveyOpen) {
-      setSelectedSequence(undefined);
-      setSurveyOpen(false);
-      listRef[1].current.focus();
-    } else {
-      setSurveyOpen(true);
-    }
-  }, [listRef, surveyOpen]);
+  const [currentFocusElementIndex, setCurrentFocusElementIndex] = useState(0);
+  const [listRefs] = useState(
+    [...menuItemsSurvey, ...menuItemsQuality].reduce(
+      _ => [..._, React.createRef()],
+      createArrayOfRef(offset)
+    )
+  );
+
+  const setFocus = useCallback(index => () => setCurrentFocusElementIndex(index), [
+    setCurrentFocusElementIndex,
+  ]);
+  const reachableRefs = [...menuItemsSurvey, ...menuItemsQuality].reduce(
+    _ => [..._, true],
+    createReachableElement(offset)
+  );
+
+  const openCloseSubMenu = useCallback(
+    type => {
+      if (type === 'sequence') {
+        setStopOpen(false);
+        if (surveyOpen) {
+          setSelectedSequence(undefined);
+          setSurveyOpen(false);
+          listRefs[1].current.focus();
+        } else {
+          setSurveyOpen(true);
+        }
+      } else if (type === 'stop') {
+        setSurveyOpen(false);
+        if (stopOpen) {
+          setStopOpen(false);
+          listRefs[4].current.focus();
+        } else {
+          setStopOpen(true);
+        }
+      }
+    },
+    [listRefs, stopOpen, surveyOpen]
+  );
 
   const openCloseMenu = useCallback(() => {
-    if (surveyOpen) openCloseSubMenu();
+    if (surveyOpen) openCloseSubMenu('sequence');
+    if (stopOpen) openCloseSubMenu('stop');
     setOpen(!open);
     setMenuOpen(!open);
-    listRef[0].current.focus();
-  }, [surveyOpen, listRef, open, setMenuOpen, openCloseSubMenu]);
+    listRefs[0].current.focus();
+  }, [surveyOpen, openCloseSubMenu, stopOpen, open, setMenuOpen, listRefs]);
 
   const setNavigationPage = page => {
     openCloseMenu();
     setPage(page);
   };
 
-  const setFocusItem = useCallback(index => () => setCurrentFocusItemIndex(index), [
-    setCurrentFocusItemIndex,
-  ]);
-
-  const setCurrentFocus = index => {
-    if (index === -1) listRef[listRef.length - 1].current.focus();
-    else if (index === listRef.length) listRef[0].current.focus();
-    else listRef[index].current.focus();
-  };
   const getKeysToHandle = () => {
-    if (open && !surveyOpen) return ['alt+b', 'esc', 'right', 'up', 'down'];
-    if (open && surveyOpen) return ['left', 'alt+b'];
+    if (open && (surveyOpen || stopOpen)) return ['alt+b'];
+    if (open) return ['alt+b', 'esc', 'right', 'up', 'down'];
     return ['alt+b'];
   };
   const keysToHandle = getKeysToHandle();
   const keyboardShortcut = (key, e) => {
     e.preventDefault();
-    const index = currentFocusItemIndex;
     if (key === 'alt+b') {
       openCloseMenu();
     }
     if (key === 'esc' && !surveyOpen) openCloseMenu();
-    if ((key === 'left' && !selectedSequence) || (key === 'esc' && surveyOpen)) openCloseSubMenu();
     if (key === 'right') {
-      if (index === 1) openCloseSubMenu(true);
+      if (currentFocusElementIndex === 1) openCloseSubMenu('sequence');
+      if (currentFocusElementIndex === 4) openCloseSubMenu('stop');
     }
-    if (key === 'down') {
-      setCurrentFocus(index + 1);
-    }
-    if (key === 'up') {
-      setCurrentFocus(index - 1);
+    if (key === 'down' || key === 'up') {
+      const directionFocus = key === 'down' ? NEXT_FOCUS : PREVIOUS_FOCUS;
+      const newRefIndex = getNewFocusElementIndex(directionFocus)(currentFocusElementIndex)(
+        reachableRefs
+      );
+      listRefs[newRefIndex]?.current?.focus();
     }
   };
   const classes = useStyles();
@@ -179,13 +212,13 @@ const Navigation = ({
   const menu = (
     <>
       <button
-        ref={listRef[0]}
+        ref={listRefs[0]}
         type="button"
         className={classes.menuIcon}
         // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus
         onClick={openCloseMenu}
-        onFocus={setFocusItem(0)}
+        onFocus={setFocus(0)}
       >
         <MenuIcon width={48} color={open ? '#E30342' : '#000000'} />
       </button>
@@ -196,18 +229,43 @@ const Navigation = ({
               <span className={classes.goToNavigationSpan}>{D.goToNavigation}</span>
               <nav role="navigation">
                 <ul>
-                  <button
-                    type="button"
-                    className={`${classes.subNavButton} ${
-                      currentFocusItemIndex === 1 ? 'selected' : ''
-                    }`}
-                    ref={listRef[1]}
-                    onFocus={setFocusItem(1)}
-                    onClick={openCloseSubMenu}
-                  >
-                    {D.surveyNavigation}
-                    <span>{'\u3009'}</span>
-                  </button>
+                  {menuItemsSurvey.map((label, index) => {
+                    const type = index === 0 ? 'sequence' : '';
+                    return (
+                      <li key={label}>
+                        <ButtonItemMenu
+                          ref={listRefs[index + offset]}
+                          selected={currentFocusElementIndex === index + offset}
+                          onClick={() => openCloseSubMenu(type)}
+                          onFocus={setFocus(index + offset)}
+                        >
+                          {label}
+                          <span>{'\u3009'}</span>
+                        </ButtonItemMenu>
+                      </li>
+                    );
+                  })}
+                  <li className={classes.itemTitle}>
+                    <span>{'Qualité'}</span>
+                  </li>
+                  {menuItemsQuality.map((label, index) => {
+                    const type = index === 0 ? 'comment' : 'stop';
+                    return (
+                      <li key={label}>
+                        <ButtonItemMenu
+                          ref={listRefs[index + menuItemsSurvey.length + offset]}
+                          selected={
+                            currentFocusElementIndex === index + menuItemsSurvey.length + offset
+                          }
+                          onClick={() => openCloseSubMenu(type)}
+                          onFocus={setFocus(index + menuItemsSurvey.length + offset)}
+                        >
+                          {label}
+                          <span>{'\u3009'}</span>
+                        </ButtonItemMenu>
+                      </li>
+                    );
+                  })}
                 </ul>
               </nav>
             </div>
@@ -224,7 +282,11 @@ const Navigation = ({
       {!trapFocus && menu}
       {open && (
         <>
-          <div className={`${classes.sequenceNavigationContainer}${surveyOpen ? ' slideIn' : ''}`}>
+          <div
+            className={`${classes.subMenuNavigationContainer} ${
+              classes.sequenceNavigationContainer
+            }${surveyOpen || stopOpen ? ' slideIn' : ''}`}
+          >
             {surveyOpen && (
               <SequenceNavigation
                 title={title}
@@ -235,12 +297,13 @@ const Navigation = ({
                 close={openCloseSubMenu}
               />
             )}
+            {stopOpen && <StopNavigation close={openCloseSubMenu} />}
           </div>
           {surveyOpen && (
             <div
-              className={`${classes.subsequenceNavigationContainer}${
-                selectedSequence ? ' slideIn' : ''
-              }`}
+              className={`${classes.subMenuNavigationContainer} ${
+                classes.subsequenceNavigationContainer
+              }${selectedSequence ? ' slideIn' : ''}`}
             >
               {selectedSequence && selectedSequence.components.length > 0 && (
                 <SubsequenceNavigation
