@@ -196,9 +196,7 @@ const Orchestrator = ({
             if (componentType !== 'FilterDescription')
               return (
                 <div
-                  className={`${
-                    lunaticClasses.lunatic
-                  } ${currentComponentType} lunatic lunatic-component ${
+                  className={`${lunaticClasses.lunatic} ${currentComponentType}  ${
                     options && options.length >= 8 ? 'split-fieldset' : ''
                   }`}
                   key={`component-${id}`}

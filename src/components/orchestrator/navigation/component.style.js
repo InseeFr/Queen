@@ -11,12 +11,10 @@ const subsequenceMenuWidthMobile = 250;
 export const useStyles = makeStyles(theme => ({
   navigation: { alignSelf: 'center' },
   menuIcon: {
-    cursor: 'pointer',
-    marginTop: '7px',
     position: 'relative',
     zIndex: 35,
-    backgroundColor: 'transparent',
-    border: 'none',
+    padding: '7px',
+    '& svg': { fontSize: '2em' },
   },
   itemTitle: {
     width: '100%',

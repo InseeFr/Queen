@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import D from 'i18n';
 import { useStyles } from './component.style';
 import { getIterations } from 'utils/questionnaire';
 
@@ -25,6 +26,7 @@ const BreadcrumbQueen = ({ sequence, subsequence, setPage, currentPage }) => {
         <button
           type="button"
           className={classes.breadcrumbButton}
+          title={`${D.goToNavigation} ${sequence.label}`}
           onClick={() => changePage(sequence.page)}
         >
           {sequence.label}
@@ -33,6 +35,7 @@ const BreadcrumbQueen = ({ sequence, subsequence, setPage, currentPage }) => {
           <button
             className={`${classes.breadcrumbButton} ${classes.subsequenceButton}`}
             type="button"
+            title={`${D.goToNavigation} ${subsequence.label}`}
             onClick={() => changePage(subsequence.page)}
           >
             {subsequence.label}

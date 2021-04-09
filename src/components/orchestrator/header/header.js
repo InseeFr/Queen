@@ -6,9 +6,10 @@ import * as lunatic from '@inseefr/lunatic';
 import D from 'i18n';
 import insee from 'img/insee.png';
 import Navigation from '../navigation';
-import CloseIcon from './quit.icon';
 import BreadcrumbQueen from '../breadcrumb';
 import { useStyles } from './header.style';
+import { ButtonBase, IconButton } from '@material-ui/core';
+import { ExitToApp } from '@material-ui/icons';
 
 const Header = ({
   menuOpen,
@@ -61,14 +62,14 @@ const Header = ({
         validatePages={validatePages}
       />
       <div className="header-item">
-        <button
-          type="button"
-          className={classes.inseeIcon}
-          title={D.backToBeginning}
+        <ButtonBase
+          focusRipple
           onClick={setToFirstPage}
+          aria-label={D.backToBeginning}
+          title={D.backToBeginning}
         >
           <img id="logo" src={insee} alt="Logo de L'Insee" className={classes.headerLogo} />
-        </button>
+        </ButtonBase>
       </div>
       <div className={classes.headerTitle}>
         <span className={classes.questionnaireTitle}>{title}</span>
@@ -84,9 +85,14 @@ const Header = ({
       {!standalone && (
         <>
           <div className={classes.headerClose}>
-            <button ref={quitButtonRef} type="button" className={classes.closeIcon} onClick={quit}>
-              <CloseIcon width={40} />
-            </button>
+            <IconButton
+              ref={quitButtonRef}
+              title={D.simpleQuit}
+              className={classes.closeIcon}
+              onClick={quit}
+            >
+              <ExitToApp htmlColor={'#000000'} />
+            </IconButton>
           </div>
           <KeyboardEventHandler
             handleKeys={['alt+q']}

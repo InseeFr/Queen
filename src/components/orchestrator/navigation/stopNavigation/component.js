@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import D from 'i18n';
 import '@a11y/focus-trap';
@@ -11,21 +11,28 @@ import {
   PREVIOUS_FOCUS,
 } from 'utils/navigation';
 import { useStyles } from '../component.style';
+import { StopModal } from 'components/shared/modals/stopModal';
 
-const StopNavigation = ({ close }) => {
+const StopNavigation = React.forwardRef(({ close }, ref) => {
+  console.log('StopNavigation ref', ref);
   const offset = 1;
   const labels = [
-    "Arrêt définitif de l'interview (refus, impossibilité de continuer, ...)",
-    "Arrêt provisoire de l'interview",
+    {
+      label: "Arrêt définitif de l'interview (refus, impossibilité de continuer, ...)",
+      definitive: true,
+    },
+    {
+      label: "Arrêt provisoire de l'interview",
+      definitive: false,
+    },
   ];
   const [currentFocusElementIndex, setCurrentFocusElementIndex] = useState(0);
   const [listRefs] = useState(
     labels.reduce(_ => [..._, React.createRef()], createArrayOfRef(offset))
   );
-  const [modalOpen, setOpenModal] = useState(false);
-  const openModal = label => () => {
-    console.log('make open modals', label);
-    setOpenModal(true);
+  const openModal = type => () => {
+    setDefinitive(type);
+    setOpen(true);
   };
   const closeMenu = () => close('stop');
 
@@ -39,7 +46,7 @@ const StopNavigation = ({ close }) => {
     e.preventDefault();
     if (key === 'right') openModal(labels[currentFocusElementIndex]);
     if (key === 'esc' || key === 'left') {
-      if (!modalOpen) closeMenu();
+      if (!open) closeMenu();
     }
     if (key === 'down' || key === 'up') {
       const directionFocus = key === 'down' ? NEXT_FOCUS : PREVIOUS_FOCUS;
@@ -50,6 +57,9 @@ const StopNavigation = ({ close }) => {
     }
   };
   const classes = useStyles();
+
+  const [open, setOpen] = useState(false);
+  const [definitive, setDefinitive] = useState(false);
 
   return (
     <focus-trap>
@@ -62,14 +72,14 @@ const StopNavigation = ({ close }) => {
           <div className={classes.title}>{"Quelle est la nature de l'arrêt ?"}</div>
           <nav role="navigation">
             <ul>
-              {labels.map((label, index) => {
+              {labels.map(({ label, definitive: menuDefinitive }, index) => {
                 return (
                   <li key={label}>
                     <ButtonItemMenu
                       // eslint-disable-next-line jsx-a11y/no-autofocus
                       autoFocus={index === 0}
                       ref={listRefs[index + offset]}
-                      onClick={openModal(label)}
+                      onClick={openModal(menuDefinitive)}
                       onFocus={setFocus(index + offset)}
                     >
                       {`${index + 1}. ${label}`}
@@ -86,8 +96,9 @@ const StopNavigation = ({ close }) => {
           handleFocusableElements
         />
       </div>
+      <StopModal ref={ref} open={open} setOpen={setOpen} definitive={definitive} />
     </focus-trap>
   );
-};
+});
 
 export default StopNavigation;

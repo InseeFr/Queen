@@ -1,12 +1,11 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
 import * as lunatic from '@inseefr/lunatic';
 import { version } from '../../../../package.json';
-import MenuIcon from './menu.icon';
 import { useStyles } from './component.style';
 import SequenceNavigation from './sequenceNavigation';
 import SubsequenceNavigation from './subSequenceNavigation';
@@ -20,6 +19,8 @@ import {
   PREVIOUS_FOCUS,
 } from 'utils/navigation';
 import StopNavigation from './stopNavigation';
+import { IconButton } from '@material-ui/core';
+import { Apps } from '@material-ui/icons';
 
 const Navigation = ({
   className,
@@ -209,24 +210,26 @@ const Navigation = ({
     setTimeout(() => setTrapFocus(open), 250);
   }, [open]);
 
+  const rootRef = useRef();
+
   const menu = (
     <>
-      <button
+      <IconButton
         ref={listRefs[0]}
-        type="button"
-        className={classes.menuIcon}
         // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus
+        title={D.mainMenu}
+        className={classes.menuIcon}
         onClick={openCloseMenu}
         onFocus={setFocus(0)}
       >
-        <MenuIcon width={48} color={open ? '#E30342' : '#000000'} />
-      </button>
+        <Apps fontSize={'small'} htmlColor={open ? '#E30342' : '#000000'} />
+      </IconButton>
       <div className={`${classes.menu}${open ? ' slideIn' : ''}`}>
         {open && (
           <>
             <div className={classes.navigationContainer}>
-              <span className={classes.goToNavigationSpan}>{D.goToNavigation}</span>
+              <span className={classes.goToNavigationSpan}>{`${D.goToNavigation} ...`}</span>
               <nav role="navigation">
                 <ul>
                   {menuItemsSurvey.map((label, index) => {
@@ -277,7 +280,7 @@ const Navigation = ({
   );
 
   return (
-    <div className={className}>
+    <div ref={rootRef} className={className}>
       {trapFocus && <focus-trap>{menu}</focus-trap>}
       {!trapFocus && menu}
       {open && (
@@ -297,7 +300,7 @@ const Navigation = ({
                 close={openCloseSubMenu}
               />
             )}
-            {stopOpen && <StopNavigation close={openCloseSubMenu} />}
+            {stopOpen && <StopNavigation ref={rootRef} close={openCloseSubMenu} />}
           </div>
           {surveyOpen && (
             <div
