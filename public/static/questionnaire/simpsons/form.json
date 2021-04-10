@@ -1,7 +1,7 @@
 {
   "id": "i6vwi2506qf2mms",
   "modele": "SIMPSONS",
-  "enoCoreVersion": "2.3.0-dev-xml-lunatic-pagination",
+  "enoCoreVersion": "2.2.4",
   "lunaticModelVersion": "2.1.0",
   "pagination": "question",
   "maxPage": "37",
