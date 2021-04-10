@@ -7,7 +7,7 @@ import Error from 'components/shared/Error';
 import { useRemoteData, useVisuQuery } from 'utils/hook';
 import QuestionnaireForm from './questionnaireForm';
 import { useHistory } from 'react-router';
-import { checkVersions } from 'utils/questionnaire';
+import { checkVersions, downloadDataAsJson } from 'utils/questionnaire';
 
 const Visualizer = () => {
   const configuration = useContext(AppContext);
@@ -48,6 +48,12 @@ const Visualizer = () => {
     if (errorMessage) setError(errorMessage);
   }, [errorMessage]);
 
+  const closeAndDownloadData = async () => {
+    const data = await surveyUnitIdbService.get('1234');
+    downloadDataAsJson(data, 'data');
+    history.push('/');
+  };
+
   return (
     <>
       {loadingMessage && <Preloader message={loadingMessage} />}
@@ -64,7 +70,7 @@ const Visualizer = () => {
           pagination={true}
           filterDescription={false}
           save={unit => surveyUnitIdbService.addOrUpdateSU(unit)}
-          close={() => history.push('/')}
+          close={closeAndDownloadData}
         />
       )}
       {!questionnaireUrl && <QuestionnaireForm />}
