@@ -21,7 +21,6 @@ const useStyles = makeStyles(theme => ({
 
 const StopModal = React.forwardRef(({ open, setOpen, definitive }, ref) => {
   const close = () => setOpen(false);
-  console.log('ref', ref);
 
   const agree = () => {
     setOpen(false);

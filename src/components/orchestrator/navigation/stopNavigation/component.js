@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import D from 'i18n';
 import '@a11y/focus-trap';
@@ -14,7 +14,6 @@ import { useStyles } from '../component.style';
 import { StopModal } from 'components/shared/modals/stopModal';
 
 const StopNavigation = React.forwardRef(({ close }, ref) => {
-  console.log('StopNavigation ref', ref);
   const offset = 1;
   const labels = [
     {
