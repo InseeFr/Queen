@@ -1,15 +1,16 @@
 import { MIN_LUNATIC_MODEL_VERSION, MIN_ENO_CORE_VERSION } from 'utils/constants';
 
 const checkVersion = (actualVersion, expectedVersion) => {
-  const [major, minor] = expectedVersion.split('.');
-  const [majorA, minorA] = actualVersion.split('.');
-
   try {
-    const majorInt = parseInt(major, 10);
-    const minorInt = parseInt(minor, 10);
-    const majorAInt = parseInt(majorA, 10);
-    const minorAInt = parseInt(minorA, 10);
-    if (majorInt === majorAInt && minorAInt >= minorInt) return { valid: true };
+    // split by "-" to prevent versions like "x.y.z-rc" or "x.y.z-feature"
+    const [major, minor, patch] = expectedVersion
+      .split('.')
+      .map(v => parseInt(v.split('-')[0], 10));
+    const [majorA, minorA, patchA] = actualVersion
+      .split('.')
+      .map(v => parseInt(v.split('-')[0], 10));
+    if (major === majorA && ((minorA === minor && patchA >= patch) || minorA > minor))
+      return { valid: true };
     return { valid: false };
   } catch (e) {
     return { valid: false };
