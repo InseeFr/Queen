@@ -49,4 +49,4 @@ export const DATA_EXAMPLE_URL = q =>
 export const DEFAULT_DATA_URL = DATA_EXAMPLE_URL(DEFAULT);
 
 export const MIN_LUNATIC_MODEL_VERSION = '2.1.0';
-export const MIN_ENO_CORE_VERSION = '2.3.0';
+export const MIN_ENO_CORE_VERSION = '2.2.4';
