@@ -122,9 +122,16 @@ const Orchestrator = ({
       setState(COMPLETED);
       setState(VALIDATED);
       await saveQueen(VALIDATED);
-    }
+    } else await saveQueen();
     close();
   }, [saveQueen, isLastPage, setState, close]);
+
+  const definitiveQuit = useCallback(async () => {
+    setPendingChangePage(null);
+    setState(VALIDATED);
+    await saveQueen(VALIDATED);
+    close();
+  }, [saveQueen, setState, close]);
 
   /**
    * This function updates the values of the questionnaire responses
@@ -168,6 +175,8 @@ const Orchestrator = ({
   const context = {
     menuOpen: menuOpen,
     setMenuOpen: setMenuOpen,
+    quit: quit,
+    definitiveQuit: definitiveQuit,
     standalone: standalone,
     readonly: readonly,
     page: page,

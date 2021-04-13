@@ -2,6 +2,7 @@ const prefixEvent = 'QUEEN';
 
 const dispatchQueenEventWithData = data => {
   const event = new window.CustomEvent(prefixEvent, { detail: data });
+  console.log(event);
   window.dispatchEvent(event);
 };
 

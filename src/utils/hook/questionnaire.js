@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import * as lunatic from '@inseefr/lunatic';
-import { usePrevious } from '.';
 import { sendCompletedEvent, sendStartedEvent, sendValidatedEvent } from 'utils/communication';
 import { getNotNullCollectedState } from 'utils/questionnaire';
 
@@ -11,8 +10,6 @@ export const COMPLETED = 'COMPLETED';
 
 export const useQuestionnaireState = (questionnaire, initialState, idSurveyUnit) => {
   const [state, setState] = useState(initialState);
-
-  const previousState = usePrevious(state, initialState);
 
   // Analyse collected variables to update state (only to STARTED state)
   useEffect(() => {
@@ -33,15 +30,10 @@ export const useQuestionnaireState = (questionnaire, initialState, idSurveyUnit)
 
   // Send an event when questionnaire's state has changed (started, completed, validated)
   useEffect(() => {
-    if (
-      (previousState === NOT_STARTED || previousState === VALIDATED || !previousState) &&
-      state === STARTED
-    ) {
-      sendStartedEvent(idSurveyUnit);
-    }
+    if (state === STARTED) sendStartedEvent(idSurveyUnit);
     if (state === COMPLETED) sendCompletedEvent(idSurveyUnit);
     if (state === VALIDATED) sendValidatedEvent(idSurveyUnit);
-  }, [state, previousState, idSurveyUnit]);
+  }, [state, idSurveyUnit]);
 
   return [state, setState];
 };

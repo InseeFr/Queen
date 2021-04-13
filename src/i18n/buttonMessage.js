@@ -18,6 +18,9 @@ const buttonMessage = {
   ctrlEnter: { fr: 'Alt + ENTRÉE', en: 'Alt + ENTER' },
   ctrlEnd: { fr: 'Alt + Fin', en: 'Alt + End' },
   visualize: { fr: 'Visualiser', en: 'Visualize' },
+  validateButton: { fr: 'Valider', en: 'Validate' },
+  definitiveValidateButton: { fr: "Valider l'arrêt définitif", en: 'Validate the final stop' },
+  cancelButton: { fr: 'Annuler', en: 'Cancel' },
 };
 
 export default buttonMessage;

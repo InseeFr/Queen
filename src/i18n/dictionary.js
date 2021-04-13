@@ -3,6 +3,7 @@ import navigationMessage from './navigationMessage';
 import waitingMessage from './waitingMessage';
 import errorMessage from './errorMessage';
 import visualizeMessage from './visualizeMessage';
+import modalsMessage from './modalsMessage';
 
 const dictionary = {
   survey: {
@@ -74,6 +75,7 @@ const dictionary = {
   ...waitingMessage,
   ...errorMessage,
   ...visualizeMessage,
+  ...modalsMessage,
 };
 
 export default dictionary;
