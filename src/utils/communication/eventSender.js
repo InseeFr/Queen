@@ -24,6 +24,16 @@ export const sendCompletedEvent = idSU => {
   dispatchQueenEventWithData(data);
 };
 
+export const sendValidatedEvent = idSU => {
+  const data = {
+    type: prefixEvent,
+    command: 'UPDATE_SURVEY_UNIT',
+    surveyUnit: idSU,
+    state: 'VALIDATED',
+  };
+  dispatchQueenEventWithData(data);
+};
+
 export const sendStartedEvent = idSU => {
   const data = {
     type: prefixEvent,
