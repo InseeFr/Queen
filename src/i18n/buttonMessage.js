@@ -1,6 +1,6 @@
 const buttonMessage = {
   closeSurvey: { fr: 'Fermer le questionnaire', en: 'Close questionnaire' },
-  saveAndQuit: { fr: 'Sauvegarder et quitter', en: 'Save and quit' },
+  saveAndQuit: { fr: 'Valider et quitter', en: 'Validate and quit' },
   simpleQuit: { fr: 'Quitter', en: 'Quit' },
   nextButton: { fr: 'SUIV.', en: 'NEXT' },
   nextButtonLabel: { fr: 'Suivant', en: 'Next' },
