@@ -12,10 +12,16 @@ import { useStyles } from './header.style';
 import { ButtonBase, IconButton } from '@material-ui/core';
 import { ExitToApp } from '@material-ui/icons';
 
-const Header = ({ title, quit, hierarchy, setPage, validatePages }) => {
-  const { menuOpen, setMenuOpen, questionnaire, bindings, page, standalone } = useContext(
-    OrchestratorContext
-  );
+const Header = ({ title, quit, hierarchy, setPage }) => {
+  const {
+    menuOpen,
+    setMenuOpen,
+    questionnaire,
+    bindings,
+    page,
+    standalone,
+    validatedPages,
+  } = useContext(OrchestratorContext);
   const classes = useStyles({ standalone });
   const setToFirstPage = useCallback(() => setPage('1'), [setPage]);
   const quitButtonRef = useRef();
@@ -43,16 +49,7 @@ const Header = ({ title, quit, hierarchy, setPage, validatePages }) => {
 
   return (
     <div className={classes.root}>
-      <Navigation
-        className={classes.headerItemNavigation}
-        menuOpen={menuOpen}
-        setMenuOpen={setMenuOpen}
-        title={title}
-        questionnaire={questionnaire}
-        bindings={bindings}
-        setPage={setPage}
-        validatePages={validatePages}
-      />
+      <Navigation className={classes.headerItemNavigation} title={title} setPage={setPage} />
       <div className="header-item">
         <ButtonBase
           focusRipple

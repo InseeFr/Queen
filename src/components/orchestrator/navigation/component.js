@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useMemo, useEffect, useRef, useContext } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
@@ -21,16 +21,10 @@ import {
 import StopNavigation from './stopNavigation';
 import { IconButton } from '@material-ui/core';
 import { Apps } from '@material-ui/icons';
+import { OrchestratorContext } from '../orchestrator';
 
-const Navigation = ({
-  className,
-  setMenuOpen,
-  title,
-  questionnaire,
-  bindings,
-  setPage,
-  validatePages,
-}) => {
+const Navigation = ({ className, title, setPage }) => {
+  const { questionnaire, bindings, validatedPages, setMenuOpen } = useContext(OrchestratorContext);
   const [open, setOpen] = useState(false);
   const [surveyOpen, setSurveyOpen] = useState(false);
   const [stopOpen, setStopOpen] = useState(false);
@@ -70,7 +64,7 @@ const Navigation = ({
         {
           componentType,
           labelNav: getVtlLabel(label),
-          reachable: validatePages.includes(page) && filterComponentsPage.includes(page),
+          reachable: validatedPages.includes(page) && filterComponentsPage.includes(page),
           ...other,
         },
       ];
@@ -82,7 +76,7 @@ const Navigation = ({
         {
           componentType,
           labelNav: getVtlLabel(label),
-          reachable: validatePages.includes(goToPage) && filterComponentsPage.includes(goToPage),
+          reachable: validatedPages.includes(goToPage) && filterComponentsPage.includes(goToPage),
           ...other,
         },
       ];
@@ -335,10 +329,7 @@ const comparison = (prevProps, nextProps) => !nextProps.menuOpen;
 
 Navigation.propTypes = {
   title: PropTypes.string.isRequired,
-  bindings: PropTypes.objectOf(PropTypes.any).isRequired,
-  questionnaire: PropTypes.objectOf(PropTypes.any).isRequired,
   setPage: PropTypes.func.isRequired,
-  validatePages: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default React.memo(Navigation, comparison);

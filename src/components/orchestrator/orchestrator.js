@@ -183,13 +183,7 @@ const Orchestrator = ({
   return (
     <OrchestratorContext.Provider value={context}>
       <div className={classes.root}>
-        <Header
-          title={questionnaire.label}
-          quit={quit}
-          hierarchy={hierarchy}
-          setPage={setPage}
-          validatePages={validatedPages}
-        />
+        <Header title={questionnaire.label} quit={quit} hierarchy={hierarchy} setPage={setPage} />
         <div className={classes.bodyContainer}>
           {changingPage && <SimpleLoader />}
 
