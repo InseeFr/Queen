@@ -5,7 +5,6 @@ import * as lunatic from '@inseefr/lunatic';
 import alphabet from 'utils/constants/alphabet';
 import * as UQ from 'utils/questionnaire';
 import { DIRECT_CONTINUE_COMPONENTS, KEYBOARD_SHORTCUT_COMPONENTS } from 'utils/constants';
-import { sendStartedEvent, sendCompletedEvent } from 'utils/communication';
 import Header from './header';
 import Buttons from './buttons';
 import ContinueButton from './buttons/continue';
@@ -13,6 +12,13 @@ import NavBar from './rightNavbar';
 import { useCustomLunaticStyles } from './lunaticStyle/style';
 import { useStyles } from './orchestrator.style';
 import SimpleLoader from 'components/shared/preloader/simple';
+import {
+  COMPLETED,
+  useQuestionnaireState,
+  VALIDATED,
+  useValidatedPages,
+} from 'utils/hook/questionnaire';
+import { goToTopPage } from 'utils';
 
 const Orchestrator = ({
   surveyUnit,
@@ -30,15 +36,9 @@ const Orchestrator = ({
   const classes = useStyles();
   const topRef = useRef();
   const lunaticClasses = useCustomLunaticStyles();
-  const { data } = surveyUnit;
+  const { data, stateData } = surveyUnit;
   const [changingPage, setChangingPage] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [started, setStarted] = useState(() => {
-    if (data.COLLECTED) {
-      return Object.keys(data.COLLECTED).length > 0;
-    }
-    return false;
-  });
 
   const [pendingChangePage, setPendingChangePage] = useState(null);
   const [questionnaireUpdated, setQuestionnaireUpdated] = useState(true);
@@ -59,42 +59,30 @@ const Orchestrator = ({
     pagination,
   });
 
-  const [currentPage, setCurrentPage] = useState('1');
+  const [state, setState] = useQuestionnaireState(questionnaire, stateData?.state, surveyUnit?.id);
+  const [validatedPages, addValidatedPages] = useValidatedPages(
+    stateData?.currentPage,
+    questionnaire,
+    bindings
+  );
 
   const [comment /* , setComment */] = useState(surveyUnit.comment);
-  const [validatePages, setValidatePages] = useState([]);
-
-  const addValidatePage = useCallback(() => {
-    let newValidatePages = validatePages;
-    if (!validatePages.includes(currentPage)) {
-      newValidatePages = [...newValidatePages, currentPage];
-      setValidatePages(newValidatePages);
-    }
-    return newValidatePages;
-  }, [currentPage, validatePages, setValidatePages]);
 
   const saveQueen = useCallback(async () => {
-    const dataToSave = UQ.getStateToSave(questionnaire);
-    await save({ ...surveyUnit, data: dataToSave, comment });
-  }, [comment, save, surveyUnit, questionnaire]);
-
-  const goToTop = () => {
-    if (topRef && topRef.current) {
-      topRef.current.tabIndex = -1;
-      topRef.current.focus();
-      topRef.current.blur();
-      window.scrollTo({ top: 0 });
-      topRef.current.removeAttribute('tabindex');
-    }
-  };
+    await save({
+      ...surveyUnit,
+      stateData: { state: state, date: new Date().getTime(), currentPage: page },
+      data: UQ.getStateToSave(questionnaire),
+      comment: comment,
+    });
+  }, [questionnaire, save, surveyUnit, state, page, comment]);
 
   useEffect(() => {
     if (queenFlow === 'fastForward') {
       setQueenFlow('next');
       goNext();
     }
-    setCurrentPage(page);
-    goToTop();
+    goToTopPage(topRef);
     setChangingPage(false);
     // assume, we don't want to goNext each time goNext is updated, only the first time
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -108,29 +96,26 @@ const Orchestrator = ({
       setChangedOnce(false);
       saveQueen();
       if (type === 'next') {
-        addValidatePage();
+        addValidatedPages(page);
         goNext();
       } else if (type === 'fastForward') {
-        const pageOfLastComponentToValidate = UQ.getMaxValidatedPage(addValidatePage());
+        const pageOfLastComponentToValidate = UQ.getMaxValidatedPage(addValidatedPages(page));
         setPage(pageOfLastComponentToValidate);
       } else if (type === 'previous') goPrevious();
     },
-    [addValidatePage, goNext, goPrevious, saveQueen, setPage]
+    [addValidatedPages, page, goNext, goPrevious, saveQueen, setPage]
   );
-  useEffect(() => {
-    const start = async () => {
-      setStarted(true);
-      await sendStartedEvent(surveyUnit.id);
-    };
-    if (!started && !standalone && validatePages.length > 0) start();
-  }, [validatePages, started, standalone, surveyUnit.id]);
 
   const quit = useCallback(async () => {
     await saveQueen();
-    if (isLastPage && !standalone) await sendCompletedEvent(surveyUnit.id);
+    if (isLastPage) {
+      // TODO : make algo to calculate COMPLETED event
+      setState(COMPLETED);
+      setState(VALIDATED);
+    }
     setPendingChangePage(null);
     close();
-  }, [saveQueen, isLastPage, standalone, surveyUnit.id, close]);
+  }, [saveQueen, isLastPage, setState, close]);
 
   /**
    * This function updates the values of the questionnaire responses
@@ -151,6 +136,7 @@ const Orchestrator = ({
     bindings
   )(page)(maxPage);
   const { componentType: currentComponentType, hierarchy } = currentComponent || {};
+
   useEffect(() => {
     if (!isLastPage && DIRECT_CONTINUE_COMPONENTS.includes(currentComponentType) && changedOnce) {
       setChangingPage(true);
@@ -183,7 +169,7 @@ const Orchestrator = ({
         questionnaire={questionnaire}
         bindings={bindings}
         setPage={setPage}
-        validatePages={validatePages}
+        validatePages={validatedPages}
       />
       <div className={classes.bodyContainer}>
         {changingPage && <SimpleLoader />}
@@ -263,7 +249,7 @@ const Orchestrator = ({
             return null;
           })}
           {(!DIRECT_CONTINUE_COMPONENTS.includes(currentComponentType) || readonly) &&
-            (!validatePages.includes(currentPage) || isLastPage) && (
+            (!validatedPages.includes(page) || isLastPage) && (
               <ContinueButton
                 readonly={readonly}
                 isLastComponent={isLastPage}
@@ -273,10 +259,10 @@ const Orchestrator = ({
             )}
         </div>
 
-        <NavBar page={currentPage} maxPages={maxLocalPages} occurences={occurences}>
+        <NavBar page={page} maxPages={maxLocalPages} occurences={occurences}>
           <Buttons
             readonly={readonly}
-            rereading={validatePages.includes(page)}
+            rereading={validatedPages.includes(page)}
             page={page}
             isFirstPage={isFirstPage}
             isLastPage={isLastPage}
