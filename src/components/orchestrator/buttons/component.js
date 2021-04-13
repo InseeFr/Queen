@@ -1,12 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
 import { useStyles } from './component.style';
 import { Button, IconButton } from 'components/designSystem';
 import { PlayArrow, SkipNext } from '@material-ui/icons';
+import { OrchestratorContext } from '../orchestrator';
 
-const Buttons = ({ readonly, rereading, page, isFirstPage, isLastPage, setPendingChangePage }) => {
+const Buttons = ({ rereading, setPendingChangePage }) => {
+  const { readonly, page, isFirstPage, isLastPage } = useContext(OrchestratorContext);
+
   const classes = useStyles();
 
   const previousButtonRef = useRef();
@@ -125,11 +128,7 @@ const Buttons = ({ readonly, rereading, page, isFirstPage, isLastPage, setPendin
 };
 
 Buttons.propTypes = {
-  readonly: PropTypes.bool.isRequired,
   rereading: PropTypes.bool.isRequired,
-  page: PropTypes.string.isRequired,
-  isFirstPage: PropTypes.bool.isRequired,
-  isLastPage: PropTypes.bool.isRequired,
   setPendingChangePage: PropTypes.func.isRequired,
 };
 

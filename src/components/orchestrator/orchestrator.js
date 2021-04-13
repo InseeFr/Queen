@@ -20,6 +20,8 @@ import {
 } from 'utils/hook/questionnaire';
 import { goToTopPage } from 'utils';
 
+export const OrchestratorContext = React.createContext();
+
 const Orchestrator = ({
   surveyUnit,
   standalone,
@@ -68,14 +70,21 @@ const Orchestrator = ({
 
   const [comment /* , setComment */] = useState(surveyUnit.comment);
 
-  const saveQueen = useCallback(async () => {
-    await save({
-      ...surveyUnit,
-      stateData: { state: state, date: new Date().getTime(), currentPage: page },
-      data: UQ.getStateToSave(questionnaire),
-      comment: comment,
-    });
-  }, [questionnaire, save, surveyUnit, state, page, comment]);
+  const saveQueen = useCallback(
+    async lastState => {
+      await save({
+        ...surveyUnit,
+        stateData: {
+          state: lastState ? lastState : state,
+          date: new Date().getTime(),
+          currentPage: page,
+        },
+        data: UQ.getStateToSave(questionnaire),
+        comment: comment,
+      });
+    },
+    [questionnaire, save, surveyUnit, state, page, comment]
+  );
 
   useEffect(() => {
     if (queenFlow === 'fastForward') {
@@ -107,13 +116,13 @@ const Orchestrator = ({
   );
 
   const quit = useCallback(async () => {
-    await saveQueen();
+    setPendingChangePage(null);
     if (isLastPage) {
       // TODO : make algo to calculate COMPLETED event
       setState(COMPLETED);
       setState(VALIDATED);
+      await saveQueen(VALIDATED);
     }
-    setPendingChangePage(null);
     close();
   }, [saveQueen, isLastPage, setState, close]);
 
@@ -156,121 +165,123 @@ const Orchestrator = ({
     }
   }, [questionnaireUpdated, pendingChangePage, changePage, quit]);
 
+  const context = {
+    menuOpen: menuOpen,
+    setMenuOpen: setMenuOpen,
+    standalone: standalone,
+    readonly: readonly,
+    page: page,
+    maxPages: maxLocalPages,
+    occurences: occurences,
+    isFirstPage: isFirstPage,
+    isLastPage: isLastPage,
+    validatedPages: validatedPages,
+    questionnaire: questionnaire,
+    bindings: bindings,
+  };
+
   return (
-    <div className={classes.root}>
-      <Header
-        menuOpen={menuOpen}
-        setMenuOpen={setMenuOpen}
-        standalone={standalone}
-        title={questionnaire.label}
-        quit={quit}
-        page={page}
-        hierarchy={hierarchy}
-        questionnaire={questionnaire}
-        bindings={bindings}
-        setPage={setPage}
-        validatePages={validatedPages}
-      />
-      <div className={classes.bodyContainer}>
-        {changingPage && <SimpleLoader />}
+    <OrchestratorContext.Provider value={context}>
+      <div className={classes.root}>
+        <Header
+          title={questionnaire.label}
+          quit={quit}
+          hierarchy={hierarchy}
+          setPage={setPage}
+          validatePages={validatedPages}
+        />
+        <div className={classes.bodyContainer}>
+          {changingPage && <SimpleLoader />}
 
-        <div className={classes.components} ref={topRef}>
-          {components.map(component => {
-            const { id, componentType, options, responses } = component;
-            const keyToHandle = UQ.getKeyToHandle(responses, options);
-            const Component = lunatic[componentType];
-            if (componentType !== 'FilterDescription')
-              return (
-                <div
-                  className={`${lunaticClasses.lunatic} ${currentComponentType}  ${
-                    options && options.length >= 8 ? 'split-fieldset' : ''
-                  }`}
-                  key={`component-${id}`}
-                >
-                  <Component
-                    {...component}
-                    options={options}
-                    responses={responses}
-                    handleChange={onChange}
-                    labelPosition="TOP"
-                    unitPosition="AFTER"
-                    preferences={preferences}
-                    features={features}
-                    bindings={bindings}
-                    filterDescription={filterDescription}
-                    writable
-                    readOnly={readonly}
-                    disabled={readonly}
-                    keyboardSelection={currentComponentType !== 'Radio'}
-                    currentPage={page}
-                    setPage={setPage}
-                    flow={flow}
-                    pagination={pagination}
-                  />
-                  {KEYBOARD_SHORTCUT_COMPONENTS.includes(componentType) && (
-                    <KeyboardEventHandler
-                      handleKeys={keyToHandle}
-                      onKeyEvent={(key, e) => {
-                        e.preventDefault();
-                        const responsesName = UQ.getResponsesNameFromComponent(component);
-                        const responsesCollected = UQ.getCollectedResponse(questionnaire)(
-                          component
-                        );
-                        const updatedValue = {};
-                        if (componentType === 'CheckboxOne') {
-                          const index =
-                            (options.length < 10
-                              ? key
-                              : alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase()) +
-                                1) - 1;
-                          if (index >= 0 && index < options.length) {
-                            updatedValue[responsesName[0]] = options[index].value;
-                            onChange(updatedValue);
-                          }
-                        } else if (componentType === 'CheckboxGroup') {
-                          const index =
-                            (responsesName.length < 10
-                              ? key
-                              : alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase()) +
-                                1) - 1;
-                          if (index >= 0 && index < responsesName.length) {
-                            updatedValue[responsesName[index]] = !responsesCollected[
-                              responsesName[index]
-                            ];
-                            onChange(updatedValue);
-                          }
-                        }
-                      }}
-                      handleFocusableElements
+          <div className={classes.components} ref={topRef}>
+            {components.map(component => {
+              const { id, componentType, options, responses } = component;
+              const keyToHandle = UQ.getKeyToHandle(responses, options);
+              const Component = lunatic[componentType];
+              if (componentType !== 'FilterDescription')
+                return (
+                  <div
+                    className={`${lunaticClasses.lunatic} ${currentComponentType}  ${
+                      options && options.length >= 8 ? 'split-fieldset' : ''
+                    }`}
+                    key={`component-${id}`}
+                  >
+                    <Component
+                      {...component}
+                      options={options}
+                      responses={responses}
+                      handleChange={onChange}
+                      labelPosition="TOP"
+                      unitPosition="AFTER"
+                      preferences={preferences}
+                      features={features}
+                      bindings={bindings}
+                      filterDescription={filterDescription}
+                      writable
+                      readOnly={readonly}
+                      disabled={readonly}
+                      keyboardSelection={currentComponentType !== 'Radio'}
+                      currentPage={page}
+                      setPage={setPage}
+                      flow={flow}
+                      pagination={pagination}
                     />
-                  )}
-                </div>
-              );
-            return null;
-          })}
-          {(!DIRECT_CONTINUE_COMPONENTS.includes(currentComponentType) || readonly) &&
-            (!validatedPages.includes(page) || isLastPage) && (
-              <ContinueButton
-                readonly={readonly}
-                isLastComponent={isLastPage}
-                page={page}
-                setPendingChangePage={setPendingChangePage}
-              />
-            )}
-        </div>
+                    {KEYBOARD_SHORTCUT_COMPONENTS.includes(componentType) && (
+                      <KeyboardEventHandler
+                        handleKeys={keyToHandle}
+                        onKeyEvent={(key, e) => {
+                          e.preventDefault();
+                          const responsesName = UQ.getResponsesNameFromComponent(component);
+                          const responsesCollected = UQ.getCollectedResponse(questionnaire)(
+                            component
+                          );
+                          const updatedValue = {};
+                          if (componentType === 'CheckboxOne') {
+                            const index =
+                              (options.length < 10
+                                ? key
+                                : alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase()) +
+                                  1) - 1;
+                            if (index >= 0 && index < options.length) {
+                              updatedValue[responsesName[0]] = options[index].value;
+                              onChange(updatedValue);
+                            }
+                          } else if (componentType === 'CheckboxGroup') {
+                            const index =
+                              (responsesName.length < 10
+                                ? key
+                                : alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase()) +
+                                  1) - 1;
+                            if (index >= 0 && index < responsesName.length) {
+                              updatedValue[responsesName[index]] = !responsesCollected[
+                                responsesName[index]
+                              ];
+                              onChange(updatedValue);
+                            }
+                          }
+                        }}
+                        handleFocusableElements
+                      />
+                    )}
+                  </div>
+                );
+              return null;
+            })}
+            {(!DIRECT_CONTINUE_COMPONENTS.includes(currentComponentType) || readonly) &&
+              (!validatedPages.includes(page) || isLastPage) && (
+                <ContinueButton setPendingChangePage={setPendingChangePage} />
+              )}
+          </div>
 
-        <NavBar page={page} maxPages={maxLocalPages} occurences={occurences}>
-          <Buttons
-            readonly={readonly}
-            rereading={validatedPages.includes(page)}
-            page={page}
-            isFirstPage={isFirstPage}
-            isLastPage={isLastPage}
-            setPendingChangePage={setPendingChangePage}
-          />
-        </NavBar>
+          <NavBar>
+            <Buttons
+              rereading={validatedPages.includes(page)}
+              setPendingChangePage={setPendingChangePage}
+            />
+          </NavBar>
+        </div>
       </div>
-    </div>
+    </OrchestratorContext.Provider>
   );
 };
 

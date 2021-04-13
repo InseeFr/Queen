@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import * as UQ from 'utils/questionnaire';
+import { OrchestratorContext } from '../orchestrator';
 import { useStyles } from './component.style';
 
-const NavBar = ({ maxPages, page, children, occurences }) => {
+const NavBar = ({ children }) => {
+  const { page, maxPages, occurences } = useContext(OrchestratorContext);
   const classes = useStyles();
 
   const currentLocalPages = page.includes('.')

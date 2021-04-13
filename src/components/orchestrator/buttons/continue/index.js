@@ -1,16 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import { ArrowRightAlt } from '@material-ui/icons';
 import { Button } from 'components/designSystem';
 import PropTypes from 'prop-types';
 import D from 'i18n';
 import { useStyles } from './continue.style';
+import { OrchestratorContext } from 'components/orchestrator/orchestrator';
 
-const ButtonContinue = ({ readonly, isLastComponent, page, setPendingChangePage }) => {
+const ButtonContinue = ({ setPendingChangePage }) => {
+  const { readonly, isLastPage, page } = useContext(OrchestratorContext);
   const classes = useStyles();
 
   const lastLabel = readonly ? D.simpleQuit : D.saveAndQuit;
-  const getNextLabel = isLastComponent ? lastLabel : D.continueButton;
+  const getNextLabel = isLastPage ? lastLabel : D.continueButton;
 
   const continueButtonRef = useRef();
 
@@ -19,7 +21,7 @@ const ButtonContinue = ({ readonly, isLastComponent, page, setPendingChangePage 
   const localPageNext = () => setPageChanging('next');
   const localFinalQuit = () => setPageChanging('quit');
 
-  const pageNextFunction = isLastComponent ? localFinalQuit : localPageNext;
+  const pageNextFunction = isLastPage ? localFinalQuit : localPageNext;
 
   const [focus, setFocus] = useState(false);
   const onfocus = value => () => setFocus(value);
@@ -56,7 +58,7 @@ const ButtonContinue = ({ readonly, isLastComponent, page, setPendingChangePage 
         onFocus={onfocus(true)}
         onBlur={onfocus(false)}
         disabled={readonly}
-        endIcon={!isLastComponent && <ArrowRightAlt />}
+        endIcon={!isLastPage && <ArrowRightAlt />}
       >
         {getNextLabel}
       </Button>
@@ -72,16 +74,13 @@ const ButtonContinue = ({ readonly, isLastComponent, page, setPendingChangePage 
 
   return (
     <>
-      {readonly && isLastComponent && componentToDisplay}
+      {readonly && isLastPage && componentToDisplay}
       {!readonly && componentToDisplay}
     </>
   );
 };
 
 ButtonContinue.propTypes = {
-  readonly: PropTypes.bool.isRequired,
-  isLastComponent: PropTypes.bool.isRequired,
-  page: PropTypes.string.isRequired,
   setPendingChangePage: PropTypes.func.isRequired,
 };
 
