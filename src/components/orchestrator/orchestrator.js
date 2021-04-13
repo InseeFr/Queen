@@ -223,7 +223,7 @@ const Orchestrator = ({
                       writable
                       readOnly={readonly}
                       disabled={readonly}
-                      keyboardSelection={currentComponentType !== 'Radio'}
+                      keyboardSelection={true}
                       currentPage={page}
                       setPage={setPage}
                       flow={flow}

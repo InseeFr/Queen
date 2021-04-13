@@ -31,18 +31,6 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       width: '18px',
     },
 
-    '& .radio-lunatic': {
-      position: 'absolute',
-      opacity: 0,
-      marginBottom: 0,
-      marginTop: '0.05rem',
-      marginLeft: '0.2rem',
-      height: '20px',
-      width: '20px',
-    },
-    '& .radio-lunatic + label': { marginLeft: '2rem', marginTop: '2rem' },
-    '& .radio-modality': { marginBottom: '0.8em' },
-
     '& .datepicker-lunatic': {
       fontSize: '100%',
       marginLeft: '1em',
@@ -117,7 +105,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       },
     },
 
-    '&.CheckboxOne': {
+    '&.CheckboxOne, &.Radio': {
       '& .code-modality': {
         borderRadius: '15px',
       },
@@ -144,7 +132,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         marginTop: 0,
       },
 
-      '& .checkbox-modality': {
+      '& .checkbox-modality, & .radio-modality': {
         whiteSpace: 'nowrap',
         display: 'block',
         borderRadius: '5px',
@@ -184,7 +172,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         borderRadius: '5px',
       },
 
-      '& .checkbox-lunatic': {
+      '& .checkbox-lunatic, .radio-lunatic': {
         opacity: 0,
 
         '&:checked + label::after': {
