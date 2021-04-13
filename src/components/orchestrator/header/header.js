@@ -13,15 +13,7 @@ import { ButtonBase, IconButton } from '@material-ui/core';
 import { ExitToApp } from '@material-ui/icons';
 
 const Header = ({ title, quit, hierarchy, setPage }) => {
-  const {
-    menuOpen,
-    setMenuOpen,
-    questionnaire,
-    bindings,
-    page,
-    standalone,
-    validatedPages,
-  } = useContext(OrchestratorContext);
+  const { bindings, page, standalone } = useContext(OrchestratorContext);
   const classes = useStyles({ standalone });
   const setToFirstPage = useCallback(() => setPage('1'), [setPage]);
   const quitButtonRef = useRef();

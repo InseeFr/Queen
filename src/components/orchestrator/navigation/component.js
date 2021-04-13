@@ -117,8 +117,8 @@ const Navigation = ({ className, title, setPage }) => {
   }, [surveyOpen, componentsVTL, getSubsequenceComponents]);
   const offset = 1;
 
-  const menuItemsSurvey = [D.surveyNavigation, 'Boucle...'];
-  const menuItemsQuality = ['Commentaire', 'Arrêt'];
+  const menuItemsSurvey = [D.surveyNavigation];
+  const menuItemsQuality = ['Arrêt'];
 
   const [currentFocusElementIndex, setCurrentFocusElementIndex] = useState(0);
   const [listRefs] = useState(
@@ -151,7 +151,7 @@ const Navigation = ({ className, title, setPage }) => {
         setSurveyOpen(false);
         if (stopOpen) {
           setStopOpen(false);
-          listRefs[4].current.focus();
+          listRefs[2].current.focus();
         } else {
           setStopOpen(true);
         }
@@ -187,7 +187,7 @@ const Navigation = ({ className, title, setPage }) => {
     if (key === 'esc' && !surveyOpen) openCloseMenu();
     if (key === 'right') {
       if (currentFocusElementIndex === 1) openCloseSubMenu('sequence');
-      if (currentFocusElementIndex === 4) openCloseSubMenu('stop');
+      if (currentFocusElementIndex === 2) openCloseSubMenu('stop');
     }
     if (key === 'down' || key === 'up') {
       const directionFocus = key === 'down' ? NEXT_FOCUS : PREVIOUS_FOCUS;
@@ -242,11 +242,8 @@ const Navigation = ({ className, title, setPage }) => {
                       </li>
                     );
                   })}
-                  <li className={classes.itemTitle}>
-                    <span>{'Qualité'}</span>
-                  </li>
                   {menuItemsQuality.map((label, index) => {
-                    const type = index === 0 ? 'comment' : 'stop';
+                    const type = 'stop';
                     return (
                       <li key={label}>
                         <ButtonItemMenu
