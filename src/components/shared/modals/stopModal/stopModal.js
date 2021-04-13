@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Button } from 'components/designSystem/Button';
 import D from 'i18n';
 import Dialog from '@material-ui/core/Dialog';
@@ -32,11 +32,17 @@ const StopModal = React.forwardRef(({ open, setOpen, definitive }, ref) => {
     : 'Vous allez sortir du questionnaire';
   const validateLabel = definitive ? "Valider l'arrêt définitif" : 'Valider';
   const classes = useStyles();
+  const agreeRef = useRef();
+
+  const onEntered = () => {
+    agreeRef.current.focus();
+  };
   return (
     <Dialog
       open={open}
       onClose={close}
       disableEnforceFocus
+      onEntered={onEntered}
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
       container={() => ref.current}
@@ -44,17 +50,22 @@ const StopModal = React.forwardRef(({ open, setOpen, definitive }, ref) => {
       <focus-trap>
         <DialogTitle id="alert-dialog-slide-title">
           {definitiveStopLabel}
+
+          {/* eslint-disable-next-line jsx-a11y/no-autofocus */}
           <IconButton aria-label="close" className={classes.closeButton} onClick={close}>
             <Close />
           </IconButton>
         </DialogTitle>
         <DialogContent dividers>
-          <DialogContentText id="alert-dialog-slide-description" component="div">
+          <DialogContentText id="alert-dialog-slide-description">
             {definitiveStopDetails}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={agree}>{validateLabel}</Button>
+          {/* eslint-disable-next-line jsx-a11y/no-autofocus */}
+          <Button onClick={agree} ref={agreeRef}>
+            {validateLabel}
+          </Button>
           <Button onClick={close}>{'Annuler'}</Button>
         </DialogActions>
       </focus-trap>
