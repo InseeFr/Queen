@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@a11y/focus-trap@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@a11y/focus-trap/-/focus-trap-1.0.5.tgz#0748189c37ca21255c702aa5de3ee00ed4821d22"
+  integrity sha512-3JOd6g+BALysWS8LNf0qdB8ltR651H/RCLAvUmfS0LIHwHO579XfjZUIZbURYiAZrcbp1CBAq4QZ2YwKNQZ1hw==
+
 "@axa-fr/react-oidc-context@^3.1.6":
   version "3.1.6"
   resolved "https://registry.yarnpkg.com/@axa-fr/react-oidc-context/-/react-oidc-context-3.1.6.tgz#fbcd254f9d3029a51144e01fab7d8f69141d4e33"
@@ -1924,10 +1929,10 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@inseefr/lunatic@^2.1.4":
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-2.1.4.tgz#c266be88317277be90202ddee4bab5f16815d1ca"
-  integrity sha512-PuT4ncpKBiwNPaKgQGTCpK8nStm79PKFjYSkMqn3QBn1BUJjjYmRsyrTrOrlgB++o+BHXPr+d8nqlMvFDCrXgw==
+"@inseefr/lunatic@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-2.2.3.tgz#bb46d0fe7645eef00e4344193460ed279b0cec11"
+  integrity sha512-fuNtl51Rmbk//1zCalSQeusnI6p0DfgH9Ze4fjHIDewpcNTvaORMx2hB9mtC9ZTKE2OiA4+oPkiy0oUCEALmxA==
   dependencies:
     "@inseefr/vtl-2.1-engine" "^0.1.9"
     lodash.camelcase "^4.3.0"

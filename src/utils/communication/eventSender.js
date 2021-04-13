@@ -2,6 +2,7 @@ const prefixEvent = 'QUEEN';
 
 const dispatchQueenEventWithData = data => {
   const event = new window.CustomEvent(prefixEvent, { detail: data });
+  console.log(event);
   window.dispatchEvent(event);
 };
 
@@ -20,6 +21,16 @@ export const sendCompletedEvent = idSU => {
     command: 'UPDATE_SURVEY_UNIT',
     surveyUnit: idSU,
     state: 'COMPLETED',
+  };
+  dispatchQueenEventWithData(data);
+};
+
+export const sendValidatedEvent = idSU => {
+  const data = {
+    type: prefixEvent,
+    command: 'UPDATE_SURVEY_UNIT',
+    surveyUnit: idSU,
+    state: 'VALIDATED',
   };
   dispatchQueenEventWithData(data);
 };

@@ -7,11 +7,12 @@ const useSaveSUToLocalDataBase = () => {
 
   const refreshGetUeData = useAsyncValue(getUeData);
 
-  const saveSurveyUnit = async id => {
+  const saveSurveyUnit = async surveyUnit => {
+    const { id } = surveyUnit; // surveyUnit : {id, questionnaireId}
     const dR = await refreshGetUeData.current(id);
     if (!dR.error) {
       await surveyUnitIdbService.addOrUpdateSU({
-        id,
+        ...surveyUnit,
         ...dR.data,
       });
     } else {
@@ -33,11 +34,11 @@ export const useSaveSUsToLocalDataBase = updateProgress => {
 
     let i = 0;
     if (!error && data) {
-      await data.reduce(async (previousPromise, { id }) => {
+      await data.reduce(async (previousPromise, surveyUnit) => {
         await previousPromise;
         i += 1;
         updateProgress(getPercent(i, data.length));
-        return saveSurveyUnit(id);
+        return saveSurveyUnit(surveyUnit);
       }, Promise.resolve());
       updateProgress(100);
     } else {

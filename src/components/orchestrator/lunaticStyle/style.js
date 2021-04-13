@@ -13,6 +13,8 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
     width: '80%',
     marginLeft: '100px',
     marginTop: '3em',
+    height: '70vh',
+    overflow: 'auto',
     marginRight: 'auto',
     [theme.breakpoints.down('sm')]: {
       marginLeft: 'auto',
@@ -28,18 +30,6 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       height: '18px',
       width: '18px',
     },
-
-    '& .radio-lunatic': {
-      position: 'absolute',
-      opacity: 0,
-      marginBottom: 0,
-      marginTop: '0.05rem',
-      marginLeft: '0.2rem',
-      height: '20px',
-      width: '20px',
-    },
-    '& .radio-lunatic + label': { marginLeft: '2rem', marginTop: '2rem' },
-    '& .radio-modality': { marginBottom: '0.8em' },
 
     '& .datepicker-lunatic': {
       fontSize: '100%',
@@ -114,6 +104,12 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         minWidth: '7em',
       },
     },
+
+    '&.CheckboxOne, &.Radio': {
+      '& .code-modality': {
+        borderRadius: '15px',
+      },
+    },
     '& .split-fieldset fieldset.checkbox-group': {
       '& .checkbox-modality': {
         display: 'inline-block',
@@ -136,7 +132,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         marginTop: 0,
       },
 
-      '& .checkbox-modality': {
+      '& .checkbox-modality, & .radio-modality': {
         whiteSpace: 'nowrap',
         display: 'block',
         borderRadius: '5px',
@@ -170,13 +166,13 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         left: '-1em',
         padding: '0.3em 0.5em 0.3em 0.5em',
         color: `${modalityLabelColor}`,
-        fontXeight: 'bold',
+        fontWeight: 'bold',
         border: `1px solid ${borderColorCheckbox}`,
         backgroundColor: `${modalityCodeBackgroundColor}`,
         borderRadius: '5px',
       },
 
-      '& .checkbox-lunatic': {
+      '& .checkbox-lunatic, .radio-lunatic': {
         opacity: 0,
 
         '&:checked + label::after': {
@@ -195,6 +191,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       },
     },
 
+    // Dropdown lunatic
     '& .lunatic-dropdown': {
       display: 'block',
       width: '100%',

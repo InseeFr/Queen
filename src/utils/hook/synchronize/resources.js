@@ -7,23 +7,35 @@ export const usePutResourcesInCache = updateProgress => {
   const refreshGetRequiredNomenclatures = useAsyncValue(getRequiredNomenclatures);
   const refreshGetNomenclature = useAsyncValue(getNomenclature);
 
-  const putResourcesInCache = async campaignId => {
-    const { data, error, statusText } = await refreshGetRequiredNomenclatures.current(campaignId);
-    if (!error && data) {
-      let i = 0;
+  const putResourcesInCache = async questionnaireId => {
+    const {
+      data,
+      error: mainError,
+      statusText: mainStatusText,
+    } = await refreshGetRequiredNomenclatures.current(questionnaireId);
+    if (!mainError && data) {
       updateProgress(0);
       await data.reduce(async (previousPromise, resourceId) => {
         const { error, statusText } = await previousPromise;
         if (error) throw new Error(statusText);
-        i += 1;
-        updateProgress(getPercent(i, data.length));
         return refreshGetNomenclature.current(resourceId);
       }, Promise.resolve({}));
       updateProgress(100);
     } else {
-      throw new Error(statusText);
+      throw new Error(mainStatusText);
     }
   };
 
-  return putResourcesInCache;
+  const putAllResourcesInCache = async questionnairesId => {
+    let i = 0;
+    updateProgress(0);
+    await questionnairesId.reduce(async (previousPromise, questionnaireId) => {
+      await previousPromise;
+      i += 1;
+      updateProgress(getPercent(i, questionnairesId.length));
+      return putResourcesInCache(questionnaireId);
+    }, Promise.resolve({}));
+  };
+
+  return putAllResourcesInCache;
 };
