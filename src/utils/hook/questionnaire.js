@@ -3,10 +3,10 @@ import * as lunatic from '@inseefr/lunatic';
 import { sendCompletedEvent, sendStartedEvent, sendValidatedEvent } from 'utils/communication';
 import { getNotNullCollectedState } from 'utils/questionnaire';
 
-export const NOT_STARTED = 'NOT_STARTED';
-export const STARTED = 'STARTED';
-export const VALIDATED = 'VALIDATED';
+export const NOT_STARTED = null;
+export const INIT = 'INIT';
 export const COMPLETED = 'COMPLETED';
+export const VALIDATED = 'VALIDATED';
 
 export const useQuestionnaireState = (questionnaire, initialState, idSurveyUnit) => {
   const [state, setState] = useState(initialState);
@@ -24,13 +24,13 @@ export const useQuestionnaireState = (questionnaire, initialState, idSurveyUnit)
           return true;
         }
       );
-      if (dataWithoutNullArray.length > 0) setState(STARTED);
+      if (dataWithoutNullArray.length > 0) setState(INIT);
     }
   }, [questionnaire, state]);
 
   // Send an event when questionnaire's state has changed (started, completed, validated)
   useEffect(() => {
-    if (state === STARTED) sendStartedEvent(idSurveyUnit);
+    if (state === INIT) sendStartedEvent(idSurveyUnit);
     if (state === COMPLETED) sendCompletedEvent(idSurveyUnit);
     if (state === VALIDATED) sendValidatedEvent(idSurveyUnit);
   }, [state, idSurveyUnit]);
