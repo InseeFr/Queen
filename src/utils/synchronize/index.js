@@ -32,13 +32,13 @@ export const useSynchronisation = () => {
   const saveSurveyUnitsToLocalDataBase = useSaveSUsToLocalDataBase(setSurveyUnitProgress);
 
   const getAllCampaign = async campaign => {
-    const { id, questionnairesId } = campaign;
+    const { id, questionnaireIds } = campaign;
     setResourceProgress(0);
     setSurveyUnitProgress(0);
     setCurrent('questionnaire');
-    await putQuestionnairesInCache(questionnairesId);
+    await putQuestionnairesInCache(questionnaireIds);
     setCurrent('resources');
-    await putAllResourcesInCache(questionnairesId);
+    await putAllResourcesInCache(questionnaireIds);
     setCurrent('survey-units');
     await saveSurveyUnitsToLocalDataBase(id);
     setCurrent(null);
