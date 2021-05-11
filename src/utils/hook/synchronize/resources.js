@@ -26,13 +26,13 @@ export const usePutResourcesInCache = updateProgress => {
     }
   };
 
-  const putAllResourcesInCache = async questionnairesId => {
+  const putAllResourcesInCache = async questionnaireIds => {
     let i = 0;
     updateProgress(0);
-    await questionnairesId.reduce(async (previousPromise, questionnaireId) => {
+    await questionnaireIds.reduce(async (previousPromise, questionnaireId) => {
       await previousPromise;
       i += 1;
-      updateProgress(getPercent(i, questionnairesId.length));
+      updateProgress(getPercent(i, questionnaireIds.length));
       return putResourcesInCache(questionnaireId);
     }, Promise.resolve({}));
   };
