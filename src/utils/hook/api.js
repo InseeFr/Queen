@@ -141,13 +141,11 @@ export const useAPIRemoteData = (surveyUnitID, questionnaireID) => {
           setLoadingMessage(Dictionary.waitingQuestionnaire);
           const qR = await getQuestionnaire(questionnaireID);
           if (!qR.error) {
-            setQuestionnaire(qR.data.model);
-            console.log('questionnaire done !');
+            setQuestionnaire(qR.data.value);
             setLoadingMessage(Dictionary.waitingDataSU);
             const suR = await getSurveyUnit(surveyUnitID, standalone);
             if (!suR.error && suR.surveyUnit) {
               setSurveyUnit(suR.surveyUnit);
-              console.log('surveyUnit done !');
               setLoadingMessage(null);
             } else setErrorMessage(getErrorMessage(suR, 'd'));
             setLoadingMessage(null);
