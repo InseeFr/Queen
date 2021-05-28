@@ -1,40 +1,36 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useContext, useRef } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
+import { OrchestratorContext } from 'components/orchestrator';
+import * as UQ from 'utils/questionnaire';
 import PropTypes from 'prop-types';
 import * as lunatic from '@inseefr/lunatic';
 import D from 'i18n';
 import insee from 'img/insee.png';
 import Navigation from '../navigation';
-import CloseIcon from './quit.icon';
 import BreadcrumbQueen from '../breadcrumb';
 import { useStyles } from './header.style';
+import { ButtonBase, IconButton } from '@material-ui/core';
+import { ExitToApp } from '@material-ui/icons';
 
-const Header = ({
-  menuOpen,
-  setMenuOpen,
-  standalone,
-  title,
-  quit,
-  sequence,
-  subsequence,
-  questionnaire,
-  bindings,
-  setPage,
-  validatePages,
-}) => {
+const Header = ({ title, quit, hierarchy, setPage }) => {
+  const { bindings, page, standalone } = useContext(OrchestratorContext);
   const classes = useStyles({ standalone });
-  const setToFirstPage = useCallback(() => setPage(1), [setPage]);
+  const setToFirstPage = useCallback(() => setPage('1'), [setPage]);
   const quitButtonRef = useRef();
+
+  const queenBindings = UQ.getQueenBindings(bindings)(page);
+
+  const { sequence, subSequence } = hierarchy || {};
 
   const sequenceBinded = {
     ...sequence,
-    label: lunatic.interpret(['VTL'])(bindings)(sequence.label),
+    label: lunatic.interpret(['VTL'])(queenBindings)(sequence?.label),
   };
 
-  const subSequenceBinded = subsequence
+  const subSequenceBinded = subSequence
     ? {
-        ...subsequence,
-        label: lunatic.interpret(['VTL'])(bindings)(subsequence.label),
+        ...subSequence,
+        label: lunatic.interpret(['VTL'])(queenBindings)(subSequence?.label),
       }
     : null;
 
@@ -45,25 +41,16 @@ const Header = ({
 
   return (
     <div className={classes.root}>
-      <Navigation
-        className={classes.headerItemNavigation}
-        menuOpen={menuOpen}
-        setMenuOpen={setMenuOpen}
-        title={title}
-        questionnaire={questionnaire}
-        bindings={bindings}
-        setPage={setPage}
-        validatePages={validatePages}
-      />
+      <Navigation className={classes.headerItemNavigation} title={title} setPage={setPage} />
       <div className="header-item">
-        <button
-          type="button"
-          className={classes.inseeIcon}
-          title={D.backToBeginning}
+        <ButtonBase
+          focusRipple
           onClick={setToFirstPage}
+          aria-label={D.backToBeginning}
+          title={D.backToBeginning}
         >
           <img id="logo" src={insee} alt="Logo de L'Insee" className={classes.headerLogo} />
-        </button>
+        </ButtonBase>
       </div>
       <div className={classes.headerTitle}>
         <span className={classes.questionnaireTitle}>{title}</span>
@@ -71,6 +58,7 @@ const Header = ({
           <BreadcrumbQueen
             sequence={sequenceBinded}
             subsequence={subSequenceBinded}
+            currentPage={page}
             setPage={setPage}
           />
         )}
@@ -78,9 +66,14 @@ const Header = ({
       {!standalone && (
         <>
           <div className={classes.headerClose}>
-            <button ref={quitButtonRef} type="button" className={classes.closeIcon} onClick={quit}>
-              <CloseIcon width={40} />
-            </button>
+            <IconButton
+              ref={quitButtonRef}
+              title={D.simpleQuit}
+              className={classes.closeIcon}
+              onClick={quit}
+            >
+              <ExitToApp htmlColor={'#000000'} />
+            </IconButton>
           </div>
           <KeyboardEventHandler
             handleKeys={['alt+q']}

@@ -15,10 +15,9 @@ const clean = async () => {
 };
 
 export const useSynchronisation = () => {
-  const { getCampaigns, getQuestionnaire } = useAPI();
+  const { getCampaigns } = useAPI();
 
   const refrehGetCampaigns = useAsyncValue(getCampaigns);
-  const refrehGetQuestionnaire = useAsyncValue(getQuestionnaire);
 
   const [waitingMessage, setWaitingMessage] = useState(null);
   const [sendingProgress, setSendingProgress] = useState(null);
@@ -29,19 +28,17 @@ export const useSynchronisation = () => {
 
   const sendData = useSendSurveyUnits(setSendingProgress);
   const putQuestionnairesInCache = usePutQuestionnairesInCache();
-  const putResourcesInCache = usePutResourcesInCache(setResourceProgress);
+  const putAllResourcesInCache = usePutResourcesInCache(setResourceProgress);
   const saveSurveyUnitsToLocalDataBase = useSaveSUsToLocalDataBase(setSurveyUnitProgress);
 
   const getAllCampaign = async campaign => {
-    const { id, questionnairesId } = campaign;
+    const { id, questionnaireIds } = campaign;
     setResourceProgress(0);
     setSurveyUnitProgress(0);
     setCurrent('questionnaire');
-    await putQuestionnairesInCache(questionnairesId);
-    const { error, statusText } = await refrehGetQuestionnaire.current(id);
-    if (error) throw new Error(statusText);
+    await putQuestionnairesInCache(questionnaireIds);
     setCurrent('resources');
-    await putResourcesInCache(id);
+    await putAllResourcesInCache(questionnaireIds);
     setCurrent('survey-units');
     await saveSurveyUnitsToLocalDataBase(id);
     setCurrent(null);

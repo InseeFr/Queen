@@ -1,9 +1,10 @@
 const navigationMessage = {
+  mainMenu: { fr: 'Menu', en: 'Menu' },
   newSequenceComment: {
     fr: 'Changement de séquence',
     en: 'Changing the sequence',
   },
-  goToNavigation: { fr: 'Allez vers ...', en: 'Go to ...' },
+  goToNavigation: { fr: 'Allez vers ', en: 'Go to ' },
   goBackNavigation: { fr: 'Retour', en: 'Go back' },
   backToBeginning: {
     fr: 'Retour au début du questionnaire',

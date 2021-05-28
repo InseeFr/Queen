@@ -2,7 +2,7 @@
   "queenUrl": "http://localhost:5000",
   "_queenUrl_comment_": "Final URL of the Queen application",
 
-  "apiUrl": "https://queen-bo.dev.insee.io",
+  "apiUrl": "http://localhost:8080",
   "_apiUrl_comment_": "URL of the back-office of Queen application",
 
   "authenticationType": "NONE",

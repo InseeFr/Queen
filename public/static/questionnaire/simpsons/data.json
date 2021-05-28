@@ -1,5 +1,5 @@
 {
-  "questionnaireState": {
+  "stateData": {
     "state": "NOT_STARTED",
     "date": null,
     "currentPage": null
@@ -7,5 +7,17 @@
 
   "personalization": [],
 
-  "data": {}
+  "data": {
+    "CALCULATED": {},
+    "COLLECTED": {
+      "COMMENT": {
+        "PREVIOUS": "Hello\n\nI'm a \"PREVIOUS\" value !",
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+    "EXTERNAL": {}
+  }
 }

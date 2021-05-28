@@ -76,6 +76,8 @@ const Synchronize = () => {
         endOfSync(false);
       }
     } catch (e) {
+      console.log('failed');
+      console.log(e);
       endOfSync(false);
     }
   }, [endOfSync, synchronize]);

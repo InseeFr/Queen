@@ -17,9 +17,9 @@ const getCampaigns = apiUrl => token => getRequest(`${apiUrl}/api/campaigns`)(to
 
 /* Questionnaire's resources */
 const getQuestionnaire = apiUrl => id => token =>
-  getRequest(`${apiUrl}/api/campaign/${id}/questionnaire`)(token);
+  getRequest(`${apiUrl}/api/questionnaire/${id}`)(token);
 const getRequiredNomenclatures = apiUrl => id => token =>
-  getRequest(`${apiUrl}/api/campaign/${id}/required-nomenclatures`)(token);
+  getRequest(`${apiUrl}/api/questionnaire/${id}/required-nomenclatures`)(token);
 const getNomenclature = apiUrl => id => token =>
   getRequest(`${apiUrl}/api/nomenclature/${id}`)(token);
 

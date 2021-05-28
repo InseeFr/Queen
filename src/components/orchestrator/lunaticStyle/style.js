@@ -13,6 +13,8 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
     width: '80%',
     marginLeft: '100px',
     marginTop: '3em',
+    height: '70vh',
+    overflow: 'auto',
     marginRight: 'auto',
     [theme.breakpoints.down('sm')]: {
       marginLeft: 'auto',
@@ -28,18 +30,6 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       height: '18px',
       width: '18px',
     },
-
-    '& .radio-lunatic': {
-      position: 'absolute',
-      opacity: 0,
-      marginBottom: 0,
-      marginTop: '0.05rem',
-      marginLeft: '0.2rem',
-      height: '20px',
-      width: '20px',
-    },
-    '& .radio-lunatic + label': { marginLeft: '2rem', marginTop: '2rem' },
-    '& .radio-modality': { marginBottom: '0.8em' },
 
     '& .datepicker-lunatic': {
       fontSize: '100%',
@@ -114,6 +104,12 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         minWidth: '7em',
       },
     },
+
+    '&.CheckboxOne, &.Radio': {
+      '& .code-modality': {
+        borderRadius: '15px',
+      },
+    },
     '& .split-fieldset fieldset.checkbox-group': {
       '& .checkbox-modality': {
         display: 'inline-block',
@@ -127,7 +123,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       },
     },
 
-    '& fieldset.checkbox-group': {
+    '& fieldset': {
       padding: 0,
       margin: 0,
       border: 'none',
@@ -136,7 +132,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         marginTop: 0,
       },
 
-      '& .checkbox-modality': {
+      '& .checkbox-modality, & .radio-modality': {
         whiteSpace: 'nowrap',
         display: 'block',
         borderRadius: '5px',
@@ -170,13 +166,13 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         left: '-1em',
         padding: '0.3em 0.5em 0.3em 0.5em',
         color: `${modalityLabelColor}`,
-        fontXeight: 'bold',
+        fontWeight: 'bold',
         border: `1px solid ${borderColorCheckbox}`,
         backgroundColor: `${modalityCodeBackgroundColor}`,
         borderRadius: '5px',
       },
 
-      '& .checkbox-lunatic': {
+      '& .checkbox-lunatic, .radio-lunatic': {
         opacity: 0,
 
         '&:checked + label::after': {
@@ -190,6 +186,166 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
             color: `${modalityCodeBackgroundColor}`,
             backgroundColor: theme.palette.declarations.main,
             borderColor: theme.palette.declarations.main,
+          },
+        },
+      },
+    },
+
+    // Dropdown lunatic
+    '& .lunatic-dropdown': {
+      display: 'block',
+      width: '100%',
+      marginBottom: '1.5rem',
+      '&:focus': {
+        outline: 'none',
+      },
+
+      '&.label-left': {
+        display: 'flex',
+        flexDirection: 'row',
+      },
+
+      '&.label-right': {
+        display: 'flex',
+        flexDirection: 'row-reverse',
+      },
+
+      '&.label-top': {
+        display: 'flex',
+        flexDirection: 'column',
+      },
+
+      '&.label-bottom': {
+        display: 'flex',
+        flexDirection: 'column-reverse',
+      },
+
+      '& .lunatic-dropdown-label': {
+        opacity: 1,
+      },
+
+      '& .lunatic-dropdown-container': {
+        ul: {
+          paddingInlineStart: '0px',
+          fontSize: '1rem',
+        },
+        position: 'relative',
+        height: '2em',
+        width: '100%',
+        zIndex: 1,
+
+        '&.focused': {
+          zIndex: 2,
+        },
+        '&:focus': {
+          outline: 'none',
+        },
+
+        '& .lunatic-dropdown-content': {
+          // background-color: var(--color-very-very-light);
+          borderColor: 'white',
+          left: 0,
+          top: 0,
+          width: '100%',
+          height: 'auto',
+          position: 'absolute',
+          '&.visible': {
+            // border-radius: 0 0 16px 16px;
+            height: 'auto',
+          },
+
+          '&.disabled': {
+            backgroundColor: 'var(--color-disabled)',
+          },
+
+          '& .lunatic-dropdown-input': {
+            borderBottom: '1px solid var(--color-primary-dark)',
+            padding: '6px 0 7px',
+            input: {
+              margin: '0px 25px 0px 0px',
+              width: 'calc(100% - 37px)',
+              backgroundColor: 'transparent',
+              borderColor: 'transparent',
+              height: '2em',
+              border: 'none',
+              outline: 'none',
+              textAlign: 'left',
+              cursor: 'inherit',
+            },
+            '&:hover': {
+              cursor: 'pointer',
+              borderBottom: '2px solid var(--color-primary-main)',
+            },
+            '&.focused': {
+              backgroundColor: 'rgba(0, 0, 0, 0.05)',
+              boxShadow: '12px 0 rgba(0, 0, 0, 0.05)',
+            },
+          },
+
+          '& .lunatic-icon': {
+            cursor: 'pointer',
+            '&:focus': {
+              outline: 'none',
+            },
+          },
+
+          '& .lunatic-transition': {
+            // visibility: hidden;
+            // overflow-y: hidden;
+            opacity: 0,
+
+            '&:focus': {
+              outline: 'none',
+            },
+
+            '&.visible': {
+              visibility: 'visible',
+              opacity: 1,
+              transition: 'opacity var(--dropdown-transition-time) ease-out',
+            },
+
+            '& .lunatic-dropdown-panel-container': {
+              boxShadow:
+                '0px 3px 3px -2px rgba(0, 0, 0, 0.9), 0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12)',
+
+              '& .lunatic-dropdown-panel': {
+                backgroundColor: 'white',
+                margin: '0 0 12px 0',
+                borderRadius: '4px',
+                zIndex: 3,
+                paddingTop: '3px',
+                listStyle: 'none',
+                '&:focus': {
+                  outline: 'none',
+                },
+                maxHeight: '100px',
+                overflowY: 'auto',
+              },
+            },
+
+            /** options style */
+            '& .lunatic-dropdown-option': {
+              paddingLeft: '10px',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              color: 'black',
+              lineHeight: '2rem',
+              display: 'block',
+              '&.lunatic-dropdown-option-active': {
+                color: 'var(--color-primary-dark)',
+                backgroundColor: 'var(--color-dropdown-active)',
+              },
+              '&.lunatic-dropdown-option-selected': {
+                backgroundColor: 'var(--color-dropdown-selected)',
+              },
+
+              '& .lunatic-prefix': {
+                color: 'var(--color-prefix)',
+                fontWeight: 'bold',
+              },
+            },
           },
         },
       },

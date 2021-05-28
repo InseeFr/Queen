@@ -1,8 +1,18 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+/* eslint-disable jsx-a11y/no-autofocus */
+import React, { useState, useCallback, useEffect } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
+import '@a11y/focus-trap';
 import { useStyles } from '../component.style';
+import { ButtonItemMenu } from 'components/designSystem';
+import {
+  createArrayOfRef,
+  createReachableElement,
+  getNewFocusElementIndex,
+  NEXT_FOCUS,
+  PREVIOUS_FOCUS,
+} from 'utils/navigation';
 
 const SequenceNavigation = ({
   title,
@@ -12,59 +22,40 @@ const SequenceNavigation = ({
   subSequenceOpen,
   close,
 }) => {
-  const [currentSequenceId, setCurrentSequenceId] = useState({ undefined });
-  const [currentFocusSequenceIndex, setCurrentFocusSequenceIndex] = useState(-1);
+  const offset = 1;
+  const [currentFocusElement, setCurrentFocusElement] = useState(undefined);
+  const [currentFocusElementIndex, setCurrentFocusElementIndex] = useState(0);
 
-  const [listRef] = useState(
-    components ? components.reduce(_ => [..._, React.createRef()], []) : []
+  const [listRefs] = useState(
+    components
+      ? components.reduce(_ => [..._, React.createRef()], createArrayOfRef(offset))
+      : createArrayOfRef(offset)
   );
-
-  const backButtonRef = useRef(null);
+  const reachableRefs = components.reduce((_, { reachable }) => {
+    return [..._, reachable];
+  }, createReachableElement(offset));
 
   useEffect(() => {
-    if (!subSequenceOpen && currentFocusSequenceIndex >= 0) {
-      listRef[currentFocusSequenceIndex].current.focus();
-      setCurrentSequenceId(undefined);
+    if (!subSequenceOpen && currentFocusElementIndex >= 0) {
+      listRefs[currentFocusElementIndex].current.focus();
+      setCurrentFocusElement(undefined);
     }
-  }, [subSequenceOpen, currentFocusSequenceIndex, listRef]);
+  }, [subSequenceOpen, currentFocusElementIndex, listRefs]);
 
-  const setFocusSequence = useCallback(index => () => setCurrentFocusSequenceIndex(index), [
-    setCurrentFocusSequenceIndex,
+  const setFocus = useCallback(index => () => setCurrentFocusElementIndex(index), [
+    setCurrentFocusElementIndex,
   ]);
-
-  const reachableIndexes = components.reduce((_, { reachable }, index) => {
-    if (reachable) return [..._, index];
-    return _;
-  }, []);
-  const lastIndexFocusable = reachableIndexes[reachableIndexes.length - 1];
-
-  const setCurrentFocus = next => index => {
-    const indexOfIndex = reachableIndexes.indexOf(index);
-    if (next) {
-      const nextIndex =
-        indexOfIndex + 1 <= reachableIndexes.length - 1 ? reachableIndexes[indexOfIndex + 1] : -1;
-      if (nextIndex >= 0) listRef[nextIndex].current.focus();
-      else backButtonRef.current.focus();
-    } else {
-      const previousIndexTemp = indexOfIndex - 1;
-      if (previousIndexTemp >= 0) listRef[reachableIndexes[previousIndexTemp]].current.focus();
-      else if (previousIndexTemp === -1) backButtonRef.current.focus();
-      else if (reachableIndexes.length > 0)
-        listRef[reachableIndexes[reachableIndexes.length - 1]].current.focus();
-      else backButtonRef.current.focus();
-    }
-  };
 
   const openSubComponents = sequence => {
     if (sequence.components && sequence.components.length > 0) {
-      if (!currentSequenceId || currentSequenceId !== sequence.id) {
+      if (!currentFocusElement || currentFocusElement !== sequence.id) {
         setSelectedSequence(sequence);
-        setCurrentSequenceId(sequence.id);
+        setCurrentFocusElement(sequence.id);
       }
-      if (currentSequenceId === sequence.id) {
-        listRef[0].current.focus();
+      if (currentFocusElement === sequence.id) {
+        listRefs[0].current.focus();
         setSelectedSequence(undefined);
-        setCurrentSequenceId(undefined);
+        setCurrentFocusElement(undefined);
       }
     } else if (sequence.reachable) {
       setPage(sequence.page);
@@ -72,85 +63,66 @@ const SequenceNavigation = ({
   };
 
   const open = sequence => () => openSubComponents(sequence);
-
-  const handleFinalTab = useCallback(e => {
-    if (e.key === 'Tab') {
-      e.preventDefault();
-      backButtonRef.current.focus();
-    }
-  }, []);
+  const closeMenu = () => close('sequence');
 
   const keysToHandle = subSequenceOpen ? ['left', 'esc'] : ['left', 'right', 'esc', 'up', 'down'];
   const keyboardShortcut = (key, e) => {
     e.preventDefault();
-    const index = currentFocusSequenceIndex;
-    if (key === 'right' && currentFocusSequenceIndex >= 0)
-      openSubComponents(components[currentFocusSequenceIndex]);
+    const indexOfSequence = currentFocusElementIndex - offset;
+    if (key === 'right' && indexOfSequence >= 0) openSubComponents(components[indexOfSequence]);
     if (key === 'esc' || key === 'left') {
-      if (!subSequenceOpen) close();
-      else openSubComponents(components[currentFocusSequenceIndex]);
+      if (!subSequenceOpen) closeMenu();
+      else openSubComponents(components[indexOfSequence]);
     }
-    if (key === 'down') {
-      setCurrentFocus(true)(index);
-    }
-    if (key === 'up') {
-      setCurrentFocus(false)(index);
+    if (key === 'down' || key === 'up') {
+      const directionFocus = key === 'down' ? NEXT_FOCUS : PREVIOUS_FOCUS;
+      const newRefIndex = getNewFocusElementIndex(directionFocus)(currentFocusElementIndex)(
+        reachableRefs
+      );
+      listRefs[newRefIndex].current.focus();
     }
   };
 
   const classes = useStyles();
 
   return (
-    <div className="content">
-      <button
-        type="button"
-        className={`${classes.subNavButton} ${classes.backSubnavButton}`}
-        // eslint-disable-next-line jsx-a11y/no-autofocus
-        autoFocus
-        ref={backButtonRef}
-        onFocus={setFocusSequence(-1)}
-        onKeyDown={lastIndexFocusable === -1 ? handleFinalTab : null}
-        onClick={close}
-      >
-        <span>{'\u3008'}</span>
-        {D.goBackNavigation}
-      </button>
-      <div>
-        <div className={classes.title}>{title}</div>
-        <nav role="navigation">
-          <ul>
-            {components.map((c, index) => {
-              return (
-                <div className="subnav" key={`subnav-${c.id}`}>
-                  <button
-                    ref={listRef[index]}
-                    // eslint-disable-next-line jsx-a11y/no-autofocus
-                    autoFocus={index === 0}
-                    type="button"
-                    key={c.id}
-                    className={`${classes.subNavButton} ${
-                      currentFocusSequenceIndex === index ? 'selected' : ''
-                    }`}
-                    disabled={!c.reachable}
-                    onClick={open(c)}
-                    onFocus={setFocusSequence(index)}
-                    onKeyDown={index === lastIndexFocusable ? handleFinalTab : null}
-                  >
-                    {c.labelNav}
-                    <span>{`${c.components.length > 0 ? '\u3009' : ''} `}</span>
-                  </button>
-                </div>
-              );
-            })}
-          </ul>
-        </nav>
+    <focus-trap>
+      <div className="content">
+        <ButtonItemMenu back autoFocus ref={listRefs[0]} onFocus={setFocus(0)} onClick={closeMenu}>
+          <span>{'\u3008'}</span>
+          {D.goBackNavigation}
+        </ButtonItemMenu>
+        <div>
+          <div className={classes.title}>{title}</div>
+          <nav role="navigation">
+            <ul>
+              {components.map((c, index) => {
+                return (
+                  <li key={c.id}>
+                    <ButtonItemMenu
+                      ref={listRefs[index + offset]}
+                      autoFocus={index === 0}
+                      selected={currentFocusElementIndex === index + offset}
+                      disabled={!c.reachable}
+                      onClick={open(c)}
+                      onFocus={setFocus(index + offset)}
+                    >
+                      {c.labelNav}
+                      <span>{`${c.components.length > 0 ? '\u3009' : ''} `}</span>
+                    </ButtonItemMenu>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        </div>
+        <KeyboardEventHandler
+          handleKeys={keysToHandle}
+          onKeyEvent={keyboardShortcut}
+          handleFocusableElements
+        />
       </div>
-      <KeyboardEventHandler
-        handleKeys={keysToHandle}
-        onKeyEvent={keyboardShortcut}
-        handleFocusableElements
-      />
-    </div>
+    </focus-trap>
   );
 };
 

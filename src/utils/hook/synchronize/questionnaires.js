@@ -5,8 +5,8 @@ export const usePutQuestionnairesInCache = () => {
 
   const refreshGetQuestionnaire = useAsyncValue(getQuestionnaire);
 
-  const putQuestionnairesInCache = async questionnairesId => {
-    await questionnairesId.reduce(async (previousPromise, questionnaireId) => {
+  const putQuestionnairesInCache = async questionnaireIds => {
+    await questionnaireIds.reduce(async (previousPromise, questionnaireId) => {
       const { error, statusText } = await previousPromise;
       if (error) {
         throw new Error(statusText);

@@ -1,6 +1,6 @@
 const buttonMessage = {
   closeSurvey: { fr: 'Fermer le questionnaire', en: 'Close questionnaire' },
-  saveAndQuit: { fr: 'Sauvegarder et quitter', en: 'Save and quit' },
+  saveAndQuit: { fr: 'Valider et quitter', en: 'Validate and quit' },
   simpleQuit: { fr: 'Quitter', en: 'Quit' },
   nextButton: { fr: 'SUIV.', en: 'NEXT' },
   nextButtonLabel: { fr: 'Suivant', en: 'Next' },
@@ -18,6 +18,9 @@ const buttonMessage = {
   ctrlEnter: { fr: 'Alt + ENTRÉE', en: 'Alt + ENTER' },
   ctrlEnd: { fr: 'Alt + Fin', en: 'Alt + End' },
   visualize: { fr: 'Visualiser', en: 'Visualize' },
+  validateButton: { fr: 'Valider', en: 'Validate' },
+  definitiveValidateButton: { fr: "Valider l'arrêt définitif", en: 'Validate the final stop' },
+  cancelButton: { fr: 'Annuler', en: 'Cancel' },
 };
 
 export default buttonMessage;

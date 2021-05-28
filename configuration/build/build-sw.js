@@ -20,7 +20,7 @@ function buildSW() {
       maximumFileSizeToCacheInBytes: 5000000, // limit (in Bytes) of cacheable files
       globDirectory: 'build',
       globPatterns: ['**/*.js', '**/*.png', '**/*.svg', '**/*.json'],
-      globIgnores: ['**/service-worker.js'], // don't cache service-worker file
+      globIgnores: ['**/service-worker.js', '**/keycloak.json', '**/oidc.json'], // don't cache service-worker file
     })
     .then(({ count, size, warnings }) => {
       // Optionally, log any warnings and details.

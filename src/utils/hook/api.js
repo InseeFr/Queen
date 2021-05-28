@@ -97,7 +97,7 @@ export const useAPI = () => {
   };
 };
 
-const useGetSurveyUnit = () => {
+export const useGetSurveyUnit = () => {
   const { getUeData } = useAPI();
   const refreshGetData = useAsyncValue(getUeData);
 
@@ -123,14 +123,14 @@ export const useAPIRemoteData = (surveyUnitID, questionnaireID) => {
   const [questionnaire, setQuestionnaire] = useState(null);
   const [surveyUnit, setSurveyUnit] = useState(null);
 
-  const [loadingMessage, setLoadingMessage] = useState(true);
+  const [loadingMessage, setLoadingMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
 
   const { getQuestionnaire } = useAPI();
   const getSurveyUnit = useGetSurveyUnit();
 
   useEffect(() => {
-    if (questionnaireID && surveyUnitID) {
+    if (questionnaireID && surveyUnitID && !questionnaire && !surveyUnit) {
       setErrorMessage(null);
       setQuestionnaire(null);
       setSurveyUnit(null);
@@ -141,18 +141,18 @@ export const useAPIRemoteData = (surveyUnitID, questionnaireID) => {
           setLoadingMessage(Dictionary.waitingQuestionnaire);
           const qR = await getQuestionnaire(questionnaireID);
           if (!qR.error) {
-            setQuestionnaire(qR.data);
+            setQuestionnaire(qR.data.value);
             setLoadingMessage(Dictionary.waitingDataSU);
             const suR = await getSurveyUnit(surveyUnitID, standalone);
             if (!suR.error && suR.surveyUnit) {
               setSurveyUnit(suR.surveyUnit);
-              setLoadingMessage(false);
+              setLoadingMessage(null);
             } else setErrorMessage(getErrorMessage(suR, 'd'));
-            setLoadingMessage(false);
+            setLoadingMessage(null);
           } else setErrorMessage(getErrorMessage(qR, 'q'));
-          setLoadingMessage(false);
+          setLoadingMessage(null);
         } else setErrorMessage('Pb when cleaning database');
-        setLoadingMessage(false);
+        setLoadingMessage(null);
       };
       load();
     }

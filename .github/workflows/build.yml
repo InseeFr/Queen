@@ -1,4 +1,4 @@
-name: Queen UI build
+name: Build
 
 on:
   pull_request:

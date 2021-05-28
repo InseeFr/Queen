@@ -34,6 +34,8 @@ export const buildSpecialQueenData = data => {
 };
 
 export const getStateToSave = questionnaire => lunatic.getState(questionnaire);
+export const getNotNullCollectedState = questionnaire =>
+  lunatic.getCollectedStateByValueType(questionnaire)('COLLECTED', false);
 
 export const removeResponseToSpecialQueenData = specialQueenData => responseName => {
   const newSpecialQueenData = { ...specialQueenData };

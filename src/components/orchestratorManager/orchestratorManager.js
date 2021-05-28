@@ -8,9 +8,9 @@ import { AppContext } from 'components/app';
 import { useAPI, useAPIRemoteData } from 'utils/hook';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import { READ_ONLY } from 'utils/constants';
-import * as UQ from 'utils/questionnaire';
 import { sendCloseEvent } from 'utils/communication';
 import Orchestrator from '../orchestrator';
+import { checkVersions } from 'utils/questionnaire';
 
 const OrchestratorManager = () => {
   const configuration = useContext(AppContext);
@@ -18,6 +18,7 @@ const OrchestratorManager = () => {
   const history = useHistory();
   const { surveyUnit, questionnaire, loadingMessage, errorMessage } = useAPIRemoteData(idSU, idQ);
 
+  const [error, setError] = useState(null);
   const [source, setSource] = useState(null);
   const { putUeData } = useAPI(idSU, idQ);
 
@@ -25,20 +26,21 @@ const OrchestratorManager = () => {
 
   const [readonly] = useState(readonlyParam === READ_ONLY);
 
-  /**
-   * Build special questionnaire for Queen
-   * Build special data of survey-unit for Queen
-   */
   useEffect(() => {
     if (!init && questionnaire && surveyUnit) {
-      const newQuestionnaire = {
-        ...questionnaire,
-        components: UQ.buildQueenQuestionnaire(questionnaire.components),
-      };
-      setSource(newQuestionnaire);
-      setInit(true);
+      const { valid, error: questionnaireError } = checkVersions(questionnaire);
+      if (valid) {
+        setSource(questionnaire);
+        setInit(true);
+      } else {
+        setError(questionnaireError);
+      }
     }
   }, [init, questionnaire, surveyUnit]);
+
+  useEffect(() => {
+    if (errorMessage) setError(errorMessage);
+  }, [errorMessage]);
 
   const [, /* sending */ setSending] = useState(false);
   const [, /* errorSending */ setErrorSending] = useState(false);
@@ -71,7 +73,7 @@ const OrchestratorManager = () => {
     <>
       {![READ_ONLY, undefined].includes(readonlyParam) && <NotFound />}
       {loadingMessage && <Preloader message={loadingMessage} />}
-      {errorMessage && <Error message={errorMessage} />}
+      {error && <Error message={error} />}
       {init && !loadingMessage && !errorMessage && source && surveyUnit && (
         <Orchestrator
           surveyUnit={surveyUnit}
@@ -79,8 +81,9 @@ const OrchestratorManager = () => {
           standalone={configuration.standalone}
           readonly={readonly}
           savingType="COLLECTED"
-          preferences={['COLLECTED']}
+          preferences={['PREVIOUS', 'COLLECTED']}
           features={['VTL']}
+          pagination={true}
           filterDescription={false}
           save={saveSU}
           close={closeOrchestrator}

@@ -40,10 +40,9 @@ export const useStyles = makeStyles(theme => ({
     backgroundColor: 'transparent',
   },
   closeIcon: {
-    marginTop: '11px',
-    marginLeft: '3px',
-    backgroundColor: 'transparent',
-    border: 'none',
+    padding: '5px',
+    paddingTop: '7px',
+    '& svg': { fontSize: '2em' },
   },
 
   headerTitle: {
