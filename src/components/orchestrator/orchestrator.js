@@ -91,7 +91,6 @@ const Orchestrator = ({
       setQueenFlow('next');
       goNext();
     }
-    goToTopPage(topRef);
     setChangingPage(false);
     // assume, we don't want to goNext each time goNext is updated, only the first time
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -221,6 +220,7 @@ const Orchestrator = ({
                       bindings={bindings}
                       filterDescription={filterDescription}
                       writable
+                      focused
                       readOnly={readonly}
                       disabled={readonly}
                       keyboardSelection={true}
