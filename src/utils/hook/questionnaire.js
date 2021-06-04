@@ -9,7 +9,16 @@ export const COMPLETED = 'COMPLETED';
 export const VALIDATED = 'VALIDATED';
 
 export const useQuestionnaireState = (questionnaire, initialState, idSurveyUnit) => {
+  const [changingState, setChangingState] = useState(false);
   const [state, setState] = useState(initialState);
+
+  const [initialResponse] = useState(() => JSON.stringify(getNotNullCollectedState(questionnaire)));
+
+  const changeState = newState => {
+    console.log('change state', newState);
+    setChangingState(true);
+    setState(newState);
+  };
 
   // Analyse collected variables to update state (only to STARTED state)
   useEffect(() => {
@@ -24,18 +33,31 @@ export const useQuestionnaireState = (questionnaire, initialState, idSurveyUnit)
           return true;
         }
       );
-      if (dataWithoutNullArray.length > 0) setState(INIT);
+      if (
+        (state === VALIDATED &&
+          dataWithoutNullArray.length > 0 &&
+          JSON.stringify(dataCollected) !== initialResponse) ||
+        (state === NOT_STARTED && dataWithoutNullArray.length > 0)
+      ) {
+        changeState(INIT);
+      }
     }
-  }, [questionnaire, state]);
+
+    // Assume we want to update only this when questionnaire is updated
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [questionnaire]);
 
   // Send an event when questionnaire's state has changed (started, completed, validated)
   useEffect(() => {
-    if (state === INIT) sendStartedEvent(idSurveyUnit);
-    if (state === COMPLETED) sendCompletedEvent(idSurveyUnit);
-    if (state === VALIDATED) sendValidatedEvent(idSurveyUnit);
-  }, [state, idSurveyUnit]);
+    if (changingState) {
+      if (state === INIT) sendStartedEvent(idSurveyUnit);
+      if (state === COMPLETED) sendCompletedEvent(idSurveyUnit);
+      if (state === VALIDATED) sendValidatedEvent(idSurveyUnit);
+      setChangingState(false);
+    }
+  }, [state, idSurveyUnit, changingState]);
 
-  return [state, setState];
+  return [state, changeState];
 };
 
 // Manage validatedPages (for rereading for example)

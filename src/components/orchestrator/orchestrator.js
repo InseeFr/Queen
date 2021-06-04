@@ -18,7 +18,6 @@ import {
   VALIDATED,
   useValidatedPages,
 } from 'utils/hook/questionnaire';
-import { goToTopPage } from 'utils';
 
 export const OrchestratorContext = React.createContext();
 
@@ -61,7 +60,11 @@ const Orchestrator = ({
     pagination,
   });
 
-  const [state, setState] = useQuestionnaireState(questionnaire, stateData?.state, surveyUnit?.id);
+  const [state, changeState] = useQuestionnaireState(
+    questionnaire,
+    stateData?.state,
+    surveyUnit?.id
+  );
   const [validatedPages, addValidatedPages] = useValidatedPages(
     stateData?.currentPage,
     questionnaire,
@@ -91,7 +94,6 @@ const Orchestrator = ({
       setQueenFlow('next');
       goNext();
     }
-    goToTopPage(topRef);
     setChangingPage(false);
     // assume, we don't want to goNext each time goNext is updated, only the first time
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -119,19 +121,19 @@ const Orchestrator = ({
     setPendingChangePage(null);
     if (isLastPage) {
       // TODO : make algo to calculate COMPLETED event
-      setState(COMPLETED);
-      setState(VALIDATED);
+      changeState(COMPLETED);
+      changeState(VALIDATED);
       await saveQueen(VALIDATED);
     } else await saveQueen();
     close();
-  }, [saveQueen, isLastPage, setState, close]);
+  }, [saveQueen, isLastPage, changeState, close]);
 
   const definitiveQuit = useCallback(async () => {
     setPendingChangePage(null);
-    setState(VALIDATED);
+    changeState(VALIDATED);
     await saveQueen(VALIDATED);
     close();
-  }, [saveQueen, setState, close]);
+  }, [saveQueen, changeState, close]);
 
   /**
    * This function updates the values of the questionnaire responses
@@ -221,6 +223,7 @@ const Orchestrator = ({
                       bindings={bindings}
                       filterDescription={filterDescription}
                       writable
+                      focused
                       readOnly={readonly}
                       disabled={readonly}
                       keyboardSelection={true}
