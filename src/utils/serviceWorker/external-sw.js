@@ -12,9 +12,10 @@ const getQueenUrlRegexJson = url => {
   return url.replace('http', '^http').concat('/(.*)(.json)');
 };
 
-const getQuestionnaireUrlRegex = () => '^http.*/api/campaign/(.){1,}/questionnaire';
+const getQuestionnaireUrlRegex = () => '^http.*/api/questionnaire/(.){1,}';
 
-const getRequiredResourceUrlRegex = () => '^http.*/api/campaign/(.){1,}/required-nomenclatures';
+const getRequiredResourceUrlRegex = () =>
+  '^http.*/api/questionnaire/(.){1,}/required-nomenclatures';
 
 const getResourceUrlRegex = () => '^http.*/api/nomenclature/(.){1,}';
 
