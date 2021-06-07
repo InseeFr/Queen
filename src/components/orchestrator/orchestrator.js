@@ -242,7 +242,7 @@ const Orchestrator = ({
                             component
                           );
                           const updatedValue = {};
-                          if (componentType === 'CheckboxOne') {
+                          if (componentType === 'CheckboxOne' || componentType === 'Radio') {
                             const index =
                               (options.length < 10
                                 ? key

@@ -1,21 +1,10 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext } from 'react';
 import { NONE, OIDC } from 'utils/constants';
 import { useReactOidc } from '@axa-fr/react-oidc-context';
 import { AppContext } from 'components/app';
-import { addOnlineStatusObserver } from 'utils';
 
 export const useAuth = () => {
-  const { authenticationType } = useContext(AppContext);
-  const [init, setInit] = useState(false);
-  const [online, setOnline] = useState(navigator.onLine);
-  useEffect(() => {
-    if (!init) {
-      addOnlineStatusObserver(s => {
-        setOnline(s);
-      });
-      setInit(true);
-    }
-  }, [init]);
+  const { authenticationType, online } = useContext(AppContext);
 
   if (!online || authenticationType === NONE) return { authenticationType, name: 'Fake User' };
 
