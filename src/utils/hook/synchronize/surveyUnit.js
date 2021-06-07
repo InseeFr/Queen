@@ -33,8 +33,8 @@ export const useSaveSUsToLocalDataBase = updateProgress => {
     const { data, error, statusText } = await refrehGetSurveyUnits.current(campaignId);
 
     let i = 0;
-    if (!error && data) {
-      await data.reduce(async (previousPromise, surveyUnit) => {
+    if (!error) {
+      await (data || []).reduce(async (previousPromise, surveyUnit) => {
         await previousPromise;
         i += 1;
         updateProgress(getPercent(i, data.length));
