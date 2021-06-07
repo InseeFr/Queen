@@ -1,6 +1,6 @@
 {
   "name": "queen",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "private": true,
   "dependencies": {
     "@a11y/focus-trap": "^1.0.5",
