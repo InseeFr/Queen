@@ -64,7 +64,7 @@ export const useSynchronisation = () => {
     let i = 0;
     setCampaignProgress(0);
 
-    await campaigns.reduce(async (previousPromise, campaign) => {
+    await (campaigns || []).reduce(async (previousPromise, campaign) => {
       await previousPromise;
       i += 1;
       setCampaignProgress(getPercent(i, campaigns.length));
