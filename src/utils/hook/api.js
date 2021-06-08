@@ -105,7 +105,7 @@ export const useGetSurveyUnit = () => {
     try {
       if (standalone) {
         const dR = await refreshGetData.current(idSurveyUnit);
-        if (!dR.error) {
+        if (!dR.error && dR.status !== 404) {
           await surveyUnitIdbService.addOrUpdateSU({
             id: idSurveyUnit,
             ...dR.data,
@@ -140,7 +140,7 @@ export const useAPIRemoteData = (surveyUnitID, questionnaireID) => {
         if (!error) {
           setLoadingMessage(Dictionary.waitingQuestionnaire);
           const qR = await getQuestionnaire(questionnaireID);
-          if (!qR.error) {
+          if (!qR.error && qR.status !== 404) {
             setQuestionnaire(qR.data.value);
             setLoadingMessage(Dictionary.waitingDataSU);
             const suR = await getSurveyUnit(surveyUnitID, standalone);
