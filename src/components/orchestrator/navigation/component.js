@@ -38,9 +38,7 @@ const Navigation = ({ className, title, setPage }) => {
   const filterComponentsPage = questionnaire.components.reduce(
     (_, { componentType, conditionFilter, ...other }) => {
       if (
-        !conditionFilter
-          ? true
-          : lunatic.interpret(['VTL'])(bindings, true)(conditionFilter) === 'normal'
+        !conditionFilter ? true : lunatic.interpret(['VTL'])(bindings, true)(conditionFilter?.value)
       ) {
         if (componentType === 'Sequence') {
           const { page } = other;

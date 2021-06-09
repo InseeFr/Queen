@@ -150,10 +150,16 @@ const Orchestrator = ({
     }
   };
 
-  const { maxLocalPages, occurences, currentComponent } = UQ.getInfoFromCurrentPage(components)(
-    bindings
-  )(page)(maxPage);
+  const {
+    maxLocalPages,
+    occurences,
+    currentComponent,
+    depth,
+    occurencesIndex,
+  } = UQ.getInfoFromCurrentPage(components)(bindings)(page)(maxPage);
   const { componentType: currentComponentType, hierarchy } = currentComponent || {};
+
+  const previousFilled = UQ.isPreviousFilled(questionnaire)(currentComponent);
 
   useEffect(() => {
     if (!isLastPage && DIRECT_CONTINUE_COMPONENTS.includes(currentComponentType) && changedOnce) {
@@ -200,21 +206,24 @@ const Orchestrator = ({
 
           <div className={classes.components} ref={topRef}>
             {components.map(component => {
-              const { id, componentType, options, responses } = component;
-              const keyToHandle = UQ.getKeyToHandle(responses, options);
+              const { componentType, id } = component;
+              const keyToHandle = UQ.getKeyToHandle(
+                currentComponent?.responses,
+                currentComponent?.options
+              );
               const Component = lunatic[componentType];
               if (componentType !== 'FilterDescription')
                 return (
                   <div
                     className={`${lunaticClasses.lunatic} ${currentComponentType}  ${
-                      options && options.length >= 8 ? 'split-fieldset' : ''
+                      currentComponent?.options && currentComponent?.options.length >= 8
+                        ? 'split-fieldset'
+                        : ''
                     }`}
                     key={`component-${id}`}
                   >
                     <Component
                       {...component}
-                      options={options}
-                      responses={responses}
                       handleChange={onChange}
                       labelPosition="TOP"
                       unitPosition="AFTER"
@@ -232,37 +241,58 @@ const Orchestrator = ({
                       flow={flow}
                       pagination={pagination}
                     />
-                    {KEYBOARD_SHORTCUT_COMPONENTS.includes(componentType) && (
+                    {KEYBOARD_SHORTCUT_COMPONENTS.includes(currentComponentType) && (
                       <KeyboardEventHandler
                         handleKeys={keyToHandle}
                         onKeyEvent={(key, e) => {
                           e.preventDefault();
-                          const responsesName = UQ.getResponsesNameFromComponent(component);
-                          const responsesCollected = UQ.getCollectedResponse(questionnaire)(
-                            component
-                          );
+                          const responsesName = UQ.getResponsesNameFromComponent(currentComponent);
+                          const responsesCollected = UQ.getComponentResponse(questionnaire)(
+                            currentComponent
+                          )('COLLECTED');
                           const updatedValue = {};
-                          if (componentType === 'CheckboxOne' || componentType === 'Radio') {
+                          if (
+                            currentComponentType === 'CheckboxOne' ||
+                            currentComponentType === 'Radio'
+                          ) {
                             const index =
-                              (options.length < 10
+                              (currentComponent?.options.length < 10
                                 ? key
                                 : alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase()) +
                                   1) - 1;
-                            if (index >= 0 && index < options.length) {
-                              updatedValue[responsesName[0]] = options[index].value;
-                              onChange(updatedValue);
+                            if (index >= 0 && index < currentComponent?.options.length) {
+                              if (depth === 0) {
+                                updatedValue[responsesName[0]] =
+                                  currentComponent?.options[index].value;
+                                onChange(updatedValue);
+                              } else {
+                                const copy = UQ.secureCopy(responsesCollected);
+                                UQ.changeDeepValue(copy[responsesName[0]])(occurencesIndex)(
+                                  currentComponent?.options[index].value
+                                );
+                                onChange(copy);
+                              }
                             }
-                          } else if (componentType === 'CheckboxGroup') {
+                          } else if (currentComponentType === 'CheckboxGroup') {
                             const index =
                               (responsesName.length < 10
                                 ? key
                                 : alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase()) +
                                   1) - 1;
                             if (index >= 0 && index < responsesName.length) {
-                              updatedValue[responsesName[index]] = !responsesCollected[
-                                responsesName[index]
-                              ];
-                              onChange(updatedValue);
+                              if (depth === 0) {
+                                updatedValue[responsesName[index]] = !responsesCollected[
+                                  responsesName[index]
+                                ];
+                                onChange(updatedValue);
+                              } else {
+                                const copy = UQ.secureCopy(responsesCollected);
+                                UQ.reverseDeepValueForCheckboxGroup(copy[responsesName[index]])(
+                                  occurencesIndex
+                                );
+                                updatedValue[responsesName[index]] = copy[responsesName[index]];
+                                onChange(updatedValue);
+                              }
                             }
                           }
                         }}
@@ -281,7 +311,7 @@ const Orchestrator = ({
 
           <NavBar>
             <Buttons
-              rereading={validatedPages.includes(page)}
+              rereading={validatedPages.includes(page) || previousFilled}
               setPendingChangePage={setPendingChangePage}
             />
           </NavBar>
