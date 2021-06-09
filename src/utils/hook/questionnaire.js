@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as lunatic from '@inseefr/lunatic';
+import * as UQ from 'utils/questionnaire';
 import { sendCompletedEvent, sendStartedEvent, sendValidatedEvent } from 'utils/communication';
 import { getNotNullCollectedState } from 'utils/questionnaire';
 
@@ -24,7 +25,7 @@ export const useQuestionnaireState = (questionnaire, initialState, idSurveyUnit)
     if (questionnaire && (state === NOT_STARTED || state === VALIDATED)) {
       const dataCollected = getNotNullCollectedState(questionnaire);
       // TODO : make a better copy without mutate questionnaire object (spread doesn't work)
-      const dataWithoutNullArray = Object.entries(JSON.parse(JSON.stringify(dataCollected))).filter(
+      const dataWithoutNullArray = Object.entries(UQ.secureCopy(dataCollected)).filter(
         ([, value]) => {
           if (Array.isArray(value)) {
             if ((value.length = 1 && value[0] === null)) return false;

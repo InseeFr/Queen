@@ -86,8 +86,9 @@ const getCurrentOccurrences = components => bindings => currentPage => {
 
 export const getInfoFromCurrentPage = components => bindings => currentPage => maxPage => {
   const occurences = getCurrentOccurrences(components)(bindings)(currentPage);
-  const iterations = getIterations(currentPage);
   const maxLocalPages = getMaxPages(components)(currentPage)(maxPage);
   const currentComponent = getCurrentComponent(components)(currentPage);
-  return { maxLocalPages, occurences, currentComponent, iterations };
+  const depth = (currentPage?.match(/\./g) || []).length;
+  const occurencesIndex = getIterations(currentPage).map(i => i - 1);
+  return { maxLocalPages, occurences, currentComponent, depth, occurencesIndex };
 };
