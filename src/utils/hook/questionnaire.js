@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as lunatic from '@inseefr/lunatic';
+import * as UQ from 'utils/questionnaire';
 import { sendCompletedEvent, sendStartedEvent, sendValidatedEvent } from 'utils/communication';
 import { getNotNullCollectedState } from 'utils/questionnaire';
 
@@ -15,7 +16,6 @@ export const useQuestionnaireState = (questionnaire, initialState, idSurveyUnit)
   const [initialResponse] = useState(() => JSON.stringify(getNotNullCollectedState(questionnaire)));
 
   const changeState = newState => {
-    console.log('change state', newState);
     setChangingState(true);
     setState(newState);
   };
@@ -25,7 +25,7 @@ export const useQuestionnaireState = (questionnaire, initialState, idSurveyUnit)
     if (questionnaire && (state === NOT_STARTED || state === VALIDATED)) {
       const dataCollected = getNotNullCollectedState(questionnaire);
       // TODO : make a better copy without mutate questionnaire object (spread doesn't work)
-      const dataWithoutNullArray = Object.entries(JSON.parse(JSON.stringify(dataCollected))).filter(
+      const dataWithoutNullArray = Object.entries(UQ.secureCopy(dataCollected)).filter(
         ([, value]) => {
           if (Array.isArray(value)) {
             if ((value.length = 1 && value[0] === null)) return false;
@@ -65,11 +65,7 @@ export const useValidatedPages = (initPage, questionnaire, bindings) => {
   const [validatedPages, setValidatedPages] = useState(() => {
     const initPageInt = parseInt((initPage || '0').split('.')[0], 10);
     return questionnaire.components.reduce((_, { conditionFilter, page }) => {
-      if (
-        !conditionFilter
-          ? true
-          : lunatic.interpret(['VTL'])(bindings, true)(conditionFilter) === 'normal'
-      ) {
+      if (!conditionFilter ? true : lunatic.interpret(['VTL'])(bindings)(conditionFilter?.value)) {
         if (page) {
           const pageInt = parseInt(page.split('.')[0], 10);
 

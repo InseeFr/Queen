@@ -1,25 +1,45 @@
 import * as lunatic from '@inseefr/lunatic';
 
+export const secureCopy = objectToCopy => JSON.parse(JSON.stringify(objectToCopy));
+
+export const changeDeepValue = vecteur => iterations => newValue => {
+  const [firstVal, ...otherVals] = iterations;
+  if (iterations.length > 1) {
+    changeDeepValue(vecteur[firstVal])(otherVals)(newValue);
+  } else {
+    if (Array.isArray(vecteur)) vecteur[firstVal] = newValue;
+    else vecteur = newValue;
+  }
+};
+
+export const reverseDeepValueForCheckboxGroup = vecteur => iterations => {
+  const [firstVal, ...otherVals] = iterations;
+  if (iterations.length > 1) {
+    reverseDeepValueForCheckboxGroup(vecteur[firstVal])(otherVals);
+  } else {
+    if (Array.isArray(vecteur)) vecteur[firstVal] = !vecteur[firstVal];
+    else vecteur = !vecteur;
+  }
+};
+
 /**
  * This function returns the list of variables collected by a component
  * (regardless of their state).
  * @param {*} component (single Component)
  */
 export const getResponsesNameFromComponent = component => {
-  const { componentType } = component;
-  if (componentType && !['CheckboxGroup', 'Table'].includes(componentType)) {
+  if (component?.componentType && !['CheckboxGroup', 'Table'].includes(component?.componentType)) {
     const { response } = component;
     return response ? [response.name] : [];
   }
-  if (componentType && componentType === 'CheckboxGroup') {
+  if (component?.componentType && component?.componentType === 'CheckboxGroup') {
     const { responses } = component;
     return responses.reduce((_, response) => {
       return [..._, response.response.name];
     }, []);
   }
-  if (componentType && componentType === 'Table') {
-    const { cells } = component;
-    return cells.reduce((_, line) => {
+  if (component?.componentType && component?.componentType === 'Table') {
+    return component?.cells.reduce((_, line) => {
       return [
         ..._,
         ...line.reduce((_line, cell) => {
@@ -31,21 +51,23 @@ export const getResponsesNameFromComponent = component => {
   return [];
 };
 
-export const getCollectedResponse = questionnaire => component => {
-  const { id } = component;
+export const getComponentResponse = questionnaire => component => (type = 'COLLECTED') => {
+  const reponsesName = getResponsesNameFromComponent(component);
   const { variables } = questionnaire;
   const { COLLECTED, ...other } = variables;
   const newCOLLECTED = Object.entries(COLLECTED).reduce((init, [name, values]) => {
     const newVar = init;
-    const { componentRef } = values;
-    if (componentRef === id) {
+    if (reponsesName.includes(name)) {
       newVar[name] = values;
     }
     return newVar;
   }, {});
   const newVariables = { COLLECTED: newCOLLECTED, ...other };
-  return lunatic.getCollectedStateByValueType({ variables: newVariables })('COLLECTED');
+  return lunatic.getCollectedStateByValueType({ variables: newVariables })(type);
 };
+
+export const isPreviousFilled = questionnaire => component =>
+  Object.entries(getComponentResponse(questionnaire)(component)('PREVIOUS')).length > 0;
 
 /**
  * This function returns the list of variables that must be reset to "null"
@@ -59,7 +81,7 @@ export const getResponsesLinkWith = components => response => {
   return components.reduce((_, component) => {
     const { conditionFilter } = component;
     if (conditionFilter) {
-      const responses = regexpTest.test(conditionFilter)
+      const responses = regexpTest.test(conditionFilter?.value)
         ? getResponsesNameFromComponent(component)
         : [];
       return [..._, ...responses];
