@@ -155,6 +155,8 @@ const Orchestrator = ({
   )(page)(maxPage);
   const { componentType: currentComponentType, hierarchy } = currentComponent || {};
 
+  const previousFilled = UQ.isPreviousFilled(questionnaire)(currentComponent);
+
   useEffect(() => {
     if (!isLastPage && DIRECT_CONTINUE_COMPONENTS.includes(currentComponentType) && changedOnce) {
       setChangingPage(true);
@@ -238,9 +240,9 @@ const Orchestrator = ({
                         onKeyEvent={(key, e) => {
                           e.preventDefault();
                           const responsesName = UQ.getResponsesNameFromComponent(component);
-                          const responsesCollected = UQ.getCollectedResponse(questionnaire)(
+                          const responsesCollected = UQ.getComponentResponse(questionnaire)(
                             component
-                          );
+                          )('COLLECTED');
                           const updatedValue = {};
                           if (componentType === 'CheckboxOne' || componentType === 'Radio') {
                             const index =
@@ -281,7 +283,7 @@ const Orchestrator = ({
 
           <NavBar>
             <Buttons
-              rereading={validatedPages.includes(page)}
+              rereading={validatedPages.includes(page) || previousFilled}
               setPendingChangePage={setPendingChangePage}
             />
           </NavBar>

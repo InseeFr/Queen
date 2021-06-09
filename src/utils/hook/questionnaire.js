@@ -15,7 +15,6 @@ export const useQuestionnaireState = (questionnaire, initialState, idSurveyUnit)
   const [initialResponse] = useState(() => JSON.stringify(getNotNullCollectedState(questionnaire)));
 
   const changeState = newState => {
-    console.log('change state', newState);
     setChangingState(true);
     setState(newState);
   };
@@ -65,11 +64,7 @@ export const useValidatedPages = (initPage, questionnaire, bindings) => {
   const [validatedPages, setValidatedPages] = useState(() => {
     const initPageInt = parseInt((initPage || '0').split('.')[0], 10);
     return questionnaire.components.reduce((_, { conditionFilter, page }) => {
-      if (
-        !conditionFilter
-          ? true
-          : lunatic.interpret(['VTL'])(bindings, true)(conditionFilter) === 'normal'
-      ) {
+      if (!conditionFilter ? true : lunatic.interpret(['VTL'])(bindings)(conditionFilter?.value)) {
         if (page) {
           const pageInt = parseInt(page.split('.')[0], 10);
 

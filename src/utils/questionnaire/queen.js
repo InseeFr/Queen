@@ -31,21 +31,23 @@ export const getResponsesNameFromComponent = component => {
   return [];
 };
 
-export const getCollectedResponse = questionnaire => component => {
-  const { id } = component;
+export const getComponentResponse = questionnaire => component => (type = 'COLLECTED') => {
   const { variables } = questionnaire;
   const { COLLECTED, ...other } = variables;
   const newCOLLECTED = Object.entries(COLLECTED).reduce((init, [name, values]) => {
     const newVar = init;
     const { componentRef } = values;
-    if (componentRef === id) {
+    if (componentRef === component?.id) {
       newVar[name] = values;
     }
     return newVar;
   }, {});
   const newVariables = { COLLECTED: newCOLLECTED, ...other };
-  return lunatic.getCollectedStateByValueType({ variables: newVariables })('COLLECTED');
+  return lunatic.getCollectedStateByValueType({ variables: newVariables })(type);
 };
+
+export const isPreviousFilled = questionnaire => component =>
+  Object.entries(getComponentResponse(questionnaire)(component)('PREVIOUS')).length > 0;
 
 /**
  * This function returns the list of variables that must be reset to "null"
@@ -59,7 +61,7 @@ export const getResponsesLinkWith = components => response => {
   return components.reduce((_, component) => {
     const { conditionFilter } = component;
     if (conditionFilter) {
-      const responses = regexpTest.test(conditionFilter)
+      const responses = regexpTest.test(conditionFilter?.value)
         ? getResponsesNameFromComponent(component)
         : [];
       return [..._, ...responses];
