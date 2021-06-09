@@ -13,9 +13,9 @@ export const usePutResourcesInCache = updateProgress => {
       error: mainError,
       statusText: mainStatusText,
     } = await refreshGetRequiredNomenclatures.current(questionnaireId);
-    if (!mainError && data) {
+    if (!mainError) {
       updateProgress(0);
-      await data.reduce(async (previousPromise, resourceId) => {
+      await (data || []).reduce(async (previousPromise, resourceId) => {
         const { error, statusText } = await previousPromise;
         if (error) throw new Error(statusText);
         return refreshGetNomenclature.current(resourceId);
@@ -29,7 +29,7 @@ export const usePutResourcesInCache = updateProgress => {
   const putAllResourcesInCache = async questionnaireIds => {
     let i = 0;
     updateProgress(0);
-    await questionnaireIds.reduce(async (previousPromise, questionnaireId) => {
+    await (questionnaireIds || []).reduce(async (previousPromise, questionnaireId) => {
       await previousPromise;
       i += 1;
       updateProgress(getPercent(i, questionnaireIds.length));

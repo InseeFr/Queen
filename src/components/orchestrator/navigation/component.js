@@ -5,7 +5,7 @@ import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import D from 'i18n';
 import * as lunatic from '@inseefr/lunatic';
-import { version } from '../../../../package.json';
+import { version, dependencies } from '../../../../package.json';
 import { useStyles } from './component.style';
 import SequenceNavigation from './sequenceNavigation';
 import SubsequenceNavigation from './subSequenceNavigation';
@@ -30,6 +30,7 @@ const Navigation = ({ className, title, setPage }) => {
   const [stopOpen, setStopOpen] = useState(false);
   const [selectedSequence, setSelectedSequence] = useState(undefined);
 
+  const lunaticVersion = dependencies['@inseefr/lunatic'].replace('^', '');
   const getVtlLabel = label => {
     return lunatic.interpret(['VTL'])(bindings)(label);
   };
@@ -37,9 +38,7 @@ const Navigation = ({ className, title, setPage }) => {
   const filterComponentsPage = questionnaire.components.reduce(
     (_, { componentType, conditionFilter, ...other }) => {
       if (
-        !conditionFilter
-          ? true
-          : lunatic.interpret(['VTL'])(bindings, true)(conditionFilter) === 'normal'
+        !conditionFilter ? true : lunatic.interpret(['VTL'])(bindings, true)(conditionFilter?.value)
       ) {
         if (componentType === 'Sequence') {
           const { page } = other;
@@ -263,7 +262,9 @@ const Navigation = ({ className, title, setPage }) => {
                 </ul>
               </nav>
             </div>
-            <div className={classes.version}>{`Version ${version}`}</div>
+            <div
+              className={classes.version}
+            >{`Queen : ${version} | Lunatic : ${lunaticVersion}`}</div>
           </>
         )}
       </div>

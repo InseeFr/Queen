@@ -6,10 +6,11 @@ import { AppContext } from 'components/app';
 
 const secure = WrappedComponent => {
   return props => {
-    const { authenticationType } = useContext(AppContext);
+    const { authenticationType, online } = useContext(AppContext);
+
     const { otherProps } = props;
     const ReturnedComponent = <WrappedComponent {...otherProps} />;
-    if (authenticationType === NONE) return ReturnedComponent;
+    if (!online || authenticationType === NONE) return ReturnedComponent;
     if (authenticationType === OIDC) return <OidcSecure>{ReturnedComponent}</OidcSecure>;
     return <div>{`Auth type ${authenticationType} is nor recognized`}</div>;
   };
