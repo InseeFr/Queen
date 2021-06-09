@@ -68,8 +68,12 @@ export const getQueenBindings = bindings => currentPage => {
 const getCurrentOccurrences = components => bindings => currentPage => {
   const filterComponentsLoop = components.filter(c => filterPageLoop(currentPage)(c));
   if (filterComponentsLoop.length > 0) {
-    const { loopDependencies, components: componentsOfLoop } = filterComponentsLoop[0];
-    if (loopDependencies) {
+    const {
+      loopDependencies,
+      components: componentsOfLoop,
+      paginatedLoop,
+    } = filterComponentsLoop[0];
+    if (loopDependencies && paginatedLoop) {
       const queenBindings = getQueenBindings(bindings)(currentPage);
       return [
         loopDependencies.map(variable => queenBindings[variable]),
