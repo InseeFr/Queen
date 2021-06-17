@@ -2374,6 +2374,7 @@
       "componentType": "Loop",
       "page": "34",
       "paginatedLoop": false,
+      "lines": { "min": "1", "max": "NB_CHAR" },
       "label": "\"Add a character\"",
       "conditionFilter": {
         "value": "(not(cast(READY,integer)  <>  1))",
