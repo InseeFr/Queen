@@ -179,7 +179,14 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
           float: 'right',
           content: "'✓'",
         },
-        '&:focus + label, &:hover + label, &:checked + label': {
+        '&:focus + label, &:hover + label': {
+          fontWeight: 'bold',
+          '& .code-modality': {
+            borderColor: theme.palette.declarations.main,
+            borderWidth: '2px',
+          },
+        },
+        '&:checked + label': {
           color: `${modalityLabelColorChecked}`,
           fontWeight: 'bold',
           '& .code-modality': {
