@@ -2,6 +2,7 @@ import * as lunatic from '@inseefr/lunatic';
 
 export const secureCopy = objectToCopy => JSON.parse(JSON.stringify(objectToCopy));
 
+// iterations is [1, 2, 4] = first element in Loop, then in this Loop, second element, then the fourth
 export const changeDeepValue = vecteur => iterations => newValue => {
   const [firstVal, ...otherVals] = iterations;
   if (iterations.length > 1) {
@@ -12,6 +13,7 @@ export const changeDeepValue = vecteur => iterations => newValue => {
   }
 };
 
+// iterations is [1, 2, 4] = first element in Loop, then in this Loop, second element, then the fourth
 export const reverseDeepValueForCheckboxGroup = vecteur => iterations => {
   const [firstVal, ...otherVals] = iterations;
   if (iterations.length > 1) {

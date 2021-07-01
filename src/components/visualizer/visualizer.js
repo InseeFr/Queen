@@ -16,7 +16,7 @@ const Visualizer = () => {
   const [error, setError] = useState(null);
   const [source, setSource] = useState(null);
 
-  const { questionnaireUrl, dataUrl } = useVisuQuery();
+  const { questionnaireUrl, dataUrl, readonly } = useVisuQuery();
   const { surveyUnit: suData, questionnaire, loadingMessage, errorMessage } = useRemoteData(
     questionnaireUrl,
     dataUrl
@@ -63,7 +63,7 @@ const Visualizer = () => {
           surveyUnit={surveyUnit}
           source={source}
           standalone={configuration.standalone}
-          readonly={false}
+          readonly={readonly}
           savingType="COLLECTED"
           preferences={['PREVIOUS', 'COLLECTED']}
           features={['VTL']}

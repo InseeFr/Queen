@@ -8,7 +8,14 @@ import {
   DEFAULT_DATA_URL,
 } from 'utils/constants';
 import { useHistory } from 'react-router-dom';
-import { Container, makeStyles, Typography, TextField } from '@material-ui/core';
+import {
+  Container,
+  makeStyles,
+  Typography,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+} from '@material-ui/core';
 import Examples from './examples';
 import Helper from './helper';
 
@@ -41,6 +48,7 @@ const QuestionnaireForm = () => {
   const classes = useStyles();
   const [questionnaire, setQuestionnaire] = useState('');
   const [data, setData] = useState('');
+  const [readonly, setReadonly] = useState(false);
 
   const [selected, setSelected] = useState('');
 
@@ -56,7 +64,7 @@ const QuestionnaireForm = () => {
       pathname: '/queen/visualize',
       search: `?questionnaire=${encodeURIComponent(questionnaire)}${
         data ? `&data=${encodeURIComponent(data)}` : ''
-      }`,
+      }${readonly ? `&readonly=${readonly}` : ''}`,
     });
     e.preventDefault();
   };
@@ -99,6 +107,17 @@ const QuestionnaireForm = () => {
             setData(v);
           }}
           variant="outlined"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={readonly}
+              onChange={({ target: { checked } }) => setReadonly(checked)}
+              name="readonly"
+              color="primary"
+            />
+          }
+          label={D.labelReadonly}
         />
         <div className={classes.selectionParent}>
           <Typography>{D.chooseExamples}</Typography>
