@@ -68,8 +68,24 @@ export const getComponentResponse = questionnaire => component => (type = 'COLLE
   return lunatic.getCollectedStateByValueType({ variables: newVariables })(type);
 };
 
-export const isPreviousFilled = questionnaire => component =>
-  Object.entries(getComponentResponse(questionnaire)(component)('PREVIOUS')).length > 0;
+export const getIterationValue = values => iterations => {
+  const [firstVal, ...otherVals] = iterations;
+  if (iterations.length > 1) {
+    getIterationValue(values[firstVal])(otherVals);
+  } else {
+    if (Array.isArray(values)) return values[firstVal];
+    else return values;
+  }
+};
+export const isPreviousFilled = questionnaire => component => iterations => {
+  const previousResponses = getComponentResponse(questionnaire)(component)('PREVIOUS');
+  const previousNotNull = Object.keys(previousResponses).reduce((acc, currentKey) => {
+    const value = getIterationValue(previousResponses[currentKey])(iterations);
+    if (value) return [...acc, value];
+    return acc;
+  }, []);
+  return previousNotNull.length > 0;
+};
 
 /**
  * This function returns the list of variables that must be reset to "null"
