@@ -181,20 +181,20 @@ const Orchestrator = ({
   }, [questionnaireUpdated, pendingChangePage, changePage, quit]);
 
   const context = {
-    menuOpen: menuOpen,
-    setMenuOpen: setMenuOpen,
-    quit: quit,
-    definitiveQuit: definitiveQuit,
-    standalone: standalone,
-    readonly: readonly,
-    page: page,
+    menuOpen,
+    setMenuOpen,
+    quit,
+    definitiveQuit,
+    standalone,
+    readonly,
+    page,
     maxPages: maxLocalPages,
-    occurences: occurences,
-    isFirstPage: isFirstPage,
-    isLastPage: isLastPage,
-    validatedPages: validatedPages,
-    questionnaire: questionnaire,
-    bindings: bindings,
+    occurences,
+    isFirstPage,
+    isLastPage,
+    validatedPages,
+    questionnaire,
+    bindings,
   };
 
   return (
