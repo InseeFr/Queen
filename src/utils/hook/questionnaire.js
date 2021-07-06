@@ -9,7 +9,7 @@ export const INIT = 'INIT';
 export const COMPLETED = 'COMPLETED';
 export const VALIDATED = 'VALIDATED';
 
-export const useQuestionnaireState = (questionnaire, initialState, idSurveyUnit) => {
+export const useQuestionnaireState = (questionnaire, initialState = null, idSurveyUnit) => {
   const [changingState, setChangingState] = useState(false);
   const [state, setState] = useState(initialState);
 
