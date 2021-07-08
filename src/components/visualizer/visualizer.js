@@ -68,6 +68,7 @@ const Visualizer = () => {
           preferences={['PREVIOUS', 'COLLECTED']}
           features={['VTL']}
           pagination={true}
+          missing={true}
           filterDescription={false}
           save={unit => surveyUnitIdbService.addOrUpdateSU(unit)}
           close={closeAndDownloadData}

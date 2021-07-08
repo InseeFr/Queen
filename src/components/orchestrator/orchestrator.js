@@ -28,6 +28,7 @@ const Orchestrator = ({
   savingType,
   preferences,
   pagination,
+  missing,
   features,
   source,
   filterDescription,
@@ -144,7 +145,7 @@ const Orchestrator = ({
   const onChange = async updatedValue => {
     if (!readonly) {
       setQuestionnaireUpdated(false);
-      await handleChange(updatedValue);
+      handleChange(updatedValue);
       setQuestionnaireUpdated(true);
       setChangedOnce(true);
     }
@@ -197,6 +198,8 @@ const Orchestrator = ({
     bindings,
   };
 
+  const missingStrategy = b => goNext(null, b);
+
   return (
     <OrchestratorContext.Provider value={context}>
       <div className={classes.root}>
@@ -240,6 +243,9 @@ const Orchestrator = ({
                       setPage={setPage}
                       flow={flow}
                       pagination={pagination}
+                      missing={missing}
+                      missingStrategy={missingStrategy}
+                      savingType={savingType}
                     />
                     {KEYBOARD_SHORTCUT_COMPONENTS.includes(currentComponentType) && (
                       <KeyboardEventHandler
