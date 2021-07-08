@@ -18,6 +18,7 @@ import {
   VALIDATED,
   useValidatedPages,
 } from 'utils/hook/questionnaire';
+import D from 'i18n';
 
 export const OrchestratorContext = React.createContext();
 
@@ -101,7 +102,7 @@ const Orchestrator = ({
   }, [page, queenFlow]);
 
   const changePage = useCallback(
-    type => {
+    (type, freshBindings) => {
       setChangingPage(true);
       setQueenFlow(type);
       setPendingChangePage(null);
@@ -109,7 +110,7 @@ const Orchestrator = ({
       saveQueen();
       if (type === 'next') {
         addValidatedPages(page);
-        goNext();
+        goNext(null, freshBindings);
       } else if (type === 'fastForward') {
         const pageOfLastComponentToValidate = UQ.getMaxValidatedPage(addValidatedPages(page));
         setPage(pageOfLastComponentToValidate);
@@ -158,7 +159,8 @@ const Orchestrator = ({
     depth,
     occurencesIndex,
   } = UQ.getInfoFromCurrentPage(components)(bindings)(page)(maxPage);
-  const { componentType: currentComponentType, hierarchy } = currentComponent || {};
+  const { componentType: currentComponentType, hierarchy, missingResponse } =
+    currentComponent || {};
 
   const previousFilled = UQ.isPreviousFilled(questionnaire)(currentComponent)(occurencesIndex);
 
@@ -170,7 +172,7 @@ const Orchestrator = ({
       }, 200);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [questionnaire, changedOnce, isLastPage, currentComponentType]);
+  }, [changedOnce, isLastPage, currentComponentType]);
 
   useEffect(() => {
     if (questionnaireUpdated && pendingChangePage) {
@@ -198,7 +200,12 @@ const Orchestrator = ({
     bindings,
   };
 
-  const missingStrategy = b => goNext(null, b);
+  const missingStrategy = b => {
+    setChangingPage(true);
+    setTimeout(() => {
+      changePage('next', b);
+    }, 200);
+  };
 
   return (
     <OrchestratorContext.Provider value={context}>
@@ -210,7 +217,9 @@ const Orchestrator = ({
           <div className={classes.components} ref={topRef}>
             {components.map(component => {
               const { componentType, id } = component;
+
               const keyToHandle = UQ.getKeyToHandle(
+                missingResponse,
                 currentComponent?.responses,
                 currentComponent?.options
               );
@@ -246,8 +255,23 @@ const Orchestrator = ({
                       missing={missing}
                       missingStrategy={missingStrategy}
                       savingType={savingType}
+                      dontKnowButton={
+                        <>
+                          <span className="shortcut">F2</span>
+                          {D.doesntKnowButton}
+                          <span className="checked" />
+                        </>
+                      }
+                      refusedButton={
+                        <>
+                          <span className="shortcut">F4</span>
+                          {D.refusalButton}
+                          <span className="checked" />
+                        </>
+                      }
                     />
-                    {KEYBOARD_SHORTCUT_COMPONENTS.includes(currentComponentType) && (
+                    {(KEYBOARD_SHORTCUT_COMPONENTS.includes(currentComponentType) ||
+                      missingResponse) && (
                       <KeyboardEventHandler
                         handleKeys={keyToHandle}
                         onKeyEvent={(key, e) => {
@@ -257,6 +281,13 @@ const Orchestrator = ({
                             currentComponent
                           )('COLLECTED');
                           const updatedValue = {};
+                          if (['f2', 'f4'].includes(key)) {
+                            const missingReponseName = UQ.getMissingResponseNameFromComponent(
+                              currentComponent
+                            );
+                            onChange({ [missingReponseName]: key === 'f2' ? 'DK' : 'RF' });
+                            return;
+                          }
                           if (
                             currentComponentType === 'CheckboxOne' ||
                             currentComponentType === 'Radio'

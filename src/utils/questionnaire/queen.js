@@ -53,6 +53,10 @@ export const getResponsesNameFromComponent = component => {
   return [];
 };
 
+export const getMissingResponseNameFromComponent = component => {
+  return component?.missingResponse?.name;
+};
+
 export const getComponentResponse = questionnaire => component => (type = 'COLLECTED') => {
   const reponsesName = getResponsesNameFromComponent(component);
   const { variables } = questionnaire;
@@ -131,12 +135,17 @@ export const updateResponseFiltered = questionnaire => currentComponent => {
   return newQuestionnaire;
 };
 
-export const getKeyToHandle = (responses, options) => {
+export const getKeyToHandle = (missingResponse, responses, options) => {
+  const dontKnowAndRefuseKeys = missingResponse ? ['f2', 'f4'] : [];
   if (options) {
-    return options.length < 10 ? ['numeric'] : ['alphabetic'];
+    return options.length < 10
+      ? [...dontKnowAndRefuseKeys, 'numeric']
+      : [...dontKnowAndRefuseKeys, 'alphabetic'];
   }
   if (responses) {
-    return responses.length < 10 ? ['numeric'] : ['alphabetic'];
+    return responses.length < 10
+      ? [...dontKnowAndRefuseKeys, 'numeric']
+      : [...dontKnowAndRefuseKeys, 'alphabetic'];
   }
-  return [];
+  return dontKnowAndRefuseKeys;
 };
