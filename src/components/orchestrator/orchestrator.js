@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
-import KeyboardEventHandler from 'react-keyboard-event-handler';
 import * as lunatic from '@inseefr/lunatic';
-import alphabet from 'utils/constants/alphabet';
 import * as UQ from 'utils/questionnaire';
-import { DIRECT_CONTINUE_COMPONENTS, KEYBOARD_SHORTCUT_COMPONENTS } from 'utils/constants';
+import { DIRECT_CONTINUE_COMPONENTS } from 'utils/constants';
 import Header from './header';
 import Buttons from './buttons';
 import ContinueButton from './buttons/continue';
@@ -18,6 +16,7 @@ import {
   VALIDATED,
   useValidatedPages,
 } from 'utils/hook/questionnaire';
+import D from 'i18n';
 
 export const OrchestratorContext = React.createContext();
 
@@ -28,6 +27,7 @@ const Orchestrator = ({
   savingType,
   preferences,
   pagination,
+  missing,
   features,
   source,
   filterDescription,
@@ -43,7 +43,7 @@ const Orchestrator = ({
 
   const [pendingChangePage, setPendingChangePage] = useState(null);
   const [questionnaireUpdated, setQuestionnaireUpdated] = useState(true);
-  const [changedOnce, setChangedOnce] = useState(false);
+  const [haveToGoNext, setHaveToGoNext] = useState(false);
 
   const [queenFlow, setQueenFlow] = useState('next');
 
@@ -100,15 +100,15 @@ const Orchestrator = ({
   }, [page, queenFlow]);
 
   const changePage = useCallback(
-    type => {
+    (type, freshBindings) => {
       setChangingPage(true);
       setQueenFlow(type);
       setPendingChangePage(null);
-      setChangedOnce(false);
+      setHaveToGoNext(false);
       saveQueen();
       if (type === 'next') {
         addValidatedPages(page);
-        goNext();
+        goNext(null, freshBindings);
       } else if (type === 'fastForward') {
         const pageOfLastComponentToValidate = UQ.getMaxValidatedPage(addValidatedPages(page));
         setPage(pageOfLastComponentToValidate);
@@ -135,6 +135,16 @@ const Orchestrator = ({
     close();
   }, [saveQueen, changeState, close]);
 
+  const {
+    maxLocalPages,
+    occurences,
+    currentComponent,
+    occurencesIndex,
+  } = UQ.getInfoFromCurrentPage(components)(bindings)(page)(maxPage);
+  const { componentType: currentComponentType, hierarchy } = currentComponent || {};
+
+  const previousFilled = UQ.isPreviousFilled(questionnaire)(currentComponent)(occurencesIndex);
+
   /**
    * This function updates the values of the questionnaire responses
    * from the data entered by the user.
@@ -144,32 +154,21 @@ const Orchestrator = ({
   const onChange = async updatedValue => {
     if (!readonly) {
       setQuestionnaireUpdated(false);
-      await handleChange(updatedValue);
+      handleChange(updatedValue);
       setQuestionnaireUpdated(true);
-      setChangedOnce(true);
+      setHaveToGoNext(UQ.haveToGoNext(currentComponentType, updatedValue));
     }
   };
 
-  const {
-    maxLocalPages,
-    occurences,
-    currentComponent,
-    depth,
-    occurencesIndex,
-  } = UQ.getInfoFromCurrentPage(components)(bindings)(page)(maxPage);
-  const { componentType: currentComponentType, hierarchy } = currentComponent || {};
-
-  const previousFilled = UQ.isPreviousFilled(questionnaire)(currentComponent);
-
   useEffect(() => {
-    if (!isLastPage && DIRECT_CONTINUE_COMPONENTS.includes(currentComponentType) && changedOnce) {
+    if (!isLastPage && haveToGoNext) {
       setChangingPage(true);
       setTimeout(() => {
         changePage('next');
       }, 200);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [questionnaire, changedOnce, isLastPage, currentComponentType]);
+  }, [haveToGoNext, isLastPage, currentComponentType]);
 
   useEffect(() => {
     if (questionnaireUpdated && pendingChangePage) {
@@ -181,22 +180,28 @@ const Orchestrator = ({
   }, [questionnaireUpdated, pendingChangePage, changePage, quit]);
 
   const context = {
-    menuOpen: menuOpen,
-    setMenuOpen: setMenuOpen,
-    quit: quit,
-    definitiveQuit: definitiveQuit,
-    standalone: standalone,
-    readonly: readonly,
-    page: page,
+    menuOpen,
+    setMenuOpen,
+    quit,
+    definitiveQuit,
+    standalone,
+    readonly,
+    page,
     maxPages: maxLocalPages,
-    occurences: occurences,
-    isFirstPage: isFirstPage,
-    isLastPage: isLastPage,
-    validatedPages: validatedPages,
-    questionnaire: questionnaire,
-    bindings: bindings,
+    occurences,
+    isFirstPage,
+    isLastPage,
+    validatedPages,
+    questionnaire,
+    bindings,
   };
 
+  const missingStrategy = b => {
+    setChangingPage(true);
+    setTimeout(() => {
+      changePage('next', b);
+    }, 200);
+  };
   return (
     <OrchestratorContext.Provider value={context}>
       <div className={classes.root}>
@@ -207,10 +212,6 @@ const Orchestrator = ({
           <div className={classes.components} ref={topRef}>
             {components.map(component => {
               const { componentType, id } = component;
-              const keyToHandle = UQ.getKeyToHandle(
-                currentComponent?.responses,
-                currentComponent?.options
-              );
               const Component = lunatic[componentType];
               if (componentType !== 'FilterDescription')
                 return (
@@ -240,73 +241,33 @@ const Orchestrator = ({
                       setPage={setPage}
                       flow={flow}
                       pagination={pagination}
+                      missing={missing}
+                      missingStrategy={missingStrategy}
+                      savingType={savingType}
+                      dontKnowButton={
+                        <>
+                          <span className="shortcut">F2</span>
+                          {D.doesntKnowButton}
+                          <span className="checked" />
+                        </>
+                      }
+                      refusedButton={
+                        <>
+                          <span className="shortcut">F4</span>
+                          {D.refusalButton}
+                          <span className="checked" />
+                        </>
+                      }
+                      missingShortcut={{ dontKnow: 'f2', refused: 'f4' }}
+                      shortcut={true}
                     />
-                    {KEYBOARD_SHORTCUT_COMPONENTS.includes(currentComponentType) && (
-                      <KeyboardEventHandler
-                        handleKeys={keyToHandle}
-                        onKeyEvent={(key, e) => {
-                          e.preventDefault();
-                          const responsesName = UQ.getResponsesNameFromComponent(currentComponent);
-                          const responsesCollected = UQ.getComponentResponse(questionnaire)(
-                            currentComponent
-                          )('COLLECTED');
-                          const updatedValue = {};
-                          if (
-                            currentComponentType === 'CheckboxOne' ||
-                            currentComponentType === 'Radio'
-                          ) {
-                            const index =
-                              (currentComponent?.options.length < 10
-                                ? key
-                                : alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase()) +
-                                  1) - 1;
-                            if (index >= 0 && index < currentComponent?.options.length) {
-                              if (depth === 0) {
-                                updatedValue[responsesName[0]] =
-                                  currentComponent?.options[index].value;
-                                onChange(updatedValue);
-                              } else {
-                                const copy = UQ.secureCopy(responsesCollected);
-                                UQ.changeDeepValue(copy[responsesName[0]])(occurencesIndex)(
-                                  currentComponent?.options[index].value
-                                );
-                                onChange(copy);
-                              }
-                            }
-                          } else if (currentComponentType === 'CheckboxGroup') {
-                            const index =
-                              (responsesName.length < 10
-                                ? key
-                                : alphabet.findIndex(l => l.toLowerCase() === key.toLowerCase()) +
-                                  1) - 1;
-                            if (index >= 0 && index < responsesName.length) {
-                              if (depth === 0) {
-                                updatedValue[responsesName[index]] = !responsesCollected[
-                                  responsesName[index]
-                                ];
-                                onChange(updatedValue);
-                              } else {
-                                const copy = UQ.secureCopy(responsesCollected);
-                                UQ.reverseDeepValueForCheckboxGroup(copy[responsesName[index]])(
-                                  occurencesIndex
-                                );
-                                updatedValue[responsesName[index]] = copy[responsesName[index]];
-                                onChange(updatedValue);
-                              }
-                            }
-                          }
-                        }}
-                        handleFocusableElements
-                      />
-                    )}
                   </div>
                 );
               return null;
             })}
             {(!DIRECT_CONTINUE_COMPONENTS.includes(currentComponentType) || readonly) &&
-              (!validatedPages.includes(page) || isLastPage) && (
-                <ContinueButton setPendingChangePage={setPendingChangePage} />
-              )}
+              (!validatedPages.includes(page) || isLastPage) &&
+              !previousFilled && <ContinueButton setPendingChangePage={setPendingChangePage} />}
           </div>
 
           <NavBar>
