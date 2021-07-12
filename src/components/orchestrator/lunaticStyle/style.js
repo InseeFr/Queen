@@ -366,7 +366,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
     '& .missing-buttons': {
       marginRight: '60px',
       position: 'absolute',
-      bottom: '1.5em',
+      bottom: '1.3em',
       [theme.breakpoints.down('md')]: {
         bottom: '4em',
       },
