@@ -18,6 +18,7 @@ const visualizeMessage = {
     fr: 'Données',
     en: 'Data',
   },
+  labelReadonly: { fr: 'Lecture seule', en: 'Readonly' },
   helperTextData: {
     fr: `L'url d'un json de données (de réponse)`,
     en: `The url of a data (response) json.`,

@@ -159,7 +159,7 @@ const Orchestrator = ({
   } = UQ.getInfoFromCurrentPage(components)(bindings)(page)(maxPage);
   const { componentType: currentComponentType, hierarchy } = currentComponent || {};
 
-  const previousFilled = UQ.isPreviousFilled(questionnaire)(currentComponent);
+  const previousFilled = UQ.isPreviousFilled(questionnaire)(currentComponent)(occurencesIndex);
 
   useEffect(() => {
     if (!isLastPage && DIRECT_CONTINUE_COMPONENTS.includes(currentComponentType) && changedOnce) {
@@ -181,20 +181,20 @@ const Orchestrator = ({
   }, [questionnaireUpdated, pendingChangePage, changePage, quit]);
 
   const context = {
-    menuOpen: menuOpen,
-    setMenuOpen: setMenuOpen,
-    quit: quit,
-    definitiveQuit: definitiveQuit,
-    standalone: standalone,
-    readonly: readonly,
-    page: page,
+    menuOpen,
+    setMenuOpen,
+    quit,
+    definitiveQuit,
+    standalone,
+    readonly,
+    page,
     maxPages: maxLocalPages,
-    occurences: occurences,
-    isFirstPage: isFirstPage,
-    isLastPage: isLastPage,
-    validatedPages: validatedPages,
-    questionnaire: questionnaire,
-    bindings: bindings,
+    occurences,
+    isFirstPage,
+    isLastPage,
+    validatedPages,
+    questionnaire,
+    bindings,
   };
 
   return (
@@ -304,9 +304,8 @@ const Orchestrator = ({
               return null;
             })}
             {(!DIRECT_CONTINUE_COMPONENTS.includes(currentComponentType) || readonly) &&
-              (!validatedPages.includes(page) || isLastPage) && (
-                <ContinueButton setPendingChangePage={setPendingChangePage} />
-              )}
+              (!validatedPages.includes(page) || isLastPage) &&
+              !previousFilled && <ContinueButton setPendingChangePage={setPendingChangePage} />}
           </div>
 
           <NavBar>

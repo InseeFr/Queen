@@ -133,7 +133,6 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       },
 
       '& .checkbox-modality, & .radio-modality': {
-        whiteSpace: 'nowrap',
         display: 'block',
         borderRadius: '5px',
         border: `1px solid ${borderColorCheckbox}`,
@@ -141,6 +140,9 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         margin: '8px',
         width: '60%',
 
+        '& .list-icon-wrapper': {
+          display: 'flex',
+        },
         '& .list-icon': {
           display: 'none',
         },
@@ -150,8 +152,9 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
           borderColor: `${modalityLabelColorChecked}`,
         },
         '& label': {
-          display: 'inline-block',
-          padding: '0.8em 0.5em 0.8em 1.7em',
+          display: 'inline-flex',
+          alignItems: 'center',
+          padding: '0.5em 0.5em 0.5em 0.6em',
           position: 'relative',
           right: '1.3em',
           width: '92%',
@@ -162,24 +165,33 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       },
 
       '& .code-modality': {
+        alignSelf: 'baseline',
         position: 'relative',
-        left: '-1em',
         padding: '0.3em 0.5em 0.3em 0.5em',
         color: `${modalityLabelColor}`,
         fontWeight: 'bold',
         border: `1px solid ${borderColorCheckbox}`,
         backgroundColor: `${modalityCodeBackgroundColor}`,
         borderRadius: '5px',
+        marginRight: '1em',
+        height: 'min-content',
       },
 
       '& .checkbox-lunatic, .radio-lunatic': {
         opacity: 0,
 
         '&:checked + label::after': {
-          float: 'right',
+          marginLeft: 'auto',
           content: "'✓'",
         },
-        '&:focus + label, &:hover + label, &:checked + label': {
+        '&:focus + label, &:hover + label': {
+          fontWeight: 'bold',
+          '& .code-modality': {
+            borderColor: theme.palette.declarations.main,
+            borderWidth: '2px',
+          },
+        },
+        '&:checked + label': {
           color: `${modalityLabelColorChecked}`,
           fontWeight: 'bold',
           '& .code-modality': {

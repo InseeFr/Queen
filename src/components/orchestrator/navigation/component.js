@@ -24,7 +24,9 @@ import { Apps } from '@material-ui/icons';
 import { OrchestratorContext } from '../orchestrator';
 
 const Navigation = ({ className, title, setPage }) => {
-  const { questionnaire, bindings, validatedPages, setMenuOpen } = useContext(OrchestratorContext);
+  const { questionnaire, bindings, validatedPages, setMenuOpen, readonly } = useContext(
+    OrchestratorContext
+  );
   const [open, setOpen] = useState(false);
   const [surveyOpen, setSurveyOpen] = useState(false);
   const [stopOpen, setStopOpen] = useState(false);
@@ -117,7 +119,7 @@ const Navigation = ({ className, title, setPage }) => {
   const offset = 1;
 
   const menuItemsSurvey = [D.surveyNavigation];
-  const menuItemsQuality = ['Arrêt'];
+  const menuItemsQuality = !readonly ? ['Arrêt'] : [];
 
   const [currentFocusElementIndex, setCurrentFocusElementIndex] = useState(0);
   const [listRefs] = useState(
