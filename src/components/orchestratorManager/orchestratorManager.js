@@ -10,7 +10,7 @@ import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-servic
 import { READ_ONLY } from 'utils/constants';
 import { sendCloseEvent } from 'utils/communication';
 import Orchestrator from '../orchestrator';
-import { checkVersions } from 'utils/questionnaire';
+import { checkQuestionnaire } from 'utils/questionnaire';
 
 const OrchestratorManager = () => {
   const configuration = useContext(AppContext);
@@ -28,7 +28,7 @@ const OrchestratorManager = () => {
 
   useEffect(() => {
     if (!init && questionnaire && surveyUnit) {
-      const { valid, error: questionnaireError } = checkVersions(questionnaire);
+      const { valid, error: questionnaireError } = checkQuestionnaire(questionnaire);
       if (valid) {
         setSource(questionnaire);
         setInit(true);

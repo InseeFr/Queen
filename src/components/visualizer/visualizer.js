@@ -7,7 +7,7 @@ import Error from 'components/shared/Error';
 import { useRemoteData, useVisuQuery } from 'utils/hook';
 import QuestionnaireForm from './questionnaireForm';
 import { useHistory } from 'react-router';
-import { checkVersions, downloadDataAsJson } from 'utils/questionnaire';
+import { checkQuestionnaire, downloadDataAsJson } from 'utils/questionnaire';
 
 const Visualizer = () => {
   const configuration = useContext(AppContext);
@@ -34,7 +34,7 @@ const Visualizer = () => {
 
   useEffect(() => {
     if (questionnaireUrl && questionnaire && suData) {
-      const { valid, error: questionnaireError } = checkVersions(questionnaire);
+      const { valid, error: questionnaireError } = checkQuestionnaire(questionnaire);
       if (valid) {
         setSource(questionnaire);
         setSurveyUnit(createFakeSurveyUnit(suData));
