@@ -17,7 +17,7 @@ const checkVersion = (actualVersion, expectedVersion) => {
   }
 };
 
-export const checkVersions = ({ enoCoreVersion, lunaticModelVersion }) => {
+const checkVersions = ({ enoCoreVersion, lunaticModelVersion }) => {
   const { valid: enoValid } = checkVersion(enoCoreVersion, MIN_ENO_CORE_VERSION);
   const { valid: lunaticValid } = checkVersion(lunaticModelVersion, MIN_LUNATIC_MODEL_VERSION);
   if (!enoValid || !lunaticValid) {
@@ -30,6 +30,26 @@ export const checkVersions = ({ enoCoreVersion, lunaticModelVersion }) => {
     return {
       valid: enoValid && lunaticValid,
       error: `${enoMessage} ${lunaticMessage}`,
+    };
+  }
+  return { valid: true };
+};
+
+export const checkQuestionnaire = ({
+  enoCoreVersion,
+  lunaticModelVersion,
+  pagination,
+  missingResponse,
+}) => {
+  const { valid, error } = checkVersions({ enoCoreVersion, lunaticModelVersion });
+  const paginationValid = pagination === 'question';
+  const missingResponseValid = missingResponse || true; //remove "|| true" when Eno is ready (2.2.10)
+  const paginationError = paginationValid ? '' : `Pagination must be "question".`;
+  const missingResponseError = missingResponseValid ? '' : `Missing response must be true`;
+  if (!(valid && paginationValid && missingResponseValid)) {
+    return {
+      valid: false,
+      error: `Questionnaire is invalid : ${error || ''} ${paginationError} ${missingResponseError}`,
     };
   }
   return { valid: true };
