@@ -133,7 +133,6 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       },
 
       '& .checkbox-modality, & .radio-modality': {
-        whiteSpace: 'nowrap',
         display: 'block',
         borderRadius: '5px',
         border: `1px solid ${borderColorCheckbox}`,
@@ -141,6 +140,9 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         margin: '8px',
         width: '60%',
 
+        '& .list-icon-wrapper': {
+          display: 'flex',
+        },
         '& .list-icon': {
           display: 'none',
         },
@@ -150,8 +152,9 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
           borderColor: `${modalityLabelColorChecked}`,
         },
         '& label': {
-          display: 'inline-block',
-          padding: '0.8em 0.5em 0.8em 1.7em',
+          display: 'inline-flex',
+          alignItems: 'center',
+          padding: '0.5em 0.5em 0.5em 0.6em',
           position: 'relative',
           right: '1.3em',
           width: '92%',
@@ -162,24 +165,33 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       },
 
       '& .code-modality': {
+        alignSelf: 'baseline',
         position: 'relative',
-        left: '-1em',
         padding: '0.3em 0.5em 0.3em 0.5em',
         color: `${modalityLabelColor}`,
         fontWeight: 'bold',
         border: `1px solid ${borderColorCheckbox}`,
         backgroundColor: `${modalityCodeBackgroundColor}`,
         borderRadius: '5px',
+        marginRight: '1em',
+        height: 'min-content',
       },
 
       '& .checkbox-lunatic, .radio-lunatic': {
         opacity: 0,
 
         '&:checked + label::after': {
-          float: 'right',
+          marginLeft: 'auto',
           content: "'✓'",
         },
-        '&:focus + label, &:hover + label, &:checked + label': {
+        '&:focus + label, &:hover + label': {
+          fontWeight: 'bold',
+          '& .code-modality': {
+            borderColor: theme.palette.declarations.main,
+            borderWidth: '2px',
+          },
+        },
+        '&:checked + label': {
           color: `${modalityLabelColorChecked}`,
           fontWeight: 'bold',
           '& .code-modality': {
@@ -346,6 +358,99 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
                 fontWeight: 'bold',
               },
             },
+          },
+        },
+      },
+    },
+
+    '& .missing-buttons': {
+      marginRight: '60px',
+      position: 'absolute',
+      bottom: '1.3em',
+      [theme.breakpoints.down('md')]: {
+        bottom: '4em',
+      },
+
+      '& button.button-lunatic': {
+        display: 'inline-block',
+        borderRadius: '4px',
+        lineHeight: 1.75,
+        border: 'none',
+        color: 'white',
+        verticalAlign: 'middle',
+        backgroundColor: '#666666',
+        fontSize: '0.875rem',
+        padding: '6px 8px',
+        marginLeft: '2em',
+        marginBottom: '3px',
+
+        '& .shortcut': {
+          padding: '0.3em 0.5em 0.3em 0.5em',
+          marginRight: '0.5em',
+          color: '#666666',
+          fontWeight: 'bold',
+          border: '1px solid transparent',
+          backgroundColor: 'white',
+          borderRadius: '5px',
+        },
+        '& .checked': {
+          display: 'inline-block',
+          width: '1em',
+          marginLeft: '1em',
+          fontSize: '85%',
+          fontWeight: 'bold',
+        },
+      },
+
+      '& .missing-button-dk button.button-lunatic': {
+        '&:hover,&:focus': {
+          backgroundColor: '#f9cb9c',
+          color: '#b45f06',
+          '& .shortcut': {
+            color: 'white',
+            backgroundColor: '#b45f06',
+          },
+        },
+      },
+
+      '& .missing-button-rf button.button-lunatic': {
+        '&:hover,&:focus': {
+          backgroundColor: '#ea9999',
+          color: '#990000',
+          '& .shortcut': {
+            color: 'white',
+            backgroundColor: '#990000',
+          },
+        },
+      },
+
+      //  dont know active
+      '& .missing-button-dk-active button.button-lunatic': {
+        backgroundColor: '#f9cb9c',
+        color: '#b45f06',
+        '& .shortcut': {
+          color: 'white',
+          backgroundColor: '#b45f06',
+        },
+        '& .checked': {
+          color: '#b45f06',
+          '&::after': {
+            content: "'✓'",
+          },
+        },
+      },
+      // refused active
+      '& .missing-button-rf-active .button-lunatic': {
+        backgroundColor: '#ea9999',
+        color: '#990000',
+        '& .shortcut': {
+          color: 'white',
+          backgroundColor: '#990000',
+        },
+        '& .checked': {
+          color: '#990000',
+          '&::after': {
+            content: "'✓'",
           },
         },
       },

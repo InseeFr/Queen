@@ -1,27 +1,27 @@
 import * as lunatic from '@inseefr/lunatic';
+import { DIRECT_CONTINUE_COMPONENTS } from 'utils/constants';
 
 export const secureCopy = objectToCopy => JSON.parse(JSON.stringify(objectToCopy));
 
-export const changeDeepValue = vecteur => iterations => newValue => {
-  const [firstVal, ...otherVals] = iterations;
-  if (iterations.length > 1) {
-    changeDeepValue(vecteur[firstVal])(otherVals)(newValue);
-  } else {
-    if (Array.isArray(vecteur)) vecteur[firstVal] = newValue;
-    else vecteur = newValue;
-  }
+export const haveToGoNext = (currentComponentType, updateValue) => {
+  const keys = Object.keys(updateValue);
+  console.log(keys);
+  console.log(haveNotNullUpdate(updateValue));
+  console.log(keys.filter(v => v.includes('MISSING')).length === 0);
+  return (
+    keys.length > 0 &&
+    haveNotNullUpdate(updateValue) &&
+    DIRECT_CONTINUE_COMPONENTS.includes(currentComponentType) &&
+    keys.filter(v => v.includes('MISSING')).length === 0
+  );
 };
-
-export const reverseDeepValueForCheckboxGroup = vecteur => iterations => {
-  const [firstVal, ...otherVals] = iterations;
-  if (iterations.length > 1) {
-    reverseDeepValueForCheckboxGroup(vecteur[firstVal])(otherVals);
-  } else {
-    if (Array.isArray(vecteur)) vecteur[firstVal] = !vecteur[firstVal];
-    else vecteur = !vecteur;
-  }
+export const haveNotNullUpdate = updateValue => {
+  return (
+    typeof updateValue === 'object' &&
+    updateValue !== null &&
+    Object.values(updateValue).filter(v => !!v).length > 0
+  );
 };
-
 /**
  * This function returns the list of variables collected by a component
  * (regardless of their state).
@@ -51,8 +51,16 @@ export const getResponsesNameFromComponent = component => {
   return [];
 };
 
-export const getComponentResponse = questionnaire => component => (type = 'COLLECTED') => {
-  const reponsesName = getResponsesNameFromComponent(component);
+export const getMissingResponseNameFromComponent = component => {
+  return component?.missingResponse?.name;
+};
+
+export const getResponseOfComponent = questionnaire => component => (type = 'COLLECTED') => (
+  missing = false
+) => {
+  const reponsesName = missing
+    ? getMissingResponseNameFromComponent(component)
+    : getResponsesNameFromComponent(component);
   const { variables } = questionnaire;
   const { COLLECTED, ...other } = variables;
   const newCOLLECTED = Object.entries(COLLECTED).reduce((init, [name, values]) => {
@@ -66,59 +74,28 @@ export const getComponentResponse = questionnaire => component => (type = 'COLLE
   return lunatic.getCollectedStateByValueType({ variables: newVariables })(type);
 };
 
-export const isPreviousFilled = questionnaire => component =>
-  Object.entries(getComponentResponse(questionnaire)(component)('PREVIOUS')).length > 0;
+export const getComponentResponse = questionnaire => component => type => {
+  return getResponseOfComponent(questionnaire)(component)(type)(false);
+};
+export const getComponentResponseMissing = questionnaire => component => type => {
+  return getResponseOfComponent(questionnaire)(component)(type)(true);
+};
 
-/**
- * This function returns the list of variables that must be reset to "null"
- * because they depend on a filter that has been updated.
- * @param {Array} components (list of component)
- * @param {String} response (the response name)
- * @returns list of collectedVariables
- */
-export const getResponsesLinkWith = components => response => {
-  const regexpTest = new RegExp(`\\b${response}\\b`);
-  return components.reduce((_, component) => {
-    const { conditionFilter } = component;
-    if (conditionFilter) {
-      const responses = regexpTest.test(conditionFilter?.value)
-        ? getResponsesNameFromComponent(component)
-        : [];
-      return [..._, ...responses];
-    }
-    return _;
+export const getIterationValue = values => iterations => {
+  const [firstVal, ...otherVals] = iterations;
+  if (iterations.length > 1) {
+    getIterationValue(values[firstVal])(otherVals);
+  } else {
+    if (Array.isArray(values)) return values[firstVal];
+    else return values;
+  }
+};
+export const isPreviousFilled = questionnaire => component => iterations => {
+  const previousResponses = getComponentResponse(questionnaire)(component)('PREVIOUS');
+  const previousNotNull = Object.keys(previousResponses).reduce((acc, currentKey) => {
+    const value = getIterationValue(previousResponses[currentKey])(iterations);
+    if (value) return [...acc, value];
+    return acc;
   }, []);
-};
-
-/**
- * This function sets to "null" the collected variables that depend on a filter
- * that depends on the variables collected by the current component.
- * @param {*} questionnaire
- * @param {*} currentComponent
- * @returns newQuestionnaire
- */
-export const updateResponseFiltered = questionnaire => currentComponent => {
-  let newQuestionnaire = { ...questionnaire };
-  const collectedResponses = getResponsesNameFromComponent(currentComponent);
-  collectedResponses.forEach(response => {
-    const linkedResponses = getResponsesLinkWith(newQuestionnaire.components)(response);
-    linkedResponses.forEach(linkedResponse => {
-      const updatedValue = {};
-      updatedValue[linkedResponse] = null;
-      newQuestionnaire = lunatic.updateQuestionnaire('COLLECTED')(newQuestionnaire)(['COLLECTED'])(
-        updatedValue
-      );
-    });
-  });
-  return newQuestionnaire;
-};
-
-export const getKeyToHandle = (responses, options) => {
-  if (options) {
-    return options.length < 10 ? ['numeric'] : ['alphabetic'];
-  }
-  if (responses) {
-    return responses.length < 10 ? ['numeric'] : ['alphabetic'];
-  }
-  return [];
+  return previousNotNull.length > 0;
 };

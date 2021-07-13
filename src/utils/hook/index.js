@@ -10,7 +10,8 @@ export const useVisuQuery = () => {
   const searchUrl = new URLSearchParams(useLocation().search);
   const questionnaireUrl = searchUrl.get('questionnaire');
   const dataUrl = searchUrl.get('data');
-  return { questionnaireUrl, dataUrl };
+  const readonly = searchUrl.get('readonly') === `true`;
+  return { questionnaireUrl, dataUrl, readonly };
 };
 
 // https://css-tricks.com/dealing-with-stale-props-and-states-in-reacts-functional-components/

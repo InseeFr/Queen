@@ -84,6 +84,7 @@ const OrchestratorManager = () => {
           preferences={['PREVIOUS', 'COLLECTED']}
           features={['VTL']}
           pagination={true}
+          missing={true}
           filterDescription={false}
           save={saveSU}
           close={closeOrchestrator}
