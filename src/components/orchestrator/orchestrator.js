@@ -197,10 +197,12 @@ const Orchestrator = ({
   };
 
   const missingStrategy = b => {
-    setChangingPage(true);
-    setTimeout(() => {
-      changePage('next', b);
-    }, 200);
+    if (!isLastPage) {
+      setChangingPage(true);
+      setTimeout(() => {
+        changePage('next', b);
+      }, 200);
+    }
   };
   return (
     <OrchestratorContext.Provider value={context}>
