@@ -84,11 +84,37 @@ const getCurrentOccurrences = components => bindings => currentPage => {
   return [];
 };
 
+const getBindindsOfLoop = components => bindings => currentPage => {
+  const filterComponentsLoop = components.filter(c => filterPageLoop(currentPage)(c));
+  if (filterComponentsLoop.length > 0) {
+    const {
+      loopDependencies,
+      bindingDependencies,
+      components: componentsOfLoop,
+      paginatedLoop,
+    } = filterComponentsLoop[0];
+    if (loopDependencies && paginatedLoop) {
+      return {
+        loopBindings: loopDependencies.reduce((acc, name) => {
+          acc[name] = bindings[name];
+          return acc;
+        }, {}),
+        responseBindings: bindingDependencies.reduce((acc, name) => {
+          if (!loopDependencies.includes(name)) acc[name] = bindings[name];
+          return acc;
+        }, {}),
+      };
+    }
+  }
+  return {};
+};
+
 export const getInfoFromCurrentPage = components => bindings => currentPage => maxPage => {
   const occurences = getCurrentOccurrences(components)(bindings)(currentPage);
   const maxLocalPages = getMaxPages(components)(currentPage)(maxPage);
   const currentComponent = getCurrentComponent(components)(currentPage);
   const depth = (currentPage?.match(/\./g) || []).length;
   const occurencesIndex = getIterations(currentPage).map(i => i - 1);
-  return { maxLocalPages, occurences, currentComponent, depth, occurencesIndex };
+  const loopBindings = getBindindsOfLoop(components)(bindings)(currentPage);
+  return { maxLocalPages, occurences, currentComponent, depth, occurencesIndex, loopBindings };
 };

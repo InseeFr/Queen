@@ -17,6 +17,7 @@ import {
   useValidatedPages,
 } from 'utils/hook/questionnaire';
 import D from 'i18n';
+import { Panel } from 'components/designSystem';
 
 export const OrchestratorContext = React.createContext();
 
@@ -140,8 +141,11 @@ const Orchestrator = ({
     occurences,
     currentComponent,
     occurencesIndex,
+    loopBindings: { loopBindings, responseBindings },
   } = UQ.getInfoFromCurrentPage(components)(bindings)(page)(maxPage);
   const { componentType: currentComponentType, hierarchy } = currentComponent || {};
+
+  console.log('loopBindings', loopBindings);
 
   const previousFilled = UQ.isPreviousFilled(questionnaire)(currentComponent)(occurencesIndex);
 
@@ -203,6 +207,11 @@ const Orchestrator = ({
         changePage('next', b);
       }, 200);
     }
+  };
+  const [expanded, setExpanded] = useState(false);
+
+  const handleChangePanel = panel => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
   };
   return (
     <OrchestratorContext.Provider value={context}>
@@ -279,6 +288,27 @@ const Orchestrator = ({
             />
           </NavBar>
         </div>
+      </div>
+      <div>
+        {loopBindings &&
+          Object.values(loopBindings).length > 0 &&
+          Object.values(loopBindings)[0].map((_, ind) => {
+            return (
+              <Panel
+                key={`${ind}-panel`}
+                expanded={ind === occurencesIndex[0] || expanded === ind}
+                handleChangePanel={handleChangePanel}
+                index={ind}
+                title={Object.values(loopBindings).map(value => {
+                  if (value) return <span>{`${value[ind]} `}</span>;
+                  return null;
+                })}
+                variables={Object.entries(responseBindings).reduce((acc, [key, value]) => {
+                  return { ...acc, [key]: value[ind] };
+                }, {})}
+              />
+            );
+          })}
       </div>
     </OrchestratorContext.Provider>
   );
