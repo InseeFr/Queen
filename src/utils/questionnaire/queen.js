@@ -5,9 +5,6 @@ export const secureCopy = objectToCopy => JSON.parse(JSON.stringify(objectToCopy
 
 export const haveToGoNext = (currentComponentType, updateValue) => {
   const keys = Object.keys(updateValue);
-  console.log(keys);
-  console.log(haveNotNullUpdate(updateValue));
-  console.log(keys.filter(v => v.includes('MISSING')).length === 0);
   return (
     keys.length > 0 &&
     haveNotNullUpdate(updateValue) &&
