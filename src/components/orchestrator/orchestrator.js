@@ -165,7 +165,7 @@ const Orchestrator = ({
       setChangingPage(true);
       setTimeout(() => {
         changePage('next');
-      }, 200);
+      }, 100);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [haveToGoNext, isLastPage, currentComponentType]);
