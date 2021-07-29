@@ -46,6 +46,7 @@ const Orchestrator = ({
   const [haveToGoNext, setHaveToGoNext] = useState(false);
 
   const [queenFlow, setQueenFlow] = useState('next');
+  const [rereading, setRereading] = useState(false);
 
   const {
     questionnaire,
@@ -89,16 +90,6 @@ const Orchestrator = ({
     [questionnaire, save, surveyUnit, state, page, comment]
   );
 
-  useEffect(() => {
-    if (queenFlow === 'fastForward') {
-      setQueenFlow('next');
-      goNext();
-    }
-    setChangingPage(false);
-    // assume, we don't want to goNext each time goNext is updated, only the first time
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, queenFlow]);
-
   const changePage = useCallback(
     (type, freshBindings) => {
       setChangingPage(true);
@@ -110,11 +101,11 @@ const Orchestrator = ({
         addValidatedPages(page);
         goNext(null, freshBindings);
       } else if (type === 'fastForward') {
-        const pageOfLastComponentToValidate = UQ.getMaxValidatedPage(addValidatedPages(page));
-        setPage(pageOfLastComponentToValidate);
+        goNext();
       } else if (type === 'previous') goPrevious();
+      setRereading(false);
     },
-    [addValidatedPages, page, goNext, goPrevious, saveQueen, setPage]
+    [saveQueen, goPrevious, addValidatedPages, page, goNext]
   );
 
   const quit = useCallback(async () => {
@@ -142,6 +133,44 @@ const Orchestrator = ({
     occurencesIndex,
   } = UQ.getInfoFromCurrentPage(components)(bindings)(page)(maxPage);
   const { componentType: currentComponentType, hierarchy } = currentComponent || {};
+  const { paginatedLoop, componentType } = components[0] || {};
+  const queenBindings = UQ.getQueenBindings(bindings)(page);
+
+  const canGoNext = UQ.canGoNext(currentComponent)(queenBindings);
+
+  useEffect(() => {
+    if (canGoNext && !rereading && !['Sequence', 'Subsequence'].includes(componentType)) {
+      setRereading(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, rereading]);
+
+  useEffect(() => {
+    if (changingPage) {
+      if (queenFlow === 'fastForward' || queenFlow === 'waitingFast') {
+        if (canGoNext) {
+          changePage('fastForward');
+        } else if (currentComponent) {
+          setQueenFlow('next');
+          setChangingPage(false);
+        } else {
+          setQueenFlow('waitingFast');
+        }
+      } else {
+        setChangingPage(false);
+      }
+    }
+  }, [
+    canGoNext,
+    changePage,
+    changingPage,
+    componentType,
+    currentComponent,
+    goNext,
+    page,
+    paginatedLoop,
+    queenFlow,
+  ]);
 
   const previousFilled = UQ.isPreviousFilled(questionnaire)(currentComponent)(occurencesIndex);
 
@@ -156,7 +185,7 @@ const Orchestrator = ({
       setQuestionnaireUpdated(false);
       handleChange(updatedValue);
       setQuestionnaireUpdated(true);
-      setHaveToGoNext(UQ.haveToGoNext(currentComponentType, updatedValue));
+      setHaveToGoNext(h => h || UQ.haveToGoNext(currentComponentType, updatedValue));
     }
   };
 
@@ -194,6 +223,7 @@ const Orchestrator = ({
     validatedPages,
     questionnaire,
     bindings,
+    queenBindings,
   };
 
   const missingStrategy = b => {
@@ -225,56 +255,58 @@ const Orchestrator = ({
                     }`}
                     key={`component-${id}`}
                   >
-                    <Component
-                      {...component}
-                      handleChange={onChange}
-                      labelPosition="TOP"
-                      unitPosition="AFTER"
-                      preferences={preferences}
-                      features={features}
-                      bindings={bindings}
-                      filterDescription={filterDescription}
-                      writable
-                      focused
-                      readOnly={readonly}
-                      disabled={readonly}
-                      keyboardSelection={true}
-                      currentPage={page}
-                      setPage={setPage}
-                      flow={flow}
-                      pagination={pagination}
-                      missing={missing}
-                      missingStrategy={missingStrategy}
-                      savingType={savingType}
-                      dontKnowButton={
-                        <>
-                          <span className="shortcut">F2</span>
-                          {D.doesntKnowButton}
-                          <span className="checked" />
-                        </>
-                      }
-                      refusedButton={
-                        <>
-                          <span className="shortcut">F4</span>
-                          {D.refusalButton}
-                          <span className="checked" />
-                        </>
-                      }
-                      missingShortcut={{ dontKnow: 'f2', refused: 'f4' }}
-                      shortcut={true}
-                    />
+                    {queenFlow !== 'fastForward' && (
+                      <Component
+                        {...component}
+                        handleChange={onChange}
+                        labelPosition="TOP"
+                        unitPosition="AFTER"
+                        preferences={preferences}
+                        features={features}
+                        bindings={bindings}
+                        filterDescription={filterDescription}
+                        writable
+                        focused
+                        readOnly={readonly}
+                        disabled={readonly}
+                        keyboardSelection={true}
+                        currentPage={page}
+                        setPage={setPage}
+                        flow={flow}
+                        pagination={pagination}
+                        missing={missing}
+                        missingStrategy={missingStrategy}
+                        savingType={savingType}
+                        dontKnowButton={
+                          <>
+                            <span className="shortcut">F2</span>
+                            {D.doesntKnowButton}
+                            <span className="checked" />
+                          </>
+                        }
+                        refusedButton={
+                          <>
+                            <span className="shortcut">F4</span>
+                            {D.refusalButton}
+                            <span className="checked" />
+                          </>
+                        }
+                        missingShortcut={{ dontKnow: 'f2', refused: 'f4' }}
+                        shortcut={true}
+                      />
+                    )}
                   </div>
                 );
               return null;
             })}
-            {(!DIRECT_CONTINUE_COMPONENTS.includes(currentComponentType) || readonly) &&
-              (!validatedPages.includes(page) || isLastPage) &&
+            {!DIRECT_CONTINUE_COMPONENTS.includes(currentComponentType) &&
+              ((canGoNext && !rereading) || isLastPage) &&
               !previousFilled && <ContinueButton setPendingChangePage={setPendingChangePage} />}
           </div>
 
           <NavBar>
             <Buttons
-              rereading={validatedPages.includes(page) || previousFilled}
+              rereading={rereading || previousFilled}
               setPendingChangePage={setPendingChangePage}
             />
           </NavBar>

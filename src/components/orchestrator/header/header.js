@@ -1,7 +1,6 @@
 import React, { useCallback, useContext, useRef } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import { OrchestratorContext } from 'components/orchestrator';
-import * as UQ from 'utils/questionnaire';
 import PropTypes from 'prop-types';
 import * as lunatic from '@inseefr/lunatic';
 import D from 'i18n';
@@ -13,12 +12,10 @@ import { ButtonBase, IconButton } from '@material-ui/core';
 import { ExitToApp } from '@material-ui/icons';
 
 const Header = ({ title, quit, hierarchy, setPage }) => {
-  const { bindings, page, standalone } = useContext(OrchestratorContext);
+  const { page, standalone, queenBindings } = useContext(OrchestratorContext);
   const classes = useStyles({ standalone });
   const setToFirstPage = useCallback(() => setPage('1'), [setPage]);
   const quitButtonRef = useRef();
-
-  const queenBindings = UQ.getQueenBindings(bindings)(page);
 
   const { sequence, subSequence } = hierarchy || {};
 

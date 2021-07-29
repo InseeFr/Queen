@@ -1,3 +1,5 @@
+import { getMissingResponseNameFromComponent, getResponsesNameFromComponent } from './queen';
+
 export const getPageWithoutAnyIteration = currentPage =>
   currentPage
     .split('.')
@@ -91,4 +93,18 @@ export const getInfoFromCurrentPage = components => bindings => currentPage => m
   const depth = (currentPage?.match(/\./g) || []).length;
   const occurencesIndex = getIterations(currentPage).map(i => i - 1);
   return { maxLocalPages, occurences, currentComponent, depth, occurencesIndex };
+};
+
+export const canGoNext = currentComponent => queenBindings => {
+  if (!currentComponent) return false;
+  const { componentType } = currentComponent;
+  if (componentType === 'Sequence' || componentType === 'Subsequence') return true;
+  const responses = [
+    ...getResponsesNameFromComponent(currentComponent),
+    ...getMissingResponseNameFromComponent(currentComponent),
+  ]
+    .reduce((_, name) => [..._, queenBindings[name]].flat(10), [])
+    .filter(value => ![null, undefined].includes(value));
+
+  return responses.length > 0;
 };
