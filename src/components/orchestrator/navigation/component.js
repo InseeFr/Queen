@@ -41,10 +41,8 @@ const Navigation = ({ className, title, setPage }) => {
     if (!!conditionFilter || !!conditionFilter.value) return true;
     const { value } = conditionFilter;
     if (cache[value] !== undefined) {
-      console.log('using local cache');
       return cache[value];
     }
-    console.log('compute');
     cache[value] = lunatic.interpret(['VTL'])(bindings, true)(value);
     return cache[value];
   };

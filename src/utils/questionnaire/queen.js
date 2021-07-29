@@ -25,7 +25,10 @@ export const haveNotNullUpdate = updateValue => {
  * @param {*} component (single Component)
  */
 export const getResponsesNameFromComponent = component => {
-  if (component?.componentType && !['CheckboxGroup', 'Table'].includes(component?.componentType)) {
+  if (
+    component?.componentType &&
+    !['CheckboxGroup', 'Table', 'Loop'].includes(component?.componentType)
+  ) {
     const { response } = component;
     return response ? [response.name] : [];
   }
@@ -45,11 +48,23 @@ export const getResponsesNameFromComponent = component => {
       ];
     }, []);
   }
+  if (component?.componentType && component?.componentType === 'Loop') {
+    const { components } = component;
+    return components.reduce((_, comp) => {
+      return [..._, ...getResponsesNameFromComponent(comp)];
+    }, []);
+  }
   return [];
 };
 
 export const getMissingResponseNameFromComponent = component => {
-  return component?.missingResponse?.name;
+  if (component?.componentType && component?.componentType === 'Loop') {
+    const { components } = component;
+    return components.reduce((_, comp) => {
+      return [..._, getMissingResponseNameFromComponent(comp)];
+    }, []);
+  }
+  return [component?.missingResponse?.name];
 };
 
 export const getResponseOfComponent = questionnaire => component => (type = 'COLLECTED') => (
