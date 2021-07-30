@@ -21,7 +21,7 @@ import {
 import StopNavigation from './stopNavigation';
 import { IconButton } from '@material-ui/core';
 import { Apps } from '@material-ui/icons';
-import { OrchestratorContext } from '../orchestrator';
+import { OrchestratorContext } from '../queen';
 
 const Navigation = ({ className, title, setPage }) => {
   const { questionnaire, bindings, validatedPages, setMenuOpen, readonly } = useContext(
@@ -57,7 +57,8 @@ const Navigation = ({ className, title, setPage }) => {
           {
             componentType,
             labelNav: getVtlLabel(label),
-            reachable: validatedPages.includes(page) && getFilterValue(localCache)(conditionFilter),
+            reachable:
+              validatedPages?.includes(page) && getFilterValue(localCache)(conditionFilter),
             ...other,
           },
         ];
@@ -70,7 +71,7 @@ const Navigation = ({ className, title, setPage }) => {
             componentType,
             labelNav: getVtlLabel(label),
             reachable:
-              validatedPages.includes(goToPage) && getFilterValue(localCache)(conditionFilter),
+              validatedPages?.includes(goToPage) && getFilterValue(localCache)(conditionFilter),
             ...other,
           },
         ];
