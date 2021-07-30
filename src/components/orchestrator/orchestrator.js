@@ -1,16 +1,6 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import * as lunatic from '@inseefr/lunatic';
-import * as UQ from 'utils/questionnaire';
-import { DIRECT_CONTINUE_COMPONENTS } from 'utils/constants';
-import Header from './header';
-import Buttons from './buttons';
-import ContinueButton from './buttons/continue';
-import NavBar from './rightNavbar';
-import { useCustomLunaticStyles } from './lunaticStyle/style';
-import { useStyles } from './orchestrator.style';
-import SimpleLoader from 'components/shared/preloader/simple';
-import D from 'i18n';
 import QueenOrchestrator from 'components/orchestrator/queen';
 
 const Orchestrator = ({
