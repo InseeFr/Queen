@@ -67,7 +67,7 @@ export const getQueenBindings = bindings => currentPage => {
   return newBindings;
 };
 
-const getCurrentOccurrences = components => bindings => currentPage => {
+const getCurrentOccurrences = components => queenBindings => currentPage => {
   const filterComponentsLoop = components.filter(c => filterPageLoop(currentPage)(c));
   if (filterComponentsLoop.length > 0) {
     const {
@@ -76,10 +76,9 @@ const getCurrentOccurrences = components => bindings => currentPage => {
       paginatedLoop,
     } = filterComponentsLoop[0];
     if (loopDependencies && paginatedLoop) {
-      const queenBindings = getQueenBindings(bindings)(currentPage);
       return [
         loopDependencies.map(variable => queenBindings[variable]),
-        ...getCurrentOccurrences(componentsOfLoop)(bindings)(currentPage),
+        ...getCurrentOccurrences(componentsOfLoop)(queenBindings)(currentPage),
       ];
     }
   }
@@ -87,12 +86,13 @@ const getCurrentOccurrences = components => bindings => currentPage => {
 };
 
 export const getInfoFromCurrentPage = components => bindings => currentPage => maxPage => {
-  const occurences = getCurrentOccurrences(components)(bindings)(currentPage);
+  const queenBindings = getQueenBindings(bindings)(currentPage);
+  const occurences = getCurrentOccurrences(components)(queenBindings)(currentPage);
   const maxLocalPages = getMaxPages(components)(currentPage)(maxPage);
   const currentComponent = getCurrentComponent(components)(currentPage);
   const depth = (currentPage?.match(/\./g) || []).length;
   const occurencesIndex = getIterations(currentPage).map(i => i - 1);
-  return { maxLocalPages, occurences, currentComponent, depth, occurencesIndex };
+  return { maxLocalPages, occurences, currentComponent, depth, occurencesIndex, queenBindings };
 };
 
 export const canGoNext = currentComponent => queenBindings => {

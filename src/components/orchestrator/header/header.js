@@ -1,6 +1,5 @@
 import React, { useCallback, useContext, useRef } from 'react';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
-import { OrchestratorContext } from 'components/orchestrator';
 import PropTypes from 'prop-types';
 import * as lunatic from '@inseefr/lunatic';
 import D from 'i18n';
@@ -10,9 +9,10 @@ import BreadcrumbQueen from '../breadcrumb';
 import { useStyles } from './header.style';
 import { ButtonBase, IconButton } from '@material-ui/core';
 import { ExitToApp } from '@material-ui/icons';
+import { OrchestratorContext } from '../queen';
 
-const Header = ({ title, quit, hierarchy, setPage }) => {
-  const { page, standalone, queenBindings } = useContext(OrchestratorContext);
+const Header = ({ title, hierarchy, setPage }) => {
+  const { page, standalone, queenBindings, quit } = useContext(OrchestratorContext);
   const classes = useStyles({ standalone });
   const setToFirstPage = useCallback(() => setPage('1'), [setPage]);
   const quitButtonRef = useRef();
