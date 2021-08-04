@@ -14,6 +14,13 @@ const clean = async () => {
   await surveyUnitIdbService.deleteAll();
 };
 
+const merge2Lists = (list1 = [], list2 = []) => {
+  return list1.reduce((_, curr) => {
+    if (!_.includes(curr)) return [..._, curr];
+    return _;
+  }, list2);
+};
+
 export const useSynchronisation = () => {
   const { getCampaigns } = useAPI();
 
@@ -36,19 +43,22 @@ export const useSynchronisation = () => {
     setResourceProgress(0);
     setSurveyUnitProgress(0);
     setCurrent('questionnaire');
-    await putQuestionnairesInCache(questionnaireIds);
+    const questionnaireIdsFailedQ = await putQuestionnairesInCache(questionnaireIds);
     setCurrent('resources');
-    await putAllResourcesInCache(questionnaireIds);
+    const questionnaireIdsFailedR = await putAllResourcesInCache(questionnaireIds);
     setCurrent('survey-units');
     await saveSurveyUnitsToLocalDataBase(id);
     setCurrent(null);
+    return {
+      questionnaireIdsFailed: merge2Lists(questionnaireIdsFailedQ, questionnaireIdsFailedR),
+    };
   };
 
   const synchronize = async () => {
     // (2) : send the local data to server
     setWaitingMessage(D.waitingSendingData);
     setCurrent('send');
-    await sendData();
+    const surveyUnitsInTempZone = await sendData();
 
     setSendingProgress(null);
 
@@ -59,17 +69,25 @@ export const useSynchronisation = () => {
 
     // (4) : Get the data
     setWaitingMessage(D.waintingData);
-    const campaignsResponse = await refrehGetCampaigns.current();
-    const campaigns = await campaignsResponse.data;
+    const { data: campaigns, status, error, statusText } = await refrehGetCampaigns.current();
     let i = 0;
     setCampaignProgress(0);
 
-    await (campaigns || []).reduce(async (previousPromise, campaign) => {
-      await previousPromise;
-      i += 1;
-      setCampaignProgress(getPercent(i, campaigns.length));
-      return getAllCampaign(campaign);
-    }, Promise.resolve());
+    var questionnairesInaccessible = [];
+    if (!error) {
+      await (campaigns || []).reduce(async (previousPromise, campaign) => {
+        const { questionnaireIdsFailed } = await previousPromise;
+        questionnairesInaccessible = merge2Lists(
+          questionnairesInaccessible,
+          questionnaireIdsFailed
+        );
+        i += 1;
+        setCampaignProgress(getPercent(i, campaigns.length));
+        return getAllCampaign(campaign);
+      }, Promise.resolve([]));
+    } else if (![404, 403, 500].includes(status)) throw new Error(statusText);
+
+    return { surveyUnitsInTempZone, questionnairesInaccessible };
   };
 
   return {

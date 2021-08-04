@@ -15,13 +15,7 @@ const useSaveSUToLocalDataBase = () => {
         ...surveyUnit,
         ...data,
       });
-    } else {
-      if ([404, 403, 500].includes(status)) {
-        // Do nothing, we retrive this info after
-      } else {
-        throw new Error(statusText);
-      }
-    }
+    } else if (![404, 403, 500].includes(status)) throw new Error(statusText);
   };
 
   return saveSurveyUnit;
@@ -45,13 +39,7 @@ export const useSaveSUsToLocalDataBase = updateProgress => {
         return saveSurveyUnit(surveyUnit);
       }, Promise.resolve());
       updateProgress(100);
-    } else {
-      if ([404, 403, 500].includes(status)) {
-        // save info : pb to access surveyUnit of campaign ${campaignId}
-      } else {
-        throw new Error(statusText);
-      }
-    }
+    } else if (![404, 403, 500].includes(status)) throw new Error(statusText);
   };
 
   return putSUS;
@@ -76,10 +64,7 @@ export const useSendSurveyUnits = updateProgress => {
           await putDataTempZoneRef.current(id, other);
           surveyUnitsInTempZone.push(id);
         }
-        if (error && ![404, 500].includes(status)) {
-          // stop synchro to not lose data (5xx : server is probably KO)
-          throw new Error('Server is not responding');
-        }
+        if (error && ![404, 500].includes(status)) throw new Error('Server is not responding');
         i += 1;
         updateProgress(getPercent(i, surveyUnits.length));
       };
