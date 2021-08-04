@@ -4,16 +4,11 @@ import Preloader from 'components/shared/preloader';
 import { ProgressBar } from 'components/shared/ProgressBar';
 import { AppVersion, Button } from 'components/designSystem';
 import { Box, Container, makeStyles, Typography } from '@material-ui/core';
-import {
-  QUEEN_SYNC_RESULT,
-  QUEEN_SYNC_RESULT_SUCCESS,
-  QUEEN_SYNC_RESULT_FAILURE,
-  QUEEN_SYNC_RESULT_PENDING,
-  SYNCHRONIZE_KEY,
-} from 'utils/constants';
+import { QUEEN_SYNC_RESULT, QUEEN_SYNC_RESULT_PENDING, SYNCHRONIZE_KEY } from 'utils/constants';
 import { useSynchronisation } from 'utils/synchronize';
 import { SimpleLabelProgress } from './SimpleLabelProgress';
 import { IconStatus } from './IconStatus';
+import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 
 const useStyles = makeStyles(theme => ({
   welcome: { textAlign: 'center', paddingTop: '3em' },
@@ -54,12 +49,19 @@ const Synchronize = () => {
   };
 
   const endOfSync = useCallback(
-    success => {
+    async (success, surveyUnitsInTempZone = [], questionnairesInaccessible = []) => {
       setCurrentJob(success ? 'success' : 'failure');
-      window.localStorage.setItem(
-        QUEEN_SYNC_RESULT,
-        success ? QUEEN_SYNC_RESULT_SUCCESS : QUEEN_SYNC_RESULT_FAILURE
-      );
+      const surveyUnits = await surveyUnitIdbService.getAll();
+      const result = {
+        success,
+        // success : only surveyUnits in database where there's questionnaire is accessible
+        surveyUnitsSuccess: surveyUnits.reduce((_, { id, questionnaireId }) => {
+          if (!questionnairesInaccessible.includes(questionnaireId)) return [..._, id];
+          return _;
+        }, []),
+        surveyUnitsInTempZone,
+      };
+      window.localStorage.setItem(QUEEN_SYNC_RESULT, JSON.stringify(result));
       setTimeout(() => redirect(), 800);
     },
     [setCurrentJob]
@@ -70,14 +72,14 @@ const Synchronize = () => {
       if (navigator.onLine) {
         window.localStorage.setItem(QUEEN_SYNC_RESULT, QUEEN_SYNC_RESULT_PENDING);
         setPending(true);
-        await synchronize();
-        endOfSync(true);
+        const { surveyUnitsInTempZone, questionnairesInaccessible } = await synchronize();
+        endOfSync(true, surveyUnitsInTempZone, questionnairesInaccessible);
       } else {
         endOfSync(false);
       }
     } catch (e) {
-      console.log('failed');
-      console.log(e);
+      console.error('Queen sync failed');
+      console.error(e);
       endOfSync(false);
     }
   }, [endOfSync, synchronize]);
