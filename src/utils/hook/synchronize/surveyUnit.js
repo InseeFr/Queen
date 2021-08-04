@@ -9,14 +9,18 @@ const useSaveSUToLocalDataBase = () => {
 
   const saveSurveyUnit = async surveyUnit => {
     const { id } = surveyUnit; // surveyUnit : {id, questionnaireId}
-    const dR = await refreshGetUeData.current(id);
-    if (!dR.error) {
+    const { error, status, data, statusText } = await refreshGetUeData.current(id);
+    if (!error) {
       await surveyUnitIdbService.addOrUpdateSU({
         ...surveyUnit,
-        ...dR.data,
+        ...data,
       });
     } else {
-      throw new Error(dR.statusText);
+      if ([404, 403, 500].includes(status)) {
+        // Do nothing, we retrive this info after
+      } else {
+        throw new Error(statusText);
+      }
     }
   };
 
@@ -30,7 +34,7 @@ export const useSaveSUsToLocalDataBase = updateProgress => {
   const refrehGetSurveyUnits = useAsyncValue(getSurveyUnits);
 
   const putSUS = async campaignId => {
-    const { data, error, statusText } = await refrehGetSurveyUnits.current(campaignId);
+    const { data, error, status, statusText } = await refrehGetSurveyUnits.current(campaignId);
 
     let i = 0;
     if (!error) {
@@ -42,7 +46,11 @@ export const useSaveSUsToLocalDataBase = updateProgress => {
       }, Promise.resolve());
       updateProgress(100);
     } else {
-      throw new Error(statusText);
+      if ([404, 403, 500].includes(status)) {
+        // save info : pb to access surveyUnit of campaign ${campaignId}
+      } else {
+        throw new Error(statusText);
+      }
     }
   };
 
@@ -50,25 +58,34 @@ export const useSaveSUsToLocalDataBase = updateProgress => {
 };
 
 export const useSendSurveyUnits = updateProgress => {
-  const { putUeData } = useAPI();
+  const { putUeData, putUeDataToTempZone } = useAPI();
 
   const putDataRef = useAsyncValue(putUeData);
-
+  const putDataTempZoneRef = useAsyncValue(putUeDataToTempZone);
   const send = async () => {
     const surveyUnits = await surveyUnitIdbService.getAll();
     let i = 0;
     updateProgress(0);
+    const surveyUnitsInTempZone = [];
     await surveyUnits.reduce(async (previousPromise, surveyUnit) => {
       await previousPromise;
       const { id, ...other } = surveyUnit;
       const sendSurveyUnit = async () => {
-        const { error: putDataError } = await putDataRef.current(id, other);
-        if (putDataError) throw new Error(putDataError);
+        const { error, status } = await putDataRef.current(id, other);
+        if (error && status === 403) {
+          await putDataTempZoneRef.current(id, other);
+          surveyUnitsInTempZone.push(id);
+        }
+        if (error && ![404, 500].includes(status)) {
+          // stop synchro to not lose data (5xx : server is probably KO)
+          throw new Error('Server is not responding');
+        }
         i += 1;
         updateProgress(getPercent(i, surveyUnits.length));
       };
       return sendSurveyUnit();
     }, Promise.resolve());
+    return surveyUnitsInTempZone;
   };
 
   return send;
