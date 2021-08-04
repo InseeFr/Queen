@@ -170,10 +170,9 @@ const QueenOrchestrator = ({
    * This function is disabled when app is in readonly mode.
    * @param {*} component the current component
    */
-  const onChange = async updatedValue => {
+  const onChange = updatedValue => {
     if (!readonly) {
       setQuestionnaireUpdated(false);
-      console.log('On CHange');
       handleChange(updatedValue);
       setQuestionnaireUpdated(true);
       setHaveToGoNext(h => h || UQ.haveToGoNext(currentComponentType, updatedValue));
