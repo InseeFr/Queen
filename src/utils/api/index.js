@@ -12,6 +12,9 @@ const getUeData = apiUrl => id => token => getRequest(`${apiUrl}/api/survey-unit
 const putUeData = apiUrl => id => token => body =>
   putRequest(`${apiUrl}/api/survey-unit/${id}`)(token)(body);
 
+const putUeDataToTempZone = apiUrl => id => token => body =>
+  putRequest(`${apiUrl}/api/survey-unit/${id}/temp-zone`)(token)(body);
+
 /* Campaigns */
 const getCampaigns = apiUrl => token => getRequest(`${apiUrl}/api/campaigns`)(token);
 
@@ -23,13 +26,17 @@ const getRequiredNomenclatures = apiUrl => id => token =>
 const getNomenclature = apiUrl => id => token =>
   getRequest(`${apiUrl}/api/nomenclature/${id}`)(token);
 
+const healthcheck = apiUrl => getRequest(`${apiUrl}/api/healthcheck`)(null);
+
 export const API = {
   getRequest,
   getSurveyUnits,
   getUeData,
   putUeData,
+  putUeDataToTempZone,
   getCampaigns,
   getQuestionnaire,
   getRequiredNomenclatures,
   getNomenclature,
+  healthcheck,
 };

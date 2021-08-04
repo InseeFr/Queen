@@ -86,6 +86,13 @@ export const useAPI = () => {
     [apiUrl, authenticationType, oidcUser]
   );
 
+  const putUeDataToTempZone = useCallback(
+    (surveyUnitID, body) => {
+      const token = authenticationType === OIDC ? oidcUser?.access_token : null;
+      return API.putUeDataToTempZone(apiUrl)(surveyUnitID)(token)(body);
+    },
+    [apiUrl, authenticationType, oidcUser]
+  );
   return {
     getCampaigns,
     getSurveyUnits,
@@ -94,6 +101,7 @@ export const useAPI = () => {
     getQuestionnaire,
     getUeData,
     putUeData,
+    putUeDataToTempZone,
   };
 };
 
