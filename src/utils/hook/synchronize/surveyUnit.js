@@ -61,8 +61,9 @@ export const useSendSurveyUnits = updateProgress => {
       const sendSurveyUnit = async () => {
         const { error, status } = await putDataRef.current(id, other);
         if (error && status === 403) {
-          await putDataTempZoneRef.current(id, other);
-          surveyUnitsInTempZone.push(id);
+          const { error: tempZoneError } = await putDataTempZoneRef.current(id, other);
+          if (!tempZoneError) surveyUnitsInTempZone.push(id);
+          else throw new Error('Server is not responding');
         }
         if (error && ![404, 500].includes(status)) throw new Error('Server is not responding');
         i += 1;
