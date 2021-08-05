@@ -49,20 +49,20 @@ const Synchronize = () => {
   };
 
   const endOfSync = useCallback(
-    async (success, surveyUnitsInTempZone = [], questionnairesInaccessible = []) => {
-      setCurrentJob(success ? 'success' : 'failure');
+    async (error, surveyUnitsInTempZone = [], questionnairesAccessible = []) => {
+      setCurrentJob(!error ? 'success' : 'failure');
       const surveyUnits = await surveyUnitIdbService.getAll();
       const result = {
-        success,
-        // success : only surveyUnits in database where there's questionnaire is accessible
+        error,
+        // surveyUnitsSuccess : only surveyUnits in database where there's questionnaire is accessible
         surveyUnitsSuccess: surveyUnits.reduce((_, { id, questionnaireId }) => {
-          if (!questionnairesInaccessible.includes(questionnaireId)) return [..._, id];
+          if (questionnairesAccessible.includes(questionnaireId)) return [..._, id];
           return _;
         }, []),
         surveyUnitsInTempZone,
       };
       window.localStorage.setItem(QUEEN_SYNC_RESULT, JSON.stringify(result));
-      setTimeout(() => redirect(), 800);
+      setTimeout(() => redirect(), 600);
     },
     [setCurrentJob]
   );
@@ -72,15 +72,15 @@ const Synchronize = () => {
       if (navigator.onLine) {
         window.localStorage.setItem(QUEEN_SYNC_RESULT, QUEEN_SYNC_RESULT_PENDING);
         setPending(true);
-        const { surveyUnitsInTempZone, questionnairesInaccessible } = await synchronize();
-        endOfSync(true, surveyUnitsInTempZone, questionnairesInaccessible);
+        const { surveyUnitsInTempZone, questionnairesAccessible } = await synchronize();
+        endOfSync(false, surveyUnitsInTempZone, questionnairesAccessible);
       } else {
-        endOfSync(false);
+        endOfSync(true);
       }
     } catch (e) {
       console.error('Queen sync failed');
       console.error(e);
-      endOfSync(false);
+      endOfSync(true);
     }
   }, [endOfSync, synchronize]);
 

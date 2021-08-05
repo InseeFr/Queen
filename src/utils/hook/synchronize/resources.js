@@ -37,23 +37,21 @@ export const usePutResourcesInCache = updateProgress => {
   };
 
   const putAllResourcesInCache = async questionnaireIds => {
-    const questionnaireIdsFailed = [];
+    const questionnaireIdsSuccess = [];
     let i = 0;
     updateProgress(0);
     await (questionnaireIds || []).reduce(async (previousPromise, questionnaireId) => {
       await previousPromise;
       const putAllResources = async () => {
         const { success } = await putResourcesInCache(questionnaireId);
-        if (!success) {
-          questionnaireIdsFailed.push(questionnaireId);
-        }
+        if (success) questionnaireIdsSuccess.push(questionnaireId);
       };
 
       i += 1;
       updateProgress(getPercent(i, questionnaireIds.length));
       return putAllResources();
     }, Promise.resolve());
-    return questionnaireIdsFailed;
+    return questionnaireIdsSuccess;
   };
 
   return putAllResourcesInCache;

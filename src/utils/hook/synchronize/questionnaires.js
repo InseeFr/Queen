@@ -6,25 +6,20 @@ export const usePutQuestionnairesInCache = () => {
   const refreshGetQuestionnaire = useAsyncValue(getQuestionnaire);
 
   const putQuestionnairesInCache = async questionnaireIds => {
-    const questionnaireIdsFailed = [];
+    const questionnaireIdsSuccess = [];
     await (questionnaireIds || []).reduce(async (previousPromise, questionnaireId) => {
       await previousPromise;
       const getQuestionnaire = async () => {
         const { error, status, statusText } = await refreshGetQuestionnaire.current(
           questionnaireId
         );
-        if (error) {
-          if ([404, 403, 500].includes(status)) {
-            questionnaireIdsFailed.push(questionnaireId);
-          } else {
-            throw new Error(statusText);
-          }
-        }
+        if (error && ![404, 403, 500].includes(status)) throw new Error(statusText);
+        else if (!error) questionnaireIdsSuccess.push(questionnaireId);
       };
 
       return getQuestionnaire();
     }, Promise.resolve());
-    return questionnaireIdsFailed;
+    return questionnaireIdsSuccess;
   };
 
   return putQuestionnairesInCache;

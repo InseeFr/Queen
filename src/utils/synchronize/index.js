@@ -14,12 +14,14 @@ const clean = async () => {
   await surveyUnitIdbService.deleteAll();
 };
 
-const merge2Lists = (list1 = [], list2 = []) => {
-  return list1.reduce((_, curr) => {
+const simpleMerge = (list1 = [], list2 = []) =>
+  list1.reduce((_, curr) => {
     if (!_.includes(curr)) return [..._, curr];
     return _;
   }, list2);
-};
+
+const innerJoinList = (list1 = [], list2 = []) =>
+  simpleMerge(list1, list2).filter(el => list1.includes(el) && list2.includes(el));
 
 export const useSynchronisation = () => {
   const { getCampaigns } = useAPI();
@@ -43,14 +45,14 @@ export const useSynchronisation = () => {
     setResourceProgress(0);
     setSurveyUnitProgress(0);
     setCurrent('questionnaire');
-    const questionnaireIdsFailedQ = await putQuestionnairesInCache(questionnaireIds);
+    const questionnaireIdsSuccessQ = await putQuestionnairesInCache(questionnaireIds);
     setCurrent('resources');
-    const questionnaireIdsFailedR = await putAllResourcesInCache(questionnaireIds);
+    const questionnaireIdsSuccessR = await putAllResourcesInCache(questionnaireIds);
     setCurrent('survey-units');
     await saveSurveyUnitsToLocalDataBase(id);
     setCurrent(null);
     return {
-      questionnaireIdsFailed: merge2Lists(questionnaireIdsFailedQ, questionnaireIdsFailedR),
+      questionnaireIdsSuccess: innerJoinList(questionnaireIdsSuccessQ, questionnaireIdsSuccessR),
     };
   };
 
@@ -73,21 +75,18 @@ export const useSynchronisation = () => {
     let i = 0;
     setCampaignProgress(0);
 
-    var questionnairesInaccessible = [];
+    var questionnairesAccessible = [];
     if (!error) {
       await (campaigns || []).reduce(async (previousPromise, campaign) => {
-        const { questionnaireIdsFailed } = await previousPromise;
-        questionnairesInaccessible = merge2Lists(
-          questionnairesInaccessible,
-          questionnaireIdsFailed
-        );
+        const { questionnaireIdsSuccess } = await previousPromise;
+        questionnairesAccessible = simpleMerge(questionnairesAccessible, questionnaireIdsSuccess);
         i += 1;
         setCampaignProgress(getPercent(i, campaigns.length));
         return getAllCampaign(campaign);
-      }, Promise.resolve([]));
+      }, Promise.resolve({}));
     } else if (![404, 403, 500].includes(status)) throw new Error(statusText);
 
-    return { surveyUnitsInTempZone, questionnairesInaccessible };
+    return { surveyUnitsInTempZone, questionnairesAccessible };
   };
 
   return {
