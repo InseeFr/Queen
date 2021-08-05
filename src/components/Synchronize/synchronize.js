@@ -48,17 +48,22 @@ const Synchronize = () => {
     window.location = window.location.origin;
   };
 
+  const getSurveyUnitsSuccess = async (error, questionnairesAccessible = []) => {
+    const surveyUnits = await surveyUnitIdbService.getAll();
+    if (error === 'send') return surveyUnits.reduce((_, { id }) => [..._, id], []);
+    return surveyUnits.reduce((_, { id, questionnaireId }) => {
+      if (questionnairesAccessible.includes(questionnaireId)) return [..._, id];
+      return _;
+    }, []);
+  };
+
   const endOfSync = useCallback(
-    async (error, surveyUnitsInTempZone = [], questionnairesAccessible = []) => {
+    async ({ error, surveyUnitsInTempZone = [], questionnairesAccessible = [] }) => {
       setCurrentJob(!error ? 'success' : 'failure');
-      const surveyUnits = await surveyUnitIdbService.getAll();
       const result = {
-        error,
+        error: !!error,
         // surveyUnitsSuccess : only surveyUnits in database where there's questionnaire is accessible
-        surveyUnitsSuccess: surveyUnits.reduce((_, { id, questionnaireId }) => {
-          if (questionnairesAccessible.includes(questionnaireId)) return [..._, id];
-          return _;
-        }, []),
+        surveyUnitsSuccess: await getSurveyUnitsSuccess(error, questionnairesAccessible),
         surveyUnitsInTempZone,
       };
       window.localStorage.setItem(QUEEN_SYNC_RESULT, JSON.stringify(result));
@@ -68,19 +73,13 @@ const Synchronize = () => {
   );
 
   const launchSynchronize = useCallback(async () => {
-    try {
-      if (navigator.onLine) {
-        window.localStorage.setItem(QUEEN_SYNC_RESULT, QUEEN_SYNC_RESULT_PENDING);
-        setPending(true);
-        const { surveyUnitsInTempZone, questionnairesAccessible } = await synchronize();
-        endOfSync(false, surveyUnitsInTempZone, questionnairesAccessible);
-      } else {
-        endOfSync(true);
-      }
-    } catch (e) {
-      console.error('Queen sync failed');
-      console.error(e);
-      endOfSync(true);
+    if (navigator.onLine) {
+      window.localStorage.setItem(QUEEN_SYNC_RESULT, QUEEN_SYNC_RESULT_PENDING);
+      setPending(true);
+      const result = await synchronize();
+      endOfSync(result);
+    } else {
+      endOfSync({ error: 'send' });
     }
   }, [endOfSync, synchronize]);
 

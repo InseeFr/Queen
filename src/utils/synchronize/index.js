@@ -57,34 +57,47 @@ export const useSynchronisation = () => {
   };
 
   const synchronize = async () => {
+    var surveyUnitsInTempZone;
+    var questionnairesAccessible = [];
     // (2) : send the local data to server
-    setWaitingMessage(D.waitingSendingData);
-    setCurrent('send');
-    const surveyUnitsInTempZone = await sendData();
+    try {
+      setWaitingMessage(D.waitingSendingData);
+      setCurrent('send');
+      surveyUnitsInTempZone = await sendData();
+    } catch (e) {
+      return { error: 'send' };
+    }
 
     setSendingProgress(null);
 
     // (3) : clean
-    setCurrent('clean');
-    setWaitingMessage(D.waitingCleaning);
-    await clean();
+    try {
+      setCurrent('clean');
+      setWaitingMessage(D.waitingCleaning);
+      await clean();
+    } catch (e) {
+      return { error: 'clean' };
+    }
 
     // (4) : Get the data
-    setWaitingMessage(D.waintingData);
-    const { data: campaigns, status, error, statusText } = await refrehGetCampaigns.current();
-    let i = 0;
-    setCampaignProgress(0);
+    try {
+      setWaitingMessage(D.waintingData);
+      const { data: campaigns, status, error, statusText } = await refrehGetCampaigns.current();
+      let i = 0;
+      setCampaignProgress(0);
 
-    var questionnairesAccessible = [];
-    if (!error) {
-      await (campaigns || []).reduce(async (previousPromise, campaign) => {
-        const { questionnaireIdsSuccess } = await previousPromise;
-        questionnairesAccessible = simpleMerge(questionnairesAccessible, questionnaireIdsSuccess);
-        i += 1;
-        setCampaignProgress(getPercent(i, campaigns.length));
-        return getAllCampaign(campaign);
-      }, Promise.resolve({}));
-    } else if (![404, 403, 500].includes(status)) throw new Error(statusText);
+      if (!error) {
+        await (campaigns || []).reduce(async (previousPromise, campaign) => {
+          const { questionnaireIdsSuccess } = await previousPromise;
+          questionnairesAccessible = simpleMerge(questionnairesAccessible, questionnaireIdsSuccess);
+          i += 1;
+          setCampaignProgress(getPercent(i, campaigns.length));
+          return getAllCampaign(campaign);
+        }, Promise.resolve({}));
+      } else if (![404, 403, 500].includes(status)) throw new Error(statusText);
+    } catch (e) {
+      return { error: 'get', surveyUnitsInTempZone, questionnairesAccessible };
+    }
 
     return { surveyUnitsInTempZone, questionnairesAccessible };
   };
