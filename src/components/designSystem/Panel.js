@@ -42,6 +42,7 @@ const useStyles = currentPanel =>
     item: { padding: theme.spacing(0.5) },
     itemKey: { fontSize: 'small' },
     button: { marginTop: '1em' },
+    action: { textAlign: 'center' },
   }));
 
 // TODO : get Page to go
@@ -100,9 +101,11 @@ export const Panel = ({
           })}
 
         {!currentPanel && !emptyData && (
-          <Button className={classes.button} onClick={() => setPage(goToSeePage)}>
-            {Dictionary.goSeeItButton}
-          </Button>
+          <div className={classes.action}>
+            <Button className={classes.button} onClick={() => setPage(goToSeePage)}>
+              {Dictionary.goSeeItButton}
+            </Button>
+          </div>
         )}
       </AccordionDetails>
     </Accordion>
