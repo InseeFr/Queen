@@ -1,3 +1,5 @@
+import { getMissingResponseNameFromComponent, getResponsesNameFromComponent } from './queen';
+
 export const getPageWithoutAnyIteration = currentPage =>
   currentPage
     .split('.')
@@ -65,7 +67,7 @@ export const getQueenBindings = bindings => currentPage => {
   return newBindings;
 };
 
-const getCurrentOccurrences = components => bindings => currentPage => {
+const getCurrentOccurrences = components => queenBindings => currentPage => {
   const filterComponentsLoop = components.filter(c => filterPageLoop(currentPage)(c));
   if (filterComponentsLoop.length > 0) {
     const {
@@ -74,10 +76,9 @@ const getCurrentOccurrences = components => bindings => currentPage => {
       paginatedLoop,
     } = filterComponentsLoop[0];
     if (loopDependencies && paginatedLoop) {
-      const queenBindings = getQueenBindings(bindings)(currentPage);
       return [
         loopDependencies.map(variable => queenBindings[variable]),
-        ...getCurrentOccurrences(componentsOfLoop)(bindings)(currentPage),
+        ...getCurrentOccurrences(componentsOfLoop)(queenBindings)(currentPage),
       ];
     }
   }
@@ -110,11 +111,26 @@ const getBindindsOfLoop = components => bindings => currentPage => {
 };
 
 export const getInfoFromCurrentPage = components => bindings => currentPage => maxPage => {
-  const occurences = getCurrentOccurrences(components)(bindings)(currentPage);
+  const queenBindings = getQueenBindings(bindings)(currentPage);
+  const occurences = getCurrentOccurrences(components)(queenBindings)(currentPage);
   const maxLocalPages = getMaxPages(components)(currentPage)(maxPage);
   const currentComponent = getCurrentComponent(components)(currentPage);
   const depth = (currentPage?.match(/\./g) || []).length;
   const occurencesIndex = getIterations(currentPage).map(i => i - 1);
   const loopBindings = getBindindsOfLoop(components)(bindings)(currentPage);
   return { maxLocalPages, occurences, currentComponent, depth, occurencesIndex, loopBindings };
+};
+
+export const canGoNext = currentComponent => queenBindings => {
+  if (!currentComponent) return false;
+  const { componentType } = currentComponent;
+  if (componentType === 'Sequence' || componentType === 'Subsequence') return true;
+  const responses = [
+    ...getResponsesNameFromComponent(currentComponent),
+    ...getMissingResponseNameFromComponent(currentComponent),
+  ]
+    .reduce((_, name) => [..._, queenBindings[name]].flat(10), [])
+    .filter(value => ![null, undefined].includes(value));
+
+  return responses.length > 0;
 };

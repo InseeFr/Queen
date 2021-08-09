@@ -23,8 +23,6 @@ export const fetcher = async (url, token, method, body) => {
       } catch (error) {
         return { error: true, status, statusText: error.message };
       }
-    } else if (status === 404) {
-      return { status, statusText };
     } else {
       return { error: true, status, statusText };
     }

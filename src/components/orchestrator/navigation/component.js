@@ -21,7 +21,7 @@ import {
 import StopNavigation from './stopNavigation';
 import { IconButton } from '@material-ui/core';
 import { Apps } from '@material-ui/icons';
-import { OrchestratorContext } from '../orchestrator';
+import { OrchestratorContext } from '../queen';
 
 const Navigation = ({ className, title, setPage }) => {
   const { questionnaire, bindings, validatedPages, setMenuOpen, readonly } = useContext(
@@ -37,53 +37,50 @@ const Navigation = ({ className, title, setPage }) => {
     return lunatic.interpret(['VTL'])(bindings)(label);
   };
 
-  const filterComponentsPage = questionnaire.components.reduce(
-    (_, { componentType, conditionFilter, ...other }) => {
-      if (
-        !conditionFilter ? true : lunatic.interpret(['VTL'])(bindings, true)(conditionFilter?.value)
-      ) {
-        if (componentType === 'Sequence') {
-          const { page } = other;
-          return [..._, page];
-        }
-        if (componentType === 'Subsequence') {
-          const { goToPage } = other;
-          return [..._, goToPage];
-        }
+  const getFilterValue = cache => conditionFilter => {
+    if (!!conditionFilter || !!conditionFilter.value) return true;
+    const { value } = conditionFilter;
+    if (cache[value] !== undefined) {
+      return cache[value];
+    }
+    cache[value] = lunatic.interpret(['VTL'])(bindings, true)(value);
+    return cache[value];
+  };
+
+  const specialVTLComponents = components => {
+    const localCache = {};
+    return components.reduce((_, { componentType, conditionFilter, label, ...other }) => {
+      if (componentType === 'Sequence') {
+        const { page } = other;
+        return [
+          ..._,
+          {
+            componentType,
+            labelNav: getVtlLabel(label),
+            reachable:
+              validatedPages?.includes(page) && getFilterValue(localCache)(conditionFilter),
+            ...other,
+          },
+        ];
       }
-
+      if (componentType === 'Subsequence') {
+        const { goToPage } = other;
+        return [
+          ..._,
+          {
+            componentType,
+            labelNav: getVtlLabel(label),
+            reachable:
+              validatedPages?.includes(goToPage) && getFilterValue(localCache)(conditionFilter),
+            ...other,
+          },
+        ];
+      }
       return _;
-    },
-    []
-  );
+    }, []);
+  };
 
-  const componentsVTL = questionnaire.components.reduce((_, { componentType, label, ...other }) => {
-    if (componentType === 'Sequence') {
-      const { page } = other;
-      return [
-        ..._,
-        {
-          componentType,
-          labelNav: getVtlLabel(label),
-          reachable: validatedPages.includes(page) && filterComponentsPage.includes(page),
-          ...other,
-        },
-      ];
-    }
-    if (componentType === 'Subsequence') {
-      const { goToPage } = other;
-      return [
-        ..._,
-        {
-          componentType,
-          labelNav: getVtlLabel(label),
-          reachable: validatedPages.includes(goToPage) && filterComponentsPage.includes(goToPage),
-          ...other,
-        },
-      ];
-    }
-    return _;
-  }, []);
+  const componentsVTL = specialVTLComponents(questionnaire.components);
 
   const getSubsequenceComponents = useMemo(
     () => id =>
@@ -325,7 +322,9 @@ const Navigation = ({ className, title, setPage }) => {
   );
 };
 
-const comparison = (prevProps, nextProps) => !nextProps.menuOpen;
+const comparison = (prevProps, nextProps) => {
+  return !nextProps.menuOpen;
+};
 
 Navigation.propTypes = {
   title: PropTypes.string.isRequired,

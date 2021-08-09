@@ -14,6 +14,15 @@ const clean = async () => {
   await surveyUnitIdbService.deleteAll();
 };
 
+const simpleMerge = (list1 = [], list2 = []) =>
+  list1.reduce((_, curr) => {
+    if (!_.includes(curr)) return [..._, curr];
+    return _;
+  }, list2);
+
+const innerJoinList = (list1 = [], list2 = []) =>
+  simpleMerge(list1, list2).filter(el => list1.includes(el) && list2.includes(el));
+
 export const useSynchronisation = () => {
   const { getCampaigns } = useAPI();
 
@@ -36,40 +45,61 @@ export const useSynchronisation = () => {
     setResourceProgress(0);
     setSurveyUnitProgress(0);
     setCurrent('questionnaire');
-    await putQuestionnairesInCache(questionnaireIds);
+    const questionnaireIdsSuccessQ = await putQuestionnairesInCache(questionnaireIds);
     setCurrent('resources');
-    await putAllResourcesInCache(questionnaireIds);
+    const questionnaireIdsSuccessR = await putAllResourcesInCache(questionnaireIds);
     setCurrent('survey-units');
     await saveSurveyUnitsToLocalDataBase(id);
     setCurrent(null);
+    return {
+      questionnaireIdsSuccess: innerJoinList(questionnaireIdsSuccessQ, questionnaireIdsSuccessR),
+    };
   };
 
   const synchronize = async () => {
+    var surveyUnitsInTempZone;
+    var questionnairesAccessible = [];
     // (2) : send the local data to server
-    setWaitingMessage(D.waitingSendingData);
-    setCurrent('send');
-    await sendData();
+    try {
+      setWaitingMessage(D.waitingSendingData);
+      setCurrent('send');
+      surveyUnitsInTempZone = await sendData();
+    } catch (e) {
+      return { error: 'send' };
+    }
 
     setSendingProgress(null);
 
     // (3) : clean
-    setCurrent('clean');
-    setWaitingMessage(D.waitingCleaning);
-    await clean();
+    try {
+      setCurrent('clean');
+      setWaitingMessage(D.waitingCleaning);
+      await clean();
+    } catch (e) {
+      return { error: 'clean' };
+    }
 
     // (4) : Get the data
-    setWaitingMessage(D.waintingData);
-    const campaignsResponse = await refrehGetCampaigns.current();
-    const campaigns = await campaignsResponse.data;
-    let i = 0;
-    setCampaignProgress(0);
+    try {
+      setWaitingMessage(D.waintingData);
+      const { data: campaigns, status, error, statusText } = await refrehGetCampaigns.current();
+      let i = 0;
+      setCampaignProgress(0);
 
-    await (campaigns || []).reduce(async (previousPromise, campaign) => {
-      await previousPromise;
-      i += 1;
-      setCampaignProgress(getPercent(i, campaigns.length));
-      return getAllCampaign(campaign);
-    }, Promise.resolve());
+      if (!error) {
+        await (campaigns || []).reduce(async (previousPromise, campaign) => {
+          const { questionnaireIdsSuccess } = await previousPromise;
+          questionnairesAccessible = simpleMerge(questionnairesAccessible, questionnaireIdsSuccess);
+          i += 1;
+          setCampaignProgress(getPercent(i, campaigns.length));
+          return getAllCampaign(campaign);
+        }, Promise.resolve({}));
+      } else if (![404, 403, 500].includes(status)) throw new Error(statusText);
+    } catch (e) {
+      return { error: 'get', surveyUnitsInTempZone, questionnairesAccessible };
+    }
+
+    return { surveyUnitsInTempZone, questionnairesAccessible };
   };
 
   return {

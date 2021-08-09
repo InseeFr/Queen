@@ -8,33 +8,50 @@ export const usePutResourcesInCache = updateProgress => {
   const refreshGetNomenclature = useAsyncValue(getNomenclature);
 
   const putResourcesInCache = async questionnaireId => {
-    const {
-      data,
-      error: mainError,
-      statusText: mainStatusText,
-    } = await refreshGetRequiredNomenclatures.current(questionnaireId);
+    const ressourcesFailed = [];
+    const { data, error: mainError } = await refreshGetRequiredNomenclatures.current(
+      questionnaireId
+    );
     if (!mainError) {
       updateProgress(0);
       await (data || []).reduce(async (previousPromise, resourceId) => {
-        const { error, statusText } = await previousPromise;
-        if (error) throw new Error(statusText);
-        return refreshGetNomenclature.current(resourceId);
-      }, Promise.resolve({}));
+        await previousPromise;
+        const putResource = async () => {
+          const { error, status, statusText } = await refreshGetNomenclature.current(resourceId);
+          if (error) {
+            if ([404, 403, 500].includes(status)) {
+              ressourcesFailed.push(resourceId);
+            } else {
+              throw new Error(statusText);
+            }
+          }
+        };
+
+        return putResource();
+      }, Promise.resolve());
       updateProgress(100);
+      return { success: ressourcesFailed.length === 0, ressourcesFailed };
     } else {
-      throw new Error(mainStatusText);
+      return { success: false, ressourcesFailed };
     }
   };
 
   const putAllResourcesInCache = async questionnaireIds => {
+    const questionnaireIdsSuccess = [];
     let i = 0;
     updateProgress(0);
     await (questionnaireIds || []).reduce(async (previousPromise, questionnaireId) => {
       await previousPromise;
+      const putAllResources = async () => {
+        const { success } = await putResourcesInCache(questionnaireId);
+        if (success) questionnaireIdsSuccess.push(questionnaireId);
+      };
+
       i += 1;
       updateProgress(getPercent(i, questionnaireIds.length));
-      return putResourcesInCache(questionnaireId);
-    }, Promise.resolve({}));
+      return putAllResources();
+    }, Promise.resolve());
+    return questionnaireIdsSuccess;
   };
 
   return putAllResourcesInCache;
