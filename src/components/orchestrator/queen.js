@@ -330,7 +330,6 @@ const QueenOrchestrator = ({
               !previousFilled && <ContinueButton setPendingChangePage={setPendingChangePage} />}
           </div>
           <NavBar>
-            <div>{page}</div>
             <Buttons
               rereading={rereading || previousFilled}
               setPendingChangePage={setPendingChangePage}
