@@ -40,6 +40,7 @@ const useStyles = currentPanel =>
       backgroundColor: 'rgba(0, 0, 0, .03)',
     },
     item: { padding: theme.spacing(0.5) },
+    itemKey: { fontSize: 'small' },
     button: { marginTop: '1em' },
   }));
 
@@ -89,7 +90,7 @@ export const Panel = ({
             if (value)
               return (
                 <div className={classes.item}>
-                  <div>{`${key}: `}</div>
+                  <div className={classes.itemKey}>{`${key}: `}</div>
                   <div>
                     <b>{`${value}`}</b>
                   </div>
