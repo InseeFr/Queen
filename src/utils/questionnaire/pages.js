@@ -85,13 +85,13 @@ const getCurrentOccurrences = components => queenBindings => currentPage => {
   return [];
 };
 
-const getBindindsOfLoop = components => bindings => currentPage => {
+const getBindindsOfLoop = (components, calculatedVariables) => bindings => currentPage => {
   const filterComponentsLoop = components.filter(c => filterPageLoop(currentPage)(c));
   if (filterComponentsLoop.length > 0) {
     const {
       loopDependencies,
       bindingDependencies,
-      components: componentsOfLoop,
+      // components: componentsOfLoop,
       paginatedLoop,
     } = filterComponentsLoop[0];
     if (loopDependencies && paginatedLoop) {
@@ -101,7 +101,8 @@ const getBindindsOfLoop = components => bindings => currentPage => {
           return acc;
         }, {}),
         responseBindings: bindingDependencies.reduce((acc, name) => {
-          if (!loopDependencies.includes(name)) acc[name] = bindings[name];
+          if (!loopDependencies.includes(name) && !calculatedVariables.includes(name))
+            acc[name] = bindings[name];
           return acc;
         }, {}),
       };
@@ -110,15 +111,37 @@ const getBindindsOfLoop = components => bindings => currentPage => {
   return {};
 };
 
-export const getInfoFromCurrentPage = components => bindings => currentPage => maxPage => {
+const getAllFirstAllPages = loopBindings => currentPage => {
+  const { loopBindings: varsOfLoop = {} } = loopBindings;
+  const pageWithoutAnyIteration = getPageWithoutAnyIteration(currentPage);
+  const rootPageLoop = pageWithoutAnyIteration.split('.')[0];
+  if (Object.values(varsOfLoop).length > 0)
+    return Object.values(varsOfLoop)[0].map((curr, i) => `${rootPageLoop}.1#${i + 1}`);
+  return [];
+};
+
+export const getInfoFromCurrentPage = (
+  components,
+  calculatedVariables
+) => bindings => currentPage => maxPage => {
   const queenBindings = getQueenBindings(bindings)(currentPage);
   const occurences = getCurrentOccurrences(components)(queenBindings)(currentPage);
   const maxLocalPages = getMaxPages(components)(currentPage)(maxPage);
   const currentComponent = getCurrentComponent(components)(currentPage);
   const depth = (currentPage?.match(/\./g) || []).length;
   const occurencesIndex = getIterations(currentPage).map(i => i - 1);
-  const loopBindings = getBindindsOfLoop(components)(bindings)(currentPage);
-  return { maxLocalPages, occurences, currentComponent, depth, occurencesIndex, loopBindings };
+  const loopBindings = getBindindsOfLoop(components, calculatedVariables)(bindings)(currentPage);
+  const allFirstLoopPages = getAllFirstAllPages(loopBindings)(currentPage);
+  return {
+    maxLocalPages,
+    occurences,
+    currentComponent,
+    depth,
+    occurencesIndex,
+    loopBindings,
+    queenBindings,
+    allFirstLoopPages,
+  };
 };
 
 export const canGoNext = currentComponent => queenBindings => {

@@ -1,6 +1,11 @@
 import * as lunatic from '@inseefr/lunatic';
 import { DIRECT_CONTINUE_COMPONENTS } from 'utils/constants';
 
+export const getCalculatedVariablesFromSource = source =>
+  source.variables.reduce((_, { variableType, name }) => {
+    if (variableType === 'CALCULATED') return [..._, name];
+    return _;
+  }, []);
 export const secureCopy = objectToCopy => JSON.parse(JSON.stringify(objectToCopy));
 
 export const haveToGoNext = (currentComponentType, updateValue) => {

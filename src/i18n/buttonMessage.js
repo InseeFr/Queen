@@ -21,6 +21,7 @@ const buttonMessage = {
   validateButton: { fr: 'Valider', en: 'Validate' },
   definitiveValidateButton: { fr: "Valider l'arrêt définitif", en: 'Validate the final stop' },
   cancelButton: { fr: 'Annuler', en: 'Cancel' },
+  goSeeItButton: { fr: 'Aller voir', en: 'Go see it' },
 };
 
 export default buttonMessage;

@@ -17,6 +17,7 @@ import {
   useValidatedPages,
 } from 'utils/hook/questionnaire';
 import D from 'i18n';
+import { Panel } from 'components/designSystem';
 
 export const OrchestratorContext = React.createContext();
 
@@ -39,6 +40,7 @@ const QueenOrchestrator = ({
   missing,
   pagination,
   savingType,
+  calculatedVariables,
 }) => {
   const classes = useStyles();
   const topRef = useRef();
@@ -121,7 +123,9 @@ const QueenOrchestrator = ({
     currentComponent,
     occurencesIndex,
     queenBindings,
-  } = UQ.getInfoFromCurrentPage(components)(bindings)(page)(maxPage);
+    loopBindings: { loopBindings, responseBindings },
+    allFirstLoopPages,
+  } = UQ.getInfoFromCurrentPage(components, calculatedVariables)(bindings)(page)(maxPage);
   const { componentType: currentComponentType, hierarchy } = currentComponent || {};
 
   const canGoNext = UQ.canGoNext(currentComponent)(queenBindings);
@@ -226,13 +230,18 @@ const QueenOrchestrator = ({
     queenBindings,
   };
 
+  const [expanded, setExpanded] = useState(false);
+
+  const handleChangePanel = panel => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
+  };
+
   return (
     <OrchestratorContext.Provider value={context}>
       <div className={classes.root}>
         <Header title={questionnaire.label} hierarchy={hierarchy} setPage={setPage} />
         <div className={classes.bodyContainer}>
           {changingPage && <SimpleLoader />}
-
           <div className={classes.components} ref={topRef}>
             {components.map(component => {
               const { componentType, id } = component;
@@ -291,12 +300,37 @@ const QueenOrchestrator = ({
                 );
               return null;
             })}
+            {loopBindings && (
+              <div className={classes.loopInfo}>
+                {Object.values(loopBindings).length > 0 &&
+                  Object.values(loopBindings)[0].map((_, ind) => {
+                    return (
+                      <Panel
+                        key={`${ind}-panel`}
+                        expanded={expanded === ind}
+                        currentPanel={ind === occurencesIndex[0]}
+                        handleChangePanel={handleChangePanel}
+                        index={ind}
+                        title={Object.values(loopBindings).map(value => {
+                          if (value && value[ind]) return <span>{`${value[ind]} `}</span>;
+                          return null;
+                        })}
+                        variables={Object.entries(responseBindings).reduce((acc, [key, value]) => {
+                          return { ...acc, [key]: value[ind] };
+                        }, {})}
+                        setPage={setPage}
+                        goToSeePage={allFirstLoopPages[ind]}
+                      />
+                    );
+                  })}
+              </div>
+            )}
             {!DIRECT_CONTINUE_COMPONENTS.includes(currentComponentType) &&
               ((canGoNext && !rereading) || isLastPage) &&
               !previousFilled && <ContinueButton setPendingChangePage={setPendingChangePage} />}
           </div>
-
           <NavBar>
+            <div>{page}</div>
             <Buttons
               rereading={rereading || previousFilled}
               setPendingChangePage={setPendingChangePage}
