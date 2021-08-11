@@ -11,9 +11,6 @@ export const QUEEN_USER_KEY = 'QUEEN_USER';
 export const SYNCHRONIZE_KEY = 'SYNCHRONIZE';
 
 export const QUEEN_SYNC_RESULT = 'QUEEN_SYNC_RESULT';
-export const QUEEN_SYNC_RESULT_SUCCESS = 'SUCCESS';
-export const QUEEN_SYNC_RESULT_FAILURE = 'FAILURE';
-export const QUEEN_SYNC_RESULT_PENDING = 'PENDING';
 export const GUEST_QUEEN_USER = {
   lastName: 'Guest',
   firstName: 'Guest',
