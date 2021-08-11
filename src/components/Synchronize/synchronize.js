@@ -4,7 +4,7 @@ import Preloader from 'components/shared/preloader';
 import { ProgressBar } from 'components/shared/ProgressBar';
 import { AppVersion, Button } from 'components/designSystem';
 import { Box, Container, makeStyles, Typography } from '@material-ui/core';
-import { QUEEN_SYNC_RESULT, QUEEN_SYNC_RESULT_PENDING, SYNCHRONIZE_KEY } from 'utils/constants';
+import { QUEEN_SYNC_RESULT, SYNCHRONIZE_KEY } from 'utils/constants';
 import { useSynchronisation } from 'utils/synchronize';
 import { SimpleLabelProgress } from './SimpleLabelProgress';
 import { IconStatus } from './IconStatus';
@@ -74,7 +74,8 @@ const Synchronize = () => {
 
   const launchSynchronize = useCallback(async () => {
     if (navigator.onLine) {
-      window.localStorage.setItem(QUEEN_SYNC_RESULT, QUEEN_SYNC_RESULT_PENDING);
+      const tempResult = { error: 'pending' };
+      window.localStorage.setItem(QUEEN_SYNC_RESULT, JSON.stringify(tempResult));
       setPending(true);
       const result = await synchronize();
       endOfSync(result);
