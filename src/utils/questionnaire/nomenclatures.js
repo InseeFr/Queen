@@ -1,13 +1,10 @@
-const buildSuggester = apiUrl => id => {
-  return {
-    id,
-    url: `${apiUrl}/api/nomenclature/${id}`,
-  };
-};
+const buildSuggesterUrl = apiUrl => id => `${apiUrl}/api/nomenclature/${id}`;
 
 export const buildSuggesterFromNomenclatures = apiUrl => (nomenclatures = []) => {
   if (Array.isArray(nomenclatures)) {
-    return nomenclatures.map(nomenclature => buildSuggester(apiUrl)(nomenclature));
+    return nomenclatures.reduce((suggesters, nomenclature) => {
+      return { ...suggesters, [nomenclature]: buildSuggesterUrl(apiUrl)(nomenclature) };
+    }, {});
   }
-  return [];
+  return {};
 };
