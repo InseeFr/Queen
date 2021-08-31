@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as lunatic from '@inseefr/lunatic';
 import QueenOrchestrator from 'components/orchestrator/queen';
+import { useLunaticFetcher } from 'utils/hook';
 
 const Orchestrator = ({
   surveyUnit,
@@ -13,17 +14,22 @@ const Orchestrator = ({
   missing,
   features,
   source,
+  suggesters,
   filterDescription,
   save,
   close,
 }) => {
   const { data } = surveyUnit;
 
+  const { lunaticFetcher } = useLunaticFetcher();
+
   const lunaticResult = lunatic.useLunatic(source, data, {
     savingType,
     preferences,
     features,
     pagination,
+    suggesters,
+    fetcher: lunaticFetcher, // change "fetcher" property name according to Lunatic interface
   });
 
   return (
