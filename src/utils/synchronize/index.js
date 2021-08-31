@@ -88,11 +88,18 @@ export const useSynchronisation = () => {
 
       if (!error) {
         await (campaigns || []).reduce(async (previousPromise, campaign) => {
-          const { questionnaireIdsSuccess } = await previousPromise;
-          questionnairesAccessible = simpleMerge(questionnairesAccessible, questionnaireIdsSuccess);
+          await previousPromise;
+          const loadCampaign = async () => {
+            const { questionnaireIdsSuccess } = await getAllCampaign(campaign);
+            questionnairesAccessible = simpleMerge(
+              questionnairesAccessible,
+              questionnaireIdsSuccess
+            );
+          };
+
           i += 1;
           setCampaignProgress(getPercent(i, campaigns.length));
-          return getAllCampaign(campaign);
+          return loadCampaign();
         }, Promise.resolve({}));
       } else if (![404, 403, 500].includes(status)) throw new Error(statusText);
     } catch (e) {
