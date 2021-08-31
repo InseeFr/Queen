@@ -19,7 +19,7 @@ export const usePutResourcesInCache = updateProgress => {
         const putResource = async () => {
           const { error, status, statusText } = await refreshGetNomenclature.current(resourceId);
           if (error) {
-            if ([400, 403, 404, 500].includes(status)) {
+            if ([404, 403, 500].includes(status)) {
               ressourcesFailed.push(resourceId);
             } else {
               throw new Error(statusText);

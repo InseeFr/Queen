@@ -15,7 +15,7 @@ const useSaveSUToLocalDataBase = () => {
         ...surveyUnit,
         ...data,
       });
-    } else if (![400, 403, 404, 500].includes(status)) throw new Error(statusText);
+    } else if (![404, 403, 500].includes(status)) throw new Error(statusText);
   };
 
   return saveSurveyUnit;
@@ -39,7 +39,7 @@ export const useSaveSUsToLocalDataBase = updateProgress => {
         return saveSurveyUnit(surveyUnit);
       }, Promise.resolve());
       updateProgress(100);
-    } else if (![400, 403, 404, 500].includes(status)) throw new Error(statusText);
+    } else if (![404, 403, 500].includes(status)) throw new Error(statusText);
   };
 
   return putSUS;
@@ -60,13 +60,12 @@ export const useSendSurveyUnits = updateProgress => {
       const { id, ...other } = surveyUnit;
       const sendSurveyUnit = async () => {
         const { error, status } = await putDataRef.current(id, other);
-        if (error && [400, 403, 404, 500].includes(status)) {
+        if (error && [403, 404, 500].includes(status)) {
           const { error: tempZoneError } = await putDataTempZoneRef.current(id, other);
           if (!tempZoneError) surveyUnitsInTempZone.push(id);
           else throw new Error('Server is not responding');
         }
-        if (error && ![400, 403, 404, 500].includes(status))
-          throw new Error('Server is not responding');
+        if (error && ![403, 404, 500].includes(status)) throw new Error('Server is not responding');
         i += 1;
         updateProgress(getPercent(i, surveyUnits.length));
       };
