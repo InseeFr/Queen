@@ -21,7 +21,7 @@ const Orchestrator = ({
 }) => {
   const { data } = surveyUnit;
 
-  const { lunaticFetcher } = useLunaticFetcher();
+  const { lunaticFetcher: suggesterFetcher } = useLunaticFetcher();
 
   const lunaticResult = lunatic.useLunatic(source, data, {
     savingType,
@@ -29,7 +29,7 @@ const Orchestrator = ({
     features,
     pagination,
     suggesters,
-    fetcher: lunaticFetcher, // change "fetcher" property name according to Lunatic interface
+    suggesterFetcher,
   });
 
   return (
