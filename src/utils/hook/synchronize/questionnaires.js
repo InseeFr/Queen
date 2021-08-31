@@ -13,7 +13,7 @@ export const usePutQuestionnairesInCache = () => {
         const { error, status, statusText } = await refreshGetQuestionnaire.current(
           questionnaireId
         );
-        if (error && ![404, 403, 500].includes(status)) throw new Error(statusText);
+        if (error && ![400, 403, 404, 500].includes(status)) throw new Error(statusText);
         else if (!error) questionnaireIdsSuccess.push(questionnaireId);
       };
 
