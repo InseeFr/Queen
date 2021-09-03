@@ -5,7 +5,7 @@ import D from 'i18n';
 import { useStyles } from './component.style';
 import { Button, IconButton } from 'components/designSystem';
 import { PlayArrow, SkipNext } from '@material-ui/icons';
-import { OrchestratorContext } from '../orchestrator';
+import { OrchestratorContext } from '../queen';
 
 const Buttons = ({ rereading, setPendingChangePage }) => {
   const { readonly, page, isFirstPage, isLastPage } = useContext(OrchestratorContext);

@@ -5,7 +5,7 @@ import { Button } from 'components/designSystem';
 import PropTypes from 'prop-types';
 import D from 'i18n';
 import { useStyles } from './continue.style';
-import { OrchestratorContext } from 'components/orchestrator/orchestrator';
+import { OrchestratorContext } from 'components/orchestrator/queen';
 
 const ButtonContinue = ({ setPendingChangePage }) => {
   const { readonly, isLastPage, page } = useContext(OrchestratorContext);

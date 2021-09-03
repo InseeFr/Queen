@@ -62,3 +62,12 @@ export const sendReadyEvent = () => {
   };
   dispatchQueenEventWithData(data);
 };
+
+export const sendNotReadyEvent = () => {
+  const data = {
+    type: prefixEvent,
+    command: 'HEALTH_CHECK',
+    state: 'NOT_READY',
+  };
+  dispatchQueenEventWithData(data);
+};

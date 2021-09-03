@@ -69,6 +69,7 @@ const dictionary = {
     fr: 'Voir un exemple de questionnaire',
     en: 'See a example of a questionnaire',
   },
+  noDataCollected: { fr: 'Aucune donnée collectée', en: 'No data collected' },
 
   ...buttonMessage,
   ...navigationMessage,
