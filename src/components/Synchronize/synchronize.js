@@ -4,16 +4,11 @@ import Preloader from 'components/shared/preloader';
 import { ProgressBar } from 'components/shared/ProgressBar';
 import { AppVersion, Button } from 'components/designSystem';
 import { Box, Container, makeStyles, Typography } from '@material-ui/core';
-import {
-  QUEEN_SYNC_RESULT,
-  QUEEN_SYNC_RESULT_SUCCESS,
-  QUEEN_SYNC_RESULT_FAILURE,
-  QUEEN_SYNC_RESULT_PENDING,
-  SYNCHRONIZE_KEY,
-} from 'utils/constants';
+import { QUEEN_SYNC_RESULT, SYNCHRONIZE_KEY } from 'utils/constants';
 import { useSynchronisation } from 'utils/synchronize';
 import { SimpleLabelProgress } from './SimpleLabelProgress';
 import { IconStatus } from './IconStatus';
+import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 
 const useStyles = makeStyles(theme => ({
   welcome: { textAlign: 'center', paddingTop: '3em' },
@@ -53,32 +48,39 @@ const Synchronize = () => {
     window.location = window.location.origin;
   };
 
+  const getSurveyUnitsSuccess = async (error, questionnairesAccessible = []) => {
+    const surveyUnits = await surveyUnitIdbService.getAll();
+    if (error === 'send') return surveyUnits.reduce((_, { id }) => [..._, id], []);
+    return surveyUnits.reduce((_, { id, questionnaireId }) => {
+      if (questionnairesAccessible.includes(questionnaireId)) return [..._, id];
+      return _;
+    }, []);
+  };
+
   const endOfSync = useCallback(
-    success => {
-      setCurrentJob(success ? 'success' : 'failure');
-      window.localStorage.setItem(
-        QUEEN_SYNC_RESULT,
-        success ? QUEEN_SYNC_RESULT_SUCCESS : QUEEN_SYNC_RESULT_FAILURE
-      );
-      setTimeout(() => redirect(), 800);
+    async ({ error, surveyUnitsInTempZone = [], questionnairesAccessible = [] }) => {
+      setCurrentJob(!error ? 'success' : 'failure');
+      const result = {
+        error: !!error,
+        // surveyUnitsSuccess : only surveyUnits in database where there's questionnaire is accessible
+        surveyUnitsSuccess: await getSurveyUnitsSuccess(error, questionnairesAccessible),
+        surveyUnitsInTempZone,
+      };
+      window.localStorage.setItem(QUEEN_SYNC_RESULT, JSON.stringify(result));
+      setTimeout(() => redirect(), 600);
     },
     [setCurrentJob]
   );
 
   const launchSynchronize = useCallback(async () => {
-    try {
-      if (navigator.onLine) {
-        window.localStorage.setItem(QUEEN_SYNC_RESULT, QUEEN_SYNC_RESULT_PENDING);
-        setPending(true);
-        await synchronize();
-        endOfSync(true);
-      } else {
-        endOfSync(false);
-      }
-    } catch (e) {
-      console.log('failed');
-      console.log(e);
-      endOfSync(false);
+    if (navigator.onLine) {
+      const tempResult = { error: 'pending' };
+      window.localStorage.setItem(QUEEN_SYNC_RESULT, JSON.stringify(tempResult));
+      setPending(true);
+      const result = await synchronize();
+      endOfSync(result);
+    } else {
+      endOfSync({ error: 'send' });
     }
   }, [endOfSync, synchronize]);
 
