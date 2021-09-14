@@ -8,19 +8,25 @@ import { useRemoteData, useVisuQuery } from 'utils/hook';
 import QuestionnaireForm from './questionnaireForm';
 import { useHistory } from 'react-router';
 import { checkQuestionnaire, downloadDataAsJson } from 'utils/questionnaire';
+import { buildSuggesterFromNomenclatures } from 'utils/questionnaire/nomenclatures';
 
 const Visualizer = () => {
-  const configuration = useContext(AppContext);
+  const { apiUrl, standalone } = useContext(AppContext);
 
   const [surveyUnit, setSurveyUnit] = useState(undefined);
   const [error, setError] = useState(null);
   const [source, setSource] = useState(null);
 
   const { questionnaireUrl, dataUrl, readonly } = useVisuQuery();
-  const { surveyUnit: suData, questionnaire, loadingMessage, errorMessage } = useRemoteData(
-    questionnaireUrl,
-    dataUrl
-  );
+  const {
+    surveyUnit: suData,
+    questionnaire,
+    nomenclatures,
+    loadingMessage,
+    errorMessage,
+  } = useRemoteData(questionnaireUrl, dataUrl);
+
+  const [suggesters, setSuggesters] = useState(null);
   const history = useHistory();
 
   const createFakeSurveyUnit = surveyUnit => {
@@ -33,16 +39,18 @@ const Visualizer = () => {
   };
 
   useEffect(() => {
-    if (questionnaireUrl && questionnaire && suData) {
+    if (questionnaireUrl && questionnaire && suData && nomenclatures) {
       const { valid, error: questionnaireError } = checkQuestionnaire(questionnaire);
       if (valid) {
         setSource(questionnaire);
+        const suggestersBuilt = buildSuggesterFromNomenclatures(apiUrl)(nomenclatures);
+        setSuggesters(suggestersBuilt);
         setSurveyUnit(createFakeSurveyUnit(suData));
       } else {
         setError(questionnaireError);
       }
     }
-  }, [questionnaireUrl, questionnaire, suData]);
+  }, [questionnaireUrl, questionnaire, suData, apiUrl, nomenclatures]);
 
   useEffect(() => {
     if (errorMessage) setError(errorMessage);
@@ -58,11 +66,12 @@ const Visualizer = () => {
     <>
       {loadingMessage && <Preloader message={loadingMessage} />}
       {error && <Error message={error} />}
-      {questionnaireUrl && source && surveyUnit && (
+      {questionnaireUrl && source && surveyUnit && suggesters && (
         <Orchestrator
           surveyUnit={surveyUnit}
           source={source}
-          standalone={configuration.standalone}
+          suggesters={suggesters}
+          standalone={standalone}
           readonly={readonly}
           savingType="COLLECTED"
           preferences={['PREVIOUS', 'COLLECTED']}
