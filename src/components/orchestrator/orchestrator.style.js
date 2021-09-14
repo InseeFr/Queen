@@ -17,4 +17,11 @@ export const useStyles = makeStyles(theme => ({
     display: 'grid',
     gridTemplateRows: 'auto 60px',
   },
+  loopInfo: {
+    position: 'absolute',
+    // 65(width of top bar) + 4
+    top: '69px',
+    // 60(width of right bar) + 4
+    right: '64px',
+  },
 }));

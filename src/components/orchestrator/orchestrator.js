@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import * as lunatic from '@inseefr/lunatic';
 import QueenOrchestrator from 'components/orchestrator/queen';
 import { useLunaticFetcher } from 'utils/hook';
+import { getCalculatedVariablesFromSource } from 'utils/questionnaire';
+
 
 const Orchestrator = ({
   surveyUnit,
@@ -21,7 +23,10 @@ const Orchestrator = ({
 }) => {
   const { data } = surveyUnit;
 
+
   const { lunaticFetcher: suggesterFetcher } = useLunaticFetcher();
+
+  const calculatedVariables = getCalculatedVariablesFromSource(source);
 
   const lunaticResult = lunatic.useLunatic(source, data, {
     savingType,
@@ -46,6 +51,7 @@ const Orchestrator = ({
       pagination={pagination}
       savingType={savingType}
       filterDescription={filterDescription}
+      calculatedVariables={calculatedVariables}
     />
   );
 };
