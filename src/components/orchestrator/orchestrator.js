@@ -4,8 +4,6 @@ import * as lunatic from '@inseefr/lunatic';
 import QueenOrchestrator from 'components/orchestrator/queen';
 import { useLunaticFetcher } from 'utils/hook';
 import { getCalculatedVariablesFromSource } from 'utils/questionnaire';
-
-
 const Orchestrator = ({
   surveyUnit,
   standalone,
@@ -22,12 +20,8 @@ const Orchestrator = ({
   close,
 }) => {
   const { data } = surveyUnit;
-
-
   const { lunaticFetcher: suggesterFetcher } = useLunaticFetcher();
-
   const calculatedVariables = getCalculatedVariablesFromSource(source);
-
   const lunaticResult = lunatic.useLunatic(source, data, {
     savingType,
     preferences,
