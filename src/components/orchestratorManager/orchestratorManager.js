@@ -89,14 +89,14 @@ const OrchestratorManager = () => {
           surveyUnit={surveyUnit}
           source={source}
           suggesters={suggesters}
-          autoSuggesterLoading={true}
+          autoSuggesterLoading
           standalone={standalone}
           readonly={readonly}
           savingType="COLLECTED"
           preferences={['PREVIOUS', 'COLLECTED']}
           features={['VTL']}
-          pagination={true}
-          missing={true}
+          pagination
+          missing
           filterDescription={false}
           save={saveSU}
           close={closeOrchestrator}
