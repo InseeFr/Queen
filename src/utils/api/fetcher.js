@@ -23,8 +23,6 @@ export const fetcher = async (url, token, method, body) => {
       } catch (error) {
         return { error: true, status, statusText: error.message };
       }
-    } else if (status === 404) {
-      return { status, statusText };
     } else {
       return { error: true, status, statusText };
     }
@@ -32,4 +30,12 @@ export const fetcher = async (url, token, method, body) => {
     // network error
     return { error: true, statusText: error.message };
   }
+};
+
+export const getFetcherForLunatic = token => async (url, options) => {
+  const otherHeader = options?.headers || {};
+  return fetch(url, {
+    ...options,
+    headers: token ? { ...otherHeader, Authorization: `Bearer ${token}` } : otherHeader,
+  });
 };

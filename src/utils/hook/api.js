@@ -7,6 +7,7 @@ import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-servic
 import { DEFAULT_DATA_URL, OIDC } from 'utils/constants';
 import { useAuth } from './auth';
 import { useAsyncValue } from '.';
+import { getFetcherForLunatic } from 'utils/api/fetcher';
 
 const clean = async (standalone = false) => {
   try {
@@ -27,6 +28,20 @@ const getErrorMessage = (response, type = 'q') => {
   if (status === 404) return Dictionary.getError404(type);
   if (status >= 500 && status < 600) return Dictionary.getErrorServeur;
   return Dictionary.getUnknownError;
+};
+
+export const useLunaticFetcher = () => {
+  const { authenticationType, oidcUser } = useAuth();
+
+  const lunaticFetcher = useCallback(
+    (url, options) => {
+      const token = authenticationType === OIDC ? oidcUser?.access_token : null;
+      return getFetcherForLunatic(token)(url, options);
+    },
+    [authenticationType, oidcUser]
+  );
+
+  return { lunaticFetcher };
 };
 
 export const useAPI = () => {
@@ -86,6 +101,13 @@ export const useAPI = () => {
     [apiUrl, authenticationType, oidcUser]
   );
 
+  const putUeDataToTempZone = useCallback(
+    (surveyUnitID, body) => {
+      const token = authenticationType === OIDC ? oidcUser?.access_token : null;
+      return API.putUeDataToTempZone(apiUrl)(surveyUnitID)(token)(body);
+    },
+    [apiUrl, authenticationType, oidcUser]
+  );
   return {
     getCampaigns,
     getSurveyUnits,
@@ -94,6 +116,7 @@ export const useAPI = () => {
     getQuestionnaire,
     getUeData,
     putUeData,
+    putUeDataToTempZone,
   };
 };
 
@@ -121,18 +144,20 @@ export const useGetSurveyUnit = () => {
 export const useAPIRemoteData = (surveyUnitID, questionnaireID) => {
   const { standalone } = useContext(AppContext);
   const [questionnaire, setQuestionnaire] = useState(null);
+  const [nomenclatures, setNomenclatures] = useState(null);
   const [surveyUnit, setSurveyUnit] = useState(null);
 
   const [loadingMessage, setLoadingMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const { getQuestionnaire } = useAPI();
+  const { getQuestionnaire, getRequiredNomenclatures } = useAPI();
   const getSurveyUnit = useGetSurveyUnit();
 
   useEffect(() => {
     if (questionnaireID && surveyUnitID && !questionnaire && !surveyUnit) {
       setErrorMessage(null);
       setQuestionnaire(null);
+      setNomenclatures(null);
       setSurveyUnit(null);
       const load = async () => {
         setLoadingMessage(Dictionary.waitingCleaning);
@@ -140,8 +165,10 @@ export const useAPIRemoteData = (surveyUnitID, questionnaireID) => {
         if (!error) {
           setLoadingMessage(Dictionary.waitingQuestionnaire);
           const qR = await getQuestionnaire(questionnaireID);
-          if (!qR.error && qR.status !== 404) {
+          const nR = await getRequiredNomenclatures(questionnaireID);
+          if (!qR.error && !nR.error && qR.status !== 404) {
             setQuestionnaire(qR.data.value);
+            setNomenclatures(nR.data);
             setLoadingMessage(Dictionary.waitingDataSU);
             const suR = await getSurveyUnit(surveyUnitID, standalone);
             if (!suR.error && suR.surveyUnit) {
@@ -160,12 +187,13 @@ export const useAPIRemoteData = (surveyUnitID, questionnaireID) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [surveyUnitID, questionnaireID]);
 
-  return { loadingMessage, errorMessage, surveyUnit, questionnaire };
+  return { loadingMessage, errorMessage, surveyUnit, questionnaire, nomenclatures };
 };
 
 export const useRemoteData = (questionnaireUrl, dataUrl) => {
   const { standalone } = useContext(AppContext);
   const [questionnaire, setQuestionnaire] = useState(null);
+  const [nomenclatures, setNomenclatures] = useState(null);
   const [surveyUnit, setSurveyUnit] = useState(null);
 
   const [loadingMessage, setLoadingMessage] = useState(null);
@@ -175,6 +203,7 @@ export const useRemoteData = (questionnaireUrl, dataUrl) => {
     if (questionnaireUrl) {
       setErrorMessage(null);
       setQuestionnaire(null);
+      setNomenclatures(null);
       setSurveyUnit(null);
       const fakeToken = null;
       const load = async () => {
@@ -185,6 +214,7 @@ export const useRemoteData = (questionnaireUrl, dataUrl) => {
           const qR = await API.getRequest(questionnaireUrl)(fakeToken);
           if (!qR.error) {
             setQuestionnaire(qR.data);
+            setNomenclatures([]); // fake nomenclatures for vizu
             setLoadingMessage(Dictionary.waintingData);
             const dR = await API.getRequest(dataUrl || DEFAULT_DATA_URL)(fakeToken);
             if (!dR.error) {
@@ -201,5 +231,5 @@ export const useRemoteData = (questionnaireUrl, dataUrl) => {
     }
   }, [questionnaireUrl, dataUrl, standalone]);
 
-  return { loadingMessage, errorMessage, surveyUnit, questionnaire };
+  return { loadingMessage, errorMessage, surveyUnit, questionnaire, nomenclatures };
 };

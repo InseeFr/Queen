@@ -78,7 +78,8 @@ export const useValidatedPages = (initPage, questionnaire, bindings) => {
 
   const addValidatedPage = page => {
     if (!validatedPages.includes(page)) {
-      setValidatedPages([...validatedPages, page]);
+      validatedPages.push(page);
+      setValidatedPages(validatedPages);
       return [...validatedPages, page];
     }
     return validatedPages;

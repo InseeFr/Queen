@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import * as UQ from 'utils/questionnaire';
-import { OrchestratorContext } from '../orchestrator';
+import { OrchestratorContext } from '../queen';
 import { useStyles } from './component.style';
 
 const NavBar = ({ children }) => {
