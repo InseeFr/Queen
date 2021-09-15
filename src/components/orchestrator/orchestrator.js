@@ -15,6 +15,7 @@ const Orchestrator = ({
   features,
   source,
   suggesters,
+  autoSuggesterLoading,
   filterDescription,
   save,
   close,
@@ -28,6 +29,7 @@ const Orchestrator = ({
     features,
     pagination,
     suggesters,
+    autoSuggesterLoading,
     suggesterFetcher,
   });
 

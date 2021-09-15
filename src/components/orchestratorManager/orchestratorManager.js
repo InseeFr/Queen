@@ -79,7 +79,6 @@ const OrchestratorManager = () => {
       sendCloseEvent(surveyUnit.id);
     }
   };
-
   return (
     <>
       {![READ_ONLY, undefined].includes(readonlyParam) && <NotFound />}
@@ -90,6 +89,7 @@ const OrchestratorManager = () => {
           surveyUnit={surveyUnit}
           source={source}
           suggesters={suggesters}
+          autoSuggesterLoading={true}
           standalone={standalone}
           readonly={readonly}
           savingType="COLLECTED"
