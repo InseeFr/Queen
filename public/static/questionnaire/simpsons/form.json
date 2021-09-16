@@ -1,9 +1,10 @@
 {
   "id": "i6vwi2506qf2mms",
   "modele": "SIMPSONS",
-  "enoCoreVersion": "2.2.9-dev-lunatic-missing_var",
-  "lunaticModelVersion": "2.2.2",
-  "generatingDate": "06-07-2021 15:33:37",
+  "enoCoreVersion": "2.2.11",
+  "lunaticModelVersion": "2.2.3",
+  "generatingDate": "16-09-2021 09:08:11",
+  "missing": true,
   "pagination": "question",
   "maxPage": "37",
   "label": "Questionnaire SIMPSONS 20201215",
@@ -33,7 +34,7 @@
       "mandatory": true,
       "page": "2",
       "maxLength": 500,
-      "label": "\"➡ 1. Before starting, do you have any comments about the Simpsons family?\"",
+      "label": "\"Before starting, do you have any comments about the Simpsons family?\"",
       "conditionFilter": { "value": "true" },
       "hierarchy": {
         "sequence": { "id": "j6p0ti5h", "page": "1", "label": "\"I - Introduction\"" }
@@ -48,7 +49,7 @@
       "componentType": "CheckboxBoolean",
       "mandatory": false,
       "page": "3",
-      "label": "\"➡ 2. If you agree to answer this questionnaire, please check the box\"",
+      "label": "\"If you agree to answer this questionnaire, please check the box\"",
       "declarations": [
         {
           "id": "j6p0np9q-kir6xl1e",
@@ -103,7 +104,7 @@
       "mandatory": false,
       "page": "4",
       "maxLength": 30,
-      "label": "\"➡ 3. Who is the producer?\"",
+      "label": "\"Who is the producer?\"",
       "conditionFilter": {
         "value": "(not(cast(READY,integer)  <>  1))",
         "bindingDependencies": ["READY"]
@@ -129,11 +130,20 @@
       "min": 0,
       "max": 99,
       "decimals": 0,
-      "label": "\"➡ 4. What is the current season number?\"",
+      "label": "\"What is the current season number?\"",
       "conditionFilter": {
         "value": "(not(cast(READY,integer)  <>  1))",
         "bindingDependencies": ["READY"]
       },
+      "controls": [
+        {
+          "id": "j6q9h8tj-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(SEASON_NUMBER,integer) = 0)",
+          "errorMessage": "\"Please enter a season number\"",
+          "bindingDependencies": ["SEASON_NUMBER"]
+        }
+      ],
       "hierarchy": {
         "sequence": { "id": "j6p0ti5h", "page": "1", "label": "\"I - Introduction\"" },
         "subSequence": {
@@ -154,7 +164,7 @@
       "page": "6",
       "min": "1900-01-01",
       "max": "format-date(current-date(),'[Y0001]-[M01]-[D01]')",
-      "label": "\"➡ 5. When was the first episode of Simpsons? (format YYYY-MM-DD)\"",
+      "label": "\"When was the first episode of Simpsons? (format YYYY-MM-DD)\"",
       "declarations": [
         {
           "id": "kiq71eoi-kiq7dsy2",
@@ -187,7 +197,7 @@
       "mandatory": false,
       "page": "7",
       "min": "1980-05",
-      "label": "\"➡ 6. When was the first episode of the Simpsons? (format YYYY-MM)\"",
+      "label": "\"When was the first episode of the Simpsons? (format YYYY-MM)\"",
       "declarations": [
         {
           "id": "k5nvty2o-k5nvxld8",
@@ -221,7 +231,7 @@
       "page": "8",
       "min": "1900",
       "max": "year-from-date(current-date())",
-      "label": "\"➡ 7. When was the first episode of the Simpsons? (format YYYY)\"",
+      "label": "\"When was the first episode of the Simpsons? (format YYYY)\"",
       "declarations": [
         {
           "id": "k5nw1fir-k5nvmx3n",
@@ -256,7 +266,7 @@
       "min": 0,
       "max": 70,
       "decimals": 2,
-      "label": "\"➡ 8. How long does an episode last?\"",
+      "label": "\"How long does an episode last?\"",
       "conditionFilter": {
         "value": "(not(cast(READY,integer)  <>  1))",
         "bindingDependencies": ["READY"]
@@ -283,7 +293,7 @@
       "min": 0,
       "max": 366,
       "decimals": 1,
-      "label": "\"➡ 9. How long does it take to write a new episode?\"",
+      "label": "\"How long does it take to write a new episode?\"",
       "conditionFilter": {
         "value": "(not(cast(READY,integer)  <>  1))",
         "bindingDependencies": ["READY"]
@@ -310,7 +320,7 @@
       "min": 0,
       "max": 12,
       "decimals": 0,
-      "label": "\"➡ 10. How long will it take you to watch all the existing episodes?\"",
+      "label": "\"How long will it take you to watch all the existing episodes?\"",
       "conditionFilter": {
         "value": "(not(cast(READY,integer)  <>  1))",
         "bindingDependencies": ["READY"]
@@ -337,7 +347,7 @@
       "min": 0,
       "max": 100,
       "decimals": 0,
-      "label": "\"➡ 11. For how long have you known the Simpsons family?\"",
+      "label": "\"For how long have you known the Simpsons family?\"",
       "conditionFilter": {
         "value": "(not(cast(READY,integer)  <>  1))",
         "bindingDependencies": ["READY"]
@@ -364,7 +374,7 @@
       "min": 0,
       "max": 99,
       "decimals": 1,
-      "label": "\"➡ 15. In your opinion, how much is the part of audience share in US for the 2016 season?\"",
+      "label": "\"In your opinion, how much is the part of audience share in US for the 2016 season?\"",
       "conditionFilter": {
         "value": "(not(cast(READY,integer)  <>  1))",
         "bindingDependencies": ["READY"]
@@ -410,7 +420,7 @@
       "componentType": "Radio",
       "mandatory": true,
       "page": "15",
-      "label": "\"➡ 1. In which city do the Simpsons reside?\"",
+      "label": "\"In which city do the Simpsons reside?\"",
       "declarations": [
         {
           "id": "j3343clt-d3",
@@ -443,7 +453,7 @@
       "componentType": "CheckboxOne",
       "mandatory": false,
       "page": "16",
-      "label": "\"➡ 2. Who is the Simpsons city mayor?\"",
+      "label": "\"Who is the Simpsons city mayor?\"",
       "declarations": [
         {
           "id": "j6qdfhvw-d4",
@@ -478,7 +488,7 @@
       "componentType": "Dropdown",
       "mandatory": false,
       "page": "17",
-      "label": "\"➡ 3. In which state do The Simpsons reside?\"",
+      "label": "\"In which state do The Simpsons reside?\"",
       "conditionFilter": {
         "value": "(not(cast(READY,integer)  <>  1))",
         "bindingDependencies": ["READY"]
@@ -536,7 +546,7 @@
       "id": "j334akov",
       "componentType": "CheckboxGroup",
       "page": "19",
-      "label": "\"➡ 1. What are the pet names that the Simpsons family had?\"",
+      "label": "\"What are the pet names that the Simpsons family had?\"",
       "declarations": [
         {
           "id": "j334akov-d5",
@@ -579,7 +589,7 @@
       "mandatory": false,
       "page": "20",
       "positioning": "HORIZONTAL",
-      "label": "\"➡ 2. Does Jay like the following ice cream flavours?\"",
+      "label": "\"Does Jay like the following ice cream flavours?\"",
       "declarations": [
         {
           "id": "d12-SI",
@@ -676,7 +686,7 @@
       "mandatory": false,
       "page": "21",
       "positioning": "HORIZONTAL",
-      "label": "\"➡ 3. Which character works in the nuclear power plant?\"",
+      "label": "\"Which character works in the nuclear power plant?\"",
       "conditionFilter": {
         "value": "(not(cast(READY,integer)  <>  1))",
         "bindingDependencies": ["READY"]
@@ -765,7 +775,7 @@
       "mandatory": false,
       "page": "22",
       "positioning": "HORIZONTAL",
-      "label": "\"➡ 4. In which city each character was born?\"",
+      "label": "\"In which city each character was born?\"",
       "conditionFilter": {
         "value": "(not(cast(READY,integer)  <>  1))",
         "bindingDependencies": ["READY"]
@@ -930,7 +940,7 @@
       "mandatory": false,
       "page": "24",
       "positioning": "HORIZONTAL",
-      "label": "\"➡ 1. Please, specify the percentage of Jay’s expenses in the Kwik-E-Mart for each product?\"",
+      "label": "\"Please, specify the percentage of Jay’s expenses in the Kwik-E-Mart for each product?\"",
       "conditionFilter": {
         "value": "(not(cast(READY,integer)  <>  1))",
         "bindingDependencies": ["READY"]
@@ -1078,7 +1088,7 @@
       "mandatory": false,
       "page": "25",
       "positioning": "HORIZONTAL",
-      "label": "\"➡ 2. Please specify if Jay has bought each product in his last food shopping\"",
+      "label": "\"Please specify if Jay has bought each product in his last food shopping\"",
       "conditionFilter": {
         "value": "(not(cast(READY,integer)  <>  1))",
         "bindingDependencies": ["READY"]
@@ -1279,7 +1289,7 @@
       "mandatory": false,
       "page": "26",
       "positioning": "HORIZONTAL",
-      "label": "\"➡ 3. Who did these clownings and tell us what you remember?\"",
+      "label": "\"Who did these clownings and tell us what you remember?\"",
       "conditionFilter": {
         "value": "(not(cast(READY,integer)  <>  1))",
         "bindingDependencies": ["READY"]
@@ -1447,7 +1457,7 @@
       "mandatory": false,
       "page": "27",
       "positioning": "HORIZONTAL",
-      "label": "\"➡ 4. Which of the following means of transport were used by the hero and in which country?\"",
+      "label": "\"Which of the following means of transport were used by the hero and in which country?\"",
       "declarations": [
         {
           "id": "j6p2lwuj-d10",
@@ -1719,7 +1729,7 @@
       "mandatory": false,
       "page": "29",
       "positioning": "HORIZONTAL",
-      "label": "\"➡ 1. Please, complete the following grid with your favourite characters\"",
+      "label": "\"Please, complete the following grid with your favourite characters\"",
       "conditionFilter": {
         "value": "(not(cast(READY,integer)  <>  1))",
         "bindingDependencies": ["READY"]
@@ -2106,7 +2116,7 @@
       "mandatory": false,
       "page": "30",
       "positioning": "HORIZONTAL",
-      "label": "\"➡ 2. How has your feeling about the following characters evolved over time?\"",
+      "label": "\"How has your feeling about the following characters evolved over time?\"",
       "conditionFilter": {
         "value": "(not(cast(READY,integer)  <>  1))",
         "bindingDependencies": ["READY"]
@@ -2207,7 +2217,7 @@
       "mandatory": false,
       "page": "31",
       "positioning": "HORIZONTAL",
-      "label": "\"➡ 3. Can you tell how long Bart Simpson has been on leave for each type and whether there has been another type?\"",
+      "label": "\"Can you tell how long Bart Simpson has been on leave for each type and whether there has been another type?\"",
       "conditionFilter": {
         "value": "(not(cast(READY,integer)  <>  1))",
         "bindingDependencies": ["READY"]
@@ -2400,7 +2410,7 @@
       "min": 0,
       "max": 20,
       "decimals": 0,
-      "label": "\"➡ 1. How many characters from the Simpsons family could you precisely describe?\"",
+      "label": "\"How many characters from the Simpsons family could you precisely describe?\"",
       "conditionFilter": {
         "value": "(not(cast(READY,integer)  <>  1))",
         "bindingDependencies": ["READY"]
@@ -2460,7 +2470,8 @@
               "page": "34",
               "label": "\"Description of each character\""
             }
-          }
+          },
+          "bindingDependencies": ["NB_CHAR"]
         },
 
         {
@@ -2469,7 +2480,7 @@
           "mandatory": false,
           "page": "34",
           "maxLength": 30,
-          "label": "\"➡ 2. What is the first name of this character?\"",
+          "label": "\"What is the first name of this character?\"",
           "conditionFilter": {
             "value": "(not(cast(READY,integer)  <>  1))",
             "bindingDependencies": ["READY"]
@@ -2486,7 +2497,7 @@
               "label": "\"Description of each character\""
             }
           },
-          "bindingDependencies": ["NAME_CHAR"],
+          "bindingDependencies": ["NAME_CHAR", "NB_CHAR"],
           "response": { "name": "NAME_CHAR" }
         },
 
@@ -2498,7 +2509,7 @@
           "min": 0,
           "max": 120,
           "decimals": 0,
-          "label": "\"➡ 3. How old is this character in the first episode of the Simpsons family?\"",
+          "label": "\"How old is this character in the first episode of the Simpsons family?\"",
           "conditionFilter": {
             "value": "(not(cast(READY,integer)  <>  1))",
             "bindingDependencies": ["READY"]
@@ -2515,7 +2526,7 @@
               "label": "\"Description of each character\""
             }
           },
-          "bindingDependencies": ["AGE_CHAR"],
+          "bindingDependencies": ["AGE_CHAR", "NB_CHAR"],
           "response": { "name": "AGE_CHAR" }
         }
       ]
@@ -2558,7 +2569,7 @@
               "label": "\"VII - Other details about character named \" || cast(cast(NAME_CHAR,string),string) || \" \""
             }
           },
-          "bindingDependencies": ["NAME_CHAR"]
+          "bindingDependencies": ["NAME_CHAR", "AGE_CHAR"]
         },
 
         {
@@ -2566,7 +2577,7 @@
           "componentType": "CheckboxOne",
           "mandatory": false,
           "page": "35.2",
-          "label": "\"➡ 1. Is character named \" || cast(cast(NAME_CHAR,string),string) || \" your favourite one ? \"",
+          "label": "\"Is character named \" || cast(cast(NAME_CHAR,string),string) || \" your favourite one ? \"",
           "conditionFilter": {
             "value": "(not(cast(READY,integer)  <>  1))",
             "bindingDependencies": ["READY"]
@@ -2579,7 +2590,7 @@
             }
           },
           "missingResponse": { "name": "FAVCHAR_MISSING" },
-          "bindingDependencies": ["NAME_CHAR", "FAVCHAR_MISSING", "FAVCHAR"],
+          "bindingDependencies": ["NAME_CHAR", "FAVCHAR_MISSING", "FAVCHAR", "AGE_CHAR"],
           "options": [
             { "value": "1", "label": "\"Yes\"" },
 
@@ -2594,7 +2605,7 @@
           "mandatory": false,
           "page": "35.3",
           "maxLength": 255,
-          "label": "\"➡ 2. What is your best memory about character named \" || cast(cast(NAME_CHAR,string),string) || \" ? \"",
+          "label": "\"What is your best memory about character named \" || cast(cast(NAME_CHAR,string),string) || \" ? \"",
           "conditionFilter": {
             "value": "(not(cast(READY,integer)  <>  1))",
             "bindingDependencies": ["READY"]
@@ -2607,7 +2618,7 @@
             }
           },
           "missingResponse": { "name": "MEMORY_CHAR_MISSING" },
-          "bindingDependencies": ["NAME_CHAR", "MEMORY_CHAR_MISSING", "MEMORY_CHAR"],
+          "bindingDependencies": ["NAME_CHAR", "MEMORY_CHAR_MISSING", "MEMORY_CHAR", "AGE_CHAR"],
           "response": { "name": "MEMORY_CHAR" }
         }
       ]
@@ -2628,7 +2639,7 @@
       "mandatory": false,
       "page": "37",
       "maxLength": 255,
-      "label": "\"➡ 1. Do you have any comment about the survey?\"",
+      "label": "\"Do you have any comment about the survey?\"",
       "conditionFilter": { "value": "true" },
       "hierarchy": {
         "sequence": { "id": "j6z12s2d", "page": "36", "label": "\"VIII - Comment\"" }
