@@ -1,9 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import * as lunatic from '@inseefr/lunatic';
+
+import PropTypes from 'prop-types';
 import QueenOrchestrator from 'components/orchestrator/queen';
-import { useLunaticFetcher } from 'utils/hook';
+import React from 'react';
 import { getCalculatedVariablesFromSource } from 'utils/questionnaire';
+import { useLunaticFetcher } from 'utils/hook';
+
 const Orchestrator = ({
   surveyUnit,
   standalone,
