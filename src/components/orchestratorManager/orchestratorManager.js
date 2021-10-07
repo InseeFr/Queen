@@ -60,7 +60,7 @@ const OrchestratorManager = () => {
     const { id, ...other } = unit;
     setErrorSending(null);
     setSending(true);
-    const { /* status, */ error: putDataError } = await putUeData(other);
+    const { /* status, */ error: putDataError } = await putUeData(id, other);
     setSending(false);
     if (putDataError) setErrorSending('Error during sending');
   };
