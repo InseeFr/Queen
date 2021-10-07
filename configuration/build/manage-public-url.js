@@ -1,7 +1,7 @@
 const fs = require('fs');
 const glob = require('glob');
 
-const getDirectories = function(src, callback) {
+const getDirectories = function (src, callback) {
   return glob(`${src}/**/*`, callback);
 };
 

@@ -60,7 +60,7 @@ const OrchestratorManager = () => {
     const { id, ...other } = unit;
     setErrorSending(null);
     setSending(true);
-    const { /* status, */ error: putDataError } = await putUeData(other);
+    const { /* status, */ error: putDataError } = await putUeData(id, other);
     setSending(false);
     if (putDataError) setErrorSending('Error during sending');
   };
@@ -79,7 +79,6 @@ const OrchestratorManager = () => {
       sendCloseEvent(surveyUnit.id);
     }
   };
-
   return (
     <>
       {![READ_ONLY, undefined].includes(readonlyParam) && <NotFound />}
@@ -90,13 +89,14 @@ const OrchestratorManager = () => {
           surveyUnit={surveyUnit}
           source={source}
           suggesters={suggesters}
+          autoSuggesterLoading
           standalone={standalone}
           readonly={readonly}
           savingType="COLLECTED"
           preferences={['PREVIOUS', 'COLLECTED']}
           features={['VTL']}
-          pagination={true}
-          missing={true}
+          pagination
+          missing
           filterDescription={false}
           save={saveSU}
           close={closeOrchestrator}

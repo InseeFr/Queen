@@ -454,5 +454,111 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         },
       },
     },
+    '& .lunatic-suggester-message-error': {
+      border: 'solid 1px darkred',
+      color: 'darkred',
+      backgroundColor: 'tomato',
+      display: 'inline-block',
+      borderRadius: '3px',
+      padding: '4px 8px',
+      margin: '4px 4px',
+    },
+    '& .lunatic-suggester-default-style': {
+      '& .lunatic-suggester-container': {
+        marginBottom: '10px',
+        '& .lunatic-suggester': {
+          min: '30px',
+          minWidth: '500px',
+          width: '100%',
+          '& .lunatic-suggester-content': {
+            /* */
+            '& .focused': {
+              '& .lunatic-suggester-selection': {},
+            },
+            /* */
+            '& .lunatic-suggester-selection': {
+              borderRadius: '5px',
+              border: '2px solid var(--color-primary-dark)',
+              backgroundColor: 'white',
+              '& :hover': {
+                borderColor: 'var(--color-primary-main)',
+              },
+              '& .lunatic-suggester-input': {
+                height: '34',
+                lineHeight: '34px',
+                fontSize: '15px',
+                paddingLeft: '4px',
+                /*defaultFont: 'Roboto', 'Helvetica', 'Arial', sans-serif;*/
+                '& ::placeholder': {
+                  color: 'gray',
+                  /*defaultFont: 'Roboto', 'Helvetica', 'Arial', sans-serif;*/
+                  fontSize: '15px',
+                  lineHeight: '34px',
+                  verticalAlign: 'middle',
+                  fontWeight: 'normal',
+                },
+              },
+              '& .lunatic-suggester-selected': {
+                height: '34px',
+                lineHeight: '34px',
+                backgroundColor: 'white',
+                borderRadius: '5px',
+                paddingLeft: '4px',
+                /*defaultFont: 'Roboto', 'Helvetica', 'Arial', sans-serif;*/
+                '& .placeholder': {
+                  display: 'block',
+                  color: 'gray',
+                  /*defaultFont: 'Roboto', 'Helvetica', 'Arial', sans-serif;*/
+                  fontSize: '15px',
+                  lineHeight: '34px',
+                  verticalAlign: 'middle',
+                  fontWeight: 'normal',
+                },
+                '&. selection': {
+                  display: 'block',
+                  lineHeight: '34px',
+                },
+                '&.disabled': {
+                  backgroundColor: 'var(--color-disabled)',
+                },
+              },
+            },
+            /* */
+            '&. lunatic-suggester-panel': {
+              /*defaultFont: 'Roboto', 'Helvetica', 'Arial', sans-serif;*/
+              height: '0',
+              opacity: '0',
+              backgroundColor: 'white',
+              transition:
+                'opacity 267ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, transform 178ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+              '&.expended': {
+                border: 'solid 1px var(--color-primary-light)',
+                opacity: '1',
+                minHeight: '30px',
+                height: 'max-content',
+                boxShadow: '0 2px 2px grey',
+                borderRadius: '4px',
+              },
+              '&. lunatic-suggester-option': {
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                marginBottom: '0.1em',
+                lineHeight: '2rem',
+                display: 'block',
+                '&. selected': {
+                  color: 'var(--color-primary-dark)',
+                  backgroundColor: 'var(--color-dropdown-selected)',
+                },
+                '& :hover': {
+                  backgroundColor: 'var(--color-primary-main)',
+                  color: 'white',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
 }));

@@ -1,4 +1,4 @@
-const buildSuggesterUrl = apiUrl => id => `${apiUrl}/api/nomenclature/${id}`;
+const buildSuggesterUrl = apiUrl => id => ({ url: `${apiUrl}/api/nomenclature/${id}` });
 
 export const buildSuggesterFromNomenclatures = apiUrl => (nomenclatures = []) => {
   if (Array.isArray(nomenclatures)) {
