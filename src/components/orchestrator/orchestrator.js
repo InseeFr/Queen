@@ -1,8 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import * as lunatic from '@inseefr/lunatic';
+
+import PropTypes from 'prop-types';
 import QueenOrchestrator from 'components/orchestrator/queen';
+import React from 'react';
 import { getCalculatedVariablesFromSource } from 'utils/questionnaire';
+import { useLunaticFetcher } from 'utils/hook';
 
 const Orchestrator = ({
   surveyUnit,
@@ -14,18 +16,23 @@ const Orchestrator = ({
   missing,
   features,
   source,
+  suggesters,
+  autoSuggesterLoading,
   filterDescription,
   save,
   close,
 }) => {
   const { data } = surveyUnit;
-
+  const { lunaticFetcher: suggesterFetcher } = useLunaticFetcher();
   const calculatedVariables = getCalculatedVariablesFromSource(source);
   const lunaticResult = lunatic.useLunatic(source, data, {
     savingType,
     preferences,
     features,
     pagination,
+    suggesters,
+    autoSuggesterLoading,
+    suggesterFetcher,
   });
 
   return (

@@ -1,8 +1,10 @@
 {
   "id": "kbvzifjj",
   "modele": "v1",
-  "enoCoreVersion": "2.2.9-dev-lunatic-singleloop-scope",
-  "lunaticModelVersion": "2.2.1",
+  "enoCoreVersion": "2.2.11",
+  "lunaticModelVersion": "2.2.3",
+  "generatingDate": "16-09-2021 09:08:38",
+  "missing": true,
   "pagination": "question",
   "maxPage": "77",
   "label": "Enquête annuelle auprès des ménages sur les technologies de l'information et de la communication 2021 (WEB)",
@@ -37,8 +39,25 @@
       "page": "2",
       "min": "1900-01-01",
       "max": "2021-12-31",
-      "label": "\"➡ 1. Quelle est votre date de naissance?\"",
+      "label": "\"Quelle est votre date de naissance?\"",
       "conditionFilter": { "value": "true" },
+      "controls": [
+        {
+          "id": "kbw7j25e-CI-0",
+          "criticality": "INFO",
+          "control": "not(cast(AGE,integer) < 15)",
+          "errorMessage": "\"Pour répondre à l’enquête, vous devez avoir plus de 14 ans.\"",
+          "bindingDependencies": ["AGE"]
+        },
+
+        {
+          "id": "kbw7j25e-CI-1",
+          "criticality": "WARN",
+          "control": "not(cast(AGE,integer) > 120)",
+          "errorMessage": "\"Votre âge est supérieur à 120 ans, merci de corriger\"",
+          "bindingDependencies": ["AGE"]
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kbw7j01m",
@@ -46,7 +65,8 @@
           "label": "\"I - Caractéristiques socio-démographiques\""
         }
       },
-      "bindingDependencies": ["DATENAIS"],
+      "missingResponse": { "name": "DATENAIS_MISSING" },
+      "bindingDependencies": ["DATENAIS_MISSING", "DATENAIS"],
       "dateFormat": "YYYY-MM-DD",
       "response": { "name": "DATENAIS" }
     },
@@ -56,7 +76,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "3",
-      "label": "\"➡ 2. Vous êtes …\"",
+      "label": "\"Vous êtes …\"",
       "conditionFilter": { "value": "true" },
       "hierarchy": {
         "sequence": {
@@ -65,7 +85,8 @@
           "label": "\"I - Caractéristiques socio-démographiques\""
         }
       },
-      "bindingDependencies": ["SEXE"],
+      "missingResponse": { "name": "SEXE_MISSING" },
+      "bindingDependencies": ["SEXE_MISSING", "SEXE"],
       "options": [
         { "value": "1", "label": "\"Un homme\"" },
 
@@ -79,7 +100,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "4",
-      "label": "\"➡ 3. Quel est le diplôme le plus élevé que vous ayez obtenu ?\"",
+      "label": "\"Quel est le diplôme le plus élevé que vous ayez obtenu ?\"",
       "conditionFilter": { "value": "true" },
       "hierarchy": {
         "sequence": {
@@ -88,7 +109,8 @@
           "label": "\"I - Caractéristiques socio-démographiques\""
         }
       },
-      "bindingDependencies": ["DIPLOME"],
+      "missingResponse": { "name": "DIPLOME_MISSING" },
+      "bindingDependencies": ["DIPLOME_MISSING", "DIPLOME"],
       "options": [
         { "value": "1", "label": "\" Aucun diplôme\"" },
 
@@ -156,7 +178,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "5",
-      "label": "\"➡ 4. Quel est votre niveau d’étude ?\"",
+      "label": "\"Quel est votre niveau d’étude ?\"",
       "conditionFilter": {
         "value": "(not(cast(DIPLOME,string) > 3))",
         "bindingDependencies": ["DIPLOME"]
@@ -168,7 +190,8 @@
           "label": "\"I - Caractéristiques socio-démographiques\""
         }
       },
-      "bindingDependencies": ["ETUDE"],
+      "missingResponse": { "name": "ETUDE_MISSING" },
+      "bindingDependencies": ["ETUDE_MISSING", "ETUDE"],
       "options": [
         { "value": "1", "label": "\" Vous n’avez jamais fait d’études\"" },
 
@@ -198,7 +221,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "6",
-      "label": "\"➡ 5. Êtes-vous actuellement en couple ?\"",
+      "label": "\"Êtes-vous actuellement en couple ?\"",
       "conditionFilter": { "value": "true" },
       "hierarchy": {
         "sequence": {
@@ -207,7 +230,8 @@
           "label": "\"I - Caractéristiques socio-démographiques\""
         }
       },
-      "bindingDependencies": ["COUPLE"],
+      "missingResponse": { "name": "COUPLE_MISSING" },
+      "bindingDependencies": ["COUPLE_MISSING", "COUPLE"],
       "options": [
         { "value": "1", "label": "\" Oui, avec une personne qui vit dans le logement\"" },
 
@@ -223,7 +247,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "7",
-      "label": "\"➡ 6. Êtes-vous ?\"",
+      "label": "\"Êtes-vous ?\"",
       "conditionFilter": { "value": "true" },
       "hierarchy": {
         "sequence": {
@@ -232,7 +256,8 @@
           "label": "\"I - Caractéristiques socio-démographiques\""
         }
       },
-      "bindingDependencies": ["ETAMATRI"],
+      "missingResponse": { "name": "ETAMATRI_MISSING" },
+      "bindingDependencies": ["ETAMATRI_MISSING", "ETAMATRI"],
       "options": [
         { "value": "1", "label": "\" Célibataire (jamais légalement marié(e))\"" },
 
@@ -269,7 +294,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "8",
-      "label": "\"➡ 7. Êtes-vous pacsé(e) ?\"",
+      "label": "\"Êtes-vous pacsé(e) ?\"",
       "conditionFilter": {
         "value": "(not(cast(ETAMATRI,string) = \"2\"))",
         "bindingDependencies": ["ETAMATRI"]
@@ -281,7 +306,8 @@
           "label": "\"I - Caractéristiques socio-démographiques\""
         }
       },
-      "bindingDependencies": ["PACS"],
+      "missingResponse": { "name": "PACS_MISSING" },
+      "bindingDependencies": ["PACS_MISSING", "PACS"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
 
@@ -295,7 +321,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "9",
-      "label": "\"➡ 8. Êtes-vous né(e) ?\"",
+      "label": "\"Êtes-vous né(e) ?\"",
       "conditionFilter": { "value": "true" },
       "hierarchy": {
         "sequence": {
@@ -304,7 +330,8 @@
           "label": "\"I - Caractéristiques socio-démographiques\""
         }
       },
-      "bindingDependencies": ["LNAIS"],
+      "missingResponse": { "name": "LNAIS_MISSING" },
+      "bindingDependencies": ["LNAIS_MISSING", "LNAIS"],
       "options": [
         { "value": "1", "label": "\" En France (métropole - DOM-TOM)\"" },
 
@@ -366,7 +393,7 @@
       "componentType": "Dropdown",
       "mandatory": false,
       "page": "10",
-      "label": "\"➡ 9. Dans quel département ?\"",
+      "label": "\"Dans quel département ?\"",
       "declarations": [
         {
           "id": "kbw9r169-kbw9za31",
@@ -386,7 +413,8 @@
           "label": "\"I - Caractéristiques socio-démographiques\""
         }
       },
-      "bindingDependencies": ["DEPNAIS"],
+      "missingResponse": { "name": "DEPNAIS_MISSING" },
+      "bindingDependencies": ["DEPNAIS_MISSING", "DEPNAIS"],
       "options": [
         { "value": "01-AIN", "label": "\"01-AIN\"" },
 
@@ -617,7 +645,7 @@
       "componentType": "Dropdown",
       "mandatory": false,
       "page": "11",
-      "label": "\"➡ 10. Dans quel pays ?\"",
+      "label": "\"Dans quel pays ?\"",
       "declarations": [
         {
           "id": "kbwanueu-kbwaxysc",
@@ -637,7 +665,8 @@
           "label": "\"I - Caractéristiques socio-démographiques\""
         }
       },
-      "bindingDependencies": ["PAYSNAIS"],
+      "missingResponse": { "name": "PAYSNAIS_MISSING" },
+      "bindingDependencies": ["PAYSNAIS_MISSING", "PAYSNAIS"],
       "options": [
         { "value": "645-ABU DHABI, ABOU DABI", "label": "\"ABU DHABI, ABOU DABI\"" },
 
@@ -1308,7 +1337,7 @@
       "id": "kbwafrus",
       "componentType": "CheckboxGroup",
       "page": "12",
-      "label": "\"➡ 11. Êtes-vous …\"",
+      "label": "\"Êtes-vous …\"",
       "declarations": [
         {
           "id": "kbwafrus-kbwataew",
@@ -1318,6 +1347,15 @@
         }
       ],
       "conditionFilter": { "value": "true" },
+      "controls": [
+        {
+          "id": "kbwafrus-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(NATIO1N4,integer) = '1' and (cast(NATIO1N1,integer) = '1' or cast(NATIO1N2,integer) = '1' or cast(NATIO1N3,integer) = '1'))",
+          "errorMessage": "\"Votre réponse - « Apatride » - est incompatible avec les autres réponses\"",
+          "bindingDependencies": ["NATIO1N4", "NATIO1N1", "NATIO1N2", "NATIO1N3"]
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kbw7j01m",
@@ -1325,7 +1363,8 @@
           "label": "\"I - Caractéristiques socio-démographiques\""
         }
       },
-      "bindingDependencies": ["NATIO1N1", "NATIO1N2", "NATIO1N3", "NATIO1N4"],
+      "missingResponse": { "name": "NATIO1N_MISSING" },
+      "bindingDependencies": ["NATIO1N_MISSING", "NATIO1N1", "NATIO1N2", "NATIO1N3", "NATIO1N4"],
       "responses": [
         {
           "id": "kbwafrus-QOP-khq581ud",
@@ -1374,7 +1413,7 @@
       "componentType": "Dropdown",
       "mandatory": false,
       "page": "13",
-      "label": "\"➡ 12. Quelle est votre \" || cast(cast(plusieurnatio,string),string) || \" nationalité ? \"",
+      "label": "\"Quelle est votre \" || cast(cast(plusieurnatio,string),string) || \" nationalité ? \"",
       "declarations": [
         {
           "id": "kbwanqdo-kjldkcju",
@@ -1394,7 +1433,8 @@
           "label": "\"I - Caractéristiques socio-démographiques\""
         }
       },
-      "bindingDependencies": ["plusieurnatio", "NATIO2N"],
+      "missingResponse": { "name": "NATIO2N_MISSING" },
+      "bindingDependencies": ["plusieurnatio", "NATIO2N_MISSING", "NATIO2N"],
       "options": [
         { "value": "660-AFGHANE", "label": "\"AFGHANE\"" },
 
@@ -1950,8 +1990,17 @@
       "min": 0,
       "max": 20,
       "decimals": 0,
-      "label": "\"➡ 13. Sans vous compter, combien de personnes vivent habituellement avec vous dans le logement (y compris les étudiants qui ne rentrent que le week-end) ?\"",
+      "label": "\"Sans vous compter, combien de personnes vivent habituellement avec vous dans le logement (y compris les étudiants qui ne rentrent que le week-end) ?\"",
       "conditionFilter": { "value": "true" },
+      "controls": [
+        {
+          "id": "kbwbok7p-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(NBHAB,integer) = 0 and cast(COUPLE,string) = '1')",
+          "errorMessage": "\"Vous avez déclaré être en couple avec une personne qui vit dans le logement, le nombre de personnes vivant avec vous devrait être supérieur ou égal à 1.\"",
+          "bindingDependencies": ["NBHAB", "COUPLE"]
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kbw7j01m",
@@ -1959,7 +2008,8 @@
           "label": "\"I - Caractéristiques socio-démographiques\""
         }
       },
-      "bindingDependencies": ["NBHAB"],
+      "missingResponse": { "name": "NBHAB_MISSING" },
+      "bindingDependencies": ["NBHAB_MISSING", "NBHAB"],
       "response": { "name": "NBHAB" }
     },
 
@@ -1985,7 +2035,7 @@
       "mandatory": false,
       "page": "15",
       "positioning": "HORIZONTAL",
-      "label": "\"➡ 14. Toujours sans vous compter, parmi les personnes que vous avez déclarées à la question précédente, combien ont :\"",
+      "label": "\"Toujours sans vous compter, parmi les personnes que vous avez déclarées à la question précédente, combien ont :\"",
       "conditionFilter": {
         "value": "(not(cast(NBHAB,integer) = 0))",
         "bindingDependencies": ["NBHAB"]
@@ -1997,7 +2047,15 @@
           "label": "\"I - Caractéristiques socio-démographiques\""
         }
       },
-      "bindingDependencies": ["NENF013", "NENF1415", "NENF1617", "NADU1874", "NADU75"],
+      "missingResponse": { "name": "REPARTHAB_MISSING" },
+      "bindingDependencies": [
+        "REPARTHAB_MISSING",
+        "NENF013",
+        "NENF1415",
+        "NENF1617",
+        "NADU1874",
+        "NADU75"
+      ],
       "cells": [
         [
           { "headerCell": true, "label": "" },
@@ -2105,7 +2163,7 @@
       "componentType": "Radio",
       "mandatory": true,
       "page": "17",
-      "label": "\"➡ 15. Votre ménage a-t-il accès à Internet depuis son domicile ?\"",
+      "label": "\"Votre ménage a-t-il accès à Internet depuis son domicile ?\"",
       "declarations": [
         {
           "id": "kc0gq6qv-kc0h5ajs",
@@ -2122,7 +2180,8 @@
           "label": "\"II - L’équipement de votre ménage en Internet\""
         }
       },
-      "bindingDependencies": ["NET"],
+      "missingResponse": { "name": "NET_MISSING" },
+      "bindingDependencies": ["NET_MISSING", "NET"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
 
@@ -2151,7 +2210,7 @@
       "id": "kc0gvvrz",
       "componentType": "CheckboxGroup",
       "page": "18",
-      "label": "\"➡ 16. Votre connexion à Internet est-elle ?\"",
+      "label": "\"Votre connexion à Internet est-elle ?\"",
       "declarations": [
         {
           "id": "kc0gvvrz-kc0h4j6r",
@@ -2164,6 +2223,15 @@
         "value": "(not(( cast(NET,string) = \"2\" or cast(NET,string) = \"\" )))",
         "bindingDependencies": ["NET"]
       },
+      "controls": [
+        {
+          "id": "kc0gvvrz-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(DEBITX1,integer) = '' and cast(DEBITX2,integer) = '' and cast(DEBITX3,integer) = '' and cast(DEBITX4,integer) = '')",
+          "errorMessage": "\"Vous n’avez pas répondu à cette question. Si c’est un oubli, complétez votre réponse. \"",
+          "bindingDependencies": ["DEBITX1", "DEBITX2", "DEBITX3", "DEBITX4"]
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kc0h2x4z",
@@ -2171,7 +2239,8 @@
           "label": "\"II - L’équipement de votre ménage en Internet\""
         }
       },
-      "bindingDependencies": ["DEBITX1", "DEBITX2", "DEBITX3", "DEBITX4"],
+      "missingResponse": { "name": "DEBITX_MISSING" },
+      "bindingDependencies": ["DEBITX_MISSING", "DEBITX1", "DEBITX2", "DEBITX3", "DEBITX4"],
       "responses": [
         {
           "id": "kc0gvvrz-QOP-khq4y8i0",
@@ -2223,7 +2292,7 @@
       "componentType": "Radio",
       "mandatory": true,
       "page": "20",
-      "label": "\"➡ 17. Personnellement, quand avez-vous utilisé Internet pour la dernière fois ?\"",
+      "label": "\"Personnellement, quand avez-vous utilisé Internet pour la dernière fois ?\"",
       "declarations": [
         {
           "id": "kc0h7448-kc0htor3",
@@ -2233,10 +2302,20 @@
         }
       ],
       "conditionFilter": { "value": "true" },
+      "controls": [
+        {
+          "id": "kc0h7448-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(NUSEWEB,string) = '')",
+          "errorMessage": "\"Vous n’avez pas répondu à cette question. Si c’est un oubli, complétez votre réponse.\"",
+          "bindingDependencies": ["NUSEWEB"]
+        }
+      ],
       "hierarchy": {
         "sequence": { "id": "kc0h9y1j", "page": "19", "label": "\"III - Votre usage d’Internet\"" }
       },
-      "bindingDependencies": ["NUSEWEB"],
+      "missingResponse": { "name": "NUSEWEB_MISSING" },
+      "bindingDependencies": ["NUSEWEB_MISSING", "NUSEWEB"],
       "options": [
         { "value": "1", "label": "\" Au cours des trois derniers mois\"" },
 
@@ -2278,7 +2357,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "21",
-      "label": "\"➡ 18. Au cours des trois derniers mois, en moyenne, vous avez utilisé Internet...\"",
+      "label": "\"Au cours des trois derniers mois, en moyenne, vous avez utilisé Internet...\"",
       "declarations": [
         {
           "id": "kc0haj1j-kc0hqlhc",
@@ -2291,10 +2370,20 @@
         "value": "(not((cast(NUSEWEB,string) = \"3\" or cast(NUSEWEB,string) = \"4\" or cast(NUSEWEB,string) = \"\") or (cast(NUSEWEB,string) = \"2\" )))",
         "bindingDependencies": ["NUSEWEB"]
       },
+      "controls": [
+        {
+          "id": "kc0haj1j-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(USEWEB,string) = '')",
+          "errorMessage": "\"Vous n’avez pas répondu à cette question. Si c’est un oubli, complétez votre réponse. \"",
+          "bindingDependencies": ["USEWEB"]
+        }
+      ],
       "hierarchy": {
         "sequence": { "id": "kc0h9y1j", "page": "19", "label": "\"III - Votre usage d’Internet\"" }
       },
-      "bindingDependencies": ["USEWEB"],
+      "missingResponse": { "name": "USEWEB_MISSING" },
+      "bindingDependencies": ["USEWEB_MISSING", "USEWEB"],
       "options": [
         { "value": "1", "label": "\" tous les jours ou presque \"" },
 
@@ -2325,7 +2414,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "22",
-      "label": "\"➡ 19. En général, avez-vous utilisé Internet plusieurs fois par jour ?\"",
+      "label": "\"En général, avez-vous utilisé Internet plusieurs fois par jour ?\"",
       "declarations": [
         {
           "id": "kc0hudx9-kc0hifaz",
@@ -2341,7 +2430,8 @@
       "hierarchy": {
         "sequence": { "id": "kc0h9y1j", "page": "19", "label": "\"III - Votre usage d’Internet\"" }
       },
-      "bindingDependencies": ["SEVWEB"],
+      "missingResponse": { "name": "SEVWEB_MISSING" },
+      "bindingDependencies": ["SEVWEB_MISSING", "SEVWEB"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
 
@@ -2354,7 +2444,7 @@
       "id": "kc0hsh54",
       "componentType": "CheckboxGroup",
       "page": "23",
-      "label": "\"➡ 20. Au cours des trois derniers mois, avez-vous utilisé Internet sur les appareils suivants ?\"",
+      "label": "\"Au cours des trois derniers mois, avez-vous utilisé Internet sur les appareils suivants ?\"",
       "declarations": [
         {
           "id": "kc0hsh54-kh3q51ny",
@@ -2377,7 +2467,15 @@
       "hierarchy": {
         "sequence": { "id": "kc0h9y1j", "page": "19", "label": "\"III - Votre usage d’Internet\"" }
       },
-      "bindingDependencies": ["DEVICEX1", "DEVICEX2", "DEVICEX3", "DEVICEX4", "DEVICEX5"],
+      "missingResponse": { "name": "DEVICEX_MISSING" },
+      "bindingDependencies": [
+        "DEVICEX_MISSING",
+        "DEVICEX1",
+        "DEVICEX2",
+        "DEVICEX3",
+        "DEVICEX4",
+        "DEVICEX5"
+      ],
       "responses": [
         {
           "id": "kc0hsh54-QOP-khq554xy",
@@ -2415,7 +2513,7 @@
       "id": "kc0hyu5k",
       "componentType": "CheckboxGroup",
       "page": "24",
-      "label": "\"➡ 21. Au cours des trois derniers mois, hors usage professionnel, avez-vous utilisé Internet (y compris viades applications) pour …\"",
+      "label": "\"Au cours des trois derniers mois, hors usage professionnel, avez-vous utilisé Internet (y compris viades applications) pour …\"",
       "declarations": [
         {
           "id": "kc0hyu5k-kc0hwdd6",
@@ -2438,7 +2536,9 @@
       "hierarchy": {
         "sequence": { "id": "kc0h9y1j", "page": "19", "label": "\"III - Votre usage d’Internet\"" }
       },
+      "missingResponse": { "name": "PRATINTXX_MISSING" },
       "bindingDependencies": [
+        "PRATINTXX_MISSING",
         "PRATINTXX1",
         "PRATINTXX2",
         "PRATINTXX3",
@@ -2531,7 +2631,7 @@
       "id": "kc0hwk4s",
       "componentType": "CheckboxGroup",
       "page": "25",
-      "label": "\"➡ 22. Concernant l’apprentissage par Internet (que ce soit pour un usage privé ou professionnel), au cours des trois derniers mois, avez-vous déjà personnellement…\"",
+      "label": "\"Concernant l’apprentissage par Internet (que ce soit pour un usage privé ou professionnel), au cours des trois derniers mois, avez-vous déjà personnellement…\"",
       "declarations": [
         {
           "id": "kc0hwk4s-kc0i1n7z",
@@ -2544,10 +2644,20 @@
         "value": "(not((cast(NUSEWEB,string) = \"3\" or cast(NUSEWEB,string) = \"4\" or cast(NUSEWEB,string) = \"\") or (cast(NUSEWEB,string) = \"2\" )))",
         "bindingDependencies": ["NUSEWEB"]
       },
+      "controls": [
+        {
+          "id": "kc0hwk4s-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(EDUPROX3,integer) = '1' and ( cast(EDUPROX1,integer) = '1' or cast(EDUPROX2,integer) = '1' ))",
+          "errorMessage": "\"Votre réponse - « vous n’avez pratiqué aucune activité de formation sur Internet » - est incompatible avec les autres réponses\"",
+          "bindingDependencies": ["EDUPROX3", "EDUPROX1", "EDUPROX2"]
+        }
+      ],
       "hierarchy": {
         "sequence": { "id": "kc0h9y1j", "page": "19", "label": "\"III - Votre usage d’Internet\"" }
       },
-      "bindingDependencies": ["EDUPROX1", "EDUPROX2", "EDUPROX3"],
+      "missingResponse": { "name": "EDUPROX_MISSING" },
+      "bindingDependencies": ["EDUPROX_MISSING", "EDUPROX1", "EDUPROX2", "EDUPROX3"],
       "responses": [
         {
           "id": "kc0hwk4s-QOP-khq524j0",
@@ -2596,7 +2706,7 @@
       "id": "kc0i0jec",
       "componentType": "CheckboxGroup",
       "page": "27",
-      "label": "\"➡ 23. Au cours des douze derniers mois, hors usage professionnel et quel que soit le lieu d’utilisation, avez-vous personnellement utilisé Internet pour contacter une administration ou un service public pour …\"",
+      "label": "\"Au cours des douze derniers mois, hors usage professionnel et quel que soit le lieu d’utilisation, avez-vous personnellement utilisé Internet pour contacter une administration ou un service public pour …\"",
       "declarations": [
         {
           "id": "kc0i0jec-kc0ik811",
@@ -2616,6 +2726,15 @@
         "value": "(not(cast(NUSEWEB,string) =\"3\" or cast(NUSEWEB,string) =\"4\" or cast(NUSEWEB,string) =\"\"))",
         "bindingDependencies": ["NUSEWEB"]
       },
+      "controls": [
+        {
+          "id": "kc0i0jec-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(ADMX5,integer) = '1' and ( cast(ADMX1,integer) = '1' or cast(ADMX2,integer) = '1' or cast(ADMX3,integer) = '1' or cast(ADMX4,integer) = '1' ))",
+          "errorMessage": "\"La réponse « Aucun contact par Internet avec une administration ou un service public » n’est pas compatible avec les autres items.\"",
+          "bindingDependencies": ["ADMX5", "ADMX1", "ADMX2", "ADMX3", "ADMX4"]
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kc0i2t9p",
@@ -2623,7 +2742,8 @@
           "label": "\"IV - Votre utilisation des services administratifs\""
         }
       },
-      "bindingDependencies": ["ADMX1", "ADMX2", "ADMX3", "ADMX4", "ADMX5"],
+      "missingResponse": { "name": "ADMX_MISSING" },
+      "bindingDependencies": ["ADMX_MISSING", "ADMX1", "ADMX2", "ADMX3", "ADMX4", "ADMX5"],
       "responses": [
         {
           "id": "kc0i0jec-QOP-khq4r6w7",
@@ -2680,7 +2800,7 @@
       "id": "kc0i8uqf",
       "componentType": "CheckboxGroup",
       "page": "28",
-      "label": "\"➡ 24. Pour quelles raisons n’avez-vous pas transmis de formulaires administratifs par Internet au cours des douze derniers mois ?\"",
+      "label": "\"Pour quelles raisons n’avez-vous pas transmis de formulaires administratifs par Internet au cours des douze derniers mois ?\"",
       "declarations": [
         {
           "id": "kc0i8uqf-kc0if0sf",
@@ -2693,6 +2813,27 @@
         "value": "(not(cast(NUSEWEB,string) =\"3\" or cast(NUSEWEB,string) =\"4\" or cast(NUSEWEB,string) =\"\")) and (not(cast(ADMX3,integer) = 1 or cast(ADMX4,integer) = 1))",
         "bindingDependencies": ["NUSEWEB", "ADMX3", "ADMX4"]
       },
+      "controls": [
+        {
+          "id": "kc0i8uqf-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(RAISADMX10,integer) = '1' and ( cast(RAISADMX1,integer) = '1' or cast(RAISADMX2,integer) = '1' or cast(RAISADMX3,integer) = '1' or cast(RAISADMX4,integer) = '1' or cast(RAISADMX5,integer) = '1' or cast(RAISADMX6,integer) = '1' or cast(RAISADMX7,integer) = '1' or cast(RAISADMX8,integer) = '1' or cast(RAISADMX9,integer) = '1' or cast(RAISADMX11,integer) = '1' ))",
+          "errorMessage": "\"La réponse « Vous n’aviez pas de formulaire à envoyer » n’est pas compatible avec les autres items.\"",
+          "bindingDependencies": [
+            "RAISADMX10",
+            "RAISADMX1",
+            "RAISADMX2",
+            "RAISADMX3",
+            "RAISADMX4",
+            "RAISADMX5",
+            "RAISADMX6",
+            "RAISADMX7",
+            "RAISADMX8",
+            "RAISADMX9",
+            "RAISADMX11"
+          ]
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kc0i2t9p",
@@ -2700,7 +2841,9 @@
           "label": "\"IV - Votre utilisation des services administratifs\""
         }
       },
+      "missingResponse": { "name": "RAISADMX_MISSING" },
       "bindingDependencies": [
+        "RAISADMX_MISSING",
         "RAISADMX1",
         "RAISADMX2",
         "RAISADMX3",
@@ -2786,7 +2929,7 @@
       "id": "kc0i7d8t",
       "componentType": "CheckboxGroup",
       "page": "29",
-      "label": "\"➡ 25. Au cours des douze derniers mois, avez-vous demandé de l’aide pour effectuer une démarche administrative sur Internet (par exemple pour prendre un RDV, obtenir une information, faire une demande de droit, toucher une allocation ou une prestation sociale, accéder à un compte personnel, etc. )?\"",
+      "label": "\"Au cours des douze derniers mois, avez-vous demandé de l’aide pour effectuer une démarche administrative sur Internet (par exemple pour prendre un RDV, obtenir une information, faire une demande de droit, toucher une allocation ou une prestation sociale, accéder à un compte personnel, etc. )?\"",
       "declarations": [
         {
           "id": "kc0i7d8t-kc0is7qk",
@@ -2796,6 +2939,15 @@
         }
       ],
       "conditionFilter": { "value": "true" },
+      "controls": [
+        {
+          "id": "kc0i7d8t-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(AIDADMX5,integer) = '1' and (cast(AIDADMX1,integer) = '1' or cast(AIDADMX2,integer) = '1' or cast(AIDADMX3,integer) = '1' or cast(AIDADMX4,integer) = '1' ))",
+          "errorMessage": "\"La réponse « Non » n’est pas compatible avec les autres items.\"",
+          "bindingDependencies": ["AIDADMX5", "AIDADMX1", "AIDADMX2", "AIDADMX3", "AIDADMX4"]
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kc0i2t9p",
@@ -2803,7 +2955,15 @@
           "label": "\"IV - Votre utilisation des services administratifs\""
         }
       },
-      "bindingDependencies": ["AIDADMX1", "AIDADMX2", "AIDADMX3", "AIDADMX4", "AIDADMX5"],
+      "missingResponse": { "name": "AIDADMX_MISSING" },
+      "bindingDependencies": [
+        "AIDADMX_MISSING",
+        "AIDADMX1",
+        "AIDADMX2",
+        "AIDADMX3",
+        "AIDADMX4",
+        "AIDADMX5"
+      ],
       "responses": [
         {
           "id": "kc0i7d8t-QOP-khq5268g",
@@ -2837,7 +2997,7 @@
       "id": "kc0is12p",
       "componentType": "CheckboxGroup",
       "page": "30",
-      "label": "\"➡ 26. Au cours des douze derniers mois, avez-vous renoncé à faire des démarches administratives sur Internet ?\"",
+      "label": "\"Au cours des douze derniers mois, avez-vous renoncé à faire des démarches administratives sur Internet ?\"",
       "declarations": [
         {
           "id": "kc0is12p-kc0iid7i",
@@ -2847,6 +3007,25 @@
         }
       ],
       "conditionFilter": { "value": "true" },
+      "controls": [
+        {
+          "id": "kc0is12p-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(RENADMX9,integer) = '1' and ( cast(RENADMX1,integer) = '1' or cast(RENADMX2,integer) = '1' or cast(RENADMX3,integer) = '1' or cast(RENADMX4,integer) = '1' or cast(RENADMX5,integer) = '1' or cast(RENADMX6,integer) = '1' or cast(RENADMX7,integer) = '1' or cast(RENADMX8,integer) = '1' ))",
+          "errorMessage": "\"La réponse « Non » n’est pas compatible avec les autres items.\"",
+          "bindingDependencies": [
+            "RENADMX9",
+            "RENADMX1",
+            "RENADMX2",
+            "RENADMX3",
+            "RENADMX4",
+            "RENADMX5",
+            "RENADMX6",
+            "RENADMX7",
+            "RENADMX8"
+          ]
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kc0i2t9p",
@@ -2854,7 +3033,9 @@
           "label": "\"IV - Votre utilisation des services administratifs\""
         }
       },
+      "missingResponse": { "name": "RENADMX_MISSING" },
       "bindingDependencies": [
+        "RENADMX_MISSING",
         "RENADMX1",
         "RENADMX2",
         "RENADMX3",
@@ -2955,7 +3136,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "31",
-      "label": "\"➡ 27. Avez-vous pu effectuer ces démarches d’une autre façon (sur place, par téléphone, etc.) ?\"",
+      "label": "\"Avez-vous pu effectuer ces démarches d’une autre façon (sur place, par téléphone, etc.) ?\"",
       "conditionFilter": {
         "value": "(not((cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1) or ((cast(NUSEWEB,string)=\"3\" or cast(NUSEWEB,string)=\"4\" or cast(NUSEWEB,string)=\"\") and cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)))",
         "bindingDependencies": [
@@ -2977,7 +3158,8 @@
           "label": "\"IV - Votre utilisation des services administratifs\""
         }
       },
-      "bindingDependencies": ["AUTADM"],
+      "missingResponse": { "name": "AUTADM_MISSING" },
+      "bindingDependencies": ["AUTADM_MISSING", "AUTADM"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
 
@@ -3056,7 +3238,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "33",
-      "label": "\"➡ 28. Avez-vous déjà, personnellement, acheté ou commandé des produits ou des services sur Internet pour un usage privé (c’est-à-dire hors usage professionnel) ?\"",
+      "label": "\"Avez-vous déjà, personnellement, acheté ou commandé des produits ou des services sur Internet pour un usage privé (c’est-à-dire hors usage professionnel) ?\"",
       "conditionFilter": {
         "value": "(not((cast(NUSEWEB,string)=\"3\" or cast(NUSEWEB,string)=\"4\" or cast(NUSEWEB,string)=\"\") and cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)) and (not((cast(NUSEWEB,string) =\"3\" or cast(NUSEWEB,string) =\"4\" or cast(NUSEWEB,string) =\"\") and not ((cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1))))",
         "bindingDependencies": [
@@ -3078,7 +3260,8 @@
           "label": "\"V - Vos habitudes de consommation sur Internet \""
         }
       },
-      "bindingDependencies": ["ECOM"],
+      "missingResponse": { "name": "ECOM_MISSING" },
+      "bindingDependencies": ["ECOM_MISSING", "ECOM"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
 
@@ -3121,7 +3304,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "34",
-      "label": "\"➡ 29. La dernière fois, était-ce...\"",
+      "label": "\"La dernière fois, était-ce...\"",
       "conditionFilter": {
         "value": "(not((cast(NUSEWEB,string)=\"3\" or cast(NUSEWEB,string)=\"4\" or cast(NUSEWEB,string)=\"\") and cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)) and (not((cast(NUSEWEB,string) =\"3\" or cast(NUSEWEB,string) =\"4\" or cast(NUSEWEB,string) =\"\") and not ((cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)))) and (not(cast(ECOM,string) = \"2\" or cast(ECOM,string) = \"\"))",
         "bindingDependencies": [
@@ -3144,7 +3327,8 @@
           "label": "\"V - Vos habitudes de consommation sur Internet \""
         }
       },
-      "bindingDependencies": ["DATECOM"],
+      "missingResponse": { "name": "DATECOM_MISSING" },
+      "bindingDependencies": ["DATECOM_MISSING", "DATECOM"],
       "options": [
         { "value": "1", "label": "\" Au cours des trois derniers mois\"" },
 
@@ -3189,7 +3373,7 @@
       "id": "kc0ijn79",
       "componentType": "CheckboxGroup",
       "page": "35",
-      "label": "\"➡ 30. Au cours des trois derniers mois, hors usage professionnel, avez-vous personnellement acheté ou commandé sur Internet ou via une application…\"",
+      "label": "\"Au cours des trois derniers mois, hors usage professionnel, avez-vous personnellement acheté ou commandé sur Internet ou via une application…\"",
       "declarations": [
         {
           "id": "kc0ijn79-kc0ivga8",
@@ -3228,7 +3412,9 @@
           "label": "\"V - Vos habitudes de consommation sur Internet \""
         }
       },
+      "missingResponse": { "name": "ACHATXX_MISSING" },
       "bindingDependencies": [
+        "ACHATXX_MISSING",
         "ACHATXX1",
         "ACHATXX2",
         "ACHATXX3",
@@ -3349,7 +3535,7 @@
       "id": "kc0iq8u1",
       "componentType": "CheckboxGroup",
       "page": "36",
-      "label": "\"➡ 31. Les achats que vous avez déclarés étaient-ils effectués auprès de…\"",
+      "label": "\"Les achats que vous avez déclarés étaient-ils effectués auprès de…\"",
       "declarations": [
         {
           "id": "kc0iq8u1-kc0isx9s",
@@ -3381,7 +3567,14 @@
           "label": "\"V - Vos habitudes de consommation sur Internet \""
         }
       },
-      "bindingDependencies": ["ORIGINEX1", "ORIGINEX2", "ORIGINEX3", "ORIGINEX4"],
+      "missingResponse": { "name": "ORIGINEX_MISSING" },
+      "bindingDependencies": [
+        "ORIGINEX_MISSING",
+        "ORIGINEX1",
+        "ORIGINEX2",
+        "ORIGINEX3",
+        "ORIGINEX4"
+      ],
       "responses": [
         {
           "id": "kc0iq8u1-QOP-khq4x0qm",
@@ -3414,7 +3607,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "37",
-      "label": "\"➡ 32. Avez-vous acheté certains de ces produits auprès de particuliers sur Internet ou via une application(eBay, Facebook Marketplace, LeBonCoin, etc.)?\"",
+      "label": "\"Avez-vous acheté certains de ces produits auprès de particuliers sur Internet ou via une application(eBay, Facebook Marketplace, LeBonCoin, etc.)?\"",
       "conditionFilter": {
         "value": "(not((cast(NUSEWEB,string)=\"3\" or cast(NUSEWEB,string)=\"4\" or cast(NUSEWEB,string)=\"\") and cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)) and (not((cast(NUSEWEB,string) =\"3\" or cast(NUSEWEB,string) =\"4\" or cast(NUSEWEB,string) =\"\") and not ((cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)))) and (not(cast(ECOM,string) = \"2\" or cast(ECOM,string) = \"\")) and (not(cast(DATECOM,string) > 1 or cast(DATECOM,string) = \"\"))",
         "bindingDependencies": [
@@ -3438,7 +3631,8 @@
           "label": "\"V - Vos habitudes de consommation sur Internet \""
         }
       },
-      "bindingDependencies": ["PARTACHA"],
+      "missingResponse": { "name": "PARTACHA_MISSING" },
+      "bindingDependencies": ["PARTACHA_MISSING", "PARTACHA"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
 
@@ -3451,7 +3645,7 @@
       "id": "kc0jcnvt",
       "componentType": "CheckboxGroup",
       "page": "38",
-      "label": "\"➡ 33. Au cours des trois derniers mois, hors usage professionnel, avez-vous souscrit à un abonnement ou téléchargésur Internet ou via une application …\"",
+      "label": "\"Au cours des trois derniers mois, hors usage professionnel, avez-vous souscrit à un abonnement ou téléchargésur Internet ou via une application …\"",
       "declarations": [
         {
           "id": "kc0jcnvt-kc0j9km0",
@@ -3476,6 +3670,24 @@
           "DATECOM"
         ]
       },
+      "controls": [
+        {
+          "id": "kc0jcnvt-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(NUMACHAX8,integer) ='1' and (cast(NUMACHAX1,integer) ='1' or cast(NUMACHAX2,integer) ='1' or cast(NUMACHAX3,integer) ='1' or cast(NUMACHAX4,integer) ='1' or cast(NUMACHAX5,integer) ='1' or cast(NUMACHAX6,integer) ='1' or cast(NUMACHAX7,integer) ='1'))",
+          "errorMessage": "\"Votre réponse - « Aucun de ces produits » - est incompatible avec les autres réponses\"",
+          "bindingDependencies": [
+            "NUMACHAX8",
+            "NUMACHAX1",
+            "NUMACHAX2",
+            "NUMACHAX3",
+            "NUMACHAX4",
+            "NUMACHAX5",
+            "NUMACHAX6",
+            "NUMACHAX7"
+          ]
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kc0ir8tk",
@@ -3483,7 +3695,9 @@
           "label": "\"V - Vos habitudes de consommation sur Internet \""
         }
       },
+      "missingResponse": { "name": "NUMACHAX_MISSING" },
       "bindingDependencies": [
+        "NUMACHAX_MISSING",
         "NUMACHAX1",
         "NUMACHAX2",
         "NUMACHAX3",
@@ -3548,7 +3762,7 @@
       "id": "kc0ix4pz",
       "componentType": "CheckboxGroup",
       "page": "39",
-      "label": "\"➡ 34. Au cours des trois derniers mois, hors usage professionnel, avez-vous acheté sur un site Internet ou via une application…\"",
+      "label": "\"Au cours des trois derniers mois, hors usage professionnel, avez-vous acheté sur un site Internet ou via une application…\"",
       "declarations": [
         {
           "id": "kc0ix4pz-kc0jflg6",
@@ -3573,6 +3787,22 @@
           "DATECOM"
         ]
       },
+      "controls": [
+        {
+          "id": "kc0ix4pz-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(SERVACHAX6,integer) ='1' and ( cast(SERVACHAX1,integer) = '1' or cast(SERVACHAX2,integer) = '1' or cast(SERVACHAX3,integer) = '1' or cast(SERVACHAX4,integer) = '1' or cast(SERVACHAX5,integer) = '1' ))",
+          "errorMessage": "\"Votre réponse - « Aucun de ces produits » - est incompatible avec les autres réponses\"",
+          "bindingDependencies": [
+            "SERVACHAX6",
+            "SERVACHAX1",
+            "SERVACHAX2",
+            "SERVACHAX3",
+            "SERVACHAX4",
+            "SERVACHAX5"
+          ]
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kc0ir8tk",
@@ -3580,7 +3810,9 @@
           "label": "\"V - Vos habitudes de consommation sur Internet \""
         }
       },
+      "missingResponse": { "name": "SERVACHAX_MISSING" },
       "bindingDependencies": [
+        "SERVACHAX_MISSING",
         "SERVACHAX1",
         "SERVACHAX2",
         "SERVACHAX3",
@@ -3663,7 +3895,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "40",
-      "label": "\"➡ 35. Avez-vous fait appel à des particuliers pour obtenir l’un des services domestiques mentionnés (sur Facebook Marketplace, LeBonCoin, Youpijob, etc.) ?\"",
+      "label": "\"Avez-vous fait appel à des particuliers pour obtenir l’un des services domestiques mentionnés (sur Facebook Marketplace, LeBonCoin, Youpijob, etc.) ?\"",
       "conditionFilter": {
         "value": "(not((cast(NUSEWEB,string)=\"3\" or cast(NUSEWEB,string)=\"4\" or cast(NUSEWEB,string)=\"\") and cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)) and (not((cast(NUSEWEB,string) =\"3\" or cast(NUSEWEB,string) =\"4\" or cast(NUSEWEB,string) =\"\") and not ((cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)))) and (not(cast(ECOM,string) = \"2\" or cast(ECOM,string) = \"\")) and (not(cast(DATECOM,string) > 1 or cast(DATECOM,string) = \"\")) and (not(cast(SERVACHAX5,integer) = \"\"))",
         "bindingDependencies": [
@@ -3688,7 +3920,8 @@
           "label": "\"V - Vos habitudes de consommation sur Internet \""
         }
       },
-      "bindingDependencies": ["PARTJOB"],
+      "missingResponse": { "name": "PARTJOB_MISSING" },
+      "bindingDependencies": ["PARTJOB_MISSING", "PARTJOB"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
 
@@ -3701,7 +3934,7 @@
       "id": "kc0jjdn7",
       "componentType": "CheckboxGroup",
       "page": "41",
-      "label": "\"➡ 36. Au cours des trois derniers mois, à titre privé, avez-vous fait appel à un service de transport via un site Web ou une application ?\"",
+      "label": "\"Au cours des trois derniers mois, à titre privé, avez-vous fait appel à un service de transport via un site Web ou une application ?\"",
       "declarations": [
         {
           "id": "kc0jjdn7-kc0j5qds",
@@ -3726,6 +3959,15 @@
           "DATECOM"
         ]
       },
+      "controls": [
+        {
+          "id": "kc0jjdn7-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(SHARTX3,integer) = '1' and ( cast(SHARTX1,integer) = '1' or cast(SHARTX2,integer) = '1' ))",
+          "errorMessage": "\"Votre réponse - « Non » - est incompatible avec les autres réponses\"",
+          "bindingDependencies": ["SHARTX3", "SHARTX1", "SHARTX2"]
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kc0ir8tk",
@@ -3733,7 +3975,8 @@
           "label": "\"V - Vos habitudes de consommation sur Internet \""
         }
       },
-      "bindingDependencies": ["SHARTX1", "SHARTX2", "SHARTX3"],
+      "missingResponse": { "name": "SHARTX_MISSING" },
+      "bindingDependencies": ["SHARTX_MISSING", "SHARTX1", "SHARTX2", "SHARTX3"],
       "responses": [
         {
           "id": "kc0jjdn7-QOP-khq52jfa",
@@ -3755,7 +3998,7 @@
       "id": "kc0ja8z6",
       "componentType": "CheckboxGroup",
       "page": "42",
-      "label": "\"➡ 37. Au cours des trois derniers mois, à titre privé, avez-vous loué un logement via un site web ou une application ?\"",
+      "label": "\"Au cours des trois derniers mois, à titre privé, avez-vous loué un logement via un site web ou une application ?\"",
       "declarations": [
         {
           "id": "kc0ja8z6-kc0jfsm5",
@@ -3780,6 +4023,15 @@
           "DATECOM"
         ]
       },
+      "controls": [
+        {
+          "id": "kc0ja8z6-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(SHARAX3,integer) ='1' and ( cast(SHARAX2,integer) = '1' or cast(SHARAX2,integer) = '1' ))",
+          "errorMessage": "\"Votre réponse - « Non » - est incompatible avec les autres réponses\"",
+          "bindingDependencies": ["SHARAX3", "SHARAX2"]
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kc0ir8tk",
@@ -3787,7 +4039,8 @@
           "label": "\"V - Vos habitudes de consommation sur Internet \""
         }
       },
-      "bindingDependencies": ["SHARAX1", "SHARAX2", "SHARAX3"],
+      "missingResponse": { "name": "SHARAX_MISSING" },
+      "bindingDependencies": ["SHARAX_MISSING", "SHARAX1", "SHARAX2", "SHARAX3"],
       "responses": [
         {
           "id": "kc0ja8z6-QOP-khq4xw88",
@@ -3810,7 +4063,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "43",
-      "label": "\"➡ 38. Au cours des trois derniers mois, combien de fois avez-vous acheté des produits ou des services à titre privé sur Internet ?\"",
+      "label": "\"Au cours des trois derniers mois, combien de fois avez-vous acheté des produits ou des services à titre privé sur Internet ?\"",
       "conditionFilter": {
         "value": "(not((cast(NUSEWEB,string)=\"3\" or cast(NUSEWEB,string)=\"4\" or cast(NUSEWEB,string)=\"\") and cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)) and (not((cast(NUSEWEB,string) =\"3\" or cast(NUSEWEB,string) =\"4\" or cast(NUSEWEB,string) =\"\") and not ((cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)))) and (not(cast(ECOM,string) = \"2\" or cast(ECOM,string) = \"\")) and (not(cast(DATECOM,string) > 1 or cast(DATECOM,string) = \"\"))",
         "bindingDependencies": [
@@ -3834,7 +4087,8 @@
           "label": "\"V - Vos habitudes de consommation sur Internet \""
         }
       },
-      "bindingDependencies": ["NBCOM"],
+      "missingResponse": { "name": "NBCOM_MISSING" },
+      "bindingDependencies": ["NBCOM_MISSING", "NBCOM"],
       "options": [
         { "value": "1", "label": "\" 1 à 2 fois\"" },
 
@@ -3852,7 +4106,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "44",
-      "label": "\"➡ 39. Au cours des trois derniers mois, à combien estimez-vous la somme de vos achats réalisés via un site Internet ou une application à titre privé ?\"",
+      "label": "\"Au cours des trois derniers mois, à combien estimez-vous la somme de vos achats réalisés via un site Internet ou une application à titre privé ?\"",
       "conditionFilter": {
         "value": "(not((cast(NUSEWEB,string)=\"3\" or cast(NUSEWEB,string)=\"4\" or cast(NUSEWEB,string)=\"\") and cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)) and (not((cast(NUSEWEB,string) =\"3\" or cast(NUSEWEB,string) =\"4\" or cast(NUSEWEB,string) =\"\") and not ((cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)))) and (not(cast(ECOM,string) = \"2\" or cast(ECOM,string) = \"\")) and (not(cast(DATECOM,string) > 1 or cast(DATECOM,string) = \"\"))",
         "bindingDependencies": [
@@ -3876,7 +4130,8 @@
           "label": "\"V - Vos habitudes de consommation sur Internet \""
         }
       },
-      "bindingDependencies": ["SOMCOM"],
+      "missingResponse": { "name": "SOMCOM_MISSING" },
+      "bindingDependencies": ["SOMCOM_MISSING", "SOMCOM"],
       "options": [
         { "value": "1", "label": "\" Moins de 50 € \"" },
 
@@ -3899,7 +4154,7 @@
       "id": "kc0jhlsv",
       "componentType": "CheckboxGroup",
       "page": "45",
-      "label": "\"➡ 40. Au cours des trois derniers mois, lors de vos achats ou commandes sur Internet ou via une application, avez-vous rencontré les problèmes suivants :\"",
+      "label": "\"Au cours des trois derniers mois, lors de vos achats ou commandes sur Internet ou via une application, avez-vous rencontré les problèmes suivants :\"",
       "declarations": [
         {
           "id": "kc0jhlsv-kc0jem2e",
@@ -3924,6 +4179,27 @@
           "DATECOM"
         ]
       },
+      "controls": [
+        {
+          "id": "kc0jhlsv-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(PBACHAX11,integer) = '1' and ( cast(PBACHAX1,integer) = '1' or cast(PBACHAX2,integer) = '1' or cast(PBACHAX3,integer) = '1' or cast(PBACHAX4,integer) = '1' or cast(PBACHAX5,integer) = '1' or cast(PBACHAX6,integer) = '1' or cast(PBACHAX7,integer) = '1' or cast(PBACHAX8,integer) = '1' or cast(PBACHAX9,integer) = '1' or cast(PBACHAX10,integer) = '1' ))",
+          "errorMessage": "\"Votre réponse - « Vous n’avez pas rencontré de problème » - est incompatible avec les autres réponses\"",
+          "bindingDependencies": [
+            "PBACHAX11",
+            "PBACHAX1",
+            "PBACHAX2",
+            "PBACHAX3",
+            "PBACHAX4",
+            "PBACHAX5",
+            "PBACHAX6",
+            "PBACHAX7",
+            "PBACHAX8",
+            "PBACHAX9",
+            "PBACHAX10"
+          ]
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kc0ir8tk",
@@ -3931,7 +4207,9 @@
           "label": "\"V - Vos habitudes de consommation sur Internet \""
         }
       },
+      "missingResponse": { "name": "PBACHAX_MISSING" },
       "bindingDependencies": [
+        "PBACHAX_MISSING",
         "PBACHAX1",
         "PBACHAX2",
         "PBACHAX3",
@@ -4017,7 +4295,7 @@
       "id": "kc0juxed",
       "componentType": "CheckboxGroup",
       "page": "46",
-      "label": "\"➡ 41. Au cours des trois derniers mois, dans un but privé, avez-vous effectué les activités financières suivantes sur un site Internet ou une application :\"",
+      "label": "\"Au cours des trois derniers mois, dans un but privé, avez-vous effectué les activités financières suivantes sur un site Internet ou une application :\"",
       "declarations": [
         {
           "id": "kc0juxed-kc0jlwsz",
@@ -4040,6 +4318,15 @@
           "RENADMX8"
         ]
       },
+      "controls": [
+        {
+          "id": "kc0juxed-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(FINANCEX4,integer) = '1' and ( cast(FINANCEX1,integer) = '1' or cast(FINANCEX2,integer) = '1' or cast(FINANCEX3,integer) = '1' ))",
+          "errorMessage": "\"Votre réponse - « Aucune de ces activités financières » - est incompatible avec les autres réponses\"",
+          "bindingDependencies": ["FINANCEX4", "FINANCEX1", "FINANCEX2", "FINANCEX3"]
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kc0ir8tk",
@@ -4047,7 +4334,14 @@
           "label": "\"V - Vos habitudes de consommation sur Internet \""
         }
       },
-      "bindingDependencies": ["FINANCEX1", "FINANCEX2", "FINANCEX3", "FINANCEX4"],
+      "missingResponse": { "name": "FINANCEX_MISSING" },
+      "bindingDependencies": [
+        "FINANCEX_MISSING",
+        "FINANCEX1",
+        "FINANCEX2",
+        "FINANCEX3",
+        "FINANCEX4"
+      ],
       "responses": [
         {
           "id": "kc0juxed-QOP-khq4rvt5",
@@ -4137,7 +4431,7 @@
       "id": "kc0jvlb9",
       "componentType": "CheckboxGroup",
       "page": "47",
-      "label": "\"➡ 42. Pourquoi n’avez-vous rien acheté via un site web ou application au cours des trois derniers mois ?\"",
+      "label": "\"Pourquoi n’avez-vous rien acheté via un site web ou application au cours des trois derniers mois ?\"",
       "declarations": [
         {
           "id": "kc0jvlb9-kc0jov5x",
@@ -4169,7 +4463,9 @@
           "label": "\"V - Vos habitudes de consommation sur Internet \""
         }
       },
+      "missingResponse": { "name": "RAISACHAX_MISSING" },
       "bindingDependencies": [
+        "RAISACHAX_MISSING",
         "RAISACHAX1",
         "RAISACHAX2",
         "RAISACHAX3",
@@ -4310,7 +4606,7 @@
       "id": "kc0jw8fh",
       "componentType": "CheckboxGroup",
       "page": "49",
-      "label": "\"➡ 43. Concernant vos compétences en informatique, au cours des trois derniers mois, avez-vous déjà …\"",
+      "label": "\"Concernant vos compétences en informatique, au cours des trois derniers mois, avez-vous déjà …\"",
       "declarations": [
         {
           "id": "kc0jw8fh-kc0k5m8e",
@@ -4335,6 +4631,43 @@
           "DATECOM"
         ]
       },
+      "controls": [
+        {
+          "id": "kc0jw8fh-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(COMPINFX1,integer) = '' and cast(COMPINFX2,integer) = '' and cast(COMPINFX3,integer) = '' and cast(COMPINFX4,integer) = '' and cast(COMPINFX5,integer) = '' and cast(COMPINFX6,integer) = '' and cast(COMPINFX7,integer) = '' and cast(COMPINFX8,integer) = '' and cast(COMPINFX9,integer) = '')",
+          "errorMessage": "\"Au moins une modalité doit être cochée à cette question\"",
+          "bindingDependencies": [
+            "COMPINFX1",
+            "COMPINFX2",
+            "COMPINFX3",
+            "COMPINFX4",
+            "COMPINFX5",
+            "COMPINFX6",
+            "COMPINFX7",
+            "COMPINFX8",
+            "COMPINFX9"
+          ]
+        },
+
+        {
+          "id": "kc0jw8fh-CI-1",
+          "criticality": "WARN",
+          "control": "not(cast(COMPINFX9,integer) = '1' and ( cast(COMPINFX2,integer) = '1' or cast(COMPINFX3,integer) = '1' or cast(COMPINFX4,integer) = '1' or cast(COMPINFX5,integer) = '1' or cast(COMPINFX6,integer) = '1' or cast(COMPINFX7,integer) = '1' or cast(COMPINFX8,integer) = '1' or cast(COMPINFX1,integer) = '1' ))",
+          "errorMessage": "\"Votre réponse « Aucune de ces compétences » est incompatible avec les autres réponses\"",
+          "bindingDependencies": [
+            "COMPINFX9",
+            "COMPINFX2",
+            "COMPINFX3",
+            "COMPINFX4",
+            "COMPINFX5",
+            "COMPINFX6",
+            "COMPINFX7",
+            "COMPINFX8",
+            "COMPINFX1"
+          ]
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kc0k0bku",
@@ -4342,7 +4675,9 @@
           "label": "\"VI - Vos compétences en informatique\""
         }
       },
+      "missingResponse": { "name": "COMPINFX_MISSING" },
       "bindingDependencies": [
+        "COMPINFX_MISSING",
         "COMPINFX1",
         "COMPINFX2",
         "COMPINFX3",
@@ -4446,7 +4781,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "50",
-      "label": "\"➡ 44. Vous vous êtes servi(e) d’un tableur au cours des trois derniers mois. Avez-vous utilisé des fonctionnalités avancées (fonctions, formules, macros, Visual Basic) pour organiser, analyser, structurer ou modifier les données ?\"",
+      "label": "\"Vous vous êtes servi(e) d’un tableur au cours des trois derniers mois. Avez-vous utilisé des fonctionnalités avancées (fonctions, formules, macros, Visual Basic) pour organiser, analyser, structurer ou modifier les données ?\"",
       "conditionFilter": {
         "value": "(not((cast(NUSEWEB,string)=\"3\" or cast(NUSEWEB,string)=\"4\" or cast(NUSEWEB,string)=\"\") and cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)) and (not((cast(NUSEWEB,string) =\"3\" or cast(NUSEWEB,string) =\"4\" or cast(NUSEWEB,string) =\"\") and not ((cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)))) and (not(cast(NUSEWEB,string) = \"2\" or cast(NUSEWEB,string) = \"3\" or cast(NUSEWEB,string) = \"4\")) and (not((cast(NUSEWEB,string) = \"2\" or cast(NUSEWEB,string) = \"3\" or cast(NUSEWEB,string) = \"4\" ) and not ((( cast(ECOM,string) = \"1\" ) and ( cast(DATECOM,string) =\"1\" ))))) and (not(cast(COMPINFX6,integer) = \"\" ))",
         "bindingDependencies": [
@@ -4471,7 +4806,8 @@
           "label": "\"VI - Vos compétences en informatique\""
         }
       },
-      "bindingDependencies": ["EXCEL"],
+      "missingResponse": { "name": "EXCEL_MISSING" },
+      "bindingDependencies": ["EXCEL_MISSING", "EXCEL"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
 
@@ -4485,7 +4821,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "51",
-      "label": "\"➡ 45. Avez-vous vu des informations ou du contenu (par exemple, des vidéos, des images) que vous considérez comme faux ou peu fiables sur des sites d’information ou des médias sociaux (par exemple, Facebook, Instagram, YouTube, Twitter) au cours des trois derniers mois ?\"",
+      "label": "\"Avez-vous vu des informations ou du contenu (par exemple, des vidéos, des images) que vous considérez comme faux ou peu fiables sur des sites d’information ou des médias sociaux (par exemple, Facebook, Instagram, YouTube, Twitter) au cours des trois derniers mois ?\"",
       "conditionFilter": {
         "value": "(not((cast(NUSEWEB,string)=\"3\" or cast(NUSEWEB,string)=\"4\" or cast(NUSEWEB,string)=\"\") and cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)) and (not((cast(NUSEWEB,string) =\"3\" or cast(NUSEWEB,string) =\"4\" or cast(NUSEWEB,string) =\"\") and not ((cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)))) and (not(cast(NUSEWEB,string) = \"2\" or cast(NUSEWEB,string) = \"3\" or cast(NUSEWEB,string) = \"4\")) and (not((cast(NUSEWEB,string) = \"2\" or cast(NUSEWEB,string) = \"3\" or cast(NUSEWEB,string) = \"4\" ) and not ((( cast(ECOM,string) = \"1\" ) and ( cast(DATECOM,string) =\"1\" )))))",
         "bindingDependencies": [
@@ -4509,7 +4845,8 @@
           "label": "\"VI - Vos compétences en informatique\""
         }
       },
-      "bindingDependencies": ["INFOX"],
+      "missingResponse": { "name": "INFOX_MISSING" },
+      "bindingDependencies": ["INFOX_MISSING", "INFOX"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
 
@@ -4554,7 +4891,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "52",
-      "label": "\"➡ 46. Avez-vous vérifié la fiabilité de ces informations ou contenus ?\"",
+      "label": "\"Avez-vous vérifié la fiabilité de ces informations ou contenus ?\"",
       "conditionFilter": {
         "value": "(not((cast(NUSEWEB,string)=\"3\" or cast(NUSEWEB,string)=\"4\" or cast(NUSEWEB,string)=\"\") and cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)) and (not((cast(NUSEWEB,string) =\"3\" or cast(NUSEWEB,string) =\"4\" or cast(NUSEWEB,string) =\"\") and not ((cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)))) and (not(cast(NUSEWEB,string) = \"2\" or cast(NUSEWEB,string) = \"3\" or cast(NUSEWEB,string) = \"4\")) and (not((cast(NUSEWEB,string) = \"2\" or cast(NUSEWEB,string) = \"3\" or cast(NUSEWEB,string) = \"4\" ) and not ((( cast(ECOM,string) = \"1\" ) and ( cast(DATECOM,string) =\"1\" ))))) and (not(cast(INFOX,string) = \"2\" or cast(INFOX,string) = \"\"))",
         "bindingDependencies": [
@@ -4579,7 +4916,8 @@
           "label": "\"VI - Vos compétences en informatique\""
         }
       },
-      "bindingDependencies": ["VERIFINFO"],
+      "missingResponse": { "name": "VERIFINFO_MISSING" },
+      "bindingDependencies": ["VERIFINFO_MISSING", "VERIFINFO"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
 
@@ -4624,7 +4962,7 @@
       "id": "kc0jycut",
       "componentType": "CheckboxGroup",
       "page": "53",
-      "label": "\"➡ 47. Comment avez-vous vérifié la véracité de ces informations ou contenus ?\"",
+      "label": "\"Comment avez-vous vérifié la véracité de ces informations ou contenus ?\"",
       "declarations": [
         {
           "id": "kc0jycut-kc0kbifu",
@@ -4658,7 +4996,8 @@
           "label": "\"VI - Vos compétences en informatique\""
         }
       },
-      "bindingDependencies": ["MOYINFO1", "MOYINFO2", "MOYINFO3", "MOYINFO4"],
+      "missingResponse": { "name": "MOYINFO_MISSING" },
+      "bindingDependencies": ["MOYINFO_MISSING", "MOYINFO1", "MOYINFO2", "MOYINFO3", "MOYINFO4"],
       "responses": [
         {
           "id": "kc0jycut-QOP-khq5alud",
@@ -4723,7 +5062,7 @@
       "id": "kc0k4daj",
       "componentType": "CheckboxGroup",
       "page": "54",
-      "label": "\"➡ 48. Pourquoi n’avez-vous pas vérifié la véracité de ces informations ou contenus ?\"",
+      "label": "\"Pourquoi n’avez-vous pas vérifié la véracité de ces informations ou contenus ?\"",
       "declarations": [
         {
           "id": "kc0k4daj-kc0kdmlx",
@@ -4757,7 +5096,8 @@
           "label": "\"VI - Vos compétences en informatique\""
         }
       },
-      "bindingDependencies": ["RAISINFO1", "RAISINFO2", "RAISINFO3"],
+      "missingResponse": { "name": "RAISINFO_MISSING" },
+      "bindingDependencies": ["RAISINFO_MISSING", "RAISINFO1", "RAISINFO2", "RAISINFO3"],
       "responses": [
         {
           "id": "kc0k4daj-QOP-khq554tf",
@@ -4821,7 +5161,7 @@
       "id": "kc0kbnid",
       "componentType": "CheckboxGroup",
       "page": "56",
-      "label": "\"➡ 49. Au cours des trois derniers mois, avez-vous effectué une ou plusieurs des actions suivantes pour gérer l’accès à vos données personnelles (nom, date de naissance, numéro de carte d’identité, coordonnées, numéro de carte de crédit, photos, situation géographique, etc.) sur Internet ?\"",
+      "label": "\"Au cours des trois derniers mois, avez-vous effectué une ou plusieurs des actions suivantes pour gérer l’accès à vos données personnelles (nom, date de naissance, numéro de carte d’identité, coordonnées, numéro de carte de crédit, photos, situation géographique, etc.) sur Internet ?\"",
       "declarations": [
         {
           "id": "kc0kbnid-kc0kk90z",
@@ -4846,6 +5186,23 @@
           "DATECOM"
         ]
       },
+      "controls": [
+        {
+          "id": "kc0kbnid-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(ACCESX7,integer) = '1' and ( cast(ACCESX1,integer) = '1' or cast(ACCESX2,integer) = '1' or cast(ACCESX3,integer) = '1' or cast(ACCESX4,integer) = '1' or cast(ACCESX5,integer) = '1' or cast(ACCESX6,integer) = '1' ))",
+          "errorMessage": "\"Votre réponse « Aucune de ces actions» est incompatible avec les autres réponses\"",
+          "bindingDependencies": [
+            "ACCESX7",
+            "ACCESX1",
+            "ACCESX2",
+            "ACCESX3",
+            "ACCESX4",
+            "ACCESX5",
+            "ACCESX6"
+          ]
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kc0k7y1b",
@@ -4853,7 +5210,9 @@
           "label": "\"VII - Confidentialité et protection de la vie privée\""
         }
       },
+      "missingResponse": { "name": "ACCESX_MISSING" },
       "bindingDependencies": [
+        "ACCESX_MISSING",
         "ACCESX1",
         "ACCESX2",
         "ACCESX3",
@@ -4912,7 +5271,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "57",
-      "label": "\"➡ 50. Saviez-vous que les cookies peuvent être utilisés pour connaître les centres d’intérêt des internautes afin de leur envoyer des publicités ciblées ?\"",
+      "label": "\"Saviez-vous que les cookies peuvent être utilisés pour connaître les centres d’intérêt des internautes afin de leur envoyer des publicités ciblées ?\"",
       "conditionFilter": {
         "value": "(not((cast(NUSEWEB,string)=\"3\" or cast(NUSEWEB,string)=\"4\" or cast(NUSEWEB,string)=\"\") and cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)) and (not((cast(NUSEWEB,string) =\"3\" or cast(NUSEWEB,string) =\"4\" or cast(NUSEWEB,string) =\"\") and not ((cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)))) and (not(cast(NUSEWEB,string) = \"2\" or cast(NUSEWEB,string) = \"3\" or cast(NUSEWEB,string) = \"4\")) and (not((cast(NUSEWEB,string) = \"2\" or cast(NUSEWEB,string) = \"3\" or cast(NUSEWEB,string) = \"4\" ) and not ((( cast(ECOM,string) = \"1\" ) and ( cast(DATECOM,string) =\"1\" )))))",
         "bindingDependencies": [
@@ -4936,7 +5295,8 @@
           "label": "\"VII - Confidentialité et protection de la vie privée\""
         }
       },
-      "bindingDependencies": ["SECOOK"],
+      "missingResponse": { "name": "SECOOK_MISSING" },
+      "bindingDependencies": ["SECOOK_MISSING", "SECOOK"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
 
@@ -4950,7 +5310,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "58",
-      "label": "\"➡ 51. Avez-vous changé les paramètres de votre navigateur Internet afin d’interdire ou de limiter les cookies sur l’un de vos appareils ?\"",
+      "label": "\"Avez-vous changé les paramètres de votre navigateur Internet afin d’interdire ou de limiter les cookies sur l’un de vos appareils ?\"",
       "conditionFilter": {
         "value": "(not((cast(NUSEWEB,string)=\"3\" or cast(NUSEWEB,string)=\"4\" or cast(NUSEWEB,string)=\"\") and cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)) and (not((cast(NUSEWEB,string) =\"3\" or cast(NUSEWEB,string) =\"4\" or cast(NUSEWEB,string) =\"\") and not ((cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)))) and (not(cast(NUSEWEB,string) = \"2\" or cast(NUSEWEB,string) = \"3\" or cast(NUSEWEB,string) = \"4\")) and (not((cast(NUSEWEB,string) = \"2\" or cast(NUSEWEB,string) = \"3\" or cast(NUSEWEB,string) = \"4\" ) and not ((( cast(ECOM,string) = \"1\" ) and ( cast(DATECOM,string) =\"1\" )))))",
         "bindingDependencies": [
@@ -4974,7 +5334,8 @@
           "label": "\"VII - Confidentialité et protection de la vie privée\""
         }
       },
-      "bindingDependencies": ["SECUNAV"],
+      "missingResponse": { "name": "SECUNAV_MISSING" },
+      "bindingDependencies": ["SECUNAV_MISSING", "SECUNAV"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
 
@@ -4988,7 +5349,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "59",
-      "label": "\"➡ 52. Êtes-vous préoccupé(e) par le fait que vos activités en ligne soient enregistrées pour vous proposer des publicités ciblées ?\"",
+      "label": "\"Êtes-vous préoccupé(e) par le fait que vos activités en ligne soient enregistrées pour vous proposer des publicités ciblées ?\"",
       "conditionFilter": {
         "value": "(not((cast(NUSEWEB,string)=\"3\" or cast(NUSEWEB,string)=\"4\" or cast(NUSEWEB,string)=\"\") and cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)) and (not((cast(NUSEWEB,string) =\"3\" or cast(NUSEWEB,string) =\"4\" or cast(NUSEWEB,string) =\"\") and not ((cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)))) and (not(cast(NUSEWEB,string) = \"2\" or cast(NUSEWEB,string) = \"3\" or cast(NUSEWEB,string) = \"4\")) and (not((cast(NUSEWEB,string) = \"2\" or cast(NUSEWEB,string) = \"3\" or cast(NUSEWEB,string) = \"4\" ) and not ((( cast(ECOM,string) = \"1\" ) and ( cast(DATECOM,string) =\"1\" )))))",
         "bindingDependencies": [
@@ -5012,7 +5373,8 @@
           "label": "\"VII - Confidentialité et protection de la vie privée\""
         }
       },
-      "bindingDependencies": ["PREOCC"],
+      "missingResponse": { "name": "PREOCC_MISSING" },
+      "bindingDependencies": ["PREOCC_MISSING", "PREOCC"],
       "options": [
         { "value": "1", "label": "\" Oui, très préoccupé(e)\"" },
 
@@ -5028,7 +5390,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "60",
-      "label": "\"➡ 53. Utilisez-vous un logiciel de protection contre le tracking (logiciel qui limite la capacité à suivre vos actions sur Internet) sur l’un de vos appareils ?\"",
+      "label": "\"Utilisez-vous un logiciel de protection contre le tracking (logiciel qui limite la capacité à suivre vos actions sur Internet) sur l’un de vos appareils ?\"",
       "conditionFilter": {
         "value": "(not((cast(NUSEWEB,string)=\"3\" or cast(NUSEWEB,string)=\"4\" or cast(NUSEWEB,string)=\"\") and cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)) and (not((cast(NUSEWEB,string) =\"3\" or cast(NUSEWEB,string) =\"4\" or cast(NUSEWEB,string) =\"\") and not ((cast(RENADMX1,integer)  <>  1 and cast(RENADMX2,integer)  <>  1 and cast(RENADMX3,integer)  <>  1 and cast(RENADMX4,integer)  <>  1 and cast(RENADMX5,integer)  <>  1 and cast(RENADMX6,integer)  <>  1 and cast(RENADMX7,integer)  <>  1 and cast(RENADMX8,integer)  <>  1)))) and (not(cast(NUSEWEB,string) = \"2\" or cast(NUSEWEB,string) = \"3\" or cast(NUSEWEB,string) = \"4\")) and (not((cast(NUSEWEB,string) = \"2\" or cast(NUSEWEB,string) = \"3\" or cast(NUSEWEB,string) = \"4\" ) and not ((( cast(ECOM,string) = \"1\" ) and ( cast(DATECOM,string) =\"1\" )))))",
         "bindingDependencies": [
@@ -5052,7 +5414,8 @@
           "label": "\"VII - Confidentialité et protection de la vie privée\""
         }
       },
-      "bindingDependencies": ["TRACKING"],
+      "missingResponse": { "name": "TRACKING_MISSING" },
+      "bindingDependencies": ["TRACKING_MISSING", "TRACKING"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
 
@@ -5089,7 +5452,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "62",
-      "label": "\"➡ 54. De combien de numéros de téléphone fixe disposez-vous dans votre ménage(numéros commençant par 01 à 05 ou par 09)?\"",
+      "label": "\"De combien de numéros de téléphone fixe disposez-vous dans votre ménage(numéros commençant par 01 à 05 ou par 09)?\"",
       "conditionFilter": { "value": "true" },
       "hierarchy": {
         "sequence": {
@@ -5098,7 +5461,8 @@
           "label": "\"VIII - Votre utilisation du téléphone\""
         }
       },
-      "bindingDependencies": ["NUMEROS"],
+      "missingResponse": { "name": "NUMEROS_MISSING" },
+      "bindingDependencies": ["NUMEROS_MISSING", "NUMEROS"],
       "options": [
         { "value": "1", "label": "\" Aucun\"" },
 
@@ -5132,7 +5496,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "63",
-      "label": "\"➡ 55. Décrochez-vous ou une personne de votre ménage décroche-t-elle lorsque votre téléphone fixe sonne ?\"",
+      "label": "\"Décrochez-vous ou une personne de votre ménage décroche-t-elle lorsque votre téléphone fixe sonne ?\"",
       "conditionFilter": {
         "value": "(not(cast(NUMEROS,string) = \"1\" or cast(NUMEROS,string) = \"\" ))",
         "bindingDependencies": ["NUMEROS"]
@@ -5144,7 +5508,8 @@
           "label": "\"VIII - Votre utilisation du téléphone\""
         }
       },
-      "bindingDependencies": ["DECROCHEF"],
+      "missingResponse": { "name": "DECROCHEF_MISSING" },
+      "bindingDependencies": ["DECROCHEF_MISSING", "DECROCHEF"],
       "options": [
         {
           "value": "1",
@@ -5167,7 +5532,7 @@
       "id": "kc0mzowl",
       "componentType": "CheckboxGroup",
       "page": "64",
-      "label": "\"➡ 56. Pour votre usage privé, utilisez-vous ?\"",
+      "label": "\"Pour votre usage privé, utilisez-vous ?\"",
       "declarations": [
         {
           "id": "kc0mzowl-kc0n7j03",
@@ -5177,6 +5542,15 @@
         }
       ],
       "conditionFilter": { "value": "true" },
+      "controls": [
+        {
+          "id": "kc0mzowl-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(SMARTPHONEX3,integer) = '1' and ( cast(SMARTPHONEX1,integer) = '1' or cast(SMARTPHONEX2,integer) = '1' ))",
+          "errorMessage": "\"Votre réponse - «Aucun de  ces appareils» - est incompatible avec les autres réponses\"",
+          "bindingDependencies": ["SMARTPHONEX3", "SMARTPHONEX1", "SMARTPHONEX2"]
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kc0mpozo",
@@ -5184,7 +5558,13 @@
           "label": "\"VIII - Votre utilisation du téléphone\""
         }
       },
-      "bindingDependencies": ["SMARTPHONEX1", "SMARTPHONEX2", "SMARTPHONEX3"],
+      "missingResponse": { "name": "SMARTPHONEX_MISSING" },
+      "bindingDependencies": [
+        "SMARTPHONEX_MISSING",
+        "SMARTPHONEX1",
+        "SMARTPHONEX2",
+        "SMARTPHONEX3"
+      ],
       "responses": [
         {
           "id": "kc0mzowl-QOP-khq4ukie",
@@ -5227,7 +5607,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "65",
-      "label": "\"➡ 57. Décrochez-vous lorsque votre téléphone mobile sonne ?\"",
+      "label": "\"Décrochez-vous lorsque votre téléphone mobile sonne ?\"",
       "conditionFilter": {
         "value": "(not(cast(SMARTPHONEX3,integer) = 1 or ( cast(SMARTPHONEX1,integer) = \"\" and cast(SMARTPHONEX2,integer) = \"\" and cast(SMARTPHONEX3,integer) = \"\" )))",
         "bindingDependencies": ["SMARTPHONEX3", "SMARTPHONEX1", "SMARTPHONEX2"]
@@ -5239,7 +5619,8 @@
           "label": "\"VIII - Votre utilisation du téléphone\""
         }
       },
-      "bindingDependencies": ["DECROCHEM"],
+      "missingResponse": { "name": "DECROCHEM_MISSING" },
+      "bindingDependencies": ["DECROCHEM_MISSING", "DECROCHEM"],
       "options": [
         {
           "value": "1",
@@ -5262,7 +5643,7 @@
       "id": "kebbns0s",
       "componentType": "CheckboxGroup",
       "page": "66",
-      "label": "\"➡ 58. Quel est votre opérateur mobile ?\"",
+      "label": "\"Quel est votre opérateur mobile ?\"",
       "declarations": [
         {
           "id": "kebbns0s-kispywjo",
@@ -5282,7 +5663,15 @@
           "label": "\"VIII - Votre utilisation du téléphone\""
         }
       },
-      "bindingDependencies": ["OPERATEUR1", "OPERATEUR2", "OPERATEUR3", "OPERATEUR4", "OPERATEUR5"],
+      "missingResponse": { "name": "OPERATEUR_MISSING" },
+      "bindingDependencies": [
+        "OPERATEUR_MISSING",
+        "OPERATEUR1",
+        "OPERATEUR2",
+        "OPERATEUR3",
+        "OPERATEUR4",
+        "OPERATEUR5"
+      ],
       "responses": [
         {
           "id": "kebbns0s-QOP-khq52xzj",
@@ -5340,7 +5729,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "68",
-      "label": "\"➡ 59. Quelle est actuellement votre situation principale vis-à-vis du travail ?\"",
+      "label": "\"Quelle est actuellement votre situation principale vis-à-vis du travail ?\"",
       "declarations": [
         {
           "id": "kc0n6snm-kc0my1wg",
@@ -5357,7 +5746,8 @@
           "label": "\"IX - Votre situation professionnelle\""
         }
       },
-      "bindingDependencies": ["SITUA"],
+      "missingResponse": { "name": "SITUA_MISSING" },
+      "bindingDependencies": ["SITUA_MISSING", "SITUA"],
       "options": [
         { "value": "1", "label": "\" Occupe un emploi (salarié(e) ou indépendant(e))\"" },
 
@@ -5388,7 +5778,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "69",
-      "label": "\"➡ 60. Dans votre \" || cast(cast(emploi,string),string) || \" ? \"",
+      "label": "\"Dans votre \" || cast(cast(emploi,string),string) || \" ? \"",
       "declarations": [
         {
           "id": "kc0nbhww-kc0nojf1",
@@ -5405,7 +5795,8 @@
           "label": "\"IX - Votre situation professionnelle\""
         }
       },
-      "bindingDependencies": ["emploi", "STATUT"],
+      "missingResponse": { "name": "STATUT_MISSING" },
+      "bindingDependencies": ["emploi", "STATUT_MISSING", "STATUT"],
       "options": [
         { "value": "1", "label": "\" Salarié(e) d’une entreprise privée ou d’une association\"" },
 
@@ -5478,7 +5869,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "70",
-      "label": "\"➡ 61. Votre tâche principale \" || cast(cast(emploi2,string),string) || \"-elle de superviser le travail d’autres salariés (hors apprentis et stagiaires) ?\"",
+      "label": "\"Votre tâche principale \" || cast(cast(emploi2,string),string) || \"-elle de superviser le travail d’autres salariés (hors apprentis et stagiaires) ?\"",
       "conditionFilter": {
         "value": "(not(cast(STATUT,string) = \"11\")) and (not(cast(STATUT,string) = \"8\" or cast(STATUT,string) = \"9\" or cast(STATUT,string) = \"10\" ))",
         "bindingDependencies": ["STATUT"]
@@ -5490,7 +5881,8 @@
           "label": "\"IX - Votre situation professionnelle\""
         }
       },
-      "bindingDependencies": ["emploi2", "ENCADR"],
+      "missingResponse": { "name": "ENCADR_MISSING" },
+      "bindingDependencies": ["emploi2", "ENCADR_MISSING", "ENCADR"],
       "options": [
         { "value": "1", "label": "\"Oui\"" },
 
@@ -5504,7 +5896,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "71",
-      "label": "\"➡ 62. Quel \" || cast(cast(emploi2,string),string) || \" votre type d’emploi ? \"",
+      "label": "\"Quel \" || cast(cast(emploi2,string),string) || \" votre type d’emploi ? \"",
       "conditionFilter": {
         "value": "(not(cast(STATUT,string) = \"11\")) and (not(cast(STATUT,string) = \"8\" or cast(STATUT,string) = \"9\" or cast(STATUT,string) = \"10\" ))",
         "bindingDependencies": ["STATUT"]
@@ -5516,7 +5908,8 @@
           "label": "\"IX - Votre situation professionnelle\""
         }
       },
-      "bindingDependencies": ["emploi2", "CONTRAT"],
+      "missingResponse": { "name": "CONTRAT_MISSING" },
+      "bindingDependencies": ["emploi2", "CONTRAT_MISSING", "CONTRAT"],
       "options": [
         {
           "value": "1",
@@ -5536,7 +5929,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "72",
-      "label": "\"➡ 63. \" || cast(cast(emploi3,string),string) || \"-vous ? \"",
+      "label": "\"\" || cast(cast(emploi3,string),string) || \"-vous ? \"",
       "conditionFilter": {
         "value": "(not(cast(STATUT,string) = \"11\")) and (not(cast(STATUT,string) = \"8\" or cast(STATUT,string) = \"9\" or cast(STATUT,string) = \"10\" ))",
         "bindingDependencies": ["STATUT"]
@@ -5548,7 +5941,8 @@
           "label": "\"IX - Votre situation professionnelle\""
         }
       },
-      "bindingDependencies": ["emploi3", "CLASSIF"],
+      "missingResponse": { "name": "CLASSIF_MISSING" },
+      "bindingDependencies": ["emploi3", "CLASSIF_MISSING", "CLASSIF"],
       "options": [
         { "value": "1", "label": "\" Manœuvre ou ouvrier(ière) spécialisé(e)\"" },
 
@@ -5587,7 +5981,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "73",
-      "label": "\"➡ 64. \" || cast(cast(emploi4,string),string) || \"-vous ?\"",
+      "label": "\"\" || cast(cast(emploi4,string),string) || \"-vous ?\"",
       "conditionFilter": {
         "value": "(not(cast(STATUT,string) = \"11\"))",
         "bindingDependencies": ["STATUT"]
@@ -5599,7 +5993,8 @@
           "label": "\"IX - Votre situation professionnelle\""
         }
       },
-      "bindingDependencies": ["emploi4", "DUREE_EMP"],
+      "missingResponse": { "name": "DUREE_EMP_MISSING" },
+      "bindingDependencies": ["emploi4", "DUREE_EMP_MISSING", "DUREE_EMP"],
       "options": [
         { "value": "1", "label": "\" À temps complet\"" },
 
@@ -5614,11 +6009,20 @@
       "mandatory": false,
       "page": "74",
       "maxLength": 50,
-      "label": "\"➡ 65. Quelle \" || cast(cast(emploi2,string),string) || \" \" || cast(cast(emploi5,string),string) || \" ?​\"",
+      "label": "\"Quelle \" || cast(cast(emploi2,string),string) || \" \" || cast(cast(emploi5,string),string) || \" ?​\"",
       "conditionFilter": {
         "value": "(not(cast(STATUT,string) = \"11\"))",
         "bindingDependencies": ["STATUT"]
       },
+      "controls": [
+        {
+          "id": "kc0ofjt7-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(PROFESSION,string) = '')",
+          "errorMessage": "\"Vous n’avez pas répondu à cette question. Si c’est un oubli, veuillez compléter votre réponse. \"",
+          "bindingDependencies": ["PROFESSION"]
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kc0n110n",
@@ -5626,7 +6030,8 @@
           "label": "\"IX - Votre situation professionnelle\""
         }
       },
-      "bindingDependencies": ["emploi2", "emploi5", "PROFESSION"],
+      "missingResponse": { "name": "PROFESSION_MISSING" },
+      "bindingDependencies": ["emploi2", "emploi5", "PROFESSION_MISSING", "PROFESSION"],
       "response": { "name": "PROFESSION" }
     },
 
@@ -5636,11 +6041,20 @@
       "mandatory": false,
       "page": "75",
       "maxLength": 50,
-      "label": "\"➡ 66. Quelle \" || cast(cast(emploi2,string),string) || \" l’activité de l’établissement ou du site \" || cast(cast(emploi6,string),string) || \" ?​\"",
+      "label": "\"Quelle \" || cast(cast(emploi2,string),string) || \" l’activité de l’établissement ou du site \" || cast(cast(emploi6,string),string) || \" ?​\"",
       "conditionFilter": {
         "value": "(not(cast(STATUT,string) = \"11\"))",
         "bindingDependencies": ["STATUT"]
       },
+      "controls": [
+        {
+          "id": "kc0p4jga-CI-0",
+          "criticality": "WARN",
+          "control": "not(cast(ACTILIB,string) = '')",
+          "errorMessage": "\"Vous n’avez pas répondu à cette question. Si c’est un oubli, veuillez compléter votre réponse. \"",
+          "bindingDependencies": ["ACTILIB"]
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kc0n110n",
@@ -5648,7 +6062,8 @@
           "label": "\"IX - Votre situation professionnelle\""
         }
       },
-      "bindingDependencies": ["emploi2", "emploi6", "ACTILIB"],
+      "missingResponse": { "name": "ACTILIB_MISSING" },
+      "bindingDependencies": ["emploi2", "emploi6", "ACTILIB_MISSING", "ACTILIB"],
       "response": { "name": "ACTILIB" }
     },
 
@@ -5676,7 +6091,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "76",
-      "label": "\"➡ 67. \" || cast(cast(emploi7,string),string) || \" ?\"",
+      "label": "\"\" || cast(cast(emploi7,string),string) || \" ?\"",
       "conditionFilter": {
         "value": "(not(cast(STATUT,string) = \"11\")) and (not(cast(STATUT,string) < 8 or cast(STATUT,string) = \"11\" or cast(STATUT,string) = \"\"))",
         "bindingDependencies": ["STATUT"]
@@ -5688,7 +6103,8 @@
           "label": "\"IX - Votre situation professionnelle\""
         }
       },
-      "bindingDependencies": ["emploi7", "NOMBRSAL"],
+      "missingResponse": { "name": "NOMBRSAL_MISSING" },
+      "bindingDependencies": ["emploi7", "NOMBRSAL_MISSING", "NOMBRSAL"],
       "options": [
         { "value": "1", "label": "\" Aucun salarié\"" },
 
@@ -5706,7 +6122,7 @@
       "componentType": "Radio",
       "mandatory": false,
       "page": "77",
-      "label": "\"➡ 68. Une dernière question, quel est le revenu mensuelde votre ménage en euros ?\"",
+      "label": "\"Une dernière question, quel est le revenu mensuelde votre ménage en euros ?\"",
       "declarations": [
         {
           "id": "kc0qz959-kc0r6wgt",
@@ -5723,7 +6139,8 @@
           "label": "\"IX - Votre situation professionnelle\""
         }
       },
-      "bindingDependencies": ["TRANCHREVENU"],
+      "missingResponse": { "name": "TRANCHREVENU_MISSING" },
+      "bindingDependencies": ["TRANCHREVENU_MISSING", "TRANCHREVENU"],
       "options": [
         { "value": "1", "label": "\" Moins de 800 €\"" },
 
@@ -5764,7 +6181,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "DATENAIS_MISSING",
+      "componentRef": "kbw7j25e",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "SEXE",
+      "componentRef": "kbw8ookt",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "SEXE_MISSING",
       "componentRef": "kbw8ookt",
       "values": {
         "PREVIOUS": null,
@@ -5790,7 +6233,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "DIPLOME_MISSING",
+      "componentRef": "kbw8yqwv",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "ETUDE",
+      "componentRef": "kbw97gaf",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "ETUDE_MISSING",
       "componentRef": "kbw97gaf",
       "values": {
         "PREVIOUS": null,
@@ -5816,7 +6285,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "COUPLE_MISSING",
+      "componentRef": "kbw9jgd2",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "ETAMATRI",
+      "componentRef": "kbw9i35f",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "ETAMATRI_MISSING",
       "componentRef": "kbw9i35f",
       "values": {
         "PREVIOUS": null,
@@ -5842,7 +6337,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "PACS_MISSING",
+      "componentRef": "kbw9gttr",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "LNAIS",
+      "componentRef": "kbw9rrbt",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "LNAIS_MISSING",
       "componentRef": "kbw9rrbt",
       "values": {
         "PREVIOUS": null,
@@ -5868,7 +6389,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "DEPNAIS_MISSING",
+      "componentRef": "kbw9r169",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "PAYSNAIS",
+      "componentRef": "kbwanueu",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "PAYSNAIS_MISSING",
       "componentRef": "kbwanueu",
       "values": {
         "PREVIOUS": null,
@@ -5933,7 +6480,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "NATIO1N_MISSING",
+      "componentRef": "kbwafrus",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "NATIO2N",
+      "componentRef": "kbwanqdo",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "NATIO2N_MISSING",
       "componentRef": "kbwanqdo",
       "values": {
         "PREVIOUS": null,
@@ -5948,6 +6521,32 @@
       "variableType": "COLLECTED",
       "name": "NBHAB",
       "componentRef": "kbwbok7p",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "NBHAB_MISSING",
+      "componentRef": "kbwbok7p",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "REPARTHAB_MISSING",
+      "componentRef": "kbwbx3zb",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -6037,6 +6636,19 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "NET_MISSING",
+      "componentRef": "kc0gq6qv",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "DEBITX1",
       "componentRef": "kc0gvvrz",
       "values": {
@@ -6089,7 +6701,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "DEBITX_MISSING",
+      "componentRef": "kc0gvvrz",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "NUSEWEB",
+      "componentRef": "kc0h7448",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "NUSEWEB_MISSING",
       "componentRef": "kc0h7448",
       "values": {
         "PREVIOUS": null,
@@ -6115,7 +6753,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "USEWEB_MISSING",
+      "componentRef": "kc0haj1j",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "SEVWEB",
+      "componentRef": "kc0hudx9",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "SEVWEB_MISSING",
       "componentRef": "kc0hudx9",
       "values": {
         "PREVIOUS": null,
@@ -6181,6 +6845,19 @@
     {
       "variableType": "COLLECTED",
       "name": "DEVICEX5",
+      "componentRef": "kc0hsh54",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "DEVICEX_MISSING",
       "componentRef": "kc0hsh54",
       "values": {
         "PREVIOUS": null,
@@ -6349,6 +7026,19 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "PRATINTXX_MISSING",
+      "componentRef": "kc0hyu5k",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "EDUPROX1",
       "componentRef": "kc0hwk4s",
       "values": {
@@ -6376,6 +7066,19 @@
     {
       "variableType": "COLLECTED",
       "name": "EDUPROX3",
+      "componentRef": "kc0hwk4s",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "EDUPROX_MISSING",
       "componentRef": "kc0hwk4s",
       "values": {
         "PREVIOUS": null,
@@ -6441,6 +7144,19 @@
     {
       "variableType": "COLLECTED",
       "name": "ADMX5",
+      "componentRef": "kc0i0jec",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "ADMX_MISSING",
       "componentRef": "kc0i0jec",
       "values": {
         "PREVIOUS": null,
@@ -6596,6 +7312,19 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "RAISADMX_MISSING",
+      "componentRef": "kc0i8uqf",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "AIDADMX1",
       "componentRef": "kc0i7d8t",
       "values": {
@@ -6649,6 +7378,19 @@
     {
       "variableType": "COLLECTED",
       "name": "AIDADMX5",
+      "componentRef": "kc0i7d8t",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "AIDADMX_MISSING",
       "componentRef": "kc0i7d8t",
       "values": {
         "PREVIOUS": null,
@@ -6778,7 +7520,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "RENADMX_MISSING",
+      "componentRef": "kc0is12p",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "AUTADM",
+      "componentRef": "kc0iso1a",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "AUTADM_MISSING",
       "componentRef": "kc0iso1a",
       "values": {
         "PREVIOUS": null,
@@ -6804,7 +7572,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "ECOM_MISSING",
+      "componentRef": "kc0ihwjw",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "DATECOM",
+      "componentRef": "kc0iuqho",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "DATECOM_MISSING",
       "componentRef": "kc0iuqho",
       "values": {
         "PREVIOUS": null,
@@ -7025,6 +7819,19 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "ACHATXX_MISSING",
+      "componentRef": "kc0ijn79",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "ORIGINEX1",
       "componentRef": "kc0iq8u1",
       "values": {
@@ -7077,7 +7884,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "ORIGINEX_MISSING",
+      "componentRef": "kc0iq8u1",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "PARTACHA",
+      "componentRef": "kc0jc05z",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "PARTACHA_MISSING",
       "componentRef": "kc0jc05z",
       "values": {
         "PREVIOUS": null,
@@ -7194,6 +8027,19 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "NUMACHAX_MISSING",
+      "componentRef": "kc0jcnvt",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "SERVACHAX1",
       "componentRef": "kc0ix4pz",
       "values": {
@@ -7272,7 +8118,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "SERVACHAX_MISSING",
+      "componentRef": "kc0ix4pz",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "PARTJOB",
+      "componentRef": "kc0j3oqg",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "PARTJOB_MISSING",
       "componentRef": "kc0j3oqg",
       "values": {
         "PREVIOUS": null,
@@ -7324,6 +8196,19 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "SHARTX_MISSING",
+      "componentRef": "kc0jjdn7",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "SHARAX1",
       "componentRef": "kc0ja8z6",
       "values": {
@@ -7363,6 +8248,19 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "SHARAX_MISSING",
+      "componentRef": "kc0ja8z6",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "NBCOM",
       "componentRef": "kc0jlws6",
       "values": {
@@ -7376,7 +8274,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "NBCOM_MISSING",
+      "componentRef": "kc0jlws6",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "SOMCOM",
+      "componentRef": "kc0jemvn",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "SOMCOM_MISSING",
       "componentRef": "kc0jemvn",
       "values": {
         "PREVIOUS": null,
@@ -7532,6 +8456,19 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "PBACHAX_MISSING",
+      "componentRef": "kc0jhlsv",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "FINANCEX1",
       "componentRef": "kc0juxed",
       "values": {
@@ -7572,6 +8509,19 @@
     {
       "variableType": "COLLECTED",
       "name": "FINANCEX4",
+      "componentRef": "kc0juxed",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "FINANCEX_MISSING",
       "componentRef": "kc0juxed",
       "values": {
         "PREVIOUS": null,
@@ -7701,6 +8651,19 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "RAISACHAX_MISSING",
+      "componentRef": "kc0jvlb9",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "COMPINFX1",
       "componentRef": "kc0jw8fh",
       "values": {
@@ -7818,7 +8781,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "COMPINFX_MISSING",
+      "componentRef": "kc0jw8fh",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "EXCEL",
+      "componentRef": "kc0jpxlq",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "EXCEL_MISSING",
       "componentRef": "kc0jpxlq",
       "values": {
         "PREVIOUS": null,
@@ -7844,7 +8833,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "INFOX_MISSING",
+      "componentRef": "kc0k8y7u",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "VERIFINFO",
+      "componentRef": "kc0k84by",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "VERIFINFO_MISSING",
       "componentRef": "kc0k84by",
       "values": {
         "PREVIOUS": null,
@@ -7909,6 +8924,19 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "MOYINFO_MISSING",
+      "componentRef": "kc0jycut",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "RAISINFO1",
       "componentRef": "kc0k4daj",
       "values": {
@@ -7936,6 +8964,19 @@
     {
       "variableType": "COLLECTED",
       "name": "RAISINFO3",
+      "componentRef": "kc0k4daj",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "RAISINFO_MISSING",
       "componentRef": "kc0k4daj",
       "values": {
         "PREVIOUS": null,
@@ -8039,7 +9080,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "ACCESX_MISSING",
+      "componentRef": "kc0kbnid",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "SECOOK",
+      "componentRef": "kc0mdacx",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "SECOOK_MISSING",
       "componentRef": "kc0mdacx",
       "values": {
         "PREVIOUS": null,
@@ -8065,7 +9132,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "SECUNAV_MISSING",
+      "componentRef": "kc0moab7",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "PREOCC",
+      "componentRef": "kc0mgk5t",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "PREOCC_MISSING",
       "componentRef": "kc0mgk5t",
       "values": {
         "PREVIOUS": null,
@@ -8091,6 +9184,19 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "TRACKING_MISSING",
+      "componentRef": "kc0mr69i",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "NUMEROS",
       "componentRef": "kc0mpb1o",
       "values": {
@@ -8104,7 +9210,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "NUMEROS_MISSING",
+      "componentRef": "kc0mpb1o",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "DECROCHEF",
+      "componentRef": "kc0n0vfa",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "DECROCHEF_MISSING",
       "componentRef": "kc0n0vfa",
       "values": {
         "PREVIOUS": null,
@@ -8156,7 +9288,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "SMARTPHONEX_MISSING",
+      "componentRef": "kc0mzowl",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "DECROCHEM",
+      "componentRef": "kc0mw0hn",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "DECROCHEM_MISSING",
       "componentRef": "kc0mw0hn",
       "values": {
         "PREVIOUS": null,
@@ -8234,7 +9392,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "OPERATEUR_MISSING",
+      "componentRef": "kebbns0s",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "SITUA",
+      "componentRef": "kc0n6snm",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "SITUA_MISSING",
       "componentRef": "kc0n6snm",
       "values": {
         "PREVIOUS": null,
@@ -8260,7 +9444,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "STATUT_MISSING",
+      "componentRef": "kc0nbhww",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "ENCADR",
+      "componentRef": "kc0nuukd",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "ENCADR_MISSING",
       "componentRef": "kc0nuukd",
       "values": {
         "PREVIOUS": null,
@@ -8286,7 +9496,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "CONTRAT_MISSING",
+      "componentRef": "kc0o78n2",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "CLASSIF",
+      "componentRef": "kc0nwzzp",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "CLASSIF_MISSING",
       "componentRef": "kc0nwzzp",
       "values": {
         "PREVIOUS": null,
@@ -8312,7 +9548,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "DUREE_EMP_MISSING",
+      "componentRef": "kc0o6lj8",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "PROFESSION",
+      "componentRef": "kc0ofjt7",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "PROFESSION_MISSING",
       "componentRef": "kc0ofjt7",
       "values": {
         "PREVIOUS": null,
@@ -8338,6 +9600,19 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "ACTILIB_MISSING",
+      "componentRef": "kc0p4jga",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "NOMBRSAL",
       "componentRef": "kc0qftls",
       "values": {
@@ -8351,7 +9626,33 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "NOMBRSAL_MISSING",
+      "componentRef": "kc0qftls",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "TRANCHREVENU",
+      "componentRef": "kc0qz959",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TRANCHREVENU_MISSING",
       "componentRef": "kc0qz959",
       "values": {
         "PREVIOUS": null,

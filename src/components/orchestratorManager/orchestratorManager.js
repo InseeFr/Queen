@@ -11,12 +11,21 @@ import { READ_ONLY } from 'utils/constants';
 import { sendCloseEvent } from 'utils/communication';
 import Orchestrator from '../orchestrator';
 import { checkQuestionnaire } from 'utils/questionnaire';
+import { buildSuggesterFromNomenclatures } from 'utils/questionnaire/nomenclatures';
 
 const OrchestratorManager = () => {
-  const configuration = useContext(AppContext);
+  const { standalone, apiUrl } = useContext(AppContext);
   const { readonly: readonlyParam, idQ, idSU } = useParams();
   const history = useHistory();
-  const { surveyUnit, questionnaire, loadingMessage, errorMessage } = useAPIRemoteData(idSU, idQ);
+  const {
+    surveyUnit,
+    questionnaire,
+    nomenclatures,
+    loadingMessage,
+    errorMessage,
+  } = useAPIRemoteData(idSU, idQ);
+
+  const [suggesters, setSuggesters] = useState(null);
 
   const [error, setError] = useState(null);
   const [source, setSource] = useState(null);
@@ -27,16 +36,18 @@ const OrchestratorManager = () => {
   const [readonly] = useState(readonlyParam === READ_ONLY);
 
   useEffect(() => {
-    if (!init && questionnaire && surveyUnit) {
+    if (!init && questionnaire && surveyUnit && nomenclatures) {
       const { valid, error: questionnaireError } = checkQuestionnaire(questionnaire);
       if (valid) {
         setSource(questionnaire);
+        const suggestersBuilt = buildSuggesterFromNomenclatures(apiUrl)(nomenclatures);
+        setSuggesters(suggestersBuilt);
         setInit(true);
       } else {
         setError(questionnaireError);
       }
     }
-  }, [init, questionnaire, surveyUnit]);
+  }, [init, questionnaire, surveyUnit, nomenclatures, apiUrl]);
 
   useEffect(() => {
     if (errorMessage) setError(errorMessage);
@@ -49,7 +60,7 @@ const OrchestratorManager = () => {
     const { id, ...other } = unit;
     setErrorSending(null);
     setSending(true);
-    const { /* status, */ error: putDataError } = await putUeData(other);
+    const { /* status, */ error: putDataError } = await putUeData(id, other);
     setSending(false);
     if (putDataError) setErrorSending('Error during sending');
   };
@@ -57,34 +68,35 @@ const OrchestratorManager = () => {
   const saveSU = async unit => {
     if (!readonly) {
       await surveyUnitIdbService.addOrUpdateSU(unit);
-      if (configuration.standalone) await putSurveyUnit(unit);
+      if (standalone) await putSurveyUnit(unit);
     }
   };
 
   const closeOrchestrator = () => {
-    if (configuration.standalone) {
+    if (standalone) {
       history.push('/');
     } else {
       sendCloseEvent(surveyUnit.id);
     }
   };
-
   return (
     <>
       {![READ_ONLY, undefined].includes(readonlyParam) && <NotFound />}
       {loadingMessage && <Preloader message={loadingMessage} />}
       {error && <Error message={error} />}
-      {init && !loadingMessage && !errorMessage && source && surveyUnit && (
+      {init && !loadingMessage && !errorMessage && source && surveyUnit && suggesters && (
         <Orchestrator
           surveyUnit={surveyUnit}
           source={source}
-          standalone={configuration.standalone}
+          suggesters={suggesters}
+          autoSuggesterLoading
+          standalone={standalone}
           readonly={readonly}
           savingType="COLLECTED"
           preferences={['PREVIOUS', 'COLLECTED']}
           features={['VTL']}
-          pagination={true}
-          missing={true}
+          pagination
+          missing
           filterDescription={false}
           save={saveSU}
           close={closeOrchestrator}

@@ -6,7 +6,6 @@ on:
       - 'master'
 
 jobs:
-
   build-assets:
     runs-on: ubuntu-latest
     steps:
