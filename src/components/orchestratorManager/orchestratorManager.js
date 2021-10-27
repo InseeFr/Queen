@@ -100,6 +100,7 @@ const OrchestratorManager = () => {
           filterDescription={false}
           save={saveSU}
           close={closeOrchestrator}
+          placeholderList="Rechercher ici ..."
         />
       )}
     </>
