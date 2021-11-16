@@ -1929,12 +1929,13 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@inseefr/lunatic@^0.2.3-experimental":
-  version "0.2.3-experimental"
-  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-0.2.3-experimental.tgz#1affca1fe6f0ed0abeb2dca39425fceaf7085df4"
-  integrity sha512-ILJtQn7h0gh98W5cn7/kYjrf/bZUopCmyOGMZqq+KxduFEtN37rJCMkFFCmJs8tv1/V/lbtsyn9+hbIhe/PRfA==
+"@inseefr/lunatic@^0.1.1-hackathon":
+  version "0.1.1-hackathon"
+  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-0.1.1-hackathon.tgz#42518ec173ebab56dfb63162d35a949d5d936478"
+  integrity sha512-Rl20h5e1NkPBHmD1kqAGjBiS0VDHKaIcbz1XhUZA2tC2I+dciyumdzxVy6TNn6A1sH9FyvcLI6oER/uJGqtJVA==
   dependencies:
     "@inseefr/trevas" "^0.1.10"
+    date-fns "^2.25.0"
     lodash.camelcase "^4.3.0"
     lodash.debounce "^4.0.8"
     lodash.isequal "^4.5.0"
@@ -5152,6 +5153,11 @@ data-urls@^2.0.0:
     abab "^2.0.3"
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
+
+date-fns@^2.25.0:
+  version "2.25.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.25.0.tgz#8c5c8f1d958be3809a9a03f4b742eba894fc5680"
+  integrity sha512-ovYRFnTrbGPD4nqaEqescPEv1mNwvt+UTqI3Ay9SzNtey9NZnYu6E2qCcBBgJ6/2VF1zGGygpyTDITqpQQ5e+w==
 
 dayjs@^1.8.12:
   version "1.9.3"
