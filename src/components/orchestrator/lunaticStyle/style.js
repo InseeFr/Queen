@@ -20,18 +20,6 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       marginLeft: 'auto',
     },
 
-    // '& .lunatic-suggester-input': {
-    //   paddingRight: '0.5em',
-    //   paddingLeft: '0.5em',
-    //   fontSize: '100%',
-    //   marginLeft: '1em',
-    //   borderRadius: '10px',
-    //   border: `${borderInput}`,
-    //   width: '55%',
-    //   minWidth: '200px',
-    //   height: '1.5em',
-    // },
-
     // to replace checkbox by svg
     '& .list-icon': { position: 'absolute', marginTop: '-0.2rem' },
     '& .checkbox-boolean-lunatic': {
