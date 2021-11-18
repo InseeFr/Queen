@@ -12,6 +12,7 @@
   "dependencies": {
     "@a11y/focus-trap": "^1.0.5",
     "@axa-fr/react-oidc-context": "^3.1.6",
+    "@craco/craco": "^6.4.0",
     "@inseefr/lunatic": "^0.1.8-hackathon",
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
@@ -40,6 +41,7 @@
   },
   "scripts": {
     "start": "set PORT=5000 && react-scripts start",
+    "start-dev": "craco start",
     "build": "react-scripts build && npm run post-build",
     "post-build": "node ./configuration/build/build-sw.js && node ./configuration/build/manage-public-url.js && copy-and-watch configuration/files/* build",
     "test": "react-scripts test",
@@ -109,6 +111,7 @@
   "devDependencies": {
     "@types/react": "^16.9.23",
     "@types/react-router-dom": "^5.1.3",
+    "@welldone-software/why-did-you-render": "^6.2.3",
     "copy-and-watch": "^0.1.4",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",

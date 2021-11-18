@@ -167,6 +167,7 @@ const Navigation = ({ className, title, setPage }) => {
   }, [surveyOpen, openCloseSubMenu, stopOpen, open, setMenuOpen, listRefs]);
 
   const setNavigationPage = page => {
+    debugger;
     openCloseMenu();
     setPage(page);
   };
@@ -177,6 +178,7 @@ const Navigation = ({ className, title, setPage }) => {
     return ['alt+b'];
   };
   const keysToHandle = getKeysToHandle();
+
   const keyboardShortcut = (key, e) => {
     e.preventDefault();
     if (key === 'alt+b') {
@@ -198,6 +200,7 @@ const Navigation = ({ className, title, setPage }) => {
   const classes = useStyles();
 
   const [trapFocus, setTrapFocus] = useState(false);
+
   useEffect(() => {
     setTimeout(() => setTrapFocus(open), 250);
   }, [open]);
@@ -269,7 +272,6 @@ const Navigation = ({ className, title, setPage }) => {
       </div>
     </>
   );
-
   return (
     <div ref={rootRef} className={className}>
       {trapFocus && <focus-trap>{menu}</focus-trap>}
