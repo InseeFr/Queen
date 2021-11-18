@@ -27,8 +27,10 @@ export const DIRECT_CONTINUE_COMPONENTS = ['CheckboxOne', 'Radio'];
 export const SIMPSONS = 'simpsons';
 export const TIC = 'tic';
 export const DEFAULT = 'default';
+export const LOGEMENT = 'logement';
+export const TEST = 'test';
 
-export const QUESTIONNAIRE_EXAMPLES = [SIMPSONS, TIC];
+export const QUESTIONNAIRE_EXAMPLES = [SIMPSONS, TIC, LOGEMENT, TEST];
 
 export const QUESTIONNAIRE_EXAMPLE_URL = q =>
   `${QUEEN_URL || window.location.origin}/static/questionnaire/${q}/form.json`;

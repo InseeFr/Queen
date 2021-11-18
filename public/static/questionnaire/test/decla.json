@@ -1,0 +1,235 @@
+{
+  "variables": [
+    {
+      "variableType": "COLLECTED",
+      "values": {
+        "COLLECTED": null,
+        "EDITED": null,
+        "INPUTED": null,
+        "FORCED": null,
+        "PREVIOUS": null
+      },
+      "name": "COMMENT_QE",
+      "componentRef": "COMMENT-QUESTION"
+    },
+    {
+      "variableType": "EXTERNAL",
+      "name": "AN_CA",
+      "value": null
+    },
+    {
+      "variableType": "COLLECTED",
+      "values": {
+        "COLLECTED": null,
+        "EDITED": null,
+        "INPUTED": null,
+        "FORCED": null,
+        "PREVIOUS": null
+      },
+      "name": "AFFICHE",
+      "componentRef": "jjy309ac"
+    },
+    {
+      "variableType": "COLLECTED",
+      "values": {
+        "COLLECTED": null,
+        "EDITED": null,
+        "INPUTED": null,
+        "FORCED": null,
+        "PREVIOUS": null
+      },
+      "name": "Q1_MISSING",
+      "componentRef": "jjy309ac"
+    }
+  ],
+  "components": [
+    {
+      "componentType": "Sequence",
+      "hierarchy": {
+        "sequence": {
+          "id": "jjy2j3hv",
+          "page": "1",
+          "label": "\"I - \" || \"SEQUENCE 1\""
+        }
+      },
+      "conditionFilter": {
+        "value": "true"
+      },
+      "id": "jjy2j3hv",
+      "page": "1",
+      "label": "\"I - \" || \"SEQUENCE 1\"",
+      "declarations": [
+        {
+          "declarationType": "HELP",
+          "id": "jjy2j3hv-kocq1tmo",
+          "label": "Je suis une aide sans mode",
+          "position": "AFTER_QUESTION_TEXT"
+        },
+        {
+          "declarationType": "INSTRUCTION",
+          "id": "jjy2j3hv-kocpsr93",
+          "label": "Je suis une consigne CATI donc en bleu",
+          "position": "AFTER_QUESTION_TEXT"
+        },
+        {
+          "declarationType": "CODECARD",
+          "id": "jjy2j3hv-kocpy9pe",
+          "label": "Je suis une carte code CATI CAPI",
+          "position": "AFTER_QUESTION_TEXT"
+        },
+        {
+          "declarationType": "HELP",
+          "id": "jjy2j3hv-krlygnqz",
+          "label": "Je suis une aide / help CATI CAPI donc en noir",
+          "position": "AFTER_QUESTION_TEXT"
+        },
+        {
+          "declarationType": "INSTRUCTION",
+          "id": "jjy2j3hv-krlyj1im",
+          "label": "Je suis une consigne CATI CAPI",
+          "position": "AFTER_QUESTION_TEXT"
+        }
+      ]
+    },
+    {
+      "componentType": "CheckboxOne",
+      "bindingDependencies": [
+        "Q1_MISSING",
+        "AFFICHE"
+      ],
+      "missingResponse": {
+        "name": "Q1_MISSING"
+      },
+      "response": {
+        "name": "AFFICHE"
+      },
+      "hierarchy": {
+        "sequence": {
+          "id": "jjy2j3hv",
+          "page": "1",
+          "label": "\"I - \" || \"SEQUENCE 1\""
+        }
+      },
+      "options": [
+        {
+          "label": "Oui",
+          "value": "1"
+        },
+        {
+          "label": "Non",
+          "value": "2"
+        }
+      ],
+      "conditionFilter": {
+        "value": "true"
+      },
+      "id": "jjy309ac",
+      "page": "2",
+      "label": "\"➡ \" || \"Question\"",
+      "mandatory": false,
+      "declarations": [
+        {
+          "declarationType": "STATEMENT",
+          "id": "kocwuwjx-SI",
+          "label": "Je suis une aide AVANT APRES PAPI CAWI dont pas sur poste enqueteur (queen : noir, non gras, taille identique aux libellés de question)",
+          "position": "BEFORE_QUESTION_TEXT"
+        },
+        {
+          "declarationType": "HELP",
+          "id": "jjy309ac-kocx4aj9",
+          "label": "Je suis une aide/help CAPI CATI PAPI CAWI (queen : noir, non gras, taille identique aux libellés de question)",
+          "position": "AFTER_QUESTION_TEXT"
+        },
+        {
+          "declarationType": "INSTRUCTION",
+          "id": "jjy309ac-kocx1rrh",
+          "label": "Je suis une consigne CAPI CATI PAPI (garder le style actuel (bleu, taille équivalente)",
+          "position": "AFTER_QUESTION_TEXT"
+        },
+        {
+          "declarationType": "CODECARD",
+          "id": "jjy309ac-kocwz08m",
+          "label": "Je suis une carte code pour enquêteur",
+          "position": "AFTER_QUESTION_TEXT"
+        },
+        {
+          "declarationType": "HELP",
+          "id": "jjy309ac-kocwqmi8",
+          "label": "Je suis une aide sans mode ( (queen : noir, non gras, taille identique aux libellés de question)",
+          "position": "AFTER_QUESTION_TEXT"
+        },
+        {
+          "declarationType": "CODECARD",
+          "id": "jjy309ac-kowww4jq",
+          "label": "je suis une carte code CAPI",
+          "position": "AFTER_QUESTION_TEXT"
+        }
+      ]
+    },
+    {
+      "componentType": "Sequence",
+      "hierarchy": {
+        "sequence": {
+          "id": "kkzbhuwy",
+          "page": "3",
+          "label": "\"II - \" || \"FIN QUEST\""
+        }
+      },
+      "conditionFilter": {
+        "value": "true"
+      },
+      "id": "kkzbhuwy",
+      "page": "3",
+      "label": "\"II - \" || \"FIN QUEST\""
+    },
+    {
+      "componentType": "Sequence",
+      "hierarchy": {
+        "sequence": {
+          "id": "COMMENT-SEQ",
+          "page": "4",
+          "label": "\"Commentaire\""
+        }
+      },
+      "conditionFilter": {
+        "value": "true"
+      },
+      "id": "COMMENT-SEQ",
+      "page": "4",
+      "label": "\"Commentaire\""
+    },
+    {
+      "componentType": "Textarea",
+      "bindingDependencies": [
+        "COMMENT_QE"
+      ],
+      "response": {
+        "name": "COMMENT_QE"
+      },
+      "hierarchy": {
+        "sequence": {
+          "id": "COMMENT-SEQ",
+          "page": "4",
+          "label": "\"Commentaire\""
+        }
+      },
+      "conditionFilter": {
+        "value": "true"
+      },
+      "id": "COMMENT-QUESTION",
+      "page": "5",
+      "label": "\"Avez-vous des remarques concernant l'enquête ou des commentaires ?\"",
+      "mandatory": false,
+      "maxLength": 2000
+    }
+  ],
+  "pagination": "question",
+  "lunaticModelVersion": "2.2.6-develop",
+  "modele": "QTESTINSTRUCT",
+  "enoCoreVersion": "2.3.1-main",
+  "generatingDate": "18-11-2021 14:44:17",
+  "missing": true,
+  "id": "kocpfrtkqf1",
+  "label": "TEST déclarations modales",
+  "maxPage": "5"
+}
