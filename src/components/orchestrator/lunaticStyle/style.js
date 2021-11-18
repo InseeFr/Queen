@@ -19,6 +19,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: {
       marginLeft: 'auto',
     },
+
     // to replace checkbox by svg
     '& .list-icon': { position: 'absolute', marginTop: '-0.2rem' },
     '& .checkbox-boolean-lunatic': {
@@ -454,33 +455,50 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         },
       },
     },
+
+    // '& .lunatic-suggester-option': {
+    //   textOverflow: 'ellipsis',
+    //   whiteSpace: 'nowrap',
+    //   overflow: 'hidden',
+    //   marginBottom: '0.1em',
+    //   lineHeight: '2rem',
+    //   display: 'block',
+    //   '&. selected': {
+    //     color: 'var(--color-primary-dark)',
+    //     backgroundColor: 'var(--color-dropdown-selected)',
+    //   },
+    //   '& :hover': {
+    //     backgroundColor: 'var(--color-primary-main)',
+    //     color: 'white',
+    //   },
+    // },
+
+    // default.scss
+
     '& .lunatic-suggester-message-error': {
       border: 'solid 1px darkred',
       color: 'darkred',
       backgroundColor: 'tomato',
       display: 'inline-block',
-      borderRadius: '3px',
+      borderRadius: `${borderInput}`,
       padding: '4px 8px',
       margin: '4px 4px',
     },
+
     '& .lunatic-suggester-default-style': {
-      '& .lunatic-suggester-container': {
+      '&.lunatic-suggester-container': {
         marginBottom: '10px',
+
         '& .lunatic-suggester': {
-          min: '30px',
-          minWidth: '500px',
+          minHeight: '30px',
+          minWidth: '260px',
           width: '100%',
           '& .lunatic-suggester-content': {
-            /* */
-            '& .focused': {
-              '& .lunatic-suggester-selection': {},
-            },
-            /* */
             '& .lunatic-suggester-selection': {
               borderRadius: '5px',
               border: '2px solid var(--color-primary-dark)',
               backgroundColor: 'white',
-              '& :hover': {
+              '&:hover': {
                 borderColor: 'var(--color-primary-main)',
               },
               '& .lunatic-suggester-input': {
@@ -489,9 +507,10 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
                 fontSize: '15px',
                 paddingLeft: '4px',
                 /*defaultFont: 'Roboto', 'Helvetica', 'Arial', sans-serif;*/
-                '& ::placeholder': {
+                // TODO FIX PLACEHOLDER
+                '&::placeholderList': {
                   color: 'gray',
-                  /*defaultFont: 'Roboto', 'Helvetica', 'Arial', sans-serif;*/
+                  /* fontFamily: 'Roboto, Helvetica, Arial, sans-serif',*/
                   fontSize: '15px',
                   lineHeight: '34px',
                   verticalAlign: 'middle',
@@ -501,11 +520,10 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
               '& .lunatic-suggester-selected': {
                 height: '34px',
                 lineHeight: '34px',
-                backgroundColor: 'white',
                 borderRadius: '5px',
                 paddingLeft: '4px',
                 /*defaultFont: 'Roboto', 'Helvetica', 'Arial', sans-serif;*/
-                '& .placeholder': {
+                '& .placeholderList': {
                   display: 'block',
                   color: 'gray',
                   /*defaultFont: 'Roboto', 'Helvetica', 'Arial', sans-serif;*/
@@ -514,17 +532,19 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
                   verticalAlign: 'middle',
                   fontWeight: 'normal',
                 },
-                '&. selection': {
+                '& .selection': {
                   display: 'block',
                   lineHeight: '34px',
+                  fontSize: '15px',
                 },
                 '&.disabled': {
                   backgroundColor: 'var(--color-disabled)',
                 },
               },
             },
+
             /* */
-            '&. lunatic-suggester-panel': {
+            '& .lunatic-suggester-panel': {
               /*defaultFont: 'Roboto', 'Helvetica', 'Arial', sans-serif;*/
               height: '0',
               opacity: '0',
@@ -539,7 +559,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
                 boxShadow: '0 2px 2px grey',
                 borderRadius: '4px',
               },
-              '&. lunatic-suggester-option': {
+              '& .lunatic-suggester-option': {
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
@@ -555,6 +575,97 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
                   color: 'white',
                 },
               },
+            },
+          },
+        },
+      },
+    },
+
+    // suggester.scss
+
+    '& .lunatic-suggester-container': {
+      position: 'relative',
+      width: '100%',
+
+      '& .lunatic-suggester-fab': {
+        position: 'absolute',
+        right: '4px',
+        top: '8px',
+        zIndex: '0',
+
+        '&.focused ': {
+          zIndex: '1',
+        },
+
+        '& .lunatic-icon': {
+          '& svg': {
+            fill: 'white',
+            width: '16px',
+            height: '16px',
+          },
+        },
+      },
+      '& .lunatic-suggester': {
+        position: 'relative',
+        zIndex: 0,
+
+        '&:focus': {
+          outline: 'none',
+        },
+
+        '&.focused': {
+          zIndex: '1',
+        },
+
+        '& .lunatic-suggester-content': {
+          position: 'absolute',
+          width: ' 100%',
+
+          '& .lunatic-suggester-selection': {
+            position: 'relative',
+            '& .lunatic-suggester-input': {
+              border: 'none',
+              margin: '0',
+              padding: '0',
+              backgroundColor: 'transparent',
+
+              '&:focus': {
+                outline: 'none',
+              },
+
+              width: '100%',
+              /* */
+            },
+
+            '& .lunatic-suggester-selected ': {
+              position: 'absolute',
+              top: '0',
+              whiteSpace: 'nowrap',
+              overflowX: 'hidden',
+              width: '100%',
+              height: '100%',
+              display: 'none',
+              '&.displayed': {
+                display: 'block',
+              },
+            },
+          },
+
+          '& li,ul,div,span': {
+            margin: '0',
+            padding: '0',
+            border: 'none',
+            lineHeight: '1em',
+            listStyle: 'none',
+          },
+
+          '& .lunatic-suggester-panel': {
+            '&:focus': {
+              outline: 'none',
+            },
+            '& .lunatic-suggester-option': {
+              whiteSpace: 'nowrap',
+              // @include preventSelect();
             },
           },
         },
