@@ -167,7 +167,6 @@ const Navigation = ({ className, title, setPage }) => {
   }, [surveyOpen, openCloseSubMenu, stopOpen, open, setMenuOpen, listRefs]);
 
   const setNavigationPage = page => {
-    debugger;
     openCloseMenu();
     setPage(page);
   };
