@@ -54,6 +54,9 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       marginTop: '1em',
       fontWeight: 'normal',
       fontSize: '92%',
+      '&.declaration-help': {
+        color: theme.palette.declarations.help,
+      },
     },
 
     '& .label-top label': {
