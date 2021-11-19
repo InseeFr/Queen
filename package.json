@@ -1,6 +1,6 @@
 {
   "name": "queen",
-  "version": "0.8.15",
+  "version": "0.8.16",
   "description": "Web application for the management of questionnaires powered by Lunatic",
   "repository": {
     "type": "git",
@@ -13,7 +13,7 @@
     "@a11y/focus-trap": "^1.0.5",
     "@axa-fr/react-oidc-context": "^3.1.6",
     "@craco/craco": "^6.4.0",
-    "@inseefr/lunatic": "^0.1.10-hackathon",
+    "@inseefr/lunatic": "^0.1.11-hackathon",
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
