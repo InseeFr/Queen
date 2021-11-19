@@ -12,6 +12,14 @@ const getNewPage = page => iterations => {
   return page;
 };
 
+const hasToBlock = (prevProps, nextProps) => {
+  const prevSubseqId = prevProps?.subsequence?.id;
+  const prevSeqId = prevProps?.sequence?.id;
+  const nextSubseqId = nextProps?.subsequence?.id;
+  const nextSeqId = nextProps?.sequence?.id;
+  return prevSeqId === nextSeqId && prevSubseqId === nextSubseqId;
+};
+
 const BreadcrumbQueen = ({ sequence, subsequence, setPage, currentPage }) => {
   const classes = useStyles({ sequence, subsequence, setPage });
   const changePage = page => {
@@ -63,4 +71,4 @@ BreadcrumbQueen.defaultProps = {
   subsequence: null,
 };
 
-export default React.memo(BreadcrumbQueen);
+export default React.memo(BreadcrumbQueen, hasToBlock);
