@@ -93,7 +93,7 @@ const OrchestratorManager = () => {
           standalone={standalone}
           readonly={readonly}
           savingType="COLLECTED"
-          preferences={['PREVIOUS', 'COLLECTED']}
+          preferences={['COLLECTED']}
           features={['VTL']}
           pagination
           missing
