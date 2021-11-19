@@ -4,9 +4,8 @@ import * as lunatic from '@inseefr/lunatic';
 import * as UQ from 'utils/questionnaire';
 import { DIRECT_CONTINUE_COMPONENTS } from 'utils/constants';
 import Header from './header';
-import Buttons from './buttons';
 import ContinueButton from './buttons/continue';
-import NavBar from './rightNavbar';
+import NavBar from './navBar';
 import { useCustomLunaticStyles } from './lunaticStyle/style';
 import { useStyles } from './orchestrator.style';
 import SimpleLoader from 'components/shared/preloader/simple';
@@ -166,8 +165,6 @@ const QueenOrchestrator = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
-  const previousFilled = UQ.isPreviousFilled(questionnaire)(currentComponent)(occurencesIndex);
-
   /**
    * This function updates the values of the questionnaire responses
    * from the data entered by the user.
@@ -326,15 +323,11 @@ const QueenOrchestrator = ({
               </div>
             )}
             {!DIRECT_CONTINUE_COMPONENTS.includes(currentComponentType) &&
-              ((canGoNext && !rereading) || isLastPage) &&
-              !previousFilled && <ContinueButton setPendingChangePage={setPendingChangePage} />}
+              ((canGoNext && !rereading) || isLastPage) && (
+                <ContinueButton setPendingChangePage={setPendingChangePage} />
+              )}
           </div>
-          <NavBar>
-            <Buttons
-              rereading={rereading || previousFilled}
-              setPendingChangePage={setPendingChangePage}
-            />
-          </NavBar>
+          <NavBar rereading={rereading} setPendingChangePage={setPendingChangePage} />
         </div>
       </div>
     </OrchestratorContext.Provider>

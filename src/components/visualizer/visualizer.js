@@ -74,7 +74,7 @@ const Visualizer = () => {
           standalone={standalone}
           readonly={readonly}
           savingType="COLLECTED"
-          preferences={['PREVIOUS', 'COLLECTED']}
+          preferences={['COLLECTED']}
           features={['VTL']}
           pagination={true}
           missing={true}
