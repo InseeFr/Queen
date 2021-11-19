@@ -21,7 +21,8 @@ function publicURL() {
             newFileContent = newFileContent
               .replace(/\\("|')__PUBLIC_URL_TO_REPLACE__\/\\("|')/g, `${newPublicPath}+'/'`)
               .replace(/("|')__PUBLIC_URL_TO_REPLACE__("|')/g, newPublicPath)
-              .replace(/("|')(__PUBLIC_URL_TO_REPLACE__)\/("|')/g, `${newPublicPath}+'/'`);
+              .replace(/("|')(__PUBLIC_URL_TO_REPLACE__)\/("|')/g, `${newPublicPath}+'/'`)
+              .replace(/("|')(__PUBLIC_URL_TO_REPLACE__)\//g, `${newPublicPath}+$1/`);
           } else {
             newFileContent = newFileContent.replace(/__PUBLIC_URL_TO_REPLACE__/g, '');
           }
