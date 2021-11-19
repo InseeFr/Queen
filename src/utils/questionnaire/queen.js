@@ -1,11 +1,13 @@
 import * as lunatic from '@inseefr/lunatic';
 import { DIRECT_CONTINUE_COMPONENTS } from 'utils/constants';
 
-export const getCalculatedVariablesFromSource = source =>
-  source.variables.reduce((_, { variableType, name }) => {
+export const getCalculatedVariablesFromSource = source => {
+  return source.variables.reduce((_, { variableType, name }) => {
     if (variableType === 'CALCULATED') return [..._, name];
     return _;
   }, []);
+};
+
 export const secureCopy = objectToCopy => JSON.parse(JSON.stringify(objectToCopy));
 
 export const haveToGoNext = (currentComponentType, updateValue) => {
@@ -106,13 +108,4 @@ export const getIterationValue = values => iterations => {
     if (Array.isArray(values)) return values[firstVal];
     else return values;
   }
-};
-export const isPreviousFilled = questionnaire => component => iterations => {
-  const previousResponses = getComponentResponse(questionnaire)(component)('PREVIOUS');
-  const previousNotNull = Object.keys(previousResponses).reduce((acc, currentKey) => {
-    const value = getIterationValue(previousResponses[currentKey])(iterations);
-    if (value) return [...acc, value];
-    return acc;
-  }, []);
-  return previousNotNull.length > 0;
 };
