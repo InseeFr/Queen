@@ -1,0 +1,603 @@
+{
+  "variables": [
+    {
+      "variableType": "COLLECTED",
+      "values": {
+        "COLLECTED": null,
+        "EDITED": null,
+        "INPUTED": null,
+        "FORCED": null,
+        "PREVIOUS": null
+      },
+      "name": "COMMENT_QE",
+      "componentRef": "COMMENT-QUESTION"
+    },
+    {
+      "variableType": "COLLECTED",
+      "values": {
+        "COLLECTED": null,
+        "EDITED": null,
+        "INPUTED": null,
+        "FORCED": null,
+        "PREVIOUS": null
+      },
+      "name": "Q1",
+      "componentRef": "kmp20c8c"
+    },
+    {
+      "variableType": "COLLECTED",
+      "values": {
+        "COLLECTED": null,
+        "EDITED": null,
+        "INPUTED": null,
+        "FORCED": null,
+        "PREVIOUS": null
+      },
+      "name": "Q21",
+      "componentRef": "kvl2h5sq"
+    },
+    {
+      "variableType": "COLLECTED",
+      "values": {
+        "COLLECTED": null,
+        "EDITED": null,
+        "INPUTED": null,
+        "FORCED": null,
+        "PREVIOUS": null
+      },
+      "name": "Q22",
+      "componentRef": "kvl2h5sq"
+    },
+    {
+      "variableType": "COLLECTED",
+      "values": {
+        "COLLECTED": null,
+        "EDITED": null,
+        "INPUTED": null,
+        "FORCED": null,
+        "PREVIOUS": null
+      },
+      "name": "Q23",
+      "componentRef": "kvl2h5sq"
+    },
+    {
+      "variableType": "COLLECTED",
+      "values": {
+        "COLLECTED": null,
+        "EDITED": null,
+        "INPUTED": null,
+        "FORCED": null,
+        "PREVIOUS": null
+      },
+      "name": "Q24",
+      "componentRef": "kvl2h5sq"
+    },
+    {
+      "variableType": "COLLECTED",
+      "values": {
+        "COLLECTED": null,
+        "EDITED": null,
+        "INPUTED": null,
+        "FORCED": null,
+        "PREVIOUS": null
+      },
+      "name": "Q3",
+      "componentRef": "kmp24css"
+    },
+    {
+      "variableType": "COLLECTED",
+      "values": {
+        "COLLECTED": null,
+        "EDITED": null,
+        "INPUTED": null,
+        "FORCED": null,
+        "PREVIOUS": null
+      },
+      "name": "Q4",
+      "componentRef": "kvmfn9qk"
+    },
+    {
+      "variableType": "COLLECTED",
+      "values": {
+        "COLLECTED": null,
+        "EDITED": null,
+        "INPUTED": null,
+        "FORCED": null,
+        "PREVIOUS": null
+      },
+      "name": "Q5",
+      "componentRef": "kvmgc9pe"
+    },
+    {
+      "variableType": "COLLECTED",
+      "values": {
+        "COLLECTED": null,
+        "EDITED": null,
+        "INPUTED": null,
+        "FORCED": null,
+        "PREVIOUS": null
+      },
+      "name": "Q6",
+      "componentRef": "kvmg77g0"
+    },
+    {
+      "variableType": "CALCULATED",
+      "expression": "true",
+      "name": "FILTER_RESULT_Q1"
+    },
+    {
+      "variableType": "CALCULATED",
+      "expression": "true",
+      "name": "FILTER_RESULT_Q2"
+    },
+    {
+      "variableType": "CALCULATED",
+      "expression": "true",
+      "name": "FILTER_RESULT_Q3"
+    },
+    {
+      "variableType": "CALCULATED",
+      "expression": "true",
+      "name": "FILTER_RESULT_Q4"
+    },
+    {
+      "variableType": "CALCULATED",
+      "expression": "true",
+      "name": "FILTER_RESULT_Q5"
+    },
+    {
+      "variableType": "CALCULATED",
+      "expression": "true",
+      "name": "FILTER_RESULT_Q6"
+    },
+    {
+      "variableType": "CALCULATED",
+      "bindingDependencies": [
+        "Q1"
+      ],
+      "expression": "cast(Q1,integer) + cast($Q2$,integer)",
+      "name": "TOT"
+    }
+  ],
+  "components": [
+    {
+      "componentType": "Sequence",
+      "hierarchy": {
+        "sequence": {
+          "id": "kmp26pus",
+          "page": "1",
+          "label": "\"I - \" || \"S1 titre de séquence / uniquement dans fil Ariane / des déclarations à afficher\""
+        }
+      },
+      "conditionFilter": {
+        "value": "true"
+      },
+      "id": "kmp26pus",
+      "page": "1",
+      "label": "\"I - \" || \"S1 titre de séquence / uniquement dans fil Ariane / des déclarations à afficher\"",
+      "declarations": [
+        {
+          "declarationType": "INSTRUCTION",
+          "id": "kmp26pus-kod7urfd",
+          "label": "Je suis une consigne CAPI CATI CAWI PAPI",
+          "position": "AFTER_QUESTION_TEXT"
+        },
+        {
+          "declarationType": "HELP",
+          "id": "kmp26pus-kod7z6cs",
+          "label": "Je suis une aide CAPI CATI CAWI PAPI",
+          "position": "AFTER_QUESTION_TEXT"
+        }
+      ]
+    },
+    {
+      "componentType": "CheckboxOne",
+      "bindingDependencies": [
+        "Q1"
+      ],
+      "response": {
+        "name": "Q1"
+      },
+      "hierarchy": {
+        "sequence": {
+          "id": "kmp26pus",
+          "page": "1",
+          "label": "\"I - \" || \"S1 titre de séquence / uniquement dans fil Ariane / des déclarations à afficher\""
+        }
+      },
+      "options": [
+        {
+          "label": "aaaaaaaaaaaaaaaaaaaa",
+          "value": "1"
+        },
+        {
+          "label": "b",
+          "value": "2"
+        },
+        {
+          "label": "cccccccccccc",
+          "value": "3"
+        },
+        {
+          "label": "ddddddd",
+          "value": "d"
+        }
+      ],
+      "conditionFilter": {
+        "value": "true"
+      },
+      "id": "kmp20c8c",
+      "page": "2",
+      "label": "\"➡ 1. \" || \"Q1 QCU \"",
+      "mandatory": false,
+      "declarations": [
+        {
+          "declarationType": "INSTRUCTION",
+          "id": "kmp20c8c-kod87r8a",
+          "label": "Je suis une consigne CAPI CATI CAWI PAPI",
+          "position": "AFTER_QUESTION_TEXT"
+        },
+        {
+          "declarationType": "HELP",
+          "id": "kmp20c8c-kod7qx52",
+          "label": "Je suis une aide CAWI",
+          "position": "AFTER_QUESTION_TEXT"
+        }
+      ]
+    },
+    {
+      "componentType": "CheckboxGroup",
+      "bindingDependencies": [
+        "Q21",
+        "Q22",
+        "Q23",
+        "Q24"
+      ],
+      "hierarchy": {
+        "sequence": {
+          "id": "kmp26pus",
+          "page": "1",
+          "label": "\"I - \" || \"S1 titre de séquence / uniquement dans fil Ariane / des déclarations à afficher\""
+        }
+      },
+      "responses": [
+        {
+          "response": {
+            "name": "Q21"
+          },
+          "id": "kvl2h5sq-QOP-kw4o4dcv",
+          "label": "aaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "response": {
+            "name": "Q22"
+          },
+          "id": "kvl2h5sq-QOP-kw4o4vvk",
+          "label": "b"
+        },
+        {
+          "response": {
+            "name": "Q23"
+          },
+          "id": "kvl2h5sq-QOP-kw4oe4pi",
+          "label": "cccccccccccc"
+        },
+        {
+          "response": {
+            "name": "Q24"
+          },
+          "id": "kvl2h5sq-QOP-kw4og88w",
+          "label": "ddddddd"
+        }
+      ],
+      "conditionFilter": {
+        "value": "true"
+      },
+      "id": "kvl2h5sq",
+      "page": "3",
+      "label": "\"➡ 2. \" || \"Q2 QCM\"",
+      "declarations": [
+        {
+          "declarationType": "INSTRUCTION",
+          "id": "kvl2h5sq-kvl2h6it",
+          "label": "Je suis une consigne CAPI CATI CAWI PAPI",
+          "position": "AFTER_QUESTION_TEXT"
+        },
+        {
+          "declarationType": "HELP",
+          "id": "kvl2h5sq-kvl2xlbc",
+          "label": "Je suis une aide CAWI",
+          "position": "AFTER_QUESTION_TEXT"
+        }
+      ]
+    },
+    {
+      "componentType": "Sequence",
+      "hierarchy": {
+        "sequence": {
+          "id": "kvmg5s94",
+          "page": "4",
+          "label": "\"II - \" || \"S2 titre de séquence ne doit pas s’afficher, sans déclatations // afficher \"changement de séquence\"\""
+        }
+      },
+      "conditionFilter": {
+        "value": "true"
+      },
+      "id": "kvmg5s94",
+      "page": "4",
+      "label": "\"II - \" || \"S2 titre de séquence ne doit pas s’afficher, sans déclatations // afficher \"changement de séquence\"\""
+    },
+    {
+      "componentType": "CheckboxOne",
+      "bindingDependencies": [
+        "Q3"
+      ],
+      "response": {
+        "name": "Q3"
+      },
+      "hierarchy": {
+        "sequence": {
+          "id": "kvmg5s94",
+          "page": "4",
+          "label": "\"II - \" || \"S2 titre de séquence ne doit pas s’afficher, sans déclatations // afficher \"changement de séquence\"\""
+        }
+      },
+      "options": [
+        {
+          "label": "aaaaaaaaaaaaaaaaaaaa",
+          "value": "1"
+        },
+        {
+          "label": "b",
+          "value": "2"
+        },
+        {
+          "label": "cccccccccccc",
+          "value": "3"
+        },
+        {
+          "label": "ddddddd",
+          "value": "d"
+        }
+      ],
+      "conditionFilter": {
+        "value": "true"
+      },
+      "id": "kmp24css",
+      "page": "5",
+      "label": "\"➡ 3. \" || \"Q3 \"",
+      "mandatory": false
+    },
+    {
+      "componentType": "Sequence",
+      "hierarchy": {
+        "sequence": {
+          "id": "kw4o966h",
+          "page": "6",
+          "label": "\"III - \" || \"S3 MINI NOM\""
+        }
+      },
+      "conditionFilter": {
+        "value": "true"
+      },
+      "id": "kw4o966h",
+      "page": "6",
+      "label": "\"III - \" || \"S3 MINI NOM\""
+    },
+    {
+      "componentType": "Dropdown",
+      "bindingDependencies": [
+        "Q4"
+      ],
+      "response": {
+        "name": "Q4"
+      },
+      "hierarchy": {
+        "sequence": {
+          "id": "kw4o966h",
+          "page": "6",
+          "label": "\"III - \" || \"S3 MINI NOM\""
+        }
+      },
+      "options": [
+        {
+          "label": "aaaaaaaaaaaaaaaaaaaa",
+          "value": "1"
+        },
+        {
+          "label": "b",
+          "value": "2"
+        },
+        {
+          "label": "cccccccccccc",
+          "value": "3"
+        },
+        {
+          "label": "ddddddd",
+          "value": "d"
+        }
+      ],
+      "conditionFilter": {
+        "value": "true"
+      },
+      "id": "kvmfn9qk",
+      "page": "7",
+      "label": "\"➡ 4. \" || \"Q4 Dropdown \"",
+      "mandatory": false
+    },
+    {
+      "componentType": "Sequence",
+      "hierarchy": {
+        "sequence": {
+          "id": "kvmgb8hy",
+          "page": "8",
+          "label": "\"IV - \" || \"S3 titre de séquence ne doit pas s’afficher, sans déclatations // afficher : changement de séquence\""
+        }
+      },
+      "conditionFilter": {
+        "value": "true"
+      },
+      "id": "kvmgb8hy",
+      "page": "8",
+      "label": "\"IV - \" || \"S3 titre de séquence ne doit pas s’afficher, sans déclatations // afficher : changement de séquence\""
+    },
+    {
+      "componentType": "Subsequence",
+      "goToPage": "9",
+      "hierarchy": {
+        "sequence": {
+          "id": "kvmgb8hy",
+          "page": "8",
+          "label": "\"IV - \" || \"S3 titre de séquence ne doit pas s’afficher, sans déclatations // afficher : changement de séquence\""
+        },
+        "subSequence": {
+          "id": "kvmftpch",
+          "page": "9",
+          "label": "SS31 titre de sous-séquence ne doit pas s’afficher, sans déclatations // pas visible du tout"
+        }
+      },
+      "conditionFilter": {
+        "value": "true"
+      },
+      "id": "kvmftpch",
+      "label": "SS31 titre de sous-séquence ne doit pas s’afficher, sans déclatations // pas visible du tout"
+    },
+    {
+      "componentType": "Input",
+      "bindingDependencies": [
+        "Q5"
+      ],
+      "response": {
+        "name": "Q5"
+      },
+      "hierarchy": {
+        "sequence": {
+          "id": "kvmgb8hy",
+          "page": "8",
+          "label": "\"IV - \" || \"S3 titre de séquence ne doit pas s’afficher, sans déclatations // afficher : changement de séquence\""
+        },
+        "subSequence": {
+          "id": "kvmftpch",
+          "page": "9",
+          "label": "SS31 titre de sous-séquence ne doit pas s’afficher, sans déclatations // pas visible du tout"
+        }
+      },
+      "conditionFilter": {
+        "value": "true"
+      },
+      "id": "kvmgc9pe",
+      "page": "9",
+      "label": "\"➡ 5. \" || \"Q5 \"",
+      "mandatory": false,
+      "maxLength": 249
+    },
+    {
+      "componentType": "Subsequence",
+      "goToPage": "10",
+      "hierarchy": {
+        "sequence": {
+          "id": "kvmgb8hy",
+          "page": "8",
+          "label": "\"IV - \" || \"S3 titre de séquence ne doit pas s’afficher, sans déclatations // afficher : changement de séquence\""
+        },
+        "subSequence": {
+          "id": "kvmg4jvk",
+          "page": "10",
+          "label": "SS32 titre de sous-séquence ne doit pas s’afficher, avec déclatations // afficher la page des déclarations"
+        }
+      },
+      "conditionFilter": {
+        "value": "true"
+      },
+      "id": "kvmg4jvk",
+      "page": "10",
+      "label": "SS32 titre de sous-séquence ne doit pas s’afficher, avec déclatations // afficher la page des déclarations",
+      "declarations": [
+        {
+          "declarationType": "HELP",
+          "id": "kvmg4jvk-kvmgfjfd",
+          "label": "Je suis une déclaration à afficher dans Queen",
+          "position": "AFTER_QUESTION_TEXT"
+        }
+      ]
+    },
+    {
+      "componentType": "Input",
+      "bindingDependencies": [
+        "Q6"
+      ],
+      "response": {
+        "name": "Q6"
+      },
+      "hierarchy": {
+        "sequence": {
+          "id": "kvmgb8hy",
+          "page": "8",
+          "label": "\"IV - \" || \"S3 titre de séquence ne doit pas s’afficher, sans déclatations // afficher : changement de séquence\""
+        },
+        "subSequence": {
+          "id": "kvmg4jvk",
+          "page": "10",
+          "label": "SS32 titre de sous-séquence ne doit pas s’afficher, avec déclatations // afficher la page des déclarations"
+        }
+      },
+      "conditionFilter": {
+        "value": "true"
+      },
+      "id": "kvmg77g0",
+      "page": "11",
+      "label": "\"➡ 6. \" || \"Q6 \"",
+      "mandatory": false,
+      "maxLength": 249
+    },
+    {
+      "componentType": "Sequence",
+      "hierarchy": {
+        "sequence": {
+          "id": "COMMENT-SEQ",
+          "page": "12",
+          "label": "\"Commentaire\""
+        }
+      },
+      "conditionFilter": {
+        "value": "true"
+      },
+      "id": "COMMENT-SEQ",
+      "page": "12",
+      "label": "\"Commentaire\""
+    },
+    {
+      "componentType": "Textarea",
+      "bindingDependencies": [
+        "COMMENT_QE"
+      ],
+      "response": {
+        "name": "COMMENT_QE"
+      },
+      "hierarchy": {
+        "sequence": {
+          "id": "COMMENT-SEQ",
+          "page": "12",
+          "label": "\"Commentaire\""
+        }
+      },
+      "conditionFilter": {
+        "value": "true"
+      },
+      "id": "COMMENT-QUESTION",
+      "page": "13",
+      "label": "\"Avez-vous des remarques concernant l'enquête ou des commentaires ?\"",
+      "mandatory": false,
+      "maxLength": 2000
+    }
+  ],
+  "pagination": "question",
+  "lunaticModelVersion": "2.2.6-develop",
+  "modele": "TESTAFFICH",
+  "enoCoreVersion": "2.3.1-main",
+  "generatingDate": "18-11-2021 09:04:40",
+  "missing": false,
+  "id": "kocuvu8t",
+  "label": "Hack - Queen - titre de séquence, sous séquence",
+  "maxPage": "13"
+}

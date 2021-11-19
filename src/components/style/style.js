@@ -1,15 +1,15 @@
 import React, { useMemo } from 'react';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+// import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 const StyleProvider = ({ children }) => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   const theme = useMemo(
     () =>
       createMuiTheme({
         palette: {
-          type: prefersDarkMode ? 'dark' : 'light',
+          // type: prefersDarkMode ? 'dark' : 'light',
           primary: {
             main: '#085394',
           },
@@ -18,6 +18,7 @@ const StyleProvider = ({ children }) => {
           },
           declarations: {
             main: '#085394',
+            help: 'black',
           },
           background: {
             default: '#eeeeee',
@@ -33,7 +34,7 @@ const StyleProvider = ({ children }) => {
           },
         },
       }),
-    [prefersDarkMode]
+    []
   );
 
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
