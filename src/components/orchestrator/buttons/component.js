@@ -7,6 +7,8 @@ import { Button, IconButton } from 'components/designSystem';
 import { PlayArrow, SkipNext } from '@material-ui/icons';
 import { OrchestratorContext } from '../queen';
 
+const skipNextIcon = <SkipNext fontSize="large" />;
+
 const Buttons = ({ rereading, setPendingChangePage }) => {
   const { readonly, page, isFirstPage, isLastPage } = useContext(OrchestratorContext);
 
@@ -105,7 +107,7 @@ const Buttons = ({ rereading, setPendingChangePage }) => {
               ref={fastNextButtonRef}
               className={classes.fastButton}
               type="button"
-              endIcon={<SkipNext fontSize="large" />}
+              endIcon={skipNextIcon}
               onClick={localPageFastForward}
               onFocus={onfocusFastForward(true)}
               onBlur={onfocusFastForward(false)}
