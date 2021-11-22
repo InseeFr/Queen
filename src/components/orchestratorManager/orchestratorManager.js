@@ -93,13 +93,14 @@ const OrchestratorManager = () => {
           standalone={standalone}
           readonly={readonly}
           savingType="COLLECTED"
-          preferences={['PREVIOUS', 'COLLECTED']}
+          preferences={['COLLECTED']}
           features={['VTL']}
           pagination
           missing
           filterDescription={false}
           save={saveSU}
           close={closeOrchestrator}
+          placeholderList="Rechercher ici ..."
         />
       )}
     </>
