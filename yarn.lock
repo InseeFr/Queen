@@ -1955,6 +1955,7 @@
   version "0.3.0-experimental"
   resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-0.3.0-experimental.tgz#b67e49afc101cd61d2bfb6dc36ac6010880c6aef"
   integrity sha512-RBIg4EadNE970GIevVMM45JxosWG7vDNMrTmjIAK7CZjwlTGF0m1MXWQCaIYrdK7SE5LhDg+DygYwk5g6fss4g==
+  
   dependencies:
     "@inseefr/trevas" "^0.1.10"
     date-fns "^2.25.0"
