@@ -204,10 +204,7 @@ const QueenOrchestrator = ({
 
   useEffect(() => {
     if (!isLastPage && haveToGoNext) {
-      setChangingPage(true);
-      setTimeout(() => {
-        changePage('next');
-      }, 200);
+      setPendingChangePage('next');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [haveToGoNext, isLastPage, currentComponentType]);
