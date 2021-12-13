@@ -497,6 +497,9 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
           minWidth: '260px',
           width: '100%',
           '& .lunatic-suggester-content': {
+            '&.focused': {
+              '& .lunatic-suggester-selection': {},
+            },
             '& .lunatic-suggester-selection': {
               borderRadius: '5px',
               border: '2px solid var(--color-primary-dark)',
@@ -569,7 +572,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
                 marginBottom: '0.1em',
                 lineHeight: '2rem',
                 display: 'block',
-                '&. selected': {
+                '& .selected': {
                   color: 'var(--color-primary-dark)',
                   backgroundColor: 'var(--color-dropdown-selected)',
                 },
