@@ -1,1 +1,1 @@
-export { default } from './Rooter';
+export { default } from './rooter';
