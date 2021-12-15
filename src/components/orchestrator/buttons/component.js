@@ -65,7 +65,8 @@ const Buttons = ({ rereading, setPendingChangePage }) => {
     if ((focusNext || focusFastForward || focusPrevious) && pageChanging) {
       setPendingChangePage(pageChanging);
     }
-  }, [focusNext, focusFastForward, focusPrevious, pageChanging, setPendingChangePage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageChanging, setPendingChangePage]);
 
   return (
     <>
