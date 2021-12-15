@@ -23,10 +23,9 @@ import { IconButton } from '@material-ui/core';
 import { Apps } from '@material-ui/icons';
 import { OrchestratorContext } from '../queen';
 
-const Navigation = ({ className, title, setPage }) => {
-  const { questionnaire, bindings, validatedPages, setMenuOpen, readonly } = useContext(
-    OrchestratorContext
-  );
+const Navigation = ({ className, title }) => {
+  const { questionnaire, bindings, validatedPages, setMenuOpen, readonly, setPage } =
+    useContext(OrchestratorContext);
   const [open, setOpen] = useState(false);
   const [surveyOpen, setSurveyOpen] = useState(false);
   const [stopOpen, setStopOpen] = useState(false);
@@ -126,9 +125,10 @@ const Navigation = ({ className, title, setPage }) => {
     )
   );
 
-  const setFocus = useCallback(index => () => setCurrentFocusElementIndex(index), [
-    setCurrentFocusElementIndex,
-  ]);
+  const setFocus = useCallback(
+    index => () => setCurrentFocusElementIndex(index),
+    [setCurrentFocusElementIndex]
+  );
   const reachableRefs = [...menuItemsSurvey, ...menuItemsQuality].reduce(
     _ => [..._, true],
     createReachableElement(offset)
@@ -166,10 +166,14 @@ const Navigation = ({ className, title, setPage }) => {
     listRefs[0].current.focus();
   }, [surveyOpen, openCloseSubMenu, stopOpen, open, setMenuOpen, listRefs]);
 
-  const setNavigationPage = page => {
-    openCloseMenu();
-    setPage(page);
-  };
+  const setNavigationPage = useCallback(
+    page => {
+      openCloseMenu();
+      console.log('newPage wanted', page);
+      setPage(page);
+    },
+    [openCloseMenu, setPage]
+  );
 
   const getKeysToHandle = () => {
     if (open && (surveyOpen || stopOpen)) return ['alt+b'];
@@ -190,9 +194,8 @@ const Navigation = ({ className, title, setPage }) => {
     }
     if (key === 'down' || key === 'up') {
       const directionFocus = key === 'down' ? NEXT_FOCUS : PREVIOUS_FOCUS;
-      const newRefIndex = getNewFocusElementIndex(directionFocus)(currentFocusElementIndex)(
-        reachableRefs
-      );
+      const newRefIndex =
+        getNewFocusElementIndex(directionFocus)(currentFocusElementIndex)(reachableRefs);
       listRefs[newRefIndex]?.current?.focus();
     }
   };

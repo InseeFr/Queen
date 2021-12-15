@@ -11,8 +11,8 @@ import { ButtonBase, IconButton } from '@material-ui/core';
 import { ExitToApp } from '@material-ui/icons';
 import { OrchestratorContext } from '../queen';
 
-const Header = ({ title, hierarchy, setPage }) => {
-  const { page, standalone, queenBindings, quit } = useContext(OrchestratorContext);
+const Header = ({ title, hierarchy }) => {
+  const { page, standalone, queenBindings, quit, setPage } = useContext(OrchestratorContext);
   const classes = useStyles({ standalone });
   const setToFirstPage = useCallback(() => setPage('1'), [setPage]);
   const quitButtonRef = useRef();
@@ -38,7 +38,7 @@ const Header = ({ title, hierarchy, setPage }) => {
 
   return (
     <div className={classes.root}>
-      <Navigation className={classes.headerItemNavigation} title={title} setPage={setPage} />
+      <Navigation className={classes.headerItemNavigation} title={title} />
       <div className="header-item">
         <ButtonBase
           focusRipple
@@ -56,7 +56,6 @@ const Header = ({ title, hierarchy, setPage }) => {
             sequence={sequenceBinded}
             subsequence={subSequenceBinded}
             currentPage={page}
-            setPage={setPage}
           />
         )}
       </div>
