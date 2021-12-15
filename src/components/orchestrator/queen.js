@@ -42,9 +42,12 @@ const QueenOrchestrator = ({
     components,
     handleChange,
     bindings,
+    allBindings,
+    getStateToSave,
     pagination: { goNext, goPrevious, page, setPage, isFirstPage, isLastPage, flow, maxPage },
   },
   surveyUnit,
+  source,
   save,
   close,
   readonly,
@@ -94,11 +97,11 @@ const QueenOrchestrator = ({
           date: new Date().getTime(),
           currentPage: page,
         },
-        data: UQ.getStateToSave(questionnaire),
+        data: getStateToSave(),
         comment: comment,
       });
     },
-    [comment, page, questionnaire, save, state, surveyUnit]
+    [comment, getStateToSave, page, save, state, surveyUnit]
   );
 
   const changePage = useCallback(
@@ -146,7 +149,7 @@ const QueenOrchestrator = ({
     queenBindings,
     loopBindings: { loopBindings, responseBindings },
     allFirstLoopPages,
-  } = UQ.getInfoFromCurrentPage(components, calculatedVariables)(bindings)(page)(maxPage);
+  } = UQ.getInfoFromCurrentPage(components, calculatedVariables)(allBindings)(page)(maxPage);
   const { componentType: currentComponentType, hierarchy } = currentComponent || {};
 
   const canGoNext = UQ.canGoNext(currentComponent)(queenBindings);
@@ -246,8 +249,8 @@ const QueenOrchestrator = ({
       isFirstPage,
       isLastPage,
       validatedPages,
-      questionnaire,
-      bindings,
+      questionnaire: source,
+      bindings: allBindings,
       queenBindings,
     }),
     [
@@ -263,8 +266,8 @@ const QueenOrchestrator = ({
       isFirstPage,
       isLastPage,
       validatedPages,
-      questionnaire,
-      bindings,
+      source,
+      allBindings,
       queenBindings,
     ]
   );
