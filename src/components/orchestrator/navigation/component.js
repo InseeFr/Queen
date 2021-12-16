@@ -169,7 +169,6 @@ const Navigation = ({ className, title }) => {
   const setNavigationPage = useCallback(
     page => {
       openCloseMenu();
-      console.log('newPage wanted', page);
       setPage(page);
     },
     [openCloseMenu, setPage]
