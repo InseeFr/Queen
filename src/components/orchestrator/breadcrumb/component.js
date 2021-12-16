@@ -66,7 +66,6 @@ BreadcrumbQueen.propTypes = {
     page: PropTypes.string,
   }),
   currentPage: PropTypes.string.isRequired,
-  setPage: PropTypes.func.isRequired,
 };
 
 BreadcrumbQueen.defaultProps = {

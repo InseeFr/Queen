@@ -332,7 +332,6 @@ const comparison = (prevProps, nextProps) => {
 
 Navigation.propTypes = {
   title: PropTypes.string.isRequired,
-  setPage: PropTypes.func.isRequired,
 };
 
 export default React.memo(Navigation, comparison);
