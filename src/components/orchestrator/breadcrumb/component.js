@@ -18,7 +18,9 @@ const hasToBlock = (prevProps, nextProps) => {
   const prevSeqId = prevProps?.sequence?.id;
   const nextSubseqId = nextProps?.subsequence?.id;
   const nextSeqId = nextProps?.sequence?.id;
-  return prevSeqId === nextSeqId && prevSubseqId === nextSubseqId;
+  const prevPage = prevProps?.currentPage;
+  const nextPage = nextProps?.currentPage;
+  return prevSeqId === nextSeqId && prevSubseqId === nextSubseqId && prevPage === nextPage;
 };
 
 const BreadcrumbQueen = ({ sequence, subsequence, currentPage }) => {
