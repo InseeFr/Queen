@@ -43,7 +43,7 @@ const QueenOrchestrator = ({
     handleChange,
     bindings,
     allBindings,
-    getStateToSave,
+    state: { getState },
     pagination: { goNext, goPrevious, page, setPage, isFirstPage, isLastPage, flow, maxPage },
   },
   surveyUnit,
@@ -97,11 +97,11 @@ const QueenOrchestrator = ({
           date: new Date().getTime(),
           currentPage: page,
         },
-        data: getStateToSave(),
+        data: getState(questionnaire),
         comment: comment,
       });
     },
-    [comment, getStateToSave, page, save, state, surveyUnit]
+    [comment, getState, page, save, questionnaire, state, surveyUnit]
   );
 
   const changePage = useCallback(
