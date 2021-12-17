@@ -157,12 +157,12 @@ const QueenOrchestrator = ({
 
   useEffect(() => {
     if (
-      currentComponent &&
-      canGoNext &&
+      currentComponentType &&
       !rereading &&
-      !['Sequence', 'Subsequence'].includes(currentComponentType)
+      !['Sequence', 'Subsequence'].includes(currentComponentType) &&
+      queenFlow !== 'fastForward'
     ) {
-      setRereading(true);
+      setRereading(canGoNext);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, rereading]);
@@ -171,7 +171,7 @@ const QueenOrchestrator = ({
   useEffect(() => {
     if (
       changingPage && // only if page is changing
-      'fastForward' === queenFlow && // only during the fastFoward flow
+      queenFlow === 'fastForward' && // only during the fastFoward flow
       page !== pageFastfoward // only if page has changed after goNext effect
     ) {
       if (canGoNext) {
@@ -186,7 +186,7 @@ const QueenOrchestrator = ({
   }, [canGoNext, changingPage, goNext, page, pageFastfoward, queenFlow]);
 
   useEffect(() => {
-    if ('fastForward' !== queenFlow && changingPage) setChangingPage(false);
+    if (queenFlow !== 'fastForward' && changingPage) setChangingPage(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
