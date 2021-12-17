@@ -86,6 +86,8 @@ const QueenOrchestrator = ({
     bindings
   );
 
+  const [pageFastfoward, setPageFastFoward] = useState(null);
+
   const [comment /* , setComment */] = useState(surveyUnit.comment);
 
   const saveQueen = useCallback(
@@ -114,9 +116,8 @@ const QueenOrchestrator = ({
       if (type === 'next') {
         addValidatedPages(page);
         goNext(null, freshBindings);
-      } else if (type === 'fastForward') {
-        goNext();
-      } else if (type === 'previous') goPrevious();
+      } else if (type === 'fastForward') goNext();
+      else if (type === 'previous') goPrevious();
       setRereading(false);
     },
     [addValidatedPages, page, goPrevious, goNext, saveQueen]
@@ -168,25 +169,24 @@ const QueenOrchestrator = ({
 
   // fastFoward effet
   useEffect(() => {
-    if (changingPage) {
-      if (queenFlow === 'fastForward' || queenFlow === 'waitingFast') {
-        if (currentComponent && canGoNext) {
-          changePage('fastForward');
-        } else if (currentComponent) {
-          setTimeout(() => {
-            setQueenFlow('next');
-            setChangingPage(false);
-          }, 200);
-        } else {
-          setQueenFlow('waitingFast');
-        }
+    if (
+      changingPage && // only if page is changing
+      'fastForward' === queenFlow && // only during the fastFoward flow
+      page !== pageFastfoward // only if page has changed after goNext effect
+    ) {
+      if (canGoNext) {
+        setPageFastFoward(page);
+        goNext();
+      } else {
+        setPageFastFoward(null);
+        setQueenFlow(null);
+        setChangingPage(false);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [canGoNext, changingPage, currentComponent, goNext, page, queenFlow]);
+  }, [canGoNext, changingPage, goNext, page, pageFastfoward, queenFlow]);
 
   useEffect(() => {
-    if (!['fastForward', 'waitingFast'].includes(queenFlow) && changingPage) setChangingPage(false);
+    if ('fastForward' !== queenFlow && changingPage) setChangingPage(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
@@ -219,8 +219,7 @@ const QueenOrchestrator = ({
       if (pendingChangePage === 'fastForward') changePage('fastForward');
       if (pendingChangePage === 'quit') quit();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [questionnaireUpdated, pendingChangePage]);
+  }, [questionnaireUpdated, pendingChangePage, changePage, quit]);
 
   const missingStrategy = useCallback(
     b => {
