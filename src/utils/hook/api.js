@@ -1,9 +1,9 @@
 import { AppContext } from 'components/app';
 import Dictionary from 'i18n';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import clearAllData from 'utils/indexedbb/services/allTables-idb-service';
-import { API } from 'utils/api';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
+import { API } from 'utils/api';
+import clearAllData from 'utils/indexedbb/services/allTables-idb-service';
 import { DEFAULT_DATA_URL, OIDC } from 'utils/constants';
 import { useAuth } from './auth';
 import { useAsyncValue } from '.';

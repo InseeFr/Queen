@@ -1,4 +1,4 @@
 {
   "surveyUnit": "id,data,stateData,personalization,comment,questionnaireId",
-  "paradata": "++id,value"
+  "paradata": "++id,idSU,events"
 }

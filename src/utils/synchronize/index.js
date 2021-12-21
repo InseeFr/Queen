@@ -1,5 +1,5 @@
 import D from 'i18n';
-import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
+import clearAllTables from 'utils/indexedbb/services/allTables-idb-service';
 import { useState } from 'react';
 import { useAPI, useAsyncValue } from 'utils/hook';
 import { getPercent } from 'utils';
@@ -11,7 +11,7 @@ import {
 import { usePutQuestionnairesInCache } from 'utils/hook/synchronize/questionnaires';
 
 const clean = async () => {
-  await surveyUnitIdbService.deleteAll();
+  await clearAllTables();
 };
 
 const simpleMerge = (list1 = [], list2 = []) =>

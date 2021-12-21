@@ -6,7 +6,7 @@ export class LocalDbFactory extends Dexie {
   constructor(dataBaseName) {
     super(dataBaseName);
     this.version(1).stores(schema);
-    this.version(1).stores(schema2);
+    this.version(2).stores(schema2);
   }
 
   getStore(name) {
