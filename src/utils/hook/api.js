@@ -108,6 +108,15 @@ export const useAPI = () => {
     },
     [apiUrl, authenticationType, oidcUser]
   );
+
+  const postParadata = useCallback(
+    body => {
+      const token = authenticationType === OIDC ? oidcUser?.access_token : null;
+      return API.postParadata(apiUrl)(token)(body);
+    },
+    [apiUrl, authenticationType, oidcUser]
+  );
+
   return {
     getCampaigns,
     getSurveyUnits,
@@ -117,6 +126,7 @@ export const useAPI = () => {
     getUeData,
     putUeData,
     putUeDataToTempZone,
+    postParadata,
   };
 };
 
