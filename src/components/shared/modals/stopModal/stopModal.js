@@ -10,6 +10,7 @@ import '@a11y/focus-trap';
 import { IconButton, makeStyles } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import { OrchestratorContext } from 'components/orchestrator';
+import { paradataHandler, SIMPLE_CLICK_EVENT } from 'utils/events';
 
 const useStyles = makeStyles(theme => ({
   closeButton: {
@@ -21,7 +22,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const StopModal = React.forwardRef(({ open, setOpen, definitive }, ref) => {
-  const { quit, definitiveQuit } = useContext(OrchestratorContext);
+  const { quit, definitiveQuit, currentPage } = useContext(OrchestratorContext);
+
+  const utilInfo = type => {
+    return {
+      ...SIMPLE_CLICK_EVENT,
+      idParadataObject: `${type}-button`,
+      page: currentPage,
+    };
+  };
 
   const close = () => setOpen(false);
   const agree = () => {
@@ -63,7 +72,7 @@ const StopModal = React.forwardRef(({ open, setOpen, definitive }, ref) => {
         </DialogContent>
         <DialogActions>
           {/* eslint-disable-next-line jsx-a11y/no-autofocus */}
-          <Button onClick={agree} ref={agreeRef}>
+          <Button onClick={paradataHandler(agree)(utilInfo('end-survey'))} ref={agreeRef}>
             {validateLabel}
           </Button>
           <Button onClick={close}>{D.cancelButton}</Button>
