@@ -27,6 +27,9 @@ const getRequiredNomenclatures = apiUrl => id => token =>
 const getNomenclature = apiUrl => id => token =>
   getRequest(`${apiUrl}/api/nomenclature/${id}`)(token);
 
+/* Paradata */
+const postParadata = apiUrl => token => body => postRequest(`${apiUrl}/api/paradata`)(token)(body);
+
 const healthcheck = apiUrl => getRequest(`${apiUrl}/api/healthcheck`)(null);
 
 export const API = {
@@ -39,5 +42,6 @@ export const API = {
   getQuestionnaire,
   getRequiredNomenclatures,
   getNomenclature,
+  postParadata,
   healthcheck,
 };
