@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import D from 'i18n';
 import { useStyles } from './component.style';
 import { getIterations } from 'utils/questionnaire';
+import { OrchestratorContext } from '../queen';
 
 const getNewPage = page => iterations => {
   if (page.includes('.')) {
@@ -17,11 +18,14 @@ const hasToBlock = (prevProps, nextProps) => {
   const prevSeqId = prevProps?.sequence?.id;
   const nextSubseqId = nextProps?.subsequence?.id;
   const nextSeqId = nextProps?.sequence?.id;
-  return prevSeqId === nextSeqId && prevSubseqId === nextSubseqId;
+  const prevPage = prevProps?.currentPage;
+  const nextPage = nextProps?.currentPage;
+  return prevSeqId === nextSeqId && prevSubseqId === nextSubseqId && prevPage === nextPage;
 };
 
-const BreadcrumbQueen = ({ sequence, subsequence, setPage, currentPage }) => {
-  const classes = useStyles({ sequence, subsequence, setPage });
+const BreadcrumbQueen = ({ sequence, subsequence, currentPage }) => {
+  const { setPage } = useContext(OrchestratorContext);
+  const classes = useStyles({ sequence, subsequence });
   const changePage = page => {
     const iterations = getIterations(currentPage);
     const newPage = getNewPage(page)(iterations);
@@ -64,7 +68,6 @@ BreadcrumbQueen.propTypes = {
     page: PropTypes.string,
   }),
   currentPage: PropTypes.string.isRequired,
-  setPage: PropTypes.func.isRequired,
 };
 
 BreadcrumbQueen.defaultProps = {

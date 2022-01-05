@@ -10,13 +10,23 @@ import { useStyles } from './header.style';
 import { ButtonBase, IconButton } from '@material-ui/core';
 import { ExitToApp } from '@material-ui/icons';
 import { OrchestratorContext } from '../queen';
+import { paradataHandler, SIMPLE_CLICK_EVENT } from 'utils/events';
 
-const Header = ({ title, hierarchy, setPage }) => {
-  const { page, standalone, queenBindings, quit } = useContext(OrchestratorContext);
+const Header = ({ title, hierarchy }) => {
+  const { page, standalone, queenBindings, quit, setPage, currentPage } = useContext(
+    OrchestratorContext
+  );
   const classes = useStyles({ standalone });
   const setToFirstPage = useCallback(() => setPage('1'), [setPage]);
   const quitButtonRef = useRef();
 
+  const utilInfo = type => {
+    return {
+      ...SIMPLE_CLICK_EVENT,
+      idParadataObject: `${type}-button`,
+      page: currentPage,
+    };
+  };
   const { sequence, subSequence } = hierarchy || {};
 
   const sequenceBinded = {
@@ -38,7 +48,7 @@ const Header = ({ title, hierarchy, setPage }) => {
 
   return (
     <div className={classes.root}>
-      <Navigation className={classes.headerItemNavigation} title={title} setPage={setPage} />
+      <Navigation className={classes.headerItemNavigation} title={title} />
       <div className="header-item">
         <ButtonBase
           focusRipple
@@ -56,7 +66,6 @@ const Header = ({ title, hierarchy, setPage }) => {
             sequence={sequenceBinded}
             subsequence={subSequenceBinded}
             currentPage={page}
-            setPage={setPage}
           />
         )}
       </div>
@@ -67,14 +76,14 @@ const Header = ({ title, hierarchy, setPage }) => {
               ref={quitButtonRef}
               title={D.simpleQuit}
               className={classes.closeIcon}
-              onClick={quit}
+              onClick={paradataHandler(quit)(utilInfo('end-survey'))}
             >
               <ExitToApp htmlColor={'#000000'} />
             </IconButton>
           </div>
           <KeyboardEventHandler
             handleKeys={['alt+q']}
-            onKeyEvent={quitShortCut}
+            onKeyEvent={paradataHandler(quitShortCut)(utilInfo('end-survey'))}
             handleFocusableElements
           />
         </>

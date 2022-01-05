@@ -25,6 +25,7 @@ const StopNavigation = React.forwardRef(({ close }, ref) => {
       definitive: false,
     },
   ];
+
   const [currentFocusElementIndex, setCurrentFocusElementIndex] = useState(0);
   const [listRefs] = useState(
     labels.reduce(_ => [..._, React.createRef()], createArrayOfRef(offset))

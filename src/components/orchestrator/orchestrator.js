@@ -25,7 +25,7 @@ const Orchestrator = ({
   const { data } = surveyUnit;
   const { lunaticFetcher: suggesterFetcher } = useLunaticFetcher();
   const calculatedVariables = getCalculatedVariablesFromSource(source);
-  const lunaticResult = lunatic.useLunatic(source, data, {
+  const lunaticResult = lunatic.useLunaticSplit(source, data, {
     savingType,
     preferences,
     features,
@@ -37,6 +37,7 @@ const Orchestrator = ({
 
   return (
     <QueenOrchestrator
+      source={source}
       surveyUnit={surveyUnit}
       lunatic={lunaticResult}
       save={save}

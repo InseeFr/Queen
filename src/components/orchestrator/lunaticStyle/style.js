@@ -497,6 +497,9 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
           minWidth: '260px',
           width: '100%',
           '& .lunatic-suggester-content': {
+            '&.focused': {
+              '& .lunatic-suggester-selection': {},
+            },
             '& .lunatic-suggester-selection': {
               borderRadius: '5px',
               border: '2px solid var(--color-primary-dark)',
@@ -509,11 +512,11 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
                 lineHeight: '34px',
                 fontSize: '15px',
                 paddingLeft: '4px',
-                /*defaultFont: 'Roboto', 'Helvetica', 'Arial', sans-serif;*/
+                fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
                 // TODO FIX PLACEHOLDER
                 '&::placeholderList': {
                   color: 'gray',
-                  /* fontFamily: 'Roboto, Helvetica, Arial, sans-serif',*/
+                  fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
                   fontSize: '15px',
                   lineHeight: '34px',
                   verticalAlign: 'middle',
@@ -525,11 +528,11 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
                 lineHeight: '34px',
                 borderRadius: '5px',
                 paddingLeft: '4px',
-                /*defaultFont: 'Roboto', 'Helvetica', 'Arial', sans-serif;*/
+                fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
                 '& .placeholderList': {
                   display: 'block',
                   color: 'gray',
-                  /*defaultFont: 'Roboto', 'Helvetica', 'Arial', sans-serif;*/
+                  fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
                   fontSize: '15px',
                   lineHeight: '34px',
                   verticalAlign: 'middle',
@@ -548,7 +551,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
 
             /* */
             '& .lunatic-suggester-panel': {
-              /*defaultFont: 'Roboto', 'Helvetica', 'Arial', sans-serif;*/
+              fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
               height: '0',
               opacity: '0',
               backgroundColor: 'white',
@@ -569,11 +572,11 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
                 marginBottom: '0.1em',
                 lineHeight: '2rem',
                 display: 'block',
-                '&. selected': {
+                '&.selected': {
                   color: 'var(--color-primary-dark)',
                   backgroundColor: 'var(--color-dropdown-selected)',
                 },
-                '& :hover': {
+                '&:hover': {
                   backgroundColor: 'var(--color-primary-main)',
                   color: 'white',
                 },
@@ -640,7 +643,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
               /* */
             },
 
-            '& .lunatic-suggester-selected ': {
+            '& .lunatic-suggester-selected': {
               position: 'absolute',
               top: '0',
               whiteSpace: 'nowrap',
@@ -654,7 +657,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
             },
           },
 
-          '& li,ul,div,span': {
+          '& ul,li,div,span': {
             margin: '0',
             padding: '0',
             border: 'none',
