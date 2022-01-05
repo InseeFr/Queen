@@ -8,6 +8,7 @@ const clearAllTables = async () => {
   db.version(2).stores(schema2);
   await db.open();
   await Promise.all(Object.keys(schema).map(table => db.table(table).clear()));
+  await Promise.all(Object.keys(schema2).map(table => db.table(table).clear()));
   await db.close();
 };
 
