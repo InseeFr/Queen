@@ -116,8 +116,7 @@ const QueenOrchestrator = ({
       if (type === 'next') {
         addValidatedPages(page);
         goNext(null, freshBindings);
-      } else if (type === 'fastForward') goNext();
-      else if (type === 'previous') goPrevious();
+      } else if (type === 'previous') goPrevious();
       setRereading(false);
     },
     [addValidatedPages, page, goPrevious, goNext, saveQueen]
@@ -167,7 +166,7 @@ const QueenOrchestrator = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, rereading]);
 
-  // fastFoward effet
+  // fastFoward effect
   useEffect(() => {
     if (
       changingPage && // only if page is changing
