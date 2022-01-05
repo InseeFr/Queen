@@ -526,7 +526,6 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
               '& .lunatic-suggester-selected': {
                 height: '34px',
                 lineHeight: '34px',
-                backgroundColor: 'white',
                 borderRadius: '5px',
                 paddingLeft: '4px',
                 fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
