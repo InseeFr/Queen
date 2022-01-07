@@ -173,7 +173,7 @@ const QueenOrchestrator = ({
       queenFlow === 'fastForward' && // only during the fastFoward flow
       page !== pageFastfoward // only if page has changed after goNext effect
     ) {
-      if (canGoNext) {
+      if (canGoNext && page !== maxPage) {
         setPageFastFoward(page);
         goNext();
       } else {
@@ -182,7 +182,7 @@ const QueenOrchestrator = ({
         setChangingPage(false);
       }
     }
-  }, [canGoNext, changingPage, goNext, page, pageFastfoward, queenFlow]);
+  }, [canGoNext, changingPage, goNext, maxPage, page, pageFastfoward, queenFlow]);
 
   useEffect(() => {
     if (queenFlow !== 'fastForward' && changingPage) setChangingPage(false);
