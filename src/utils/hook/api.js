@@ -171,6 +171,7 @@ export const useAPIRemoteData = (surveyUnitID, questionnaireID) => {
       setSurveyUnit(null);
       const load = async () => {
         setLoadingMessage(Dictionary.waitingCleaning);
+        console.log('waiting cleaning');
         const { error } = await clean(standalone);
         if (!error) {
           setLoadingMessage(Dictionary.waitingQuestionnaire);
@@ -181,8 +182,11 @@ export const useAPIRemoteData = (surveyUnitID, questionnaireID) => {
             setNomenclatures(nR.data);
             setLoadingMessage(Dictionary.waitingDataSU);
             const suR = await getSurveyUnit(surveyUnitID, standalone);
+            console.log(suR);
             if (!suR.error && suR.surveyUnit) {
+              console.log('!suR.error && suR.surveyUnit');
               setSurveyUnit(suR.surveyUnit);
+              console.log('SurveyUnit set');
               setLoadingMessage(null);
             } else setErrorMessage(getErrorMessage(suR, 'd'));
             setLoadingMessage(null);
@@ -191,6 +195,7 @@ export const useAPIRemoteData = (surveyUnitID, questionnaireID) => {
         } else setErrorMessage('Pb when cleaning database');
         setLoadingMessage(null);
       };
+      console.log('load()');
       load();
     }
     // assume that we don't resend request to get data and questionnaire when token was refreshed
