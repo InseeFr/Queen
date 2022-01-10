@@ -23,8 +23,8 @@ import { IconButton } from '@material-ui/core';
 import { Apps } from '@material-ui/icons';
 import { OrchestratorContext } from '../queen';
 
-const Navigation = ({ className, title, setPage }) => {
-  const { questionnaire, bindings, validatedPages, setMenuOpen, readonly } = useContext(
+const Navigation = ({ className, title }) => {
+  const { questionnaire, bindings, validatedPages, setMenuOpen, readonly, setPage } = useContext(
     OrchestratorContext
   );
   const [open, setOpen] = useState(false);
@@ -166,10 +166,13 @@ const Navigation = ({ className, title, setPage }) => {
     listRefs[0].current.focus();
   }, [surveyOpen, openCloseSubMenu, stopOpen, open, setMenuOpen, listRefs]);
 
-  const setNavigationPage = page => {
-    openCloseMenu();
-    setPage(page);
-  };
+  const setNavigationPage = useCallback(
+    page => {
+      openCloseMenu();
+      setPage(page);
+    },
+    [openCloseMenu, setPage]
+  );
 
   const getKeysToHandle = () => {
     if (open && (surveyOpen || stopOpen)) return ['alt+b'];
@@ -177,6 +180,7 @@ const Navigation = ({ className, title, setPage }) => {
     return ['alt+b'];
   };
   const keysToHandle = getKeysToHandle();
+
   const keyboardShortcut = (key, e) => {
     e.preventDefault();
     if (key === 'alt+b') {
@@ -198,6 +202,7 @@ const Navigation = ({ className, title, setPage }) => {
   const classes = useStyles();
 
   const [trapFocus, setTrapFocus] = useState(false);
+
   useEffect(() => {
     setTimeout(() => setTrapFocus(open), 250);
   }, [open]);
@@ -269,7 +274,6 @@ const Navigation = ({ className, title, setPage }) => {
       </div>
     </>
   );
-
   return (
     <div ref={rootRef} className={className}>
       {trapFocus && <focus-trap>{menu}</focus-trap>}
@@ -328,7 +332,6 @@ const comparison = (prevProps, nextProps) => {
 
 Navigation.propTypes = {
   title: PropTypes.string.isRequired,
-  setPage: PropTypes.func.isRequired,
 };
 
 export default React.memo(Navigation, comparison);

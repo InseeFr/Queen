@@ -1,5 +1,5 @@
 import D from 'i18n';
-import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
+import clearAllTables from 'utils/indexedbb/services/allTables-idb-service';
 import { useState } from 'react';
 import { useAPI, useAsyncValue } from 'utils/hook';
 import { getPercent } from 'utils';
@@ -9,9 +9,10 @@ import {
   useSendSurveyUnits,
 } from 'utils/hook/synchronize';
 import { usePutQuestionnairesInCache } from 'utils/hook/synchronize/questionnaires';
+import { useSendParadatas } from 'utils/hook/synchronize/paradata';
 
 const clean = async () => {
-  await surveyUnitIdbService.deleteAll();
+  await clearAllTables();
 };
 
 const simpleMerge = (list1 = [], list2 = []) =>
@@ -30,12 +31,14 @@ export const useSynchronisation = () => {
 
   const [waitingMessage, setWaitingMessage] = useState(null);
   const [sendingProgress, setSendingProgress] = useState(null);
+  const [sendingParadatasProgress, setSendingParadatasProgress] = useState(null);
   const [campaignProgress, setCampaignProgress] = useState(null);
   const [resourceProgress, setResourceProgress] = useState(0);
   const [surveyUnitProgress, setSurveyUnitProgress] = useState(0);
   const [current, setCurrent] = useState(null);
 
   const sendData = useSendSurveyUnits(setSendingProgress);
+  const sendParadata = useSendParadatas(setSendingParadatasProgress);
   const putQuestionnairesInCache = usePutQuestionnairesInCache();
   const putAllResourcesInCache = usePutResourcesInCache(setResourceProgress);
   const saveSurveyUnitsToLocalDataBase = useSaveSUsToLocalDataBase(setSurveyUnitProgress);
@@ -58,17 +61,20 @@ export const useSynchronisation = () => {
 
   const synchronize = async () => {
     var surveyUnitsInTempZone;
+    var paradataInError;
     var questionnairesAccessible = [];
     // (2) : send the local data to server
     try {
       setWaitingMessage(D.waitingSendingData);
       setCurrent('send');
       surveyUnitsInTempZone = await sendData();
+      paradataInError = await sendParadata();
     } catch (e) {
       return { error: 'send' };
     }
 
     setSendingProgress(null);
+    setSendingParadatasProgress(null);
 
     // (3) : clean
     try {
@@ -106,7 +112,7 @@ export const useSynchronisation = () => {
       return { error: 'get', surveyUnitsInTempZone, questionnairesAccessible };
     }
 
-    return { surveyUnitsInTempZone, questionnairesAccessible };
+    return { surveyUnitsInTempZone, questionnairesAccessible, paradataInError };
   };
 
   return {
@@ -114,6 +120,7 @@ export const useSynchronisation = () => {
     current,
     waitingMessage,
     sendingProgress,
+    sendingParadatasProgress,
     campaignProgress,
     resourceProgress,
     surveyUnitProgress,

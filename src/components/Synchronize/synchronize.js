@@ -9,6 +9,7 @@ import { useSynchronisation } from 'utils/synchronize';
 import { SimpleLabelProgress } from './SimpleLabelProgress';
 import { IconStatus } from './IconStatus';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
+import paradataIdbService from 'utils/indexedbb/services/paradata-idb-service';
 
 const useStyles = makeStyles(theme => ({
   welcome: { textAlign: 'center', paddingTop: '3em' },
@@ -30,6 +31,7 @@ const Synchronize = () => {
     current,
     waitingMessage,
     sendingProgress,
+    sendingParadatasProgress,
     campaignProgress,
     resourceProgress,
     surveyUnitProgress,
@@ -58,7 +60,12 @@ const Synchronize = () => {
   };
 
   const endOfSync = useCallback(
-    async ({ error, surveyUnitsInTempZone = [], questionnairesAccessible = [] }) => {
+    async ({
+      error,
+      surveyUnitsInTempZone = [],
+      questionnairesAccessible = [],
+      paradataInError = [],
+    }) => {
       setCurrentJob(!error ? 'success' : 'failure');
       const result = {
         error: !!error,
@@ -66,6 +73,7 @@ const Synchronize = () => {
         surveyUnitsSuccess: await getSurveyUnitsSuccess(error, questionnairesAccessible),
         surveyUnitsInTempZone,
       };
+      paradataIdbService.addAll(paradataInError); // We store in IDB paradatas that failted to be sent
       window.localStorage.setItem(QUEEN_SYNC_RESULT, JSON.stringify(result));
       setTimeout(() => redirect(), 600);
     },
@@ -111,6 +119,7 @@ const Synchronize = () => {
           )}
           <Box className={classes.details}>
             {!!sendingProgress && <ProgressBar value={sendingProgress} />}
+            {!!sendingParadatasProgress && <ProgressBar value={sendingParadatasProgress} />}
             {!sendingProgress && campaignProgress !== null && (
               <>
                 <SimpleLabelProgress

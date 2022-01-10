@@ -3,7 +3,7 @@ import * as UQ from 'utils/questionnaire';
 import { OrchestratorContext } from '../queen';
 import { useStyles } from './component.style';
 
-const NavBar = ({ children }) => {
+const RightNavBar = ({ children }) => {
   const { page, maxPages, occurences } = useContext(OrchestratorContext);
   const classes = useStyles();
 
@@ -52,4 +52,4 @@ const NavBar = ({ children }) => {
   );
 };
 
-export default React.memo(NavBar);
+export default React.memo(RightNavBar);

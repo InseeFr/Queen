@@ -18,6 +18,7 @@ const StyleProvider = ({ children }) => {
           },
           declarations: {
             main: '#085394',
+            help: 'black',
           },
           background: {
             default: '#eeeeee',

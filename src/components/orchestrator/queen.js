@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import * as lunatic from '@inseefr/lunatic';
 import * as UQ from 'utils/questionnaire';
 import { DIRECT_CONTINUE_COMPONENTS } from 'utils/constants';
 import Header from './header';
-import Buttons from './buttons';
 import ContinueButton from './buttons/continue';
-import NavBar from './rightNavbar';
+import NavBar from './navBar';
 import { useCustomLunaticStyles } from './lunaticStyle/style';
 import { useStyles } from './orchestrator.style';
 import SimpleLoader from 'components/shared/preloader/simple';
@@ -21,15 +20,34 @@ import { Panel } from 'components/designSystem';
 
 export const OrchestratorContext = React.createContext();
 
+const dontKnowButton = (
+  <>
+    <span className="shortcut">F2</span>
+    {D.doesntKnowButton}
+    <span className="checked" />
+  </>
+);
+
+const refusedButton = (
+  <>
+    <span className="shortcut">F4</span>
+    {D.refusalButton}
+    <span className="checked" />
+  </>
+);
+
 const QueenOrchestrator = ({
   lunatic: {
     questionnaire,
     components,
     handleChange,
     bindings,
+    allBindings,
+    state: { getState },
     pagination: { goNext, goPrevious, page, setPage, isFirstPage, isLastPage, flow, maxPage },
   },
   surveyUnit,
+  source,
   save,
   close,
   readonly,
@@ -68,37 +86,43 @@ const QueenOrchestrator = ({
     bindings
   );
 
+  const [pageFastfoward, setPageFastFoward] = useState(null);
+
   const [comment /* , setComment */] = useState(surveyUnit.comment);
 
-  const saveQueen = async lastState => {
-    save({
-      ...surveyUnit,
-      stateData: {
-        state: lastState ? lastState : state,
-        date: new Date().getTime(),
-        currentPage: page,
-      },
-      data: UQ.getStateToSave(questionnaire),
-      comment: comment,
-    });
-  };
+  const saveQueen = useCallback(
+    async lastState => {
+      save({
+        ...surveyUnit,
+        stateData: {
+          state: lastState ? lastState : state,
+          date: new Date().getTime(),
+          currentPage: page,
+        },
+        data: getState(questionnaire),
+        comment: comment,
+      });
+    },
+    [comment, getState, page, save, questionnaire, state, surveyUnit]
+  );
 
-  const changePage = (type, freshBindings) => {
-    setChangingPage(true);
-    setQueenFlow(type);
-    setPendingChangePage(null);
-    setHaveToGoNext(false);
-    saveQueen();
-    if (type === 'next') {
-      addValidatedPages(page);
-      goNext(null, freshBindings);
-    } else if (type === 'fastForward') {
-      goNext();
-    } else if (type === 'previous') goPrevious();
-    setRereading(false);
-  };
+  const changePage = useCallback(
+    (type, freshBindings) => {
+      setChangingPage(true);
+      setQueenFlow(type);
+      setPendingChangePage(null);
+      setHaveToGoNext(false);
+      saveQueen();
+      if (type === 'next') {
+        addValidatedPages(page);
+        goNext(null, freshBindings);
+      } else if (type === 'previous') goPrevious();
+      setRereading(false);
+    },
+    [addValidatedPages, page, goPrevious, goNext, saveQueen]
+  );
 
-  const quit = async () => {
+  const quit = useCallback(async () => {
     setPendingChangePage(null);
     if (isLastPage) {
       // TODO : make algo to calculate COMPLETED event
@@ -107,7 +131,7 @@ const QueenOrchestrator = ({
       await saveQueen(VALIDATED);
     } else await saveQueen();
     close();
-  };
+  }, [changeState, close, isLastPage, saveQueen]);
 
   const definitiveQuit = useCallback(async () => {
     setPendingChangePage(null);
@@ -125,48 +149,45 @@ const QueenOrchestrator = ({
     queenBindings,
     loopBindings: { loopBindings, responseBindings },
     allFirstLoopPages,
-  } = UQ.getInfoFromCurrentPage(components, calculatedVariables)(bindings)(page)(maxPage);
+  } = UQ.getInfoFromCurrentPage(components, calculatedVariables)(allBindings)(page)(maxPage);
   const { componentType: currentComponentType, hierarchy } = currentComponent || {};
 
   const canGoNext = UQ.canGoNext(currentComponent)(queenBindings);
 
   useEffect(() => {
     if (
-      currentComponent &&
-      canGoNext &&
+      currentComponentType &&
       !rereading &&
-      !['Sequence', 'Subsequence'].includes(currentComponentType)
+      !['Sequence', 'Subsequence'].includes(currentComponentType) &&
+      queenFlow !== 'fastForward'
     ) {
-      setRereading(true);
+      setRereading(canGoNext);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, rereading]);
 
-  // fastFoward effet
+  // fastFoward effect
   useEffect(() => {
-    if (changingPage) {
-      if (queenFlow === 'fastForward' || queenFlow === 'waitingFast') {
-        if (currentComponent && canGoNext) {
-          changePage('fastForward');
-        } else if (currentComponent) {
-          setTimeout(() => {
-            setQueenFlow('next');
-            setChangingPage(false);
-          }, 200);
-        } else {
-          setQueenFlow('waitingFast');
-        }
+    if (
+      changingPage && // only if page is changing
+      queenFlow === 'fastForward' && // only during the fastFoward flow
+      page !== pageFastfoward // only if page has changed after goNext effect
+    ) {
+      if (canGoNext && page !== maxPage) {
+        setPageFastFoward(page);
+        goNext();
+      } else {
+        setPageFastFoward(null);
+        setQueenFlow(null);
+        setChangingPage(false);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [canGoNext, changingPage, currentComponent, goNext, page, queenFlow]);
+  }, [canGoNext, changingPage, goNext, maxPage, page, pageFastfoward, queenFlow]);
 
   useEffect(() => {
-    if (!['fastForward', 'waitingFast'].includes(queenFlow) && changingPage) setChangingPage(false);
+    if (queenFlow !== 'fastForward' && changingPage) setChangingPage(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
-
-  const previousFilled = UQ.isPreviousFilled(questionnaire)(currentComponent)(occurencesIndex);
 
   /**
    * This function updates the values of the questionnaire responses
@@ -185,10 +206,7 @@ const QueenOrchestrator = ({
 
   useEffect(() => {
     if (!isLastPage && haveToGoNext) {
-      setChangingPage(true);
-      setTimeout(() => {
-        changePage('next');
-      }, 200);
+      setPendingChangePage('next');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [haveToGoNext, isLastPage, currentComponentType]);
@@ -200,35 +218,57 @@ const QueenOrchestrator = ({
       if (pendingChangePage === 'fastForward') changePage('fastForward');
       if (pendingChangePage === 'quit') quit();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [questionnaireUpdated, pendingChangePage]);
+  }, [questionnaireUpdated, pendingChangePage, changePage, quit]);
 
-  const missingStrategy = b => {
-    if (!isLastPage) {
-      setChangingPage(true);
-      setTimeout(() => {
-        changePage('next', b);
-      }, 200);
-    }
-  };
+  const missingStrategy = useCallback(
+    b => {
+      if (!isLastPage) {
+        setChangingPage(true);
+        setTimeout(() => {
+          changePage('next', b);
+        }, 200);
+      }
+    },
+    [changePage, isLastPage]
+  );
 
-  const context = {
-    menuOpen,
-    setMenuOpen,
-    quit,
-    definitiveQuit,
-    standalone,
-    readonly,
-    page,
-    maxPages: maxLocalPages,
-    occurences,
-    isFirstPage,
-    isLastPage,
-    validatedPages,
-    questionnaire,
-    bindings,
-    queenBindings,
-  };
+  const context = useMemo(
+    () => ({
+      menuOpen,
+      setMenuOpen,
+      quit,
+      definitiveQuit,
+      setPage,
+      standalone,
+      readonly,
+      page,
+      maxPages: maxLocalPages,
+      occurences,
+      isFirstPage,
+      isLastPage,
+      validatedPages,
+      questionnaire: source,
+      bindings: allBindings,
+      queenBindings,
+    }),
+    [
+      menuOpen,
+      quit,
+      definitiveQuit,
+      setPage,
+      standalone,
+      readonly,
+      page,
+      maxLocalPages,
+      occurences,
+      isFirstPage,
+      isLastPage,
+      validatedPages,
+      source,
+      allBindings,
+      queenBindings,
+    ]
+  );
 
   const [expanded, setExpanded] = useState(false);
 
@@ -278,20 +318,8 @@ const QueenOrchestrator = ({
                         missing={missing}
                         missingStrategy={missingStrategy}
                         savingType={savingType}
-                        dontKnowButton={
-                          <>
-                            <span className="shortcut">F2</span>
-                            {D.doesntKnowButton}
-                            <span className="checked" />
-                          </>
-                        }
-                        refusedButton={
-                          <>
-                            <span className="shortcut">F4</span>
-                            {D.refusalButton}
-                            <span className="checked" />
-                          </>
-                        }
+                        dontKnowButton={dontKnowButton}
+                        refusedButton={refusedButton}
                         missingShortcut={{ dontKnow: 'f2', refused: 'f4' }}
                         shortcut={true}
                       />
@@ -326,15 +354,11 @@ const QueenOrchestrator = ({
               </div>
             )}
             {!DIRECT_CONTINUE_COMPONENTS.includes(currentComponentType) &&
-              ((canGoNext && !rereading) || isLastPage) &&
-              !previousFilled && <ContinueButton setPendingChangePage={setPendingChangePage} />}
+              ((canGoNext && !rereading) || isLastPage) && (
+                <ContinueButton setPendingChangePage={setPendingChangePage} />
+              )}
           </div>
-          <NavBar>
-            <Buttons
-              rereading={rereading || previousFilled}
-              setPendingChangePage={setPendingChangePage}
-            />
-          </NavBar>
+          <NavBar rereading={rereading} setPendingChangePage={setPendingChangePage} />
         </div>
       </div>
     </OrchestratorContext.Provider>

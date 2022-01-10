@@ -28,8 +28,9 @@ export const SIMPSONS = 'simpsons';
 export const TIC = 'tic';
 export const DEFAULT = 'default';
 export const LOGEMENT = 'logement';
+export const TEST = 'test';
 
-export const QUESTIONNAIRE_EXAMPLES = [SIMPSONS, TIC, LOGEMENT];
+export const QUESTIONNAIRE_EXAMPLES = [SIMPSONS, TIC, LOGEMENT, TEST];
 
 export const QUESTIONNAIRE_EXAMPLE_URL = q =>
   `${QUEEN_URL || window.location.origin}/static/questionnaire/${q}/form.json`;
@@ -40,3 +41,5 @@ export const DEFAULT_DATA_URL = DATA_EXAMPLE_URL(DEFAULT);
 
 export const MIN_LUNATIC_MODEL_VERSION = '2.2.3';
 export const MIN_ENO_CORE_VERSION = '2.2.11';
+
+export * from './paradata';

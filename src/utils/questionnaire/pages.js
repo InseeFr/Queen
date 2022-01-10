@@ -14,7 +14,7 @@ const filterPageLoop = currentPage => ({ page, componentType }) => {
 };
 
 export const getMaxPages = components => currentPage => localMaxPage => {
-  const filterComponentsLoop = components.filter(c => filterPageLoop(currentPage)(c));
+  const filterComponentsLoop = components?.filter(c => filterPageLoop(currentPage)(c));
   if (filterComponentsLoop.length > 0) {
     const { maxPage, components: componentsOfLoop } = filterComponentsLoop[0];
     if (maxPage) return [localMaxPage, ...getMaxPages(componentsOfLoop)(currentPage)(maxPage)];
@@ -24,7 +24,7 @@ export const getMaxPages = components => currentPage => localMaxPage => {
 
 export const getCurrentComponent = components => currentPage => {
   const currentPageWithoutIteration = getPageWithoutAnyIteration(currentPage);
-  const filterComponentsLoop = components.filter(c => filterPageLoop(currentPage)(c));
+  const filterComponentsLoop = components?.filter(c => filterPageLoop(currentPage)(c));
   if (filterComponentsLoop.length > 0) {
     const { maxPage, components: componentsOfLoop } = filterComponentsLoop[0];
     if (maxPage) return getCurrentComponent(componentsOfLoop)(currentPage);
@@ -38,7 +38,7 @@ export const getCurrentComponent = components => currentPage => {
 };
 
 export const getIterations = currentPage => {
-  return currentPage.split('.').reduce((_, e) => {
+  return currentPage?.split('.').reduce((_, e) => {
     const splitted = e.split('#');
     if (splitted.length > 1) return [..._, parseInt(splitted[1], 10)];
     return _;
@@ -68,7 +68,7 @@ export const getQueenBindings = bindings => currentPage => {
 };
 
 const getCurrentOccurrences = components => queenBindings => currentPage => {
-  const filterComponentsLoop = components.filter(c => filterPageLoop(currentPage)(c));
+  const filterComponentsLoop = components?.filter(c => filterPageLoop(currentPage)(c));
   if (filterComponentsLoop.length > 0) {
     const {
       loopDependencies,
@@ -86,7 +86,7 @@ const getCurrentOccurrences = components => queenBindings => currentPage => {
 };
 
 const getBindindsOfLoop = (components, calculatedVariables) => bindings => currentPage => {
-  const filterComponentsLoop = components.filter(c => filterPageLoop(currentPage)(c));
+  const filterComponentsLoop = components?.filter(c => filterPageLoop(currentPage)(c));
   if (filterComponentsLoop.length > 0) {
     const {
       loopDependencies,

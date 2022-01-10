@@ -5,18 +5,29 @@ import Preloader from 'components/shared/preloader';
 import Error from 'components/shared/Error';
 import NotFound from 'components/shared/not-found';
 import { AppContext } from 'components/app';
-import { useAPI, useAPIRemoteData } from 'utils/hook';
+import { useAPI, useAPIRemoteData, useAuth } from 'utils/hook';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
-import { READ_ONLY } from 'utils/constants';
+import paradataIdbService from 'utils/indexedbb/services/paradata-idb-service';
 import { sendCloseEvent } from 'utils/communication';
 import Orchestrator from '../orchestrator';
 import { checkQuestionnaire } from 'utils/questionnaire';
 import { buildSuggesterFromNomenclatures } from 'utils/questionnaire/nomenclatures';
+import { EventsManager, INIT_ORCHESTRATOR_EVENT, INIT_SESSION_EVENT } from 'utils/events';
+import { ORCHESTRATOR_COLLECT, ORCHESTRATOR_READONLY, READ_ONLY } from 'utils/constants';
 
 const OrchestratorManager = () => {
   const { standalone, apiUrl } = useContext(AppContext);
   const { readonly: readonlyParam, idQ, idSU } = useParams();
   const history = useHistory();
+
+  const [readonly] = useState(readonlyParam === READ_ONLY);
+
+  const LOGGER = EventsManager.createEventLogger({
+    idQuestionnaire: idQ,
+    idSurveyUnit: idSU,
+    idOrchestrator: readonly ? ORCHESTRATOR_READONLY : ORCHESTRATOR_COLLECT,
+  });
+
   const {
     surveyUnit,
     questionnaire,
@@ -25,15 +36,27 @@ const OrchestratorManager = () => {
     errorMessage,
   } = useAPIRemoteData(idSU, idQ);
 
+  const { oidcUser } = useAuth();
+  const isAuthenticated = !!oidcUser?.profile;
+
   const [suggesters, setSuggesters] = useState(null);
 
   const [error, setError] = useState(null);
   const [source, setSource] = useState(null);
-  const { putUeData } = useAPI(idSU, idQ);
+  const { putUeData, postParadata } = useAPI(idSU, idQ);
 
   const [init, setInit] = useState(false);
 
-  const [readonly] = useState(readonlyParam === READ_ONLY);
+  useEffect(() => {
+    /*
+     * We add to the logger the new session (which will be store in paradata)
+     */
+    if (isAuthenticated && questionnaire) {
+      LOGGER.addMetadata({ idSession: oidcUser?.session_state });
+      LOGGER.log(INIT_SESSION_EVENT);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, LOGGER, questionnaire]);
 
   useEffect(() => {
     if (!init && questionnaire && surveyUnit && nomenclatures) {
@@ -43,11 +66,12 @@ const OrchestratorManager = () => {
         const suggestersBuilt = buildSuggesterFromNomenclatures(apiUrl)(nomenclatures);
         setSuggesters(suggestersBuilt);
         setInit(true);
+        LOGGER.log(INIT_ORCHESTRATOR_EVENT);
       } else {
         setError(questionnaireError);
       }
     }
-  }, [init, questionnaire, surveyUnit, nomenclatures, apiUrl]);
+  }, [init, questionnaire, surveyUnit, nomenclatures, apiUrl, LOGGER]);
 
   useEffect(() => {
     if (errorMessage) setError(errorMessage);
@@ -65,10 +89,18 @@ const OrchestratorManager = () => {
     if (putDataError) setErrorSending('Error during sending');
   };
 
-  const saveSU = async unit => {
+  const saveData = async unit => {
     if (!readonly) {
+      console.log('addOrUpdateIDB');
       await surveyUnitIdbService.addOrUpdateSU(unit);
-      if (standalone) await putSurveyUnit(unit);
+      const paradatas = LOGGER.getEventsToSend();
+      console.log(paradatas);
+      await paradataIdbService.insert(paradatas);
+      if (standalone) {
+        // TODO managing errors
+        await putSurveyUnit(unit);
+        await postParadata(paradatas);
+      }
     }
   };
 
@@ -93,12 +125,12 @@ const OrchestratorManager = () => {
           standalone={standalone}
           readonly={readonly}
           savingType="COLLECTED"
-          preferences={['PREVIOUS', 'COLLECTED']}
+          preferences={['COLLECTED']}
           features={['VTL']}
           pagination
           missing
           filterDescription={false}
-          save={saveSU}
+          save={saveData}
           close={closeOrchestrator}
           placeholderList="Rechercher ici ..."
         />

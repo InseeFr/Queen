@@ -98,9 +98,13 @@ registerRoute(
 const queenPrecacheController = async () => {
   const responseFromQueen = await fetch('/manifest.json');
   const { icons } = await responseFromQueen.json();
-  const urlsToPrecache = [`/manifest.json`, `/configuration.json`].concat(
-    icons.map(({ src }) => src)
-  );
+  const urlsToPrecache = [
+    `/manifest.json`,
+    `/configuration.json`,
+    process.env.REACT_APP_LUNATIC_LOADER_WORKER_PATH,
+    process.env.REACT_APP_LUNATIC_SEARCH_WORKER_PATH,
+    process.env.REACT_APP_LUNATIC_LABEL_WORKER_PATH,
+  ].concat(icons.map(({ src }) => src));
   const cache = await self.caches.open(configurationCacheName);
   await cache.addAll(urlsToPrecache);
   cache
