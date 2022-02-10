@@ -20,6 +20,17 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       marginLeft: 'auto',
     },
 
+    /* Remove arrow for input number */
+
+    /* Chrome, Safari, Edge, Opera */
+    '& input::-webkit-outer-spin-button, input::-webkit-inner-spin-button': {
+      WebkitAppearance: 'none',
+      margin: '0',
+    },
+
+    /* Firefox */
+    '& input[type=number]': { MozAppearance: 'textfield' },
+
     // to replace checkbox by svg
     '& .list-icon': { position: 'absolute', marginTop: '-0.2rem' },
     '& .checkbox-boolean-lunatic': {
