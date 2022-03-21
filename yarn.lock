@@ -1951,12 +1951,13 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@inseefr/lunatic@0.3.6-experimental":
-  version "0.3.6-experimental"
-  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-0.3.6-experimental.tgz#080a375fda6fcb80c5e1a62bc4380a5f71a50f51"
-  integrity sha512-O8dB23K0u3js86H7QepgJ8QAs9hVBiBh+c/GpKYdyKIn8EJHztTE7oq+zPz9Xx2pRGtjjdlltiP4H0xCNgRvGQ==
+"@inseefr/lunatic@0.3.8-experimental":
+  version "0.3.8-experimental"
+  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-0.3.8-experimental.tgz#691deb956045c18ee294b34aeed76c9221df3112"
+  integrity sha512-KKmaRksjjreqIm1ePI0OrSNT+xeBDvd854isCD9x03DsG6SycCmrTWE1ZB/PwmTwFkRxktsbDJBPSmYp94rAxg==
   dependencies:
     "@inseefr/trevas" "^0.1.14"
+    array-flat-polyfill "^1.0.1"
     date-fns "^2.25.0"
     lodash.camelcase "^4.3.0"
     lodash.debounce "^4.0.8"
@@ -3386,6 +3387,11 @@ array-filter@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/array-filter/-/array-filter-1.0.0.tgz#baf79e62e6ef4c2a4c0b831232daffec251f9d83"
   integrity sha1-uveeYubvTCpMC4MSMtr/7CUfnYM=
+
+array-flat-polyfill@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/array-flat-polyfill/-/array-flat-polyfill-1.0.1.tgz#1e3a4255be619dfbffbfd1d635c1cf357cd034e7"
+  integrity sha512-hfJmKupmQN0lwi0xG6FQ5U8Rd97RnIERplymOv/qpq8AoNKPPAnxJadjFA23FNWm88wykh9HmpLJUUwUtNU/iw==
 
 array-flatten@1.1.1:
   version "1.1.1"
