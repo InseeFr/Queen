@@ -272,7 +272,7 @@ const QueenOrchestrator = ({
 
   const [expanded, setExpanded] = useState(false);
 
-  const handleChangePanel = panel => (event, newExpanded) => {
+  const handleChangePanel = panel => (_, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
 
