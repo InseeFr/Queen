@@ -45,8 +45,7 @@ export class EventsManager {
   static _instance;
 
   static _createInstance(metadata) {
-    const logger = new Logger(metadata);
-    return logger;
+    return new Logger(metadata);
   }
 
   static createEventLogger(metadata) {

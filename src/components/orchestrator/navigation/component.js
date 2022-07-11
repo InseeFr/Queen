@@ -326,7 +326,7 @@ const Navigation = ({ className, title }) => {
   );
 };
 
-const comparison = (prevProps, nextProps) => {
+const comparaison = (_, nextProps) => {
   return !nextProps.menuOpen;
 };
 
@@ -334,4 +334,4 @@ Navigation.propTypes = {
   title: PropTypes.string.isRequired,
 };
 
-export default React.memo(Navigation, comparison);
+export default React.memo(Navigation, comparaison);
