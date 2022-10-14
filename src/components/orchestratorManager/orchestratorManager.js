@@ -94,7 +94,7 @@ const OrchestratorManager = () => {
       console.log('addOrUpdateIDB');
       await surveyUnitIdbService.addOrUpdateSU(unit);
       const paradatas = LOGGER.getEventsToSend();
-      await paradataIdbService.addOrUpdate(paradatas);
+      await paradataIdbService.update(paradatas);
       if (standalone) {
         // TODO managing errors
         await putSurveyUnit(unit);
