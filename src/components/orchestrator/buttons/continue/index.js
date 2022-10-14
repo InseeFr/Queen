@@ -28,9 +28,12 @@ const ButtonContinue = ({ setPendingChangePage }) => {
   const [pageChanging, setPageChanging] = useState(null);
 
   const localPageNext = () => setPageChanging('next');
-  const localFinalQuit = () => paradataHandler(setPageChanging('quit'))(utilInfo('end-survey'));
 
-  const pageNextFunction = isLastPage ? localFinalQuit : localPageNext;
+  const localFinalQuit = () => setPageChanging('quit');
+
+  const pageNextFunction = isLastPage
+    ? paradataHandler(localFinalQuit)(utilInfo('end-survey'))
+    : paradataHandler(localPageNext)(utilInfo('next-button'));
 
   const [focus, setFocus] = useState(false);
   const onfocus = value => () => setFocus(value);
