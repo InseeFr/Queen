@@ -42,7 +42,6 @@
     "build": "react-scripts build && npm run post-build",
     "post-build": "node ./configuration/build/build-sw.js && node ./configuration/build/manage-public-url.js && copy-and-watch configuration/files/* build",
     "test": "react-scripts test",
-    "test:ci": "react-scripts test --watchAll=false --coverage --testResultsProcessor ./node_modules/jest-sonar-reporter",
     "eject": "react-scripts eject",
     "format": "prettier --write ."
   },
