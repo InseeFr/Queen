@@ -36,9 +36,10 @@ const StopNavigation = React.forwardRef(({ close }, ref) => {
   };
   const closeMenu = () => close('stop');
 
-  const setFocus = useCallback(index => () => setCurrentFocusElementIndex(index), [
-    setCurrentFocusElementIndex,
-  ]);
+  const setFocus = useCallback(
+    index => () => setCurrentFocusElementIndex(index),
+    [setCurrentFocusElementIndex]
+  );
   const reachableRefs = labels.reduce(_ => [..._, true], createReachableElement(offset));
 
   const keysToHandle = ['left', 'right', 'esc', 'up', 'down'];
@@ -50,9 +51,8 @@ const StopNavigation = React.forwardRef(({ close }, ref) => {
     }
     if (key === 'down' || key === 'up') {
       const directionFocus = key === 'down' ? NEXT_FOCUS : PREVIOUS_FOCUS;
-      const newRefIndex = getNewFocusElementIndex(directionFocus)(currentFocusElementIndex)(
-        reachableRefs
-      );
+      const newRefIndex =
+        getNewFocusElementIndex(directionFocus)(currentFocusElementIndex)(reachableRefs);
       listRefs[newRefIndex].current.focus();
     }
   };

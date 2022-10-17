@@ -21,9 +21,10 @@ const SubsequenceNavigation = ({ sequence, close, setPage }) => {
       : createArrayOfRef(offset)
   );
 
-  const setFocus = useCallback(index => () => setCurrentFocusElementIndex(index), [
-    setCurrentFocusElementIndex,
-  ]);
+  const setFocus = useCallback(
+    index => () => setCurrentFocusElementIndex(index),
+    [setCurrentFocusElementIndex]
+  );
   const reachableRefs = sequence.components.reduce((_, { reachable }) => {
     return [..._, reachable];
   }, createReachableElement(offset));
@@ -33,18 +34,18 @@ const SubsequenceNavigation = ({ sequence, close, setPage }) => {
     e.preventDefault();
     if (key === 'down' || key === 'up') {
       const directionFocus = key === 'down' ? NEXT_FOCUS : PREVIOUS_FOCUS;
-      const newRefIndex = getNewFocusElementIndex(directionFocus)(currentFocusElementIndex)(
-        reachableRefs
-      );
+      const newRefIndex =
+        getNewFocusElementIndex(directionFocus)(currentFocusElementIndex)(reachableRefs);
       listRefs[newRefIndex].current.focus();
     }
   };
 
   const changePage = useCallback(
-    ({ page, goToPage, reachable }) => () => {
-      if (reachable && goToPage) setPage(goToPage);
-      else if (reachable && page) setPage(page);
-    },
+    ({ page, goToPage, reachable }) =>
+      () => {
+        if (reachable && goToPage) setPage(goToPage);
+        else if (reachable && page) setPage(page);
+      },
     [setPage]
   );
 

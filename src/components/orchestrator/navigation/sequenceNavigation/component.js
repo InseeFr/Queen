@@ -42,9 +42,10 @@ const SequenceNavigation = ({
     }
   }, [subSequenceOpen, currentFocusElementIndex, listRefs]);
 
-  const setFocus = useCallback(index => () => setCurrentFocusElementIndex(index), [
-    setCurrentFocusElementIndex,
-  ]);
+  const setFocus = useCallback(
+    index => () => setCurrentFocusElementIndex(index),
+    [setCurrentFocusElementIndex]
+  );
 
   const openSubComponents = sequence => {
     if (sequence.components && sequence.components.length > 0) {
@@ -76,9 +77,8 @@ const SequenceNavigation = ({
     }
     if (key === 'down' || key === 'up') {
       const directionFocus = key === 'down' ? NEXT_FOCUS : PREVIOUS_FOCUS;
-      const newRefIndex = getNewFocusElementIndex(directionFocus)(currentFocusElementIndex)(
-        reachableRefs
-      );
+      const newRefIndex =
+        getNewFocusElementIndex(directionFocus)(currentFocusElementIndex)(reachableRefs);
       listRefs[newRefIndex].current.focus();
     }
   };

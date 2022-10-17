@@ -93,10 +93,7 @@
     },
     {
       "componentType": "CheckboxOne",
-      "bindingDependencies": [
-        "Q1_MISSING",
-        "AFFICHE"
-      ],
+      "bindingDependencies": ["Q1_MISSING", "AFFICHE"],
       "missingResponse": {
         "name": "Q1_MISSING"
       },
@@ -200,9 +197,7 @@
     },
     {
       "componentType": "Textarea",
-      "bindingDependencies": [
-        "COMMENT_QE"
-      ],
+      "bindingDependencies": ["COMMENT_QE"],
       "response": {
         "name": "COMMENT_QE"
       },

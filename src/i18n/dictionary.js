@@ -36,10 +36,8 @@ const dictionary = {
     en: 'Installation, please wait...',
   },
   updateAvailable: {
-    fr:
-      "Une nouvelle version de l'application est disponible et sera utilisée lorsque tous les onglets de cette page seront fermés.",
-    en:
-      'New version of the application is available and will be used when all tabs for this page are closed.',
+    fr: "Une nouvelle version de l'application est disponible et sera utilisée lorsque tous les onglets de cette page seront fermés.",
+    en: 'New version of the application is available and will be used when all tabs for this page are closed.',
   },
   updateInstalled: {
     fr: "L'application a été mise à jour avec succès",

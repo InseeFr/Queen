@@ -28,13 +28,8 @@ const OrchestratorManager = () => {
     idOrchestrator: readonly ? ORCHESTRATOR_READONLY : ORCHESTRATOR_COLLECT,
   });
 
-  const {
-    surveyUnit,
-    questionnaire,
-    nomenclatures,
-    loadingMessage,
-    errorMessage,
-  } = useAPIRemoteData(idSU, idQ);
+  const { surveyUnit, questionnaire, nomenclatures, loadingMessage, errorMessage } =
+    useAPIRemoteData(idSU, idQ);
 
   const { oidcUser } = useAuth();
   const isAuthenticated = !!oidcUser?.profile;

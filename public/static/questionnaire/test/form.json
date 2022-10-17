@@ -152,9 +152,7 @@
     },
     {
       "variableType": "CALCULATED",
-      "bindingDependencies": [
-        "Q1"
-      ],
+      "bindingDependencies": ["Q1"],
       "expression": "cast(Q1,integer) + cast($Q2$,integer)",
       "name": "TOT"
     }
@@ -192,9 +190,7 @@
     },
     {
       "componentType": "CheckboxOne",
-      "bindingDependencies": [
-        "Q1"
-      ],
+      "bindingDependencies": ["Q1"],
       "response": {
         "name": "Q1"
       },
@@ -247,12 +243,7 @@
     },
     {
       "componentType": "CheckboxGroup",
-      "bindingDependencies": [
-        "Q21",
-        "Q22",
-        "Q23",
-        "Q24"
-      ],
+      "bindingDependencies": ["Q21", "Q22", "Q23", "Q24"],
       "hierarchy": {
         "sequence": {
           "id": "kmp26pus",
@@ -329,9 +320,7 @@
     },
     {
       "componentType": "CheckboxOne",
-      "bindingDependencies": [
-        "Q3"
-      ],
+      "bindingDependencies": ["Q3"],
       "response": {
         "name": "Q3"
       },
@@ -386,9 +375,7 @@
     },
     {
       "componentType": "Dropdown",
-      "bindingDependencies": [
-        "Q4"
-      ],
+      "bindingDependencies": ["Q4"],
       "response": {
         "name": "Q4"
       },
@@ -464,9 +451,7 @@
     },
     {
       "componentType": "Input",
-      "bindingDependencies": [
-        "Q5"
-      ],
+      "bindingDependencies": ["Q5"],
       "response": {
         "name": "Q5"
       },
@@ -523,9 +508,7 @@
     },
     {
       "componentType": "Input",
-      "bindingDependencies": [
-        "Q6"
-      ],
+      "bindingDependencies": ["Q6"],
       "response": {
         "name": "Q6"
       },
@@ -568,9 +551,7 @@
     },
     {
       "componentType": "Textarea",
-      "bindingDependencies": [
-        "COMMENT_QE"
-      ],
+      "bindingDependencies": ["COMMENT_QE"],
       "response": {
         "name": "COMMENT_QE"
       },

@@ -24,9 +24,8 @@ import { Apps } from '@material-ui/icons';
 import { OrchestratorContext } from '../queen';
 
 const Navigation = ({ className, title }) => {
-  const { questionnaire, bindings, validatedPages, setMenuOpen, readonly, setPage } = useContext(
-    OrchestratorContext
-  );
+  const { questionnaire, bindings, validatedPages, setMenuOpen, readonly, setPage } =
+    useContext(OrchestratorContext);
   const [open, setOpen] = useState(false);
   const [surveyOpen, setSurveyOpen] = useState(false);
   const [stopOpen, setStopOpen] = useState(false);
@@ -126,9 +125,10 @@ const Navigation = ({ className, title }) => {
     )
   );
 
-  const setFocus = useCallback(index => () => setCurrentFocusElementIndex(index), [
-    setCurrentFocusElementIndex,
-  ]);
+  const setFocus = useCallback(
+    index => () => setCurrentFocusElementIndex(index),
+    [setCurrentFocusElementIndex]
+  );
   const reachableRefs = [...menuItemsSurvey, ...menuItemsQuality].reduce(
     _ => [..._, true],
     createReachableElement(offset)
@@ -193,9 +193,8 @@ const Navigation = ({ className, title }) => {
     }
     if (key === 'down' || key === 'up') {
       const directionFocus = key === 'down' ? NEXT_FOCUS : PREVIOUS_FOCUS;
-      const newRefIndex = getNewFocusElementIndex(directionFocus)(currentFocusElementIndex)(
-        reachableRefs
-      );
+      const newRefIndex =
+        getNewFocusElementIndex(directionFocus)(currentFocusElementIndex)(reachableRefs);
       listRefs[newRefIndex]?.current?.focus();
     }
   };

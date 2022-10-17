@@ -13,9 +13,8 @@ import { OrchestratorContext } from '../queen';
 import { paradataHandler, SIMPLE_CLICK_EVENT } from 'utils/events';
 
 const Header = ({ title, hierarchy }) => {
-  const { page, standalone, queenBindings, quit, setPage, currentPage } = useContext(
-    OrchestratorContext
-  );
+  const { page, standalone, queenBindings, quit, setPage, currentPage } =
+    useContext(OrchestratorContext);
   const classes = useStyles({ standalone });
   const setToFirstPage = useCallback(() => setPage('1'), [setPage]);
   const quitButtonRef = useRef();

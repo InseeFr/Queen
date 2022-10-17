@@ -74,24 +74,26 @@ export const getMissingResponseNameFromComponent = component => {
   return [component?.missingResponse?.name];
 };
 
-export const getResponseOfComponent = questionnaire => component => (type = 'COLLECTED') => (
-  missing = false
-) => {
-  const reponsesName = missing
-    ? getMissingResponseNameFromComponent(component)
-    : getResponsesNameFromComponent(component);
-  const { variables } = questionnaire;
-  const { COLLECTED, ...other } = variables;
-  const newCOLLECTED = Object.entries(COLLECTED).reduce((init, [name, values]) => {
-    const newVar = init;
-    if (reponsesName.includes(name)) {
-      newVar[name] = values;
-    }
-    return newVar;
-  }, {});
-  const newVariables = { COLLECTED: newCOLLECTED, ...other };
-  return lunatic.getCollectedStateByValueType({ variables: newVariables })(type);
-};
+export const getResponseOfComponent =
+  questionnaire =>
+  component =>
+  (type = 'COLLECTED') =>
+  (missing = false) => {
+    const reponsesName = missing
+      ? getMissingResponseNameFromComponent(component)
+      : getResponsesNameFromComponent(component);
+    const { variables } = questionnaire;
+    const { COLLECTED, ...other } = variables;
+    const newCOLLECTED = Object.entries(COLLECTED).reduce((init, [name, values]) => {
+      const newVar = init;
+      if (reponsesName.includes(name)) {
+        newVar[name] = values;
+      }
+      return newVar;
+    }, {});
+    const newVariables = { COLLECTED: newCOLLECTED, ...other };
+    return lunatic.getCollectedStateByValueType({ variables: newVariables })(type);
+  };
 
 export const getComponentResponse = questionnaire => component => type => {
   return getResponseOfComponent(questionnaire)(component)(type)(false);

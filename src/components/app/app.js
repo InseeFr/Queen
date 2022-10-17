@@ -17,6 +17,7 @@ const App = () => {
   const { configuration } = useConfiguration();
   const [init, setInit] = useState(false);
   const [online, setOnline] = useState(navigator.onLine);
+
   useEffect(() => {
     if (!init) {
       addOnlineStatusObserver(s => {
