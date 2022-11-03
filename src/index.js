@@ -2,10 +2,7 @@ import './wdyr';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from 'components/app';
-
 import { listenParentApp } from 'utils/communication';
-import { element } from 'prop-types';
-
 class QueenApp extends HTMLElement {
   element;
   root;
