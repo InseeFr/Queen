@@ -1,30 +1,32 @@
 import './wdyr';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from 'components/app';
 
 import { listenParentApp } from 'utils/communication';
+import { element } from 'prop-types';
 
 class QueenApp extends HTMLElement {
-  mountPoint;
+  element;
+  root;
 
   componentAttributes = {};
 
   connectedCallback() {
-    this.mountPoint = document.createElement('div');
-    this.mountPoint.setAttribute('id', 'queen-app');
+    this.element = document.createElement('div');
+    this.element.setAttribute('id', 'queen-app');
     this.mountReactApp();
   }
 
   disconnectedCallback() {
-    ReactDOM.unmountComponentAtNode(this.mountPoint);
+    this.root.unmount();
   }
 
   static get observedAttributes() {
     return ['queen_url', 'queen_api_url', 'queen_authentication_mode'];
   }
 
-  attributeChangedCallback(name, oldVal, newVal) {
+  attributeChangedCallback(name, newVal) {
     this.componentAttributes[name.toUpperCase()] = newVal;
   }
 
@@ -33,8 +35,9 @@ class QueenApp extends HTMLElement {
   }
 
   mountReactApp() {
-    ReactDOM.render(<App {...this.reactProps()} />, this.mountPoint);
-    this.appendChild(this.mountPoint);
+    this.root = createRoot(this.element);
+    this.root.render(<App {...this.reactProps()} />);
+    this.appendChild(this.element);
   }
 }
 
