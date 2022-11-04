@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from 'components/app';
 import Orchestrator from 'components/orchestrator';
+import LightOrchestrator from 'components/lightOrchestrator';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import Preloader from 'components/shared/preloader';
 import Error from 'components/shared/Error';
@@ -67,7 +68,7 @@ const Visualizer = () => {
       {loadingMessage && <Preloader message={loadingMessage} />}
       {error && <Error message={error} />}
       {questionnaireUrl && source && surveyUnit && suggesters && (
-        <Orchestrator
+        <LightOrchestrator
           surveyUnit={surveyUnit}
           source={source}
           suggesters={suggesters}
