@@ -28,9 +28,10 @@ export const SIMPSONS = 'simpsons';
 export const TIC = 'tic';
 export const DEFAULT = 'default';
 export const LOGEMENT = 'logement';
+export const LUNATICV2 = 'lunaticv2';
 export const TEST = 'test';
 
-export const QUESTIONNAIRE_EXAMPLES = [SIMPSONS, TIC, LOGEMENT, TEST];
+export const QUESTIONNAIRE_EXAMPLES = [SIMPSONS, TIC, LOGEMENT, TEST, LUNATICV2];
 
 export const QUESTIONNAIRE_EXAMPLE_URL = q =>
   `${QUEEN_URL || window.location.origin}/static/questionnaire/${q}/form.json`;

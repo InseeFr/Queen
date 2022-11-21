@@ -1,5 +1,8 @@
-import React, { memo } from 'react';
 import * as lunatic from '@inseefr/lunatic';
+
+import React, { memo } from 'react';
+
+import Header from './header';
 import { useLunaticFetcher } from 'utils/hook';
 
 function Pager({ goPrevious, goNext, goToPage, isLast, isFirst, pageTag, maxPage, getData }) {
@@ -15,7 +18,8 @@ function Pager({ goPrevious, goNext, goToPage, isLast, isFirst, pageTag, maxPage
             Next
           </Button>
           <Button onClick={() => console.log(getData(true))}>Get State</Button>
-          <Button onClick={() => goToPage({ page: '18' })}>Go to page 18</Button>
+          {/* pas moyen d'évaluer maxPage sans avoir une virgule au rendu... */}
+          <Button onClick={() => goToPage({ page: maxPage })}>Go to page {maxPage}</Button>
         </div>
         <div>PAGE: {pageTag}</div>
       </>
@@ -75,8 +79,21 @@ function LightOrchestrator({
   const modalErrors = getModalErrors();
   const currentErrors = getCurrentErrors();
 
+  const fakeHierarchy = { sequence: { value: 'fake' } };
+
   return (
     <div className="container">
+      <Header
+        title="My nice title"
+        hierarchy={fakeHierarchy}
+        setPage={() => console.log('page set')}
+        page
+        questionnaire={source}
+        standalone
+        queenBindings
+        quit
+        currentPage
+      />
       <div className="components">
         {components.map(function (component) {
           const { id, componentType, response, storeName, ...other } = component;
