@@ -23,14 +23,12 @@ import PropTypes from 'prop-types';
 import SequenceNavigation from './sequenceNavigation';
 import StopNavigation from './stopNavigation';
 import SubsequenceNavigation from './subSequenceNavigation';
-import { executeVtlExpression } from 'utils/vtl/vtl';
 import { useStyles } from './component.style';
 
 const Navigation = ({
   className,
   title,
   questionnaire,
-  bindings,
   validatedPages,
   setMenuOpen,
   readonly,
@@ -40,15 +38,9 @@ const Navigation = ({
   const [surveyOpen, setSurveyOpen] = useState(false);
   const [stopOpen, setStopOpen] = useState(false);
   const [selectedSequence, setSelectedSequence] = useState(undefined);
-
-  console.log('questionnaire ', questionnaire);
-
   const lunaticVersion = dependencies['@inseefr/lunatic'].replace('^', '');
 
-  const getVtlLabel = label => executeVtlExpression(label, bindings);
-
   const specialVTLComponents = components => {
-    console.log('components ', components);
     const localCache = {};
     return components.reduce((_, { componentType, conditionFilter, label, ...other }) => {
       if (componentType === 'Sequence') {
@@ -57,7 +49,7 @@ const Navigation = ({
           ..._,
           {
             componentType,
-            labelNav: getVtlLabel(label),
+            labelNav: label,
             reachable: true,
             // validatedPages?.includes(page) && getFilterValue(localCache)(conditionFilter),
             ...other,
@@ -70,7 +62,7 @@ const Navigation = ({
           ..._,
           {
             componentType,
-            labelNav: getVtlLabel(label),
+            labelNav: label,
             reachable: true,
             // validatedPages?.includes(goToPage) && getFilterValue(localCache)(conditionFilter),
             ...other,
@@ -82,6 +74,10 @@ const Navigation = ({
   };
 
   const componentsVTL = specialVTLComponents(questionnaire.components);
+
+  // TODO lister les séquences du questionnaire et récupérer le component from Lunatic
+  // lister les sous séquences du questionnaire et récupérer le component from Lunatic
+  //
 
   const getSubsequenceComponents = useMemo(
     () => id =>
@@ -170,6 +166,8 @@ const Navigation = ({
 
   const setNavigationPage = useCallback(
     page => {
+      console.log('setting page to ', page);
+      console.log(setPage);
       openCloseMenu();
       setPage(page);
     },
@@ -241,7 +239,7 @@ const Navigation = ({
                           onFocus={setFocus(index + offset)}
                         >
                           {label}
-                          <span>{'\u3009'}</span>
+                          <span>〉</span>
                         </ButtonItemMenu>
                       </li>
                     );

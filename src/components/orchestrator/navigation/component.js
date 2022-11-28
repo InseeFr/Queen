@@ -1,27 +1,30 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useState, useCallback, useMemo, useEffect, useRef, useContext } from 'react';
-import KeyboardEventHandler from 'react-keyboard-event-handler';
-import PropTypes from 'prop-types';
-import D from 'i18n';
-import * as lunatic from '@inseefr/lunatic';
-import { version, dependencies } from '../../../../package.json';
-import { useStyles } from './component.style';
-import SequenceNavigation from './sequenceNavigation';
-import SubsequenceNavigation from './subSequenceNavigation';
 import '@a11y/focus-trap';
-import { ButtonItemMenu } from 'components/designSystem';
+
+import * as lunatic from '@inseefr/lunatic';
+
 import {
+  NEXT_FOCUS,
+  PREVIOUS_FOCUS,
   createArrayOfRef,
   createReachableElement,
   getNewFocusElementIndex,
-  NEXT_FOCUS,
-  PREVIOUS_FOCUS,
 } from 'utils/navigation';
-import StopNavigation from './stopNavigation';
-import { IconButton } from '@material-ui/core';
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { dependencies, version } from '../../../../package.json';
+
 import { Apps } from '@material-ui/icons';
+import { ButtonItemMenu } from 'components/designSystem';
+import D from 'i18n';
+import { IconButton } from '@material-ui/core';
+import KeyboardEventHandler from 'react-keyboard-event-handler';
 import { OrchestratorContext } from '../queen';
+import PropTypes from 'prop-types';
+import SequenceNavigation from './sequenceNavigation';
+import StopNavigation from './stopNavigation';
+import SubsequenceNavigation from './subSequenceNavigation';
+import { useStyles } from './component.style';
 
 const Navigation = ({ className, title }) => {
   const { questionnaire, bindings, validatedPages, setMenuOpen, readonly, setPage } =
@@ -275,7 +278,7 @@ const Navigation = ({ className, title }) => {
   );
   return (
     <div ref={rootRef} className={className}>
-      {trapFocus && <focus-trap>{menu}</focus-trap>}
+      {trapFocus && <focustrap->{menu}</focustrap->}
       {!trapFocus && menu}
       {open && (
         <>

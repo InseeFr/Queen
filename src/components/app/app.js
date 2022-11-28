@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import root from 'react-shadow/material-ui';
-import { BrowserRouter } from 'react-router-dom';
-import Rooter from 'components/router';
-import { StyleProvider } from 'components/style';
+
 import { AuthProvider } from 'components/auth';
-import ServiceWorkerNotification from 'components/shared/serviceWorkerNotification';
+import { BrowserRouter } from 'react-router-dom';
 import D from 'i18n';
 import Preloader from 'components/shared/preloader';
-import { useConfiguration } from 'utils/hook';
-import customStyle from './app.style';
+import Rooter from 'components/router';
+import ServiceWorkerNotification from 'components/shared/serviceWorkerNotification';
+import { StyleProvider } from 'components/style';
 import { addOnlineStatusObserver } from 'utils';
+import customStyle from './app.style';
+// import root from 'react-shadow/material-ui';
+import { useConfiguration } from 'utils/hook';
 
 export const AppContext = React.createContext();
 
@@ -28,7 +29,7 @@ const App = () => {
   }, [init]);
 
   return (
-    <root.div id="queen-container" style={customStyle}>
+    <div id="queen-container" style={customStyle}>
       {configuration && (
         <AppContext.Provider value={{ ...configuration, online: online }}>
           <StyleProvider>
@@ -42,7 +43,7 @@ const App = () => {
         </AppContext.Provider>
       )}
       {!configuration && <Preloader message={D.waitingConfiguration} />}
-    </root.div>
+    </div>
   );
 };
 

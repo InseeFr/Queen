@@ -33,10 +33,7 @@ const Header = ({
       page: currentPage,
     };
   };
-  const { sequence, subSequence } = hierarchy || {
-    sequence: { label: 'Séquence', page: '8' },
-    subSequence: { label: 'Sous-séquence', page: '9' },
-  };
+  const { sequence, subSequence } = hierarchy;
 
   const quitShortCut = () => {
     if (quitButtonRef && quitButtonRef.current) quitButtonRef.current.focus();
@@ -49,11 +46,11 @@ const Header = ({
         className={classes.headerItemNavigation}
         title={title}
         questionnaire={questionnaire}
-        bindings
+        bindings={queenBindings}
         validatedPages
-        setMenuOpen
+        setMenuOpen={() => console.log('setMenuOpen placeholder')}
         readonly
-        setPage
+        setPage={setPage}
       />
       <div className="header-item">
         <ButtonBase
@@ -72,7 +69,7 @@ const Header = ({
             sequence={sequence}
             subsequence={subSequence}
             currentPage={page}
-            setPage
+            setPage={setPage}
           />
         )}
       </div>

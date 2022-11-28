@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
-import * as lunatic from '@inseefr/lunatic';
 import * as UQ from 'utils/questionnaire';
+import * as lunatic from '@inseefr/lunatic';
+
 import { sendCompletedEvent, sendStartedEvent, sendValidatedEvent } from 'utils/communication';
+import { useEffect, useState } from 'react';
+
 import { getNotNullCollectedState } from 'utils/questionnaire';
 
 export const NOT_STARTED = null;
@@ -9,20 +11,24 @@ export const INIT = 'INIT';
 export const COMPLETED = 'COMPLETED';
 export const VALIDATED = 'VALIDATED';
 
+// TODO lunatic V2 : should questionnaire passed as prop => delegate to lunatic is cleaner archi
 export const useQuestionnaireState = (questionnaire, initialState = null, idSurveyUnit) => {
-  const [changingState, setChangingState] = useState(false);
   const [state, setState] = useState(initialState);
 
   const [initialResponse] = useState(() => JSON.stringify(getNotNullCollectedState(questionnaire)));
 
+  // Send an event when questionnaire's state has changed (started, completed, validated)
   const changeState = newState => {
-    setChangingState(true);
+    if (state === INIT) sendStartedEvent(idSurveyUnit);
+    if (state === COMPLETED) sendCompletedEvent(idSurveyUnit);
+    if (state === VALIDATED) sendValidatedEvent(idSurveyUnit);
     setState(newState);
   };
 
   // Analyse collected variables to update state (only to STARTED state)
   useEffect(() => {
     if (questionnaire && (state === NOT_STARTED || state === VALIDATED)) {
+      // TODO lunatic V2 :  use Lunatic.getData under the hood and hide the dataWithoutNullArray too
       const dataCollected = getNotNullCollectedState(questionnaire);
       // TODO : make a better copy without mutate questionnaire object (spread doesn't work)
       const dataWithoutNullArray = Object.entries(UQ.secureCopy(dataCollected)).filter(
@@ -46,16 +52,6 @@ export const useQuestionnaireState = (questionnaire, initialState = null, idSurv
     // Assume we want to update only this when questionnaire is updated
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questionnaire]);
-
-  // Send an event when questionnaire's state has changed (started, completed, validated)
-  useEffect(() => {
-    if (changingState) {
-      if (state === INIT) sendStartedEvent(idSurveyUnit);
-      if (state === COMPLETED) sendCompletedEvent(idSurveyUnit);
-      if (state === VALIDATED) sendValidatedEvent(idSurveyUnit);
-      setChangingState(false);
-    }
-  }, [state, idSurveyUnit, changingState]);
 
   return [state, changeState];
 };

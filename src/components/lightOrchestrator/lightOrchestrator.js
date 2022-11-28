@@ -1,25 +1,33 @@
 import * as lunatic from '@inseefr/lunatic';
 
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 
 import Header from './header';
+import NavBar from './navBar';
+import SimpleLoader from 'components/shared/preloader/simple';
 import { useLunaticFetcher } from 'utils/hook';
 
 function Pager({ goPrevious, goNext, goToPage, isLast, isFirst, pageTag, maxPage, getData }) {
+  const onClick = useCallback(() => goToPage(maxPage), [goToPage, maxPage]);
+  const logGetData = useCallback(() => console.log(getData(true)), [getData]);
+  const ucbGoPrevious = useCallback(whatever => goPrevious(whatever), [goPrevious]);
+  const ucbGoNext = useCallback(whatever => goNext(whatever), [goNext]);
+
   if (maxPage && maxPage > 1) {
     const Button = lunatic.Button;
+
     return (
       <>
         <div className="pagination">
-          <Button onClick={goPrevious} disabled={isFirst}>
+          <Button onClick={ucbGoPrevious} disabled={isFirst}>
             Previous
           </Button>
-          <Button onClick={goNext} disabled={isLast}>
+          <Button onClick={ucbGoNext} disabled={isLast}>
             Next
           </Button>
-          <Button onClick={() => console.log(getData(true))}>Get State</Button>
+          <Button onClick={logGetData}>Get State</Button>
           {/* pas moyen d'évaluer maxPage sans avoir une virgule au rendu... */}
-          <Button onClick={() => goToPage({ page: maxPage })}>Go to page {maxPage}</Button>
+          <Button onClick={onClick}>{`Go to page ${maxPage}`}</Button>
         </div>
         <div>PAGE: {pageTag}</div>
       </>
@@ -48,7 +56,6 @@ function LightOrchestrator({
   save,
   close,
 }) {
-  const { maxPage } = source;
   const { data } = surveyUnit;
   const { lunaticFetcher: suggesterFetcher } = useLunaticFetcher();
 
@@ -61,6 +68,7 @@ function LightOrchestrator({
     isFirstPage,
     isLastPage,
     waiting,
+    pager,
     getErrors,
     getModalErrors,
     getCurrentErrors,
@@ -74,26 +82,38 @@ function LightOrchestrator({
     suggesterFetcher,
   });
 
+  const { maxPage = '100', page = '1' } = pager;
   const components = getComponents();
   const errors = getErrors();
   const modalErrors = getModalErrors();
   const currentErrors = getCurrentErrors();
 
-  const fakeHierarchy = { sequence: { value: 'fake' } };
+  const ucbGoToPage = useCallback(
+    page => {
+      goToPage({ page: page });
+    },
+    [goToPage]
+  );
 
+  const fakeHierarchy = {
+    sequence: { label: 'Fake Séquence go to p8', page: '8' },
+    subSequence: { label: 'Fake Sous-séquence go to p50', page: '50' },
+  };
+  const fakeBindings = {};
   return (
     <div className="container">
       <Header
         title="My nice title"
         hierarchy={fakeHierarchy}
-        setPage={() => console.log('page set')}
-        page
+        setPage={ucbGoToPage}
+        page={page}
         questionnaire={source}
         standalone
-        queenBindings
+        queenBindings={fakeBindings}
         quit
         currentPage
       />
+      {waiting && <SimpleLoader />}
       <div className="components">
         {components.map(function (component) {
           const { id, componentType, response, storeName, ...other } = component;
@@ -118,13 +138,15 @@ function LightOrchestrator({
       <Pager
         goPrevious={goPreviousPage}
         goNext={goNextPage}
-        goToPage={goToPage}
+        // goToPage={goToPage}
+        goToPage={ucbGoToPage}
         isLast={isLastPage}
         isFirst={isFirstPage}
         pageTag={pageTag}
         maxPage={maxPage}
         getData={getData}
       />
+      <NavBar page={page} maxPages={maxPage} rereading setPendingChangePage />
     </div>
   );
 }

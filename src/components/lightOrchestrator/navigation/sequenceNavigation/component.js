@@ -1,18 +1,20 @@
-/* eslint-disable jsx-a11y/no-autofocus */
-import React, { useState, useCallback, useEffect } from 'react';
-import KeyboardEventHandler from 'react-keyboard-event-handler';
-import PropTypes from 'prop-types';
-import D from 'i18n';
 import '@a11y/focus-trap';
-import { useStyles } from '../component.style';
-import { ButtonItemMenu } from 'components/designSystem';
+
 import {
+  NEXT_FOCUS,
+  PREVIOUS_FOCUS,
   createArrayOfRef,
   createReachableElement,
   getNewFocusElementIndex,
-  NEXT_FOCUS,
-  PREVIOUS_FOCUS,
 } from 'utils/navigation';
+/* eslint-disable jsx-a11y/no-autofocus */
+import React, { useCallback, useEffect, useState } from 'react';
+
+import { ButtonItemMenu } from 'components/designSystem';
+import D from 'i18n';
+import KeyboardEventHandler from 'react-keyboard-event-handler';
+import PropTypes from 'prop-types';
+import { useStyles } from '../component.style';
 
 const SequenceNavigation = ({
   title,
@@ -25,6 +27,8 @@ const SequenceNavigation = ({
   const offset = 1;
   const [currentFocusElement, setCurrentFocusElement] = useState(undefined);
   const [currentFocusElementIndex, setCurrentFocusElementIndex] = useState(0);
+
+  console.log('components ', components);
 
   const [listRefs] = useState(
     components
@@ -59,6 +63,8 @@ const SequenceNavigation = ({
         setCurrentFocusElement(undefined);
       }
     } else if (sequence.reachable) {
+      console.log('try to set page to ', sequence.page);
+      console.log(setPage);
       setPage(sequence.page);
     }
   };
