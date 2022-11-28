@@ -1,7 +1,5 @@
 import '@a11y/focus-trap';
 
-import * as lunatic from '@inseefr/lunatic';
-
 import {
   NEXT_FOCUS,
   PREVIOUS_FOCUS,
@@ -25,6 +23,8 @@ import StopNavigation from './stopNavigation';
 import SubsequenceNavigation from './subSequenceNavigation';
 import { useStyles } from './component.style';
 
+// import * as lunatic from '@inseefr/lunatic';
+
 const Navigation = ({
   className,
   title,
@@ -41,10 +41,10 @@ const Navigation = ({
   const lunaticVersion = dependencies['@inseefr/lunatic'].replace('^', '');
 
   const specialVTLComponents = components => {
-    const localCache = {};
+    // const localCache = {};
     return components.reduce((_, { componentType, conditionFilter, label, ...other }) => {
       if (componentType === 'Sequence') {
-        const { page } = other;
+        // const { page } = other;
         return [
           ..._,
           {
@@ -57,7 +57,7 @@ const Navigation = ({
         ];
       }
       if (componentType === 'Subsequence') {
-        const { goToPage } = other;
+        // const { goToPage } = other;
         return [
           ..._,
           {

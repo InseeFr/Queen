@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
 // import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, createTheme } from '@material-ui/core/styles';
 
 const StyleProvider = ({ children }) => {
   // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   const theme = useMemo(
     () =>
-    createTheme({
+      createTheme({
         palette: {
           // type: prefersDarkMode ? 'dark' : 'light',
           primary: {

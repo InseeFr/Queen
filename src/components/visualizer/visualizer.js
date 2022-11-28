@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { AppContext } from 'components/app';
-import Orchestrator from 'components/orchestrator';
-import LightOrchestrator from 'components/lightOrchestrator';
-import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
-import Preloader from 'components/shared/preloader';
-import Error from 'components/shared/Error';
-import { useRemoteData, useVisuQuery } from 'utils/hook';
-import QuestionnaireForm from './questionnaireForm';
-import { useHistory } from 'react-router';
+import React, { useContext, useEffect, useState } from 'react';
 import { checkQuestionnaire, downloadDataAsJson } from 'utils/questionnaire';
+import { useRemoteData, useVisuQuery } from 'utils/hook';
+
+import { AppContext } from 'components/app';
+import Error from 'components/shared/Error';
+// import Orchestrator from 'components/orchestrator';
+import LightOrchestrator from 'components/lightOrchestrator';
+import Preloader from 'components/shared/preloader';
+import QuestionnaireForm from './questionnaireForm';
 import { buildSuggesterFromNomenclatures } from 'utils/questionnaire/nomenclatures';
+import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
+import { useHistory } from 'react-router';
 
 const Visualizer = () => {
   const { apiUrl, standalone } = useContext(AppContext);

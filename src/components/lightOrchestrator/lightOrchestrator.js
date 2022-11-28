@@ -69,8 +69,8 @@ function LightOrchestrator({
     isLastPage,
     waiting,
     pager,
-    getErrors,
-    getModalErrors,
+    // getErrors,
+    // getModalErrors,
     getCurrentErrors,
     getData,
   } = lunatic.useLunatic(source, data, {
@@ -84,8 +84,8 @@ function LightOrchestrator({
 
   const { maxPage = '100', page = '1' } = pager;
   const components = getComponents();
-  const errors = getErrors();
-  const modalErrors = getModalErrors();
+  // const errors = getErrors();
+  // const modalErrors = getModalErrors();
   const currentErrors = getCurrentErrors();
 
   const ucbGoToPage = useCallback(
