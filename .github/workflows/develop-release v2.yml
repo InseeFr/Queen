@@ -22,6 +22,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build
+          path: build
   docker:
     needs: build
     runs-on: ubuntu-latest
