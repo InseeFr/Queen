@@ -9,7 +9,15 @@ import { useStyles } from './component.style';
 
 const skipNextIcon = <SkipNext fontSize="large" />;
 
-const Buttons = ({ rereading, setPendingChangePage, readonly, page, isFirstPage, isLastPage }) => {
+const Buttons = ({
+  rereading,
+  setPendingChangePage,
+  readonly,
+  isFirstPage,
+  isLastPage,
+  goPrevious,
+  goNext,
+}) => {
   const classes = useStyles();
 
   const previousButtonRef = useRef();
@@ -19,36 +27,26 @@ const Buttons = ({ rereading, setPendingChangePage, readonly, page, isFirstPage,
 
   const keysToHandle = ['alt+enter', 'alt+backspace', 'alt+end'];
 
-  const [focusPrevious, setFocusPrevious] = useState(false);
-  const [focusNext, setFocusNext] = useState(false);
   const [focusFastForward, setFocusFastForward] = useState(false);
 
-  const onfocusPrevious = value => () => setFocusPrevious(value);
-  const onfocusNext = value => () => setFocusNext(value);
   const onfocusFastForward = value => () => setFocusFastForward(value);
 
   const [pageChanging, setPageChanging] = useState(false);
 
-  const localPagePrevious = () => setPageChanging('previous');
-  const localPageNext = () => setPageChanging('next');
   const localPageFastForward = () => setPageChanging('fastForward');
-
-  useEffect(() => {
-    setPageChanging(false);
-  }, [page]);
 
   const keyboardShortcut = (key, e) => {
     e.preventDefault();
     if (key === 'alt+enter' && ((!isLastPage && rereading) || readonly)) {
       if (nextButtonRef && nextButtonRef.current) {
         nextButtonRef.current.focus();
-        localPageNext();
+        goNext();
       }
     }
     if (key === 'alt+backspace' && !isFirstPage) {
       if (previousButtonRef && previousButtonRef.current) {
         previousButtonRef.current.focus();
-        localPagePrevious();
+        goPrevious();
       }
     }
     if (key === 'alt+end' && !readonly && rereading && !isLastPage) {
@@ -60,7 +58,7 @@ const Buttons = ({ rereading, setPendingChangePage, readonly, page, isFirstPage,
   };
 
   useEffect(() => {
-    if ((focusNext || focusFastForward || focusPrevious) && pageChanging) {
+    if (focusFastForward && pageChanging) {
       setPendingChangePage(pageChanging);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -76,9 +74,7 @@ const Buttons = ({ rereading, setPendingChangePage, readonly, page, isFirstPage,
               ariaLabel={D.goBackReturnLabel}
               className={classes.previousIcon}
               type="button"
-              onClick={localPagePrevious}
-              onFocus={onfocusPrevious(true)}
-              onBlur={onfocusPrevious(false)}
+              onClick={goPrevious}
             >
               <PlayArrow fontSize="small" />
             </IconButton>
@@ -91,9 +87,7 @@ const Buttons = ({ rereading, setPendingChangePage, readonly, page, isFirstPage,
               ref={nextButtonRef}
               ariaLabel={D.nextButtonLabel}
               type="button"
-              onClick={localPageNext}
-              onFocus={onfocusNext(true)}
-              onBlur={onfocusNext(false)}
+              onClick={goNext}
             >
               <PlayArrow fontSize="small" />
             </IconButton>

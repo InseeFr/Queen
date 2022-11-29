@@ -4,33 +4,20 @@ import React, { memo, useCallback } from 'react';
 
 import Header from './header';
 import NavBar from './navBar';
-import SimpleLoader from 'components/shared/preloader/simple';
 import { useLunaticFetcher } from 'utils/hook';
+import { useStyles } from './lightOrchestrator.style';
 
-function Pager({ goPrevious, goNext, goToPage, isLast, isFirst, pageTag, maxPage, getData }) {
-  const onClick = useCallback(() => goToPage(maxPage), [goToPage, maxPage]);
+function Pager({ goToPage, pageTag, maxPage, getData }) {
   const logGetData = useCallback(() => console.log(getData(true)), [getData]);
-  const ucbGoPrevious = useCallback(whatever => goPrevious(whatever), [goPrevious]);
-  const ucbGoNext = useCallback(whatever => goNext(whatever), [goNext]);
 
   if (maxPage && maxPage > 1) {
     const Button = lunatic.Button;
-
     return (
-      <>
-        <div className="pagination">
-          <Button onClick={ucbGoPrevious} disabled={isFirst}>
-            Previous
-          </Button>
-          <Button onClick={ucbGoNext} disabled={isLast}>
-            Next
-          </Button>
-          <Button onClick={logGetData}>Get State</Button>
-          {/* pas moyen d'évaluer maxPage sans avoir une virgule au rendu... */}
-          <Button onClick={onClick}>{`Go to page ${maxPage}`}</Button>
-        </div>
+      <div className="pagination">
+        <Button onClick={logGetData}>Get State</Button>
+        <Button onClick={() => goToPage(maxPage)}>{`Go to max page : ${maxPage}`}</Button>
         <div>PAGE: {pageTag}</div>
-      </>
+      </div>
     );
   }
   return null;
@@ -58,7 +45,7 @@ function LightOrchestrator({
 }) {
   const { data } = surveyUnit;
   const { lunaticFetcher: suggesterFetcher } = useLunaticFetcher();
-
+  const classes = useStyles();
   const {
     getComponents,
     goPreviousPage,
@@ -67,7 +54,7 @@ function LightOrchestrator({
     pageTag,
     isFirstPage,
     isLastPage,
-    waiting,
+    // waiting,
     pager,
     // getErrors,
     // getModalErrors,
@@ -88,12 +75,9 @@ function LightOrchestrator({
   // const modalErrors = getModalErrors();
   const currentErrors = getCurrentErrors();
 
-  const ucbGoToPage = useCallback(
-    page => {
-      goToPage({ page: page });
-    },
-    [goToPage]
-  );
+  const trueGoToPage = page => {
+    goToPage({ page: page });
+  };
 
   const fakeHierarchy = {
     sequence: { label: 'Fake Séquence go to p8', page: '8' },
@@ -101,52 +85,54 @@ function LightOrchestrator({
   };
   const fakeBindings = {};
   return (
-    <div className="container">
+    <div className={classes.root}>
       <Header
         title="My nice title"
         hierarchy={fakeHierarchy}
-        setPage={ucbGoToPage}
+        setPage={trueGoToPage}
         page={page}
         questionnaire={source}
-        standalone
+        standalone={false}
         queenBindings={fakeBindings}
         quit
         currentPage
       />
-      {waiting && <SimpleLoader />}
-      <div className="components">
-        {components.map(function (component) {
-          const { id, componentType, response, storeName, ...other } = component;
-          const Component = lunatic[componentType];
+      <div className={classes.bodyContainer}>
+        <div className="components">
+          {components.map(function (component) {
+            const { id, componentType, response, storeName, ...other } = component;
+            const Component = lunatic[componentType];
 
-          return (
-            <div className="lunatic lunatic-component" key={`component-${id}`}>
-              <Component
-                id={id}
-                response={response}
-                {...other}
-                {...component}
-                missing={missing}
-                missingStrategy={goNextPage}
-                filterDescription={filterDescription}
-                errors={currentErrors}
-              />
-            </div>
-          );
-        })}
+            return (
+              <div className="lunatic lunatic-component" key={`component-${id}`}>
+                <Component
+                  id={id}
+                  response={response}
+                  {...other}
+                  {...component}
+                  missing={missing}
+                  missingStrategy={goNextPage}
+                  filterDescription={filterDescription}
+                  errors={currentErrors}
+                />
+              </div>
+            );
+          })}
+        </div>
+        <NavBar
+          page={page}
+          isFirstPage={isFirstPage}
+          isLastPage={isLastPage}
+          goPrevious={goPreviousPage}
+          goNext={goNextPage}
+          maxPages={maxPage}
+          rereading={false}
+          // force display navigation buttons TODO use readonly prop
+          readonly={true}
+          setPendingChangePage={page => console.log('setPendingPage to ', page)}
+        />
       </div>
-      <Pager
-        goPrevious={goPreviousPage}
-        goNext={goNextPage}
-        // goToPage={goToPage}
-        goToPage={ucbGoToPage}
-        isLast={isLastPage}
-        isFirst={isFirstPage}
-        pageTag={pageTag}
-        maxPage={maxPage}
-        getData={getData}
-      />
-      <NavBar page={page} maxPages={maxPage} rereading setPendingChangePage />
+      <Pager goToPage={trueGoToPage} pageTag={pageTag} maxPage={maxPage} getData={getData} />
     </div>
   );
 }

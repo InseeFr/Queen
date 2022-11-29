@@ -2,14 +2,9 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles(theme => ({
   root: {
-    position: 'absolute',
-    paddingRight: '15%',
-    bottom: 0,
-    right: 0,
     display: 'grid',
     margin: 'auto',
     whiteSpace: 'nowrap',
-    gridTemplateRows: '60px 60px 60px',
   },
 
   shortButtonSpan: {

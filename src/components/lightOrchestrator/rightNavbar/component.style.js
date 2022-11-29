@@ -2,11 +2,11 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles({
   root: {
-    gridColumnStart: 2,
-    gridColumnEnd: 2,
-    gridRowStart: 1,
-    gridRowEnd: 3,
-    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    justifyContent: 'stretch',
+    backgroundColor: 'yellow',
     borderLeft: '1px solid #777777',
   },
   detail: { display: 'block' },
@@ -19,11 +19,12 @@ export const useStyles = makeStyles({
     borderRadius: '5px',
     width: '57px',
     margin: 'auto',
-    backgroundColor: 'white',
+    backgroundColor: 'red',
   },
   pages: {
-    position: 'absolute',
-    bottom: '200px',
+    // position: 'absolute',
+    // bottom: '200px',
+    backgroundColor: 'green',
   },
   labelPage: { fontSize: '90%', marginBottom: '4px' },
 });
