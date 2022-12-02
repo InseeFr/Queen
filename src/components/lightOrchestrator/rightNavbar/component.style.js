@@ -4,8 +4,10 @@ export const useStyles = makeStyles({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'stretch',
-    justifyContent: 'stretch',
+    justifyContent: 'flex-end',
+    gap: '1em',
+    paddingBottom: '1em',
+    alignItems: 'center',
     backgroundColor: 'yellow',
     borderLeft: '1px solid #777777',
   },

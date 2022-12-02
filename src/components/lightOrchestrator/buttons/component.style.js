@@ -2,8 +2,7 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles(theme => ({
   root: {
-    display: 'grid',
-    margin: 'auto',
+    // display: 'grid',
     whiteSpace: 'nowrap',
   },
 

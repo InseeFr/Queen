@@ -1,16 +1,18 @@
-import React, { useState, useCallback } from 'react';
-import KeyboardEventHandler from 'react-keyboard-event-handler';
-import PropTypes from 'prop-types';
-import D from 'i18n';
 import '@a11y/focus-trap';
-import { ButtonItemMenu } from 'components/designSystem';
+
 import {
+  NEXT_FOCUS,
+  PREVIOUS_FOCUS,
   createArrayOfRef,
   createReachableElement,
   getNewFocusElementIndex,
-  NEXT_FOCUS,
-  PREVIOUS_FOCUS,
 } from 'utils/navigation';
+import React, { useCallback, useState } from 'react';
+
+import { ButtonItemMenu } from 'components/designSystem';
+import D from 'i18n';
+import KeyboardEventHandler from 'react-keyboard-event-handler';
+import PropTypes from 'prop-types';
 
 const SubsequenceNavigation = ({ sequence, close, setPage }) => {
   const offset = 2;
@@ -63,7 +65,7 @@ const SubsequenceNavigation = ({ sequence, close, setPage }) => {
           onClick={changePage(sequence)}
           onFocus={setFocus(1)}
         >
-          {sequence.labelNav}
+          {sequence.labelNav.value}
         </ButtonItemMenu>
         <nav role="navigation">
           <ul>

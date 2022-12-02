@@ -79,21 +79,21 @@ function LightOrchestrator({
     goToPage({ page: page });
   };
 
-  const fakeHierarchy = {
-    sequence: { label: 'Fake Séquence go to p8', page: '8' },
-    subSequence: { label: 'Fake Sous-séquence go to p50', page: '50' },
+  const hierarchy = [...components]?.[0]?.hierarchy ?? {
+    sequence: { label: 'There is no sequence', page: '1' },
   };
-  const fakeBindings = {};
+  const {
+    label: { value: questionnaireTitle },
+  } = source;
   return (
     <div className={classes.root}>
       <Header
-        title="My nice title"
-        hierarchy={fakeHierarchy}
+        title={questionnaireTitle}
+        hierarchy={hierarchy}
         setPage={trueGoToPage}
         page={page}
         questionnaire={source}
         standalone={false}
-        queenBindings={fakeBindings}
         quit
         currentPage
       />
@@ -102,7 +102,6 @@ function LightOrchestrator({
           {components.map(function (component) {
             const { id, componentType, response, storeName, ...other } = component;
             const Component = lunatic[componentType];
-
             return (
               <div className="lunatic lunatic-component" key={`component-${id}`}>
                 <Component

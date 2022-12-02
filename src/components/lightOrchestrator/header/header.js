@@ -16,7 +16,6 @@ const Header = ({
   hierarchy,
   page,
   standalone,
-  queenBindings,
   quit,
   setPage,
   currentPage,
@@ -46,7 +45,6 @@ const Header = ({
         className={classes.headerItemNavigation}
         title={title}
         questionnaire={questionnaire}
-        bindings={queenBindings}
         validatedPages
         setMenuOpen={() => console.log('setMenuOpen placeholder')}
         readonly

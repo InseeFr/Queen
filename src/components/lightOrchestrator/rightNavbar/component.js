@@ -40,6 +40,8 @@ const RightNavBar = ({ children, page, maxPages, occurences = [] }) => {
               <div className={classes.page}>
                 <div className={classes.labelPage}>n° page</div>
                 <div>
+                  <b>{page}</b>
+                  <b>{maxPages}</b>
                   <b>{`${localScopePage}/${localScopeMaxPage}`}</b>
                 </div>
               </div>

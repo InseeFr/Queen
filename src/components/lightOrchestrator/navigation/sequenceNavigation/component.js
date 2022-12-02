@@ -63,8 +63,6 @@ const SequenceNavigation = ({
         setCurrentFocusElement(undefined);
       }
     } else if (sequence.reachable) {
-      console.log('try to set page to ', sequence.page);
-      console.log(setPage);
       setPage(sequence.page);
     }
   };
@@ -113,7 +111,7 @@ const SequenceNavigation = ({
                       onClick={open(c)}
                       onFocus={setFocus(index + offset)}
                     >
-                      {c.labelNav}
+                      {c.labelNav.value}
                       <span>{`${c.components.length > 0 ? '\u3009' : ''} `}</span>
                     </ButtonItemMenu>
                   </li>
