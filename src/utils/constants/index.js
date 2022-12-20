@@ -22,7 +22,17 @@ export const AUTHORIZED_ROLES = ['Guest', 'offline_access'];
 
 export const JSON_UTF8_HEADER = 'application/json;charset=utf-8';
 
-export const DIRECT_CONTINUE_COMPONENTS = ['CheckboxOne', 'Radio'];
+export const COMP_TYPE_CHECK_BOX_BOOLEAN = 'CheckboxBoolean';
+export const COMP_TYPE_CHECK_BOX_ONE = 'CheckboxOne';
+export const COMP_TYPE_CHECK_BOX_GROUP = 'CheckboxGroup';
+export const COMP_TYPE_TABLE = 'Table';
+export const COMP_TYPE_LOOP = 'Loop';
+export const COMP_TYPE_RADIO = 'Radio';
+export const COMP_TYPE_INPUT_NUMBER = 'InputNumber';
+export const COMP_TYPE_SUBSEQUENCE = 'Subsequence';
+export const COMP_TYPE_SEQUENCE = 'Sequence';
+export const COMP_TYPE_TEXTAREA = 'Textarea';
+export const DIRECT_CONTINUE_COMPONENTS = [COMP_TYPE_CHECK_BOX_ONE, COMP_TYPE_RADIO];
 
 export const SIMPSONS = 'simpsons';
 export const TIC = 'tic';
@@ -42,5 +52,9 @@ export const DEFAULT_DATA_URL = DATA_EXAMPLE_URL(DEFAULT);
 
 export const MIN_LUNATIC_MODEL_VERSION = '2.2.3';
 export const MIN_ENO_CORE_VERSION = '2.2.11';
+export const SHORTCUT_QUIT = 'alt+q';
+export const SHORTCUT_NEXT = 'alt+enter';
+export const SHORTCUT_PREVIOUS = 'alt+backspace';
+export const SHORTCUT_FAST_FORWARD = 'alt+end';
 
 export * from './paradata';

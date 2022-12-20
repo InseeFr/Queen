@@ -13,6 +13,14 @@ export const useStyles = makeStyles(() => ({
     backgroundColor: '#eeeeee',
     justifyContent: 'space-between',
   },
+  mainTile: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginLeft: '6,5em',
+    marginTop: '3em',
+  },
   loopInfo: {
     position: 'absolute',
     // 65(width of top bar) + 4

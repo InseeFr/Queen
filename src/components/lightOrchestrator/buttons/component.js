@@ -1,117 +1,71 @@
-import { Button, IconButton } from 'components/designSystem';
-import { PlayArrow, SkipNext } from '@material-ui/icons';
-import React, { useEffect, useRef, useState } from 'react';
+import { SHORTCUT_FAST_FORWARD, SHORTCUT_NEXT, SHORTCUT_PREVIOUS } from 'utils/constants';
 
 import D from 'i18n';
+import { IconButton } from 'components/designSystem';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
+import { PlayArrow } from '@material-ui/icons';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { useStyles } from './component.style';
-
-const skipNextIcon = <SkipNext fontSize="large" />;
 
 const Buttons = ({
   rereading,
-  setPendingChangePage,
   readonly,
   isFirstPage,
   isLastPage,
   goPrevious,
   goNext,
+  componentHasResponse,
+  isLastReachedPage,
+  goLastReachedPage,
 }) => {
   const classes = useStyles();
 
-  const previousButtonRef = useRef();
-  const nextButtonRef = useRef();
-  const fastNextButtonRef = useRef();
-  const returnLabel = isFirstPage ? '' : D.goBackReturn;
+  const keysToHandle = [SHORTCUT_NEXT, SHORTCUT_PREVIOUS, SHORTCUT_FAST_FORWARD];
 
-  const keysToHandle = ['alt+enter', 'alt+backspace', 'alt+end'];
-
-  const [focusFastForward, setFocusFastForward] = useState(false);
-
-  const onfocusFastForward = value => () => setFocusFastForward(value);
-
-  const [pageChanging, setPageChanging] = useState(false);
-
-  const localPageFastForward = () => setPageChanging('fastForward');
+  const localPageFastForward = () => goLastReachedPage();
+  const canGoNext = !isLastPage && (readonly || rereading || componentHasResponse);
+  console.log('eval canGo ', !isLastPage, readonly, rereading, ' => ', canGoNext);
 
   const keyboardShortcut = (key, e) => {
     e.preventDefault();
-    if (key === 'alt+enter' && ((!isLastPage && rereading) || readonly)) {
-      if (nextButtonRef && nextButtonRef.current) {
-        nextButtonRef.current.focus();
-        goNext();
-      }
+    if (key === SHORTCUT_NEXT && canGoNext) {
+      goNext();
     }
-    if (key === 'alt+backspace' && !isFirstPage) {
-      if (previousButtonRef && previousButtonRef.current) {
-        previousButtonRef.current.focus();
-        goPrevious();
-      }
+    if (key === SHORTCUT_PREVIOUS && !isFirstPage) {
+      goPrevious();
     }
-    if (key === 'alt+end' && !readonly && rereading && !isLastPage) {
-      if (fastNextButtonRef && fastNextButtonRef.current) {
-        fastNextButtonRef.current.focus();
-        localPageFastForward();
-      }
+    if (key === SHORTCUT_FAST_FORWARD && !readonly && rereading && !isLastPage) {
+      localPageFastForward();
     }
   };
-
-  useEffect(() => {
-    if (focusFastForward && pageChanging) {
-      setPendingChangePage(pageChanging);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageChanging, setPendingChangePage]);
-
   return (
     <>
       <div id="buttons" className={classes.root}>
-        {returnLabel && (
-          <div className={classes.navigation}>
-            <IconButton
-              ref={previousButtonRef}
-              ariaLabel={D.goBackReturnLabel}
-              className={classes.previousIcon}
-              type="button"
-              onClick={goPrevious}
-            >
-              <PlayArrow fontSize="small" />
-            </IconButton>
-            <span className={classes.shortButtonSpan}>{D.goBackReturn}</span>
-          </div>
-        )}
-        {((readonly && !isLastPage) || (!isLastPage && rereading)) && (
-          <div className={`${classes.navigation} ${classes.nextButton}`}>
-            <IconButton
-              ref={nextButtonRef}
-              ariaLabel={D.nextButtonLabel}
-              type="button"
-              onClick={goNext}
-            >
-              <PlayArrow fontSize="small" />
-            </IconButton>
-            <span className={classes.shortButtonSpan}>{D.nextButton}</span>
-          </div>
-        )}
-        {!readonly && rereading && !isLastPage && (
-          <div className={`${classes.navigation} ${classes.fastButtonWrapper}`}>
-            <Button
-              ref={fastNextButtonRef}
-              className={classes.fastButton}
-              type="button"
-              endIcon={skipNextIcon}
-              onClick={localPageFastForward}
-              onFocus={onfocusFastForward(true)}
-              onBlur={onfocusFastForward(false)}
-            >
-              {`${D.fastForward}`}
-            </Button>
-            <span className={classes.fastButtonSpan}>
-              <b>{D.ctrlEnd}</b>
-            </span>
-          </div>
-        )}
+        <div className={classes.navigation}>
+          <IconButton
+            ariaLabel={D.goBackReturnLabel}
+            className={classes.previousIcon}
+            type="button"
+            disabled={isFirstPage}
+            onClick={goPrevious}
+          >
+            <PlayArrow fontSize="small" />
+          </IconButton>
+          <span className={classes.shortButtonSpan}>{D.goBackReturn}</span>
+        </div>
+
+        <div className={`${classes.navigation}`}>
+          <IconButton
+            ariaLabel={D.nextButtonLabel}
+            type="button"
+            onClick={goNext}
+            disabled={!canGoNext}
+          >
+            <PlayArrow fontSize="small" />
+          </IconButton>
+          <span className={classes.shortButtonSpan}>{D.nextButton}</span>
+        </div>
       </div>
       <KeyboardEventHandler
         handleKeys={keysToHandle}
@@ -124,7 +78,6 @@ const Buttons = ({
 
 Buttons.propTypes = {
   rereading: PropTypes.bool.isRequired,
-  setPendingChangePage: PropTypes.func.isRequired,
 };
 
 export default React.memo(Buttons);

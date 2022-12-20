@@ -1,27 +1,13 @@
 import * as lunatic from '@inseefr/lunatic';
 
-import React, { memo, useCallback } from 'react';
+import React, { memo } from 'react';
 
+import ButtonContinue from './buttons/continue/index';
 import Header from './header';
 import NavBar from './navBar';
+import { componentHasResponse } from 'utils/components/deduceState';
 import { useLunaticFetcher } from 'utils/hook';
 import { useStyles } from './lightOrchestrator.style';
-
-function Pager({ goToPage, pageTag, maxPage, getData }) {
-  const logGetData = useCallback(() => console.log(getData(true)), [getData]);
-
-  if (maxPage && maxPage > 1) {
-    const Button = lunatic.Button;
-    return (
-      <div className="pagination">
-        <Button onClick={logGetData}>Get State</Button>
-        <Button onClick={() => goToPage(maxPage)}>{`Go to max page : ${maxPage}`}</Button>
-        <div>PAGE: {pageTag}</div>
-      </div>
-    );
-  }
-  return null;
-}
 
 function onLogChange(response, value, args) {
   console.log('onChange', { response, value, args });
@@ -46,12 +32,13 @@ function LightOrchestrator({
   const { data } = surveyUnit;
   const { lunaticFetcher: suggesterFetcher } = useLunaticFetcher();
   const classes = useStyles();
+
   const {
     getComponents,
     goPreviousPage,
     goNextPage,
     goToPage,
-    pageTag,
+    // pageTag,
     isFirstPage,
     isLastPage,
     // waiting,
@@ -69,7 +56,21 @@ function LightOrchestrator({
     suggesterFetcher,
   });
 
-  const { maxPage = '100', page = '1' } = pager;
+  const logGetData = () => {
+    console.log(getData(true));
+  };
+
+  const {
+    maxPage = '100',
+    page = '1',
+    lastReachedPage = 1,
+    subPage,
+    nbSubPages,
+    iteration,
+    nbIterations,
+  } = pager;
+  const isLastReachedPage = page === lastReachedPage;
+
   const components = getComponents();
   // const errors = getErrors();
   // const modalErrors = getModalErrors();
@@ -79,12 +80,19 @@ function LightOrchestrator({
     goToPage({ page: page });
   };
 
-  const hierarchy = [...components]?.[0]?.hierarchy ?? {
+  const goToLastReachedPage = () => trueGoToPage(lastReachedPage);
+
+  const firstComponent = [...components]?.[0];
+  const hasResponse = componentHasResponse(firstComponent);
+  const hierarchy = firstComponent?.hierarchy ?? {
     sequence: { label: 'There is no sequence', page: '1' },
   };
+  // directly from source, could be in raw VTL in future versions
   const {
     label: { value: questionnaireTitle },
   } = source;
+
+  const fakeRereading = false;
   return (
     <div className={classes.root}>
       <Header
@@ -97,8 +105,9 @@ function LightOrchestrator({
         quit
         currentPage
       />
+      <button onClick={() => logGetData()}>LOG</button>
       <div className={classes.bodyContainer}>
-        <div className="components">
+        <div className={classes.mainTile}>
           {components.map(function (component) {
             const { id, componentType, response, storeName, ...other } = component;
             const Component = lunatic[componentType];
@@ -112,11 +121,23 @@ function LightOrchestrator({
                   missing={missing}
                   missingStrategy={goNextPage}
                   filterDescription={filterDescription}
+                  missingShortcut={{ dontKnow: 'f2', refused: 'f4' }}
+                  shortcut={true}
                   errors={currentErrors}
                 />
               </div>
             );
           })}
+          <ButtonContinue
+            readonly={readonly}
+            isLastPage={isLastPage}
+            page={page}
+            goNext={goNextPage}
+            rereading={fakeRereading}
+            isLastReachedPage={isLastReachedPage}
+            componentHasResponse={hasResponse}
+            goToLastReachedPage={goToLastReachedPage}
+          ></ButtonContinue>
         </div>
         <NavBar
           page={page}
@@ -125,13 +146,18 @@ function LightOrchestrator({
           goPrevious={goPreviousPage}
           goNext={goNextPage}
           maxPages={maxPage}
-          rereading={false}
+          subPage={subPage + 1}
+          nbSubPages={nbSubPages}
+          iteration={iteration}
+          nbIterations={nbIterations}
+          rereading={fakeRereading}
+          componentHasResponse={hasResponse}
+          isLastReachedPage={isLastReachedPage}
+          goLastReachedPage={goToLastReachedPage}
           // force display navigation buttons TODO use readonly prop
-          readonly={true}
-          setPendingChangePage={page => console.log('setPendingPage to ', page)}
+          readonly={readonly}
         />
       </div>
-      <Pager goToPage={trueGoToPage} pageTag={pageTag} maxPage={maxPage} getData={getData} />
     </div>
   );
 }

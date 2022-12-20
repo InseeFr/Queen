@@ -1,31 +1,46 @@
-import * as UQ from 'utils/questionnaire';
-
 import React from 'react';
 import { useStyles } from './component.style';
 
-const RightNavBar = ({ children, page, maxPages, occurences = [] }) => {
+const RightNavBar = ({
+  children,
+  page,
+  maxPages,
+  occurences = [],
+  subPage,
+  nbSubPages,
+  iteration,
+  nbIterations,
+}) => {
   const classes = useStyles();
 
-  const currentLocalPages = page.includes('.')
-    ? UQ.getPageWithoutAnyIteration(page).split('.')
-    : [page];
-
-  const displayPages = currentLocalPages
-    .map((p, i) => {
-      return { localScopePage: p, localScopeMaxPage: maxPages[i] };
+  const displayPages = [
+    [page, maxPages],
+    [subPage, nbSubPages],
+  ]
+    .filter(([current]) => !!current)
+    .map(([current, max]) => {
+      return { localScopePage: current, localScopeMaxPage: max };
     })
     .reverse();
-
   // slice prevent from mutating original array
   const occurencesOrdered = occurences.slice().reverse();
   return (
     <div className={classes.root}>
-      <div className={classes.pages}>
-        {displayPages.map((pages, i) => {
-          const { localScopePage, localScopeMaxPage } = pages;
-          return (
-            <React.Fragment key={`${localScopePage}-${i}`}>
-              {occurencesOrdered && occurencesOrdered[i] && (
+      {displayPages.map((pages, i, init) => {
+        const { localScopePage, localScopeMaxPage } = pages;
+        return (
+          <React.Fragment key={`${localScopePage}-${i}`}>
+            {init.length > 1 && (
+                <div className={classes.page}>
+                  <div className={classes.labelPage}>Occurence</div>
+
+                  <b key="occurence" className={classes.detail}>
+                    Loop
+                  </b>
+                </div>
+              ) &&
+              occurencesOrdered &&
+              occurencesOrdered[i] && (
                 <div className={classes.page}>
                   <div className={classes.labelPage}>Occurence</div>
                   {occurencesOrdered[i].map((v, o) => {
@@ -37,18 +52,15 @@ const RightNavBar = ({ children, page, maxPages, occurences = [] }) => {
                   })}
                 </div>
               )}
-              <div className={classes.page}>
-                <div className={classes.labelPage}>n° page</div>
-                <div>
-                  <b>{page}</b>
-                  <b>{maxPages}</b>
-                  <b>{`${localScopePage}/${localScopeMaxPage}`}</b>
-                </div>
+            <div className={classes.page}>
+              <div className={classes.labelPage}>n° page</div>
+              <div>
+                <b>{`${localScopePage}/${localScopeMaxPage}`}</b>
               </div>
-            </React.Fragment>
-          );
-        })}
-      </div>
+            </div>
+          </React.Fragment>
+        );
+      })}
       {children}
     </div>
   );

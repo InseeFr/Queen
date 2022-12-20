@@ -5,23 +5,38 @@ import RightNavbar from '../rightNavbar';
 const NavBar = ({
   page,
   maxPages,
+  subPage,
+  nbSubPages,
+  iteration,
+  nbIterations,
   rereading,
   readonly,
-  setPendingChangePage,
   isFirstPage,
   isLastPage,
+  isLastReachedPage,
+  goLastReachedPage,
+  componentHasResponse,
   goPrevious,
   goNext,
 }) => (
-  <RightNavbar page={page} maxPages={maxPages}>
+  <RightNavbar
+    page={page}
+    maxPages={maxPages}
+    subPage={subPage}
+    nbSubPages={nbSubPages}
+    iteration={iteration}
+    nbIterations={nbIterations}
+  >
     <Buttons
       rereading={rereading}
-      setPendingChangePage={setPendingChangePage}
       readonly={readonly}
       isFirstPage={isFirstPage}
       isLastPage={isLastPage}
       goPrevious={goPrevious}
       goNext={goNext}
+      isLastReachedPage={isLastReachedPage}
+      goLastReachedPage={goLastReachedPage}
+      componentHasResponse={componentHasResponse}
     />
   </RightNavbar>
 );

@@ -1,81 +1,93 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import KeyboardEventHandler from 'react-keyboard-event-handler';
-import { ArrowRightAlt } from '@material-ui/icons';
+import { ArrowRightAlt, SkipNext } from '@material-ui/icons';
+import { SHORTCUT_FAST_FORWARD, SHORTCUT_NEXT } from 'utils/constants';
+
 import { Button } from 'components/designSystem';
-import PropTypes from 'prop-types';
 import D from 'i18n';
+import KeyboardEventHandler from 'react-keyboard-event-handler';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { useStyles } from './continue.style';
-import { OrchestratorContext } from 'components/orchestrator/queen';
-import { paradataHandler, SIMPLE_CLICK_EVENT } from 'utils/events';
 
-const ButtonContinue = ({ setPendingChangePage }) => {
-  const { readonly, isLastPage, page } = useContext(OrchestratorContext);
+// import { SIMPLE_CLICK_EVENT, paradataHandler } from 'utils/events';
+
+const ButtonContinue = ({
+  goToLastReachedPage,
+  quit = () => console.log('Quit function placeholder'),
+  readonly,
+  goNext,
+  rereading,
+  isLastReachedPage,
+  componentHasResponse,
+  isLastPage,
+  page,
+}) => {
   const classes = useStyles();
+  const localPageFastForward = () => goToLastReachedPage();
 
-  const lastLabel = readonly ? D.simpleQuit : D.saveAndQuit;
-  const getNextLabel = isLastPage ? lastLabel : D.continueButton;
+  const shouldFastForward = !readonly && rereading && !isLastReachedPage;
+  const shouldQuit = isLastPage && readonly;
+  const shouldSaveAndQuit = isLastPage && !readonly;
+  const shouldContinue = !shouldFastForward && componentHasResponse && !rereading;
 
-  const continueButtonRef = useRef();
+  // à voir si on garde tous les events simples ou si on garde que le dernier pour le temps de passation partielle
+  // const utilInfo = type => {
+  //   return {
+  //     ...SIMPLE_CLICK_EVENT,
+  //     idParadataObject: `${type}-button`,
+  //     page: page,
+  //   };
+  // };
 
-  const utilInfo = type => {
-    return {
-      ...SIMPLE_CLICK_EVENT,
-      idParadataObject: `${type}-button`,
-      page: page,
-    };
-  };
+  const localPageNext = () => goNext();
 
-  const [pageChanging, setPageChanging] = useState(null);
+  const localFinalQuit = () => quit();
 
-  const localPageNext = () => setPageChanging('next');
+  const pageNextFunction = isLastPage ? localFinalQuit : localPageNext;
+  // ? paradataHandler(localFinalQuit)(utilInfo('end-survey'))
+  // : paradataHandler(localPageNext)(utilInfo('next-button'));
 
-  const localFinalQuit = () => setPageChanging('quit');
-
-  const pageNextFunction = isLastPage
-    ? paradataHandler(localFinalQuit)(utilInfo('end-survey'))
-    : paradataHandler(localPageNext)(utilInfo('next-button'));
-
-  const [focus, setFocus] = useState(false);
-  const onfocus = value => () => setFocus(value);
-
-  useEffect(() => {
-    setPageChanging(false);
-  }, [page]);
-
-  const keysToHandle = ['alt+enter'];
+  const keysToHandle = [SHORTCUT_NEXT, SHORTCUT_FAST_FORWARD];
 
   const keyboardShortcut = (key, e) => {
     e.preventDefault();
-    if (key === 'alt+enter') {
-      if (continueButtonRef && continueButtonRef.current) {
-        continueButtonRef.current.focus();
-        pageNextFunction();
-      }
-    }
+    if (key === SHORTCUT_NEXT) pageNextFunction();
+    if (key === SHORTCUT_FAST_FORWARD) localPageFastForward();
   };
 
-  useEffect(() => {
-    if (focus && pageChanging) {
-      setPendingChangePage(pageChanging);
-    }
-  }, [focus, pageChanging, setPendingChangePage]);
+  const geLabelToDisplay = () => {
+    if (shouldFastForward) return D.fastForward;
+    if (shouldQuit) return D.simpleQuit;
+    if (shouldSaveAndQuit) return D.saveAndQuit;
+    return D.continueButton;
+  };
+  const labelToDisplay = geLabelToDisplay();
+
+  const getEndIconToDisplay = () => {
+    if (shouldFastForward) return <SkipNext fontSize="large" />;
+    if (shouldContinue) return <ArrowRightAlt />;
+    return undefined;
+  };
+  const endIconToDisplay = getEndIconToDisplay();
+
+  const onClickFunction = () => {
+    if (shouldFastForward) return goToLastReachedPage;
+    if (shouldContinue) return pageNextFunction;
+  };
+
+  const helpLabel = shouldFastForward ? D.ctrlEnd : D.ctrlEnter;
 
   const componentToDisplay = (
     <div className={classes.wrapperButton}>
       <Button
-        ref={continueButtonRef}
-        aria-label={getNextLabel}
+        aria-label={labelToDisplay}
         type="button"
-        onClick={pageNextFunction}
-        onFocus={onfocus(true)}
-        onBlur={onfocus(false)}
-        disabled={readonly}
-        endIcon={!isLastPage && <ArrowRightAlt />}
+        onClick={onClickFunction()}
+        endIcon={endIconToDisplay}
       >
-        {getNextLabel}
+        {labelToDisplay}
       </Button>
       <span className={classes.help}>{` ${D.helpShortCut} `}</span>
-      <span className={classes.labelHelp}>{D.ctrlEnter}</span>
+      <span className={classes.labelHelp}>{helpLabel}</span>
       <KeyboardEventHandler
         handleKeys={keysToHandle}
         onKeyEvent={keyboardShortcut}
@@ -86,14 +98,14 @@ const ButtonContinue = ({ setPendingChangePage }) => {
 
   return (
     <>
-      {readonly && isLastPage && componentToDisplay}
-      {!readonly && componentToDisplay}
+      {(shouldFastForward || shouldQuit || shouldSaveAndQuit || shouldContinue) &&
+        componentToDisplay}
     </>
   );
 };
 
 ButtonContinue.propTypes = {
-  setPendingChangePage: PropTypes.func.isRequired,
+  quit: PropTypes.func.isRequired,
 };
 
 export default React.memo(ButtonContinue);

@@ -8,7 +8,6 @@ export const useStyles = makeStyles({
     gap: '1em',
     paddingBottom: '1em',
     alignItems: 'center',
-    backgroundColor: 'yellow',
     borderLeft: '1px solid #777777',
   },
   detail: { display: 'block' },
@@ -20,13 +19,7 @@ export const useStyles = makeStyles({
     textAlign: 'center',
     borderRadius: '5px',
     width: '57px',
-    margin: 'auto',
-    backgroundColor: 'red',
-  },
-  pages: {
-    // position: 'absolute',
-    // bottom: '200px',
-    backgroundColor: 'green',
+    backgroundColor: 'white',
   },
   labelPage: { fontSize: '90%', marginBottom: '4px' },
 });
