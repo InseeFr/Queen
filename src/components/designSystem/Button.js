@@ -1,5 +1,5 @@
+import { IconButton as MuiIconButton } from '@material-ui/core';
 import React from 'react';
-import { Button as MuiButton, IconButton as MuiIconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -20,40 +20,26 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const Button = React.forwardRef(
-  ({ className, color, children, disabled, onClick, startIcon, endIcon, ...other }, ref) => {
-    const classes = useStyles();
-    return (
-      <MuiButton
-        ref={ref}
-        className={`${classes.button} ${className}`}
-        disabled={disabled}
-        onClick={onClick}
-        startIcon={startIcon}
-        endIcon={endIcon}
-        {...other}
-      >
-        {children}
-      </MuiButton>
-    );
-  }
-);
-
-export const IconButton = React.forwardRef(
-  ({ className, color, children, disabled, onClick, ariaLabel, ...other }, ref) => {
-    const classes = useStyles();
-    return (
-      <MuiIconButton
-        aria-label={ariaLabel}
-        size="medium"
-        ref={ref}
-        className={`${classes.iconButton} ${className}`}
-        disabled={disabled}
-        onClick={onClick}
-        {...other}
-      >
-        {children}
-      </MuiIconButton>
-    );
-  }
-);
+export const IconButton = ({
+  className,
+  color,
+  children,
+  disabled,
+  onClick,
+  ariaLabel,
+  ...other
+}) => {
+  const classes = useStyles();
+  return (
+    <MuiIconButton
+      aria-label={ariaLabel}
+      size="medium"
+      className={`${classes.iconButton} ${className}`}
+      disabled={disabled}
+      onClick={onClick}
+      {...other}
+    >
+      {children}
+    </MuiIconButton>
+  );
+};

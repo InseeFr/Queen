@@ -25,7 +25,6 @@ const Buttons = ({
 
   const localPageFastForward = () => goLastReachedPage();
   const canGoNext = !isLastPage && (readonly || rereading || componentHasResponse);
-  console.log('eval canGo ', !isLastPage, readonly, rereading, ' => ', canGoNext);
 
   const keyboardShortcut = (key, e) => {
     e.preventDefault();

@@ -6,6 +6,7 @@ import ButtonContinue from './buttons/continue/index';
 import Header from './header';
 import NavBar from './navBar';
 import { componentHasResponse } from 'utils/components/deduceState';
+import { useCustomLunaticStyles } from 'components/orchestrator/lunaticStyle/style';
 import { useLunaticFetcher } from 'utils/hook';
 import { useStyles } from './lightOrchestrator.style';
 
@@ -32,6 +33,7 @@ function LightOrchestrator({
   const { data } = surveyUnit;
   const { lunaticFetcher: suggesterFetcher } = useLunaticFetcher();
   const classes = useStyles();
+  const lunaticClasses = useCustomLunaticStyles();
 
   const {
     getComponents,
@@ -112,13 +114,14 @@ function LightOrchestrator({
             const { id, componentType, response, storeName, ...other } = component;
             const Component = lunatic[componentType];
             return (
-              <div className="lunatic lunatic-component" key={`component-${id}`}>
+              <div className={`${lunaticClasses.lunatic} ${componentType}`} key={`component-${id}`}>
                 <Component
                   id={id}
                   response={response}
                   {...other}
                   {...component}
                   missing={missing}
+                  focused // waiting for Lunatic feature
                   missingStrategy={goNextPage}
                   filterDescription={filterDescription}
                   missingShortcut={{ dontKnow: 'f2', refused: 'f4' }}
