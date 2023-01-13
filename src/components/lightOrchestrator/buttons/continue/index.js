@@ -97,10 +97,7 @@ const ButtonContinue = ({
   );
 
   return (
-    <>
-      {(shouldFastForward || shouldQuit || shouldSaveAndQuit || shouldContinue) &&
-        componentToDisplay}
-    </>
+    (shouldFastForward || shouldQuit || shouldSaveAndQuit || shouldContinue) && componentToDisplay
   );
 };
 

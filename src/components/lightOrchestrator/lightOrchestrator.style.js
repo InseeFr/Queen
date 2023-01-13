@@ -18,8 +18,6 @@ export const useStyles = makeStyles(() => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
     width: '100%',
-    marginLeft: '6,5em',
-    marginTop: '3em',
   },
   loopInfo: {
     position: 'absolute',

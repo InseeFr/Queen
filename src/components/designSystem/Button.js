@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }));
-
+// encapsuler onClick avec un e.targetElement.blur() pour déselectionner le bouton lors du clic
 export const Button = React.forwardRef(
   ({ className, color, children, disabled, onClick, startIcon, endIcon, ...other }, ref) => {
     const classes = useStyles();

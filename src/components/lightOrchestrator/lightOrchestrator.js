@@ -1,8 +1,9 @@
 import * as lunatic from '@inseefr/lunatic';
 
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 
 import ButtonContinue from './buttons/continue/index';
+import D from 'i18n';
 import Header from './header';
 import NavBar from './navBar';
 import { componentHasResponse } from 'utils/components/deduceState';
@@ -58,6 +59,21 @@ function LightOrchestrator({
     suggesterFetcher,
   });
 
+  // TODO : restore comments once Missing override available in lunatic-v2
+  const dontKnowButton = D.doesntKnowButton;
+  // <>
+  // <span className="shortcut">F2</span>
+  // <span className="checked" />
+  // </>
+  const refusedButton = D.refusalButton;
+  // (
+  //   <>
+  //     <span className="shortcut">F4</span>
+  //     {D.refusalButton}
+  //     <span className="checked" />
+  //   </>
+  // );
+
   const logGetData = () => {
     console.log(getData(true));
   };
@@ -78,11 +94,16 @@ function LightOrchestrator({
   // const modalErrors = getModalErrors();
   const currentErrors = getCurrentErrors();
 
-  const trueGoToPage = page => {
-    goToPage({ page: page });
-  };
+  const trueGoToPage = useCallback(
+    page => {
+      goToPage({ page: page });
+    },
+    [goToPage]
+  );
 
-  const goToLastReachedPage = () => trueGoToPage(lastReachedPage);
+  const goToLastReachedPage = useCallback(() => {
+    trueGoToPage(lastReachedPage);
+  }, [lastReachedPage, trueGoToPage]);
 
   const firstComponent = [...components]?.[0];
   const hasResponse = componentHasResponse(firstComponent);
@@ -107,7 +128,7 @@ function LightOrchestrator({
         quit
         currentPage
       />
-      <button onClick={() => logGetData()}>LOG</button>
+      {/* <button onClick={() => logGetData()}>LOG</button> */}
       <div className={classes.bodyContainer}>
         <div className={classes.mainTile}>
           {components.map(function (component) {
@@ -125,6 +146,8 @@ function LightOrchestrator({
                   missingStrategy={goNextPage}
                   filterDescription={filterDescription}
                   missingShortcut={{ dontKnow: 'f2', refused: 'f4' }}
+                  dontKnowButton={dontKnowButton}
+                  refusedButton={refusedButton}
                   shortcut={true}
                   errors={currentErrors}
                 />
@@ -157,7 +180,6 @@ function LightOrchestrator({
           componentHasResponse={hasResponse}
           isLastReachedPage={isLastReachedPage}
           goLastReachedPage={goToLastReachedPage}
-          // force display navigation buttons TODO use readonly prop
           readonly={readonly}
         />
       </div>
