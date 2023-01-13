@@ -12,8 +12,10 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
   lunatic: {
     width: '80%',
     marginLeft: '100px',
+    display: 'flex',
+    flexDirection: 'column',
     marginTop: '3em',
-    height: '70vh',
+    height: '80vh',
     overflow: 'auto',
     marginRight: 'auto',
     [theme.breakpoints.down('sm')]: {
@@ -121,6 +123,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
     },
 
     '&.CheckboxOne, &.Radio': {
+      // TODO code-modality not provided (yet?) in lunatic-v2
       '& .code-modality': {
         borderRadius: '15px',
       },
@@ -155,30 +158,53 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         margin: '8px',
         width: '60%',
 
-        '& .list-icon-wrapper': {
-          display: 'flex',
-        },
-        '& .list-icon': {
+        '& .lunatic-icon': {
           display: 'none',
         },
 
-        '&.content-checked': {
-          backgroundColor: `${backgroundColorCheckboxChecked}`,
-          borderColor: `${modalityLabelColorChecked}`,
-        },
-        '& label': {
+        '& > .lunatic-input-checkbox': {
           display: 'inline-flex',
           alignItems: 'center',
           padding: '0.5em 0.5em 0.5em 0.6em',
           position: 'relative',
-          right: '1.3em',
+          // right: '1.3em',
           width: '92%',
           [theme.breakpoints.down('md')]: {
             width: '85%',
           },
         },
-      },
 
+        '&:hover span': {
+          color: `${modalityLabelColorChecked}`,
+          fontWeight: 'bold',
+          // TODO code-modality not provided (yet?) in lunatic-v2
+          '& .code-modality': {
+            color: `${modalityCodeBackgroundColor}`,
+            backgroundColor: theme.palette.declarations.main,
+            borderColor: theme.palette.declarations.main,
+          },
+        },
+
+        '&.checked': {
+          backgroundColor: `${backgroundColorCheckboxChecked}`,
+          borderColor: `${modalityLabelColorChecked}`,
+          '& .lunatic-input-checkbox::after': {
+            marginLeft: 'auto',
+            content: "'✓'",
+          },
+          '& span': {
+            color: `${modalityLabelColorChecked}`,
+            fontWeight: 'bold',
+            // TODO code-modality not provided (yet?) in lunatic-v2
+            '& .code-modality': {
+              color: `${modalityCodeBackgroundColor}`,
+              backgroundColor: theme.palette.declarations.main,
+              borderColor: theme.palette.declarations.main,
+            },
+          },
+        },
+      },
+      // TODO code-modality not provided (yet?) in lunatic-v2
       '& .code-modality': {
         alignSelf: 'baseline',
         position: 'relative',
@@ -195,23 +221,11 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       '& .checkbox-lunatic, .radio-lunatic': {
         opacity: 0,
 
-        '&:checked + label::after': {
-          marginLeft: 'auto',
-          content: "'✓'",
-        },
         '&:focus + label, ': {
+          // TODO code-modality not provided (yet?) in lunatic-v2
           '& .code-modality': {
             borderColor: theme.palette.declarations.main,
             borderWidth: '2px',
-          },
-        },
-        '&:checked + label, &:hover + label': {
-          color: `${modalityLabelColorChecked}`,
-          fontWeight: 'bold',
-          '& .code-modality': {
-            color: `${modalityCodeBackgroundColor}`,
-            backgroundColor: theme.palette.declarations.main,
-            borderColor: theme.palette.declarations.main,
           },
         },
       },
@@ -376,70 +390,79 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         },
       },
     },
-
+    // missing response buttons css override
+    // roll-back some changes when Missing override is available in lunatic-v2
+    // such as shortcut and checked selectors
     '& .missing-buttons': {
-      marginRight: '60px',
-      position: 'absolute',
-      bottom: '1.3em',
-      [theme.breakpoints.down('md')]: {
-        bottom: '4em',
+      display: 'flex',
+      gap: '1em',
+      marginTop: 'auto',
+
+      '& .button-lunatic': {
+        height: '100%',
       },
 
-      '& button.button-lunatic': {
-        display: 'inline-block',
+      // generic button
+      '& .missing-button, .button-lunatic': {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        color: 'white',
+        backgroundColor: '#666666',
+        border: 'none',
         borderRadius: '4px',
         lineHeight: 1.75,
-        border: 'none',
-        color: 'white',
-        verticalAlign: 'middle',
-        backgroundColor: '#666666',
         fontSize: '0.875rem',
-        padding: '6px 8px',
-        marginLeft: '2em',
-        marginBottom: '3px',
 
-        '& .shortcut': {
+        '&::before': {
+          content: "'Fx'",
           padding: '0.3em 0.5em 0.3em 0.5em',
-          marginRight: '0.5em',
+          margin: '0.5em',
           color: '#666666',
           fontWeight: 'bold',
-          border: '1px solid transparent',
           backgroundColor: 'white',
-          borderRadius: '5px',
+          borderRadius: '4px',
+
+          '&:hover,&:focus': {
+            color: 'white',
+            backgroundColor: '#b45f06',
+          },
         },
-        '& .checked': {
-          display: 'inline-block',
+        '&::after': {
+          content: 'none',
           width: '1em',
-          marginLeft: '1em',
           fontSize: '85%',
           fontWeight: 'bold',
         },
       },
 
-      '& .missing-button-dk button.button-lunatic': {
+      // '& .missing-button-dk, .missing-button-dk-active'
+
+      '& .missing-button, .missing-button-dk .button-lunatic': {
         '&:hover,&:focus': {
-          backgroundColor: '#f9cb9c',
-          color: '#b45f06',
-          '& .shortcut': {
+          backgroundColor: '#f9cb9c', //jaune sable
+          color: '#b45f06', //doré
+          '&::before': {
             color: 'white',
             backgroundColor: '#b45f06',
           },
         },
       },
 
-      '& .missing-button-rf button.button-lunatic': {
+      '& .missing-button-rf .button-lunatic': {
+        '& ::after': {
+          color: 'white',
+          content: 'toto',
+          backgroundColor: '#990000',
+        },
         '&:hover,&:focus': {
           backgroundColor: '#ea9999',
           color: '#990000',
-          '& .shortcut': {
-            color: 'white',
-            backgroundColor: '#990000',
-          },
         },
       },
 
       //  dont know active
-      '& .missing-button-dk-active button.button-lunatic': {
+      '& .missing-button-dk-active .button-lunatic': {
         backgroundColor: '#f9cb9c',
         color: '#b45f06',
         '& .shortcut': {
@@ -454,18 +477,14 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         },
       },
       // refused active
-      '& .missing-button-rf-active .button-lunatic': {
+      '& .missing-button-active.missing-button-rf-active .button-lunatic': {
         backgroundColor: '#ea9999',
         color: '#990000',
-        '& .shortcut': {
-          color: 'white',
-          backgroundColor: '#990000',
-        },
-        '& .checked': {
-          color: '#990000',
-          '&::after': {
-            content: "'✓'",
-          },
+        '&::after': {
+          content: "'✓'",
+          // width: '1em',
+          // fontSize: '85%',
+          // fontWeight: 'bold',
         },
       },
     },
