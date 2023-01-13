@@ -128,7 +128,7 @@ function LightOrchestrator({
         quit
         currentPage
       />
-      {/* <button onClick={() => logGetData()}>LOG</button> */}
+      <button onClick={() => logGetData()}>LOG</button>
       <div className={classes.bodyContainer}>
         <div className={classes.mainTile}>
           {components.map(function (component) {
