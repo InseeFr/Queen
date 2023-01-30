@@ -13,13 +13,14 @@ import { ButtonItemMenu } from 'components/designSystem';
 import D from 'i18n';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
+import { isReachable } from 'utils/breadcrumb';
 
 const SubsequenceNavigation = ({ sequence, close, setPage }) => {
   const offset = 2;
   const [currentFocusElementIndex, setCurrentFocusElementIndex] = useState(0);
   const [listRefs] = useState(
-    sequence.components
-      ? sequence.components.reduce(_ => [..._, React.createRef()], createArrayOfRef(offset))
+    sequence.children
+      ? sequence.children.reduce(_ => [..._, React.createRef()], createArrayOfRef(offset))
       : createArrayOfRef(offset)
   );
 
@@ -27,8 +28,8 @@ const SubsequenceNavigation = ({ sequence, close, setPage }) => {
     index => () => setCurrentFocusElementIndex(index),
     [setCurrentFocusElementIndex]
   );
-  const reachableRefs = sequence.components.reduce((_, { reachable }) => {
-    return [..._, reachable];
+  const reachableRefs = sequence.children.reduce((_, current) => {
+    return [..._, isReachable(current)];
   }, createReachableElement(offset));
 
   const keysToHandle = ['up', 'down'];
@@ -43,11 +44,12 @@ const SubsequenceNavigation = ({ sequence, close, setPage }) => {
   };
 
   const changePage = useCallback(
-    ({ page, goToPage, reachable }) =>
-      () => {
-        if (reachable && goToPage) setPage(goToPage);
-        else if (reachable && page) setPage(page);
-      },
+    sequence => () => {
+      const { page, goToPage } = sequence;
+      const reachable = isReachable(sequence);
+      if (reachable && goToPage) setPage(goToPage);
+      else if (reachable && page) setPage(page);
+    },
     [setPage]
   );
 
@@ -65,20 +67,21 @@ const SubsequenceNavigation = ({ sequence, close, setPage }) => {
           onClick={changePage(sequence)}
           onFocus={setFocus(1)}
         >
-          {sequence.labelNav.value}
+          {sequence.label}
         </ButtonItemMenu>
         <nav role="navigation">
           <ul>
-            {sequence.components.map((c, index) => {
+            {sequence.children.map((c, index) => {
+              const reachable = isReachable(c);
               return (
-                <li key={c.id}>
+                <li key={c.lunaticId}>
                   <ButtonItemMenu
                     ref={listRefs[index + offset]}
-                    disabled={!c.reachable}
+                    disabled={!reachable}
                     onClick={changePage(c)}
                     onFocus={setFocus(index + offset)}
                   >
-                    {`${c.labelNav}`}
+                    {`${c.label}`}
                   </ButtonItemMenu>
                 </li>
               );

@@ -25,91 +25,13 @@ import { useStyles } from './component.style';
 
 // import * as lunatic from '@inseefr/lunatic';
 
-const Navigation = ({
-  className,
-  title,
-  questionnaire,
-  validatedPages,
-  setMenuOpen,
-  readonly,
-  setPage,
-}) => {
+const Navigation = ({ className, title, setMenuOpen, readonly, setPage, breadcrumb }) => {
   const [open, setOpen] = useState(false);
   const [surveyOpen, setSurveyOpen] = useState(false);
   const [stopOpen, setStopOpen] = useState(false);
   const [selectedSequence, setSelectedSequence] = useState(undefined);
   const lunaticVersion = dependencies['@inseefr/lunatic'].replace('^', '');
 
-  const specialVTLComponents = components => {
-    // const localCache = {};
-    return components.reduce((_, { componentType, conditionFilter, label, ...other }) => {
-      if (componentType === 'Sequence') {
-        // const { page } = other;
-        return [
-          ..._,
-          {
-            componentType,
-            labelNav: label,
-            reachable: true,
-            // validatedPages?.includes(page) && getFilterValue(localCache)(conditionFilter),
-            ...other,
-          },
-        ];
-      }
-      if (componentType === 'Subsequence') {
-        // const { goToPage } = other;
-        return [
-          ..._,
-          {
-            componentType,
-            labelNav: label,
-            reachable: true,
-            // validatedPages?.includes(goToPage) && getFilterValue(localCache)(conditionFilter),
-            ...other,
-          },
-        ];
-      }
-      return _;
-    }, []);
-  };
-
-  const componentsVTL = specialVTLComponents(questionnaire.components);
-
-  // TODO lister les séquences du questionnaire et récupérer le component from Lunatic
-  // lister les sous séquences du questionnaire et récupérer le component from Lunatic
-  //
-
-  const getSubsequenceComponents = useMemo(
-    () => id =>
-      componentsVTL.filter(
-        ({
-          componentType,
-          hierarchy: {
-            sequence: { id: idSequence },
-          },
-        }) => componentType === 'Subsequence' && idSequence === id
-      ),
-    [componentsVTL]
-  );
-
-  const navigationComponents = useMemo(() => {
-    return surveyOpen
-      ? componentsVTL.reduce((_, { id, componentType, ...other }) => {
-          if (componentType === 'Sequence') {
-            return [
-              ..._,
-              {
-                id,
-                componentType,
-                components: getSubsequenceComponents(id),
-                ...other,
-              },
-            ];
-          }
-          return _;
-        }, [])
-      : null;
-  }, [surveyOpen, componentsVTL, getSubsequenceComponents]);
   const offset = 1;
 
   const menuItemsSurvey = [D.surveyNavigation];
@@ -166,8 +88,6 @@ const Navigation = ({
 
   const setNavigationPage = useCallback(
     page => {
-      console.log('setting page to ', page);
-      console.log(setPage);
       openCloseMenu();
       setPage(page);
     },
@@ -287,7 +207,7 @@ const Navigation = ({
             {surveyOpen && (
               <SequenceNavigation
                 title={title}
-                components={navigationComponents}
+                components={breadcrumb}
                 setPage={setNavigationPage}
                 setSelectedSequence={setSelectedSequence}
                 subSequenceOpen={!!selectedSequence}
@@ -302,7 +222,7 @@ const Navigation = ({
                 classes.subsequenceNavigationContainer
               }${selectedSequence ? ' slideIn' : ''}`}
             >
-              {selectedSequence && selectedSequence.components.length > 0 && (
+              {selectedSequence && selectedSequence.children.length > 0 && (
                 <SubsequenceNavigation
                   sequence={selectedSequence}
                   close={() => setSelectedSequence(undefined)}

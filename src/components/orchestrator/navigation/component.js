@@ -1,7 +1,5 @@
 import '@a11y/focus-trap';
 
-import * as lunatic from '@inseefr/lunatic';
-
 import {
   NEXT_FOCUS,
   PREVIOUS_FOCUS,
@@ -11,7 +9,7 @@ import {
 } from 'utils/navigation';
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { dependencies, version } from '../../../../package.json';
 
 import { Apps } from '@material-ui/icons';
@@ -27,94 +25,14 @@ import SubsequenceNavigation from './subSequenceNavigation';
 import { useStyles } from './component.style';
 
 const Navigation = ({ className, title }) => {
-  const { questionnaire, bindings, validatedPages, setMenuOpen, readonly, setPage } =
-    useContext(OrchestratorContext);
+  const { setMenuOpen, readonly, setPage } = useContext(OrchestratorContext);
   const [open, setOpen] = useState(false);
   const [surveyOpen, setSurveyOpen] = useState(false);
   const [stopOpen, setStopOpen] = useState(false);
   const [selectedSequence, setSelectedSequence] = useState(undefined);
 
   const lunaticVersion = dependencies['@inseefr/lunatic'].replace('^', '');
-  const getVtlLabel = label => {
-    return lunatic.interpret(['VTL'])(bindings)(label);
-  };
 
-  const getFilterValue = cache => conditionFilter => {
-    if (!!conditionFilter || !!conditionFilter.value) return true;
-    const { value } = conditionFilter;
-    if (cache[value] !== undefined) {
-      return cache[value];
-    }
-    cache[value] = lunatic.interpret(['VTL'])(bindings, true)(value);
-    return cache[value];
-  };
-
-  const specialVTLComponents = components => {
-    const localCache = {};
-    return components.reduce((_, { componentType, conditionFilter, label, ...other }) => {
-      if (componentType === 'Sequence') {
-        const { page } = other;
-        return [
-          ..._,
-          {
-            componentType,
-            labelNav: getVtlLabel(label),
-            reachable:
-              validatedPages?.includes(page) && getFilterValue(localCache)(conditionFilter),
-            ...other,
-          },
-        ];
-      }
-      if (componentType === 'Subsequence') {
-        const { goToPage } = other;
-        return [
-          ..._,
-          {
-            componentType,
-            labelNav: getVtlLabel(label),
-            reachable:
-              validatedPages?.includes(goToPage) && getFilterValue(localCache)(conditionFilter),
-            ...other,
-          },
-        ];
-      }
-      return _;
-    }, []);
-  };
-
-  const componentsVTL = specialVTLComponents(questionnaire.components);
-
-  const getSubsequenceComponents = useMemo(
-    () => id =>
-      componentsVTL.filter(
-        ({
-          componentType,
-          hierarchy: {
-            sequence: { id: idSequence },
-          },
-        }) => componentType === 'Subsequence' && idSequence === id
-      ),
-    [componentsVTL]
-  );
-
-  const navigationComponents = useMemo(() => {
-    return surveyOpen
-      ? componentsVTL.reduce((_, { id, componentType, ...other }) => {
-          if (componentType === 'Sequence') {
-            return [
-              ..._,
-              {
-                id,
-                componentType,
-                components: getSubsequenceComponents(id),
-                ...other,
-              },
-            ];
-          }
-          return _;
-        }, [])
-      : null;
-  }, [surveyOpen, componentsVTL, getSubsequenceComponents]);
   const offset = 1;
 
   const menuItemsSurvey = [D.surveyNavigation];
@@ -290,7 +208,7 @@ const Navigation = ({ className, title }) => {
             {surveyOpen && (
               <SequenceNavigation
                 title={title}
-                components={navigationComponents}
+                // components={breadcrumb}
                 setPage={setNavigationPage}
                 setSelectedSequence={setSelectedSequence}
                 subSequenceOpen={!!selectedSequence}

@@ -1,19 +1,21 @@
-/* eslint-disable no-alert */
-import React, { useState, useEffect, useContext } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import Preloader from 'components/shared/preloader';
-import Error from 'components/shared/Error';
-import NotFound from 'components/shared/not-found';
-import { AppContext } from 'components/app';
-import { useAPI, useAPIRemoteData, useAuth } from 'utils/hook';
-import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
-import paradataIdbService from 'utils/indexedbb/services/paradata-idb-service';
-import { sendCloseEvent } from 'utils/communication';
-import Orchestrator from '../orchestrator';
-import { checkQuestionnaire } from 'utils/questionnaire';
-import { buildSuggesterFromNomenclatures } from 'utils/questionnaire/nomenclatures';
 import { EventsManager, INIT_ORCHESTRATOR_EVENT, INIT_SESSION_EVENT } from 'utils/events';
 import { ORCHESTRATOR_COLLECT, ORCHESTRATOR_READONLY, READ_ONLY } from 'utils/constants';
+/* eslint-disable no-alert */
+import React, { useContext, useEffect, useState } from 'react';
+import { useAPI, useAPIRemoteData, useAuth } from 'utils/hook';
+import { useHistory, useParams } from 'react-router-dom';
+
+import { AppContext } from 'components/app';
+import Error from 'components/shared/Error';
+import LightOrchestrator from 'components/lightOrchestrator';
+import NotFound from 'components/shared/not-found';
+import Orchestrator from '../orchestrator';
+import Preloader from 'components/shared/preloader';
+import { buildSuggesterFromNomenclatures } from 'utils/questionnaire/nomenclatures';
+import { checkQuestionnaire } from 'utils/questionnaire';
+import paradataIdbService from 'utils/indexedbb/services/paradata-idb-service';
+import { sendCloseEvent } from 'utils/communication';
+import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 
 const OrchestratorManager = () => {
   const { standalone, apiUrl } = useContext(AppContext);
@@ -79,7 +81,7 @@ const OrchestratorManager = () => {
     const { id, ...other } = unit;
     setErrorSending(null);
     setSending(true);
-    const { /* status, */ error: putDataError } = await putUeData(id, other);
+    const { error: putDataError } = await putUeData(id, other);
     setSending(false);
     if (putDataError) setErrorSending('Error during sending');
   };

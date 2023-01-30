@@ -14,6 +14,7 @@ import { ButtonItemMenu } from 'components/designSystem';
 import D from 'i18n';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
+import { isReachable } from 'utils/breadcrumb';
 import { useStyles } from '../component.style';
 
 const SequenceNavigation = ({
@@ -28,15 +29,13 @@ const SequenceNavigation = ({
   const [currentFocusElement, setCurrentFocusElement] = useState(undefined);
   const [currentFocusElementIndex, setCurrentFocusElementIndex] = useState(0);
 
-  console.log('components ', components);
-
   const [listRefs] = useState(
     components
       ? components.reduce(_ => [..._, React.createRef()], createArrayOfRef(offset))
       : createArrayOfRef(offset)
   );
-  const reachableRefs = components.reduce((_, { reachable }) => {
-    return [..._, reachable];
+  const reachableRefs = components.reduce((_, current) => {
+    return [..._, isReachable(current)];
   }, createReachableElement(offset));
 
   useEffect(() => {
@@ -52,12 +51,12 @@ const SequenceNavigation = ({
   );
 
   const openSubComponents = sequence => {
-    if (sequence.components && sequence.components.length > 0) {
-      if (!currentFocusElement || currentFocusElement !== sequence.id) {
+    if (sequence.children && sequence.children.length > 0) {
+      if (!currentFocusElement || currentFocusElement !== sequence.lunaticId) {
         setSelectedSequence(sequence);
-        setCurrentFocusElement(sequence.id);
+        setCurrentFocusElement(sequence.lunaticId);
       }
-      if (currentFocusElement === sequence.id) {
+      if (currentFocusElement === sequence.lunaticId) {
         listRefs[0].current.focus();
         setSelectedSequence(undefined);
         setCurrentFocusElement(undefined);
@@ -101,18 +100,19 @@ const SequenceNavigation = ({
           <nav role="navigation">
             <ul>
               {components.map((c, index) => {
+                const reachable = c.reached && c.visible;
                 return (
-                  <li key={c.id}>
+                  <li key={`breadcrumbEntry-${c.lunaticId}`}>
                     <ButtonItemMenu
                       ref={listRefs[index + offset]}
                       autoFocus={index === 0}
                       selected={currentFocusElementIndex === index + offset}
-                      disabled={!c.reachable}
+                      disabled={!reachable}
                       onClick={open(c)}
                       onFocus={setFocus(index + offset)}
                     >
-                      {c.labelNav.value}
-                      <span>{`${c.components.length > 0 ? '\u3009' : ''} `}</span>
+                      {c.label}
+                      <span>{`${c.children.length > 0 ? '\u3009' : ''} `}</span>
                     </ButtonItemMenu>
                   </li>
                 );

@@ -13,8 +13,9 @@ import ContinueButton from './buttons/continue';
 import D from 'i18n';
 import { DIRECT_CONTINUE_COMPONENTS } from 'utils/constants';
 import Header from './header';
+import { MissingButton } from 'components/lightOrchestrator/buttons/missing/missing-button';
 import NavBar from '../lightOrchestrator/navBar';
-import { Panel } from 'components/designSystem';
+// import { Panel } from 'components/designSystem';
 import PropTypes from 'prop-types';
 import SimpleLoader from 'components/shared/preloader/simple';
 import { useCustomLunaticStyles } from './lunaticStyle/style';
@@ -22,21 +23,8 @@ import { useStyles } from './orchestrator.style';
 
 export const OrchestratorContext = React.createContext();
 
-const dontKnowButton = (
-  <>
-    <span className="shortcut">F2</span>
-    {D.doesntKnowButton}
-    <span className="checked" />
-  </>
-);
-
-const refusedButton = (
-  <>
-    <span className="shortcut">F4</span>
-    {D.refusalButton}
-    <span className="checked" />
-  </>
-);
+const dontKnowButton = <MissingButton shortcutLabel="F2" buttonLabel={D.doesntKnowButton} />;
+const refusedButton = <MissingButton shortcutLabel="F4" buttonLabel={D.refusalButton} />;
 
 const QueenOrchestrator = ({
   lunatic: {
@@ -330,7 +318,7 @@ const QueenOrchestrator = ({
                 );
               return null;
             })}
-            {loopBindings && (
+            {/* {loopBindings && (
               <div className={classes.loopInfo}>
                 {Object.values(loopBindings).length > 0 &&
                   Object.values(loopBindings)[0].map((_, ind) => {
@@ -354,7 +342,7 @@ const QueenOrchestrator = ({
                     );
                   })}
               </div>
-            )}
+            )} */}
             {!DIRECT_CONTINUE_COMPONENTS.includes(currentComponentType) &&
               ((canGoNext && !rereading) || isLastPage) && (
                 <ContinueButton setPendingChangePage={setPendingChangePage} />

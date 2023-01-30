@@ -5,6 +5,7 @@ import React, { memo, useCallback } from 'react';
 import ButtonContinue from './buttons/continue/index';
 import D from 'i18n';
 import Header from './header';
+import { MissingButton } from './buttons/missing/missing-button';
 import NavBar from './navBar';
 import { componentHasResponse } from 'utils/components/deduceState';
 import { useCustomLunaticStyles } from 'components/orchestrator/lunaticStyle/style';
@@ -36,14 +37,56 @@ function LightOrchestrator({
   const classes = useStyles();
   const lunaticClasses = useCustomLunaticStyles();
 
+  // TODO remove when provided by lunatic
+  const mockedBreacrumb = [
+    {
+      label: 'Seq-1',
+      lunaticId: '#123',
+      type: 'sequence',
+      reached: true,
+      visible: true,
+      page: '1',
+      children: [
+        {
+          label: 'Sous-Seq-1',
+          lunaticId: '#124',
+          type: 'subSequence',
+          reached: false,
+          visible: true,
+          page: '2',
+          children: [],
+        },
+      ],
+    },
+    {
+      label: 'Seq-2',
+      lunaticId: '#221',
+      type: 'sequence',
+      reached: false,
+      visible: true,
+      page: '3',
+      children: [
+        {
+          label: 'Sous-Seq-2',
+          lunaticId: '#222',
+          type: 'subSequence',
+          reached: false,
+          visible: false,
+          page: '4',
+          children: [],
+        },
+      ],
+    },
+  ];
+
   const {
     getComponents,
     goPreviousPage,
     goNextPage,
     goToPage,
-    // pageTag,
     isFirstPage,
     isLastPage,
+    breadcrumb = mockedBreacrumb,
     // waiting,
     pager,
     // getErrors,
@@ -52,6 +95,7 @@ function LightOrchestrator({
     getData,
   } = lunatic.useLunatic(source, data, {
     features,
+    pagination,
     preferences,
     onChange: onLogChange,
     autoSuggesterLoading,
@@ -59,21 +103,8 @@ function LightOrchestrator({
     suggesterFetcher,
   });
 
-  // TODO : restore comments once Missing override available in lunatic-v2
-  const dontKnowButton = D.doesntKnowButton;
-  // <>
-  // <span className="shortcut">F2</span>
-  // <span className="checked" />
-  // </>
-  const refusedButton = D.refusalButton;
-  // (
-  //   <>
-  //     <span className="shortcut">F4</span>
-  //     {D.refusalButton}
-  //     <span className="checked" />
-  //   </>
-  // );
-
+  const dontKnowButton = <MissingButton shortcutLabel="F2" buttonLabel={D.doesntKnowButton} />;
+  const refusedButton = <MissingButton shortcutLabel="F4" buttonLabel={D.refusalButton} />;
   const logGetData = () => {
     console.log(getData(true));
   };
@@ -123,8 +154,8 @@ function LightOrchestrator({
         hierarchy={hierarchy}
         setPage={trueGoToPage}
         page={page}
-        questionnaire={source}
-        standalone={false}
+        breadcrumb={breadcrumb}
+        standalone={standalone}
         quit
         currentPage
       />
@@ -141,9 +172,17 @@ function LightOrchestrator({
                   response={response}
                   {...other}
                   {...component}
-                  missing={missing}
+                  labelPosition="TOP"
+                  unitPosition="AFTER"
+                  preferences={preferences}
+                  features={features}
+                  writable
+                  readOnly={readonly}
+                  disabled={readonly}
                   focused // waiting for Lunatic feature
+                  missing={missing}
                   missingStrategy={goNextPage}
+                  savingType={savingType}
                   filterDescription={filterDescription}
                   missingShortcut={{ dontKnow: 'f2', refused: 'f4' }}
                   dontKnowButton={dontKnowButton}

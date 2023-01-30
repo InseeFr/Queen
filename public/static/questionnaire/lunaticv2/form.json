@@ -954,7 +954,7 @@
         }
       },
       "missingResponse": { "name": "AUTOCOMPL_MISSING" },
-      "storeName": "L_COMMUNEPASSEE-1-0-0",
+      "storeName": "L_COMMUNEPASSEE-1-1-0",
       "bindingDependencies": ["AUTOCOMPL_MISSING", "AUTOCOMPL"],
       "response": { "name": "AUTOCOMPL" }
     },
