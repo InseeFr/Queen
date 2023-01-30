@@ -131,15 +131,10 @@ const QueenOrchestrator = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [changeState, close]);
 
-  const {
-    maxLocalPages,
-    occurences,
-    currentComponent,
-    occurencesIndex,
-    queenBindings,
-    loopBindings: { loopBindings, responseBindings },
-    allFirstLoopPages,
-  } = UQ.getInfoFromCurrentPage(components, calculatedVariables)(allBindings)(page)(maxPage);
+  const { maxLocalPages, occurences, currentComponent, queenBindings } = UQ.getInfoFromCurrentPage(
+    components,
+    calculatedVariables
+  )(allBindings)(page)(maxPage);
   const { componentType: currentComponentType, hierarchy } = currentComponent || {};
 
   const canGoNext = UQ.canGoNext(currentComponent)(queenBindings);
@@ -259,12 +254,6 @@ const QueenOrchestrator = ({
       queenBindings,
     ]
   );
-
-  const [expanded, setExpanded] = useState(false);
-
-  const handleChangePanel = panel => (_, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
-  };
 
   return (
     <OrchestratorContext.Provider value={context}>

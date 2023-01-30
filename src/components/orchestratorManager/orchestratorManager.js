@@ -7,7 +7,7 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import { AppContext } from 'components/app';
 import Error from 'components/shared/Error';
-import LightOrchestrator from 'components/lightOrchestrator';
+// import LightOrchestrator from 'components/lightOrchestrator';
 import NotFound from 'components/shared/not-found';
 import Orchestrator from '../orchestrator';
 import Preloader from 'components/shared/preloader';

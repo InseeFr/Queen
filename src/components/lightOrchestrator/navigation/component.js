@@ -9,7 +9,7 @@ import {
 } from 'utils/navigation';
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { dependencies, version } from '../../../../package.json';
 
 import { Apps } from '@material-ui/icons';
