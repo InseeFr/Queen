@@ -23,9 +23,7 @@ import StopNavigation from './stopNavigation';
 import SubsequenceNavigation from './subSequenceNavigation';
 import { useStyles } from './component.style';
 
-// import * as lunatic from '@inseefr/lunatic';
-
-const Navigation = ({ className, title, setMenuOpen, readonly, setPage, breadcrumb }) => {
+const Navigation = ({ className, title, readonly, setPage, overview }) => {
   const [open, setOpen] = useState(false);
   const [surveyOpen, setSurveyOpen] = useState(false);
   const [stopOpen, setStopOpen] = useState(false);
@@ -82,9 +80,8 @@ const Navigation = ({ className, title, setMenuOpen, readonly, setPage, breadcru
     if (surveyOpen) openCloseSubMenu('sequence');
     if (stopOpen) openCloseSubMenu('stop');
     setOpen(!open);
-    setMenuOpen(!open);
     listRefs[0].current.focus();
-  }, [surveyOpen, openCloseSubMenu, stopOpen, open, setMenuOpen, listRefs]);
+  }, [surveyOpen, openCloseSubMenu, stopOpen, open, listRefs]);
 
   const setNavigationPage = useCallback(
     page => {
@@ -207,7 +204,7 @@ const Navigation = ({ className, title, setMenuOpen, readonly, setPage, breadcru
             {surveyOpen && (
               <SequenceNavigation
                 title={title}
-                components={breadcrumb}
+                components={overview}
                 setPage={setNavigationPage}
                 setSelectedSequence={setSelectedSequence}
                 subSequenceOpen={!!selectedSequence}

@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import insee from 'img/insee.png';
 import { useStyles } from './header.style';
 
-const Header = ({ title, hierarchy, page, standalone, quit, setPage, currentPage, breadcrumb }) => {
+const Header = ({ title, hierarchy, page, standalone, quit, setPage, currentPage, overview }) => {
   const classes = useStyles({ standalone });
   const setToFirstPage = useCallback(() => setPage('1'), [setPage]);
   const quitButtonRef = useRef();
@@ -35,8 +35,7 @@ const Header = ({ title, hierarchy, page, standalone, quit, setPage, currentPage
       <Navigation
         className={classes.headerItemNavigation}
         title={title}
-        breadcrumb={breadcrumb}
-        setMenuOpen={() => console.log('setMenuOpen placeholder')}
+        overview={overview}
         readonly
         setPage={setPage}
       />

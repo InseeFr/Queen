@@ -39,7 +39,7 @@ function LightOrchestrator({
   const lunaticClasses = useCustomLunaticStyles();
 
   // TODO remove when provided by lunatic
-  const mockedBreacrumb = [
+  const mockedOverview = [
     {
       label: 'Seq-1',
       lunaticId: '#123',
@@ -87,7 +87,7 @@ function LightOrchestrator({
     goToPage,
     isFirstPage,
     isLastPage,
-    breadcrumb = mockedBreacrumb,
+    overview = mockedOverview,
     // waiting,
     pager,
     // getErrors,
@@ -155,7 +155,7 @@ function LightOrchestrator({
         hierarchy={hierarchy}
         setPage={trueGoToPage}
         page={page}
-        breadcrumb={breadcrumb}
+        overview={overview}
         standalone={standalone}
         quit
         currentPage
