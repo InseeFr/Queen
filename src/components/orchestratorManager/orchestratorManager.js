@@ -1,15 +1,13 @@
 import { EventsManager, INIT_ORCHESTRATOR_EVENT, INIT_SESSION_EVENT } from 'utils/events';
 import { ORCHESTRATOR_COLLECT, ORCHESTRATOR_READONLY, READ_ONLY } from 'utils/constants';
-/* eslint-disable no-alert */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useAPI, useAPIRemoteData, useAuth } from 'utils/hook';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { AppContext } from 'components/app';
 import Error from 'components/shared/Error';
-// import LightOrchestrator from 'components/lightOrchestrator';
+import LightOrchestrator from 'components/lightOrchestrator';
 import NotFound from 'components/shared/not-found';
-import Orchestrator from '../orchestrator';
 import Preloader from 'components/shared/preloader';
 import { buildSuggesterFromNomenclatures } from 'utils/questionnaire/nomenclatures';
 import { checkQuestionnaire } from 'utils/questionnaire';
@@ -77,58 +75,67 @@ const OrchestratorManager = () => {
   const [, /* sending */ setSending] = useState(false);
   const [, /* errorSending */ setErrorSending] = useState(false);
 
-  const putSurveyUnit = async unit => {
-    const { id, ...other } = unit;
-    setErrorSending(null);
-    setSending(true);
-    const { error: putDataError } = await putUeData(id, other);
-    setSending(false);
-    if (putDataError) setErrorSending('Error during sending');
-  };
+  const saveData = useCallback(
+    async unit => {
+      if (!readonly) {
+        const putSurveyUnit = async unit => {
+          const { id, ...other } = unit;
+          setErrorSending(null);
+          setSending(true);
+          const { error: putDataError } = await putUeData(id, other);
+          setSending(false);
+          if (putDataError) setErrorSending('Error during sending');
+        };
 
-  const saveData = async unit => {
-    if (!readonly) {
-      console.log('addOrUpdateIDB');
-      await surveyUnitIdbService.addOrUpdateSU(unit);
-      const paradatas = LOGGER.getEventsToSend();
-      await paradataIdbService.update(paradatas);
-      if (standalone) {
-        // TODO managing errors
-        await putSurveyUnit(unit);
-        await postParadata(paradatas);
+        await surveyUnitIdbService.addOrUpdateSU(unit);
+        const paradatas = LOGGER.getEventsToSend();
+        await paradataIdbService.update(paradatas);
+        if (standalone) {
+          // TODO managing errors
+          await putSurveyUnit(unit);
+          await postParadata(paradatas);
+        }
       }
-    }
-  };
+    },
+    [LOGGER, postParadata, putUeData, readonly, standalone]
+  );
 
-  const closeOrchestrator = () => {
+  const closeOrchestrator = useCallback(() => {
     if (standalone) {
       history.push('/');
     } else {
       sendCloseEvent(surveyUnit.id);
     }
-  };
+  }, [history, standalone, surveyUnit.id]);
+
+  //TODO : move handleChange to pass to components
+  const handleChange = useCallback((response, value, args) => {
+    console.log('onChange', { response, value, args });
+    console.log('should handle queen components management rules such as goNext');
+  }, []);
+
   return (
     <>
       {![READ_ONLY, undefined].includes(readonlyParam) && <NotFound />}
       {loadingMessage && <Preloader message={loadingMessage} />}
       {error && <Error message={error} />}
       {init && !loadingMessage && !errorMessage && source && surveyUnit && suggesters && (
-        <Orchestrator
+        <LightOrchestrator
           surveyUnit={surveyUnit}
           source={source}
           suggesters={suggesters}
-          autoSuggesterLoading
+          autoSuggesterLoading={true}
           standalone={standalone}
           readonly={readonly}
           savingType="COLLECTED"
           preferences={['COLLECTED']}
           features={['VTL']}
-          pagination
-          missing
+          pagination={true}
+          missing={true}
           filterDescription={false}
           save={saveData}
           close={closeOrchestrator}
-          placeholderList="Rechercher ici ..."
+          onChange={handleChange}
         />
       )}
     </>

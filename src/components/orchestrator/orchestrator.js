@@ -34,7 +34,6 @@ const Orchestrator = ({
     autoSuggesterLoading,
     suggesterFetcher,
   });
-  console.log('lunatic-result:', lunaticResult);
 
   return (
     <QueenOrchestrator

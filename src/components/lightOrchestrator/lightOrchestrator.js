@@ -29,6 +29,7 @@ function LightOrchestrator({
   suggesters,
   autoSuggesterLoading,
   filterDescription,
+  onChange = onLogChange,
   save,
   close,
 }) {
@@ -97,7 +98,7 @@ function LightOrchestrator({
     features,
     pagination,
     preferences,
-    onChange: onLogChange,
+    onChange: onChange,
     autoSuggesterLoading,
     suggesters,
     suggesterFetcher,
