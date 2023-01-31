@@ -109,13 +109,13 @@ const OrchestratorManager = () => {
   }, [history, standalone, surveyUnit.id]);
 
   //TODO : move handleChange to pass to components
-  const handleChange = useCallback(
-    () => (response, value, args) => {
-      console.log('onChange', { response, value, args });
-      console.log('should handle queen components management rules such as goNext');
-    },
-    []
-  );
+  // const handleChange = useCallback(
+  //   () => (response, value, args) => {
+  //     console.log('onChange', { response, value, args });
+  //     console.log('should handle queen components management rules such as goNext');
+  //   },
+  //   []
+  // );
 
   return (
     <>
@@ -138,7 +138,7 @@ const OrchestratorManager = () => {
           filterDescription={false}
           save={saveData}
           close={closeOrchestrator}
-          onChange={handleChange}
+          // onChange={handleChange}
         />
       )}
     </>
