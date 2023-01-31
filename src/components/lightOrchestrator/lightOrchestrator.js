@@ -38,6 +38,23 @@ function LightOrchestrator({
   const classes = useStyles();
   const lunaticClasses = useCustomLunaticStyles();
 
+  console.log({
+    surveyUnit,
+    standalone,
+    readonly,
+    savingType,
+    preferences,
+    pagination,
+    missing,
+    features,
+    source,
+    suggesters,
+    autoSuggesterLoading,
+    filterDescription,
+    onChange,
+    save,
+    close,
+  });
   // TODO remove when provided by lunatic
   const mockedOverview = [
     {

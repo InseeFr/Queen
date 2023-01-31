@@ -106,7 +106,7 @@ const OrchestratorManager = () => {
     } else {
       sendCloseEvent(surveyUnit.id);
     }
-  }, [history, standalone, surveyUnit.id]);
+  }, [history, standalone, surveyUnit?.id]);
 
   //TODO : move handleChange to pass to components
   // const handleChange = useCallback(
