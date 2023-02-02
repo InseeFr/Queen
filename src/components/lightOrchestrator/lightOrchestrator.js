@@ -1,6 +1,6 @@
 import * as lunatic from '@inseefr/lunatic';
 
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useEffect, useRef } from 'react';
 
 import ButtonContinue from './buttons/continue/index';
 import D from 'i18n';
@@ -31,30 +31,14 @@ function LightOrchestrator({
   filterDescription,
   onChange = onLogChange,
   save,
-  close,
+  quit,
+  definitiveQuit,
 }) {
   const { data } = surveyUnit;
   const { lunaticFetcher: suggesterFetcher } = useLunaticFetcher();
   const classes = useStyles();
   const lunaticClasses = useCustomLunaticStyles();
 
-  console.log({
-    surveyUnit,
-    standalone,
-    readonly,
-    savingType,
-    preferences,
-    pagination,
-    missing,
-    features,
-    source,
-    suggesters,
-    autoSuggesterLoading,
-    filterDescription,
-    onChange,
-    save,
-    close,
-  });
   // TODO remove when provided by lunatic
   const mockedOverview = [
     {
@@ -96,6 +80,16 @@ function LightOrchestrator({
       ],
     },
   ];
+  const lunaticStateRef = useRef();
+
+  lunaticStateRef.current = lunatic.useLunatic(source, data, {
+    features,
+    pagination,
+    preferences,
+    autoSuggesterLoading,
+    suggesters,
+    suggesterFetcher,
+  });
 
   const {
     getComponents,
@@ -111,15 +105,7 @@ function LightOrchestrator({
     // getModalErrors,
     getCurrentErrors,
     getData,
-  } = lunatic.useLunatic(source, data, {
-    features,
-    pagination,
-    preferences,
-    onChange: onChange,
-    autoSuggesterLoading,
-    suggesters,
-    suggesterFetcher,
-  });
+  } = lunaticStateRef.current;
 
   const dontKnowButton = <MissingButton shortcutLabel="F2" buttonLabel={D.doesntKnowButton} />;
   const refusedButton = <MissingButton shortcutLabel="F4" buttonLabel={D.refusalButton} />;
@@ -128,7 +114,7 @@ function LightOrchestrator({
   };
 
   const {
-    maxPage = '100',
+    maxPage = '1',
     page = '1',
     lastReachedPage = 1,
     subPage,
@@ -137,6 +123,36 @@ function LightOrchestrator({
     nbIterations,
   } = pager;
   const isLastReachedPage = page === lastReachedPage;
+
+  useEffect(() => {
+    console.log('handleChange on page change');
+
+    if (lunaticStateRef.current === undefined) return;
+
+    const { getData, goNextPage, getComponents, pager } = lunaticStateRef.current;
+    // save ask for a surveyUnit, new Data and current page
+    const updatedData = getData();
+    console.log({ updatedData });
+    const { page } = pager;
+    save(surveyUnit, updatedData, page);
+
+    // TODO : finish adding rules here
+    // flow :check comp type to trigger goNextPage
+    const currentComponent = getComponents();
+    if (currentComponent.type === 'Sequence') {
+      goNextPage();
+    } else {
+      console.log('no magic flow here');
+    }
+  }, [page, lunaticStateRef, save, surveyUnit]);
+
+  const memoQuit = useCallback(() => {
+    quit(pager, getData);
+  }, [getData, pager, quit]);
+
+  const memoDefinitiveQuit = useCallback(() => {
+    definitiveQuit(pager, getData);
+  }, [getData, pager, definitiveQuit]);
 
   const components = getComponents();
   // const errors = getErrors();
@@ -171,13 +187,14 @@ function LightOrchestrator({
         title={questionnaireTitle}
         hierarchy={hierarchy}
         setPage={trueGoToPage}
-        page={page}
         overview={overview}
         standalone={standalone}
-        quit
-        currentPage
+        readonly={readonly}
+        quit={memoQuit}
+        definitiveQuit={memoDefinitiveQuit}
+        currentPage={page}
       />
-      <button onClick={() => logGetData()}>LOG</button>
+      <button onClick={() => logGetData()}>Get Lunatic Data</button>
       <div className={classes.bodyContainer}>
         <div className={classes.mainTile}>
           {components.map(function (component) {
@@ -215,6 +232,7 @@ function LightOrchestrator({
             readonly={readonly}
             isLastPage={isLastPage}
             page={page}
+            quit={quit}
             goNext={goNextPage}
             rereading={fakeRereading}
             isLastReachedPage={isLastReachedPage}

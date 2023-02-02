@@ -1,19 +1,21 @@
-import React, { useState, useCallback } from 'react';
-import KeyboardEventHandler from 'react-keyboard-event-handler';
-import D from 'i18n';
 import '@a11y/focus-trap';
-import { ButtonItemMenu } from 'components/designSystem';
+
 import {
+  NEXT_FOCUS,
+  PREVIOUS_FOCUS,
   createArrayOfRef,
   createReachableElement,
   getNewFocusElementIndex,
-  NEXT_FOCUS,
-  PREVIOUS_FOCUS,
 } from 'utils/navigation';
-import { useStyles } from '../component.style';
-import { StopModal } from 'components/shared/modals/stopModal';
+import React, { useCallback, useState } from 'react';
 
-const StopNavigation = React.forwardRef(({ close }, ref) => {
+import { ButtonItemMenu } from 'components/designSystem';
+import D from 'i18n';
+import KeyboardEventHandler from 'react-keyboard-event-handler';
+import { StopModal } from 'components/shared/modals/stopModal';
+import { useStyles } from '../component.style';
+
+const StopNavigation = React.forwardRef(({ close, quit, definitiveQuit, currentPage }, ref) => {
   const offset = 1;
   const labels = [
     {
@@ -96,7 +98,15 @@ const StopNavigation = React.forwardRef(({ close }, ref) => {
           handleFocusableElements
         />
       </div>
-      <StopModal ref={ref} open={open} setOpen={setOpen} definitive={definitive} />
+      <StopModal
+        ref={ref}
+        open={open}
+        setOpen={setOpen}
+        definitive={definitive}
+        quit
+        definitiveQuit
+        currentPage
+      />
     </focus-trap>
   );
 });

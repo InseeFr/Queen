@@ -23,7 +23,16 @@ import StopNavigation from './stopNavigation';
 import SubsequenceNavigation from './subSequenceNavigation';
 import { useStyles } from './component.style';
 
-const Navigation = ({ className, title, readonly, setPage, overview }) => {
+const Navigation = ({
+  className,
+  title,
+  readonly,
+  setPage,
+  overview,
+  quit,
+  definitiveQuit,
+  currentPage,
+}) => {
   const [open, setOpen] = useState(false);
   const [surveyOpen, setSurveyOpen] = useState(false);
   const [stopOpen, setStopOpen] = useState(false);
@@ -211,7 +220,15 @@ const Navigation = ({ className, title, readonly, setPage, overview }) => {
                 close={openCloseSubMenu}
               />
             )}
-            {stopOpen && <StopNavigation ref={rootRef} close={openCloseSubMenu} />}
+            {stopOpen && (
+              <StopNavigation
+                ref={rootRef}
+                close={openCloseSubMenu}
+                quit={quit}
+                definitiveQuit={definitiveQuit}
+                currentPage={currentPage}
+              />
+            )}
           </div>
           {surveyOpen && (
             <div

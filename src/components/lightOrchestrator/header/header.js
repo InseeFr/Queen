@@ -11,7 +11,17 @@ import PropTypes from 'prop-types';
 import insee from 'img/insee.png';
 import { useStyles } from './header.style';
 
-const Header = ({ title, hierarchy, page, standalone, quit, setPage, currentPage, overview }) => {
+const Header = ({
+  title,
+  hierarchy,
+  standalone,
+  quit,
+  definitiveQuit,
+  setPage,
+  currentPage,
+  overview,
+  readonly,
+}) => {
   const classes = useStyles({ standalone });
   const setToFirstPage = useCallback(() => setPage('1'), [setPage]);
   const quitButtonRef = useRef();
@@ -36,8 +46,11 @@ const Header = ({ title, hierarchy, page, standalone, quit, setPage, currentPage
         className={classes.headerItemNavigation}
         title={title}
         overview={overview}
-        readonly
+        readonly={readonly}
         setPage={setPage}
+        quit={quit}
+        definitiveQuit={definitiveQuit}
+        currentPage={currentPage}
       />
       <div className="header-item">
         <ButtonBase
@@ -55,7 +68,7 @@ const Header = ({ title, hierarchy, page, standalone, quit, setPage, currentPage
           <BreadcrumbQueen
             sequence={sequence}
             subsequence={subSequence}
-            currentPage={page}
+            currentPage={currentPage}
             setPage={setPage}
           />
         )}

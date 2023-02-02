@@ -12,7 +12,7 @@ import { useStyles } from './continue.style';
 
 const ButtonContinue = ({
   goToLastReachedPage,
-  quit = () => console.log('Quit function placeholder'),
+  quit,
   readonly,
   goNext,
   rereading,

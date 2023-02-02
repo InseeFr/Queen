@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { checkQuestionnaire, downloadDataAsJson } from 'utils/questionnaire';
 import { useRemoteData, useVisuQuery } from 'utils/hook';
 
 import { AppContext } from 'components/app';
 import Error from 'components/shared/Error';
-// import Orchestrator from 'components/orchestrator';
 import LightOrchestrator from 'components/lightOrchestrator';
 import Preloader from 'components/shared/preloader';
 import QuestionnaireForm from './questionnaireForm';
@@ -58,11 +57,18 @@ const Visualizer = () => {
     if (errorMessage) setError(errorMessage);
   }, [errorMessage]);
 
-  const closeAndDownloadData = async () => {
+  const save = useCallback(async (unit, newData) => {
+    await surveyUnitIdbService.addOrUpdateSU({
+      ...unit,
+      data: newData,
+    });
+  }, []);
+
+  const closeAndDownloadData = useCallback(async () => {
     const data = await surveyUnitIdbService.get('1234');
     downloadDataAsJson(data, 'data');
     history.push('/');
-  };
+  }, [history]);
 
   return (
     <>
@@ -80,9 +86,9 @@ const Visualizer = () => {
           features={['VTL']}
           pagination={true}
           missing={true}
+          save={save}
           filterDescription={false}
-          save={unit => surveyUnitIdbService.addOrUpdateSU(unit)}
-          close={closeAndDownloadData}
+          quit={closeAndDownloadData}
         />
       )}
       {!questionnaireUrl && <QuestionnaireForm />}

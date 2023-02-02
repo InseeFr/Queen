@@ -1,3 +1,4 @@
+import { COMPLETED, VALIDATED, useQuestionnaireState } from 'utils/hook/questionnaire';
 import { EventsManager, INIT_ORCHESTRATOR_EVENT, INIT_SESSION_EVENT } from 'utils/events';
 import { ORCHESTRATOR_COLLECT, ORCHESTRATOR_READONLY, READ_ONLY } from 'utils/constants';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -30,7 +31,7 @@ const OrchestratorManager = () => {
 
   const { surveyUnit, questionnaire, nomenclatures, loadingMessage, errorMessage } =
     useAPIRemoteData(idSU, idQ);
-
+  const { stateData, comment, data } = surveyUnit;
   const { oidcUser } = useAuth();
   const isAuthenticated = !!oidcUser?.profile;
 
@@ -41,6 +42,12 @@ const OrchestratorManager = () => {
   const { putUeData, postParadata } = useAPI(idSU, idQ);
 
   const [init, setInit] = useState(false);
+
+  const [state, changeState] = useQuestionnaireState(
+    questionnaire,
+    stateData?.state,
+    surveyUnit?.id
+  );
 
   useEffect(() => {
     /*
@@ -100,6 +107,22 @@ const OrchestratorManager = () => {
     [LOGGER, postParadata, putUeData, readonly, standalone]
   );
 
+  const saveQueen = useCallback(
+    async (lastState, newData, page) => {
+      saveData({
+        ...surveyUnit,
+        stateData: {
+          state: lastState ? lastState : state,
+          date: new Date().getTime(),
+          currentPage: page,
+        },
+        data: newData ?? data,
+        comment: comment,
+      });
+    },
+    [comment, saveData, state, surveyUnit, data]
+  );
+
   const closeOrchestrator = useCallback(() => {
     if (standalone) {
       history.push('/');
@@ -108,14 +131,32 @@ const OrchestratorManager = () => {
     }
   }, [history, standalone, surveyUnit?.id]);
 
-  //TODO : move handleChange to pass to components
-  // const handleChange = useCallback(
-  //   () => (response, value, args) => {
-  //     console.log('onChange', { response, value, args });
-  //     console.log('should handle queen components management rules such as goNext');
-  //   },
-  //   []
-  // );
+  const quit = useCallback(
+    async (pager, getData) => {
+      const { page, maxPage } = pager;
+      const isLastPage = page === maxPage;
+      const newData = getData();
+      if (isLastPage(pager)) {
+        // TODO : make algo to calculate COMPLETED event
+        changeState(COMPLETED);
+        changeState(VALIDATED);
+        await saveQueen(VALIDATED, newData, page);
+      } else await saveQueen(undefined, newData, page);
+      closeOrchestrator();
+    },
+    [changeState, closeOrchestrator, saveQueen]
+  );
+
+  const definitiveQuit = useCallback(
+    async (pager, getData) => {
+      const { page } = pager;
+      const newData = getData();
+      changeState(VALIDATED);
+      await saveQueen(VALIDATED, newData, page);
+      closeOrchestrator();
+    },
+    [changeState, closeOrchestrator, saveQueen]
+  );
 
   return (
     <>
@@ -138,7 +179,8 @@ const OrchestratorManager = () => {
           filterDescription={false}
           save={saveData}
           close={closeOrchestrator}
-          // onChange={handleChange}
+          quit={quit}
+          definitiveQuit={definitiveQuit}
         />
       )}
     </>
