@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+
 import { useLocation } from 'react-router-dom';
 
 export * from './auth';
@@ -6,12 +7,22 @@ export * from './api';
 export * from './serviceWorker';
 export * from './configuration';
 
+/**
+ * Use search params in current URL to find local resources url to properly load an orchestrator
+ *
+ */
 export const useVisuQuery = () => {
   const searchUrl = new URLSearchParams(useLocation().search);
   const questionnaireUrl = searchUrl.get('questionnaire');
   const dataUrl = searchUrl.get('data');
   const readonly = searchUrl.get('readonly') === `true`;
-  return { questionnaireUrl, dataUrl, readonly };
+  const stringNomenclature = searchUrl.get('nomenclature');
+  return {
+    questionnaireUrl,
+    dataUrl,
+    readonly,
+    nomenclatures: JSON.parse(stringNomenclature),
+  };
 };
 
 // https://css-tricks.com/dealing-with-stale-props-and-states-in-reacts-functional-components/

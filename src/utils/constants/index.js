@@ -48,7 +48,12 @@ export const QUESTIONNAIRE_EXAMPLE_URL = q =>
 export const DATA_EXAMPLE_URL = q =>
   `${QUEEN_URL || window.location.origin}/static/questionnaire/${q}/data.json`;
 
+export const NOMENCLATURE_EXAMPLE_URL = q => ({
+  'L_DEPNAIS-1-1-0': `${window.location.origin}/static/questionnaire/${q}/nomenclatures/L_DEPNAIS-1-1-0.json`,
+});
+
 export const DEFAULT_DATA_URL = DATA_EXAMPLE_URL(DEFAULT);
+export const DEFAULT_NOMENCLATURE_URL = NOMENCLATURE_EXAMPLE_URL(DEFAULT);
 
 export const MIN_LUNATIC_MODEL_VERSION = '2.2.3';
 export const MIN_ENO_CORE_VERSION = '2.2.11';
@@ -56,5 +61,8 @@ export const SHORTCUT_QUIT = 'alt+q';
 export const SHORTCUT_NEXT = 'alt+enter';
 export const SHORTCUT_PREVIOUS = 'alt+backspace';
 export const SHORTCUT_FAST_FORWARD = 'alt+end';
+
+export const PAGE_NAVIGATION_FORWARD = 'FORWARD';
+export const PAGE_NAVIGATION_BACKWARD = 'BACKWARD';
 
 export * from './paradata';

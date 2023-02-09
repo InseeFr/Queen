@@ -30,14 +30,20 @@ const Visualizer = () => {
   const [suggesters, setSuggesters] = useState(null);
   const history = useHistory();
 
-  const createFakeSurveyUnit = surveyUnit => {
+  useEffect(() => {
+    if (suData === null) return;
     const unit = {
-      ...surveyUnit,
+      ...suData,
       id: '1234',
     };
-    surveyUnitIdbService.addOrUpdateSU(unit);
-    return unit;
-  };
+    const insertSuInIndexedDB = async su => {
+      console.log('Initiating sudata in IDB', su);
+      await surveyUnitIdbService.addOrUpdateSU(su);
+    };
+    insertSuInIndexedDB(unit);
+    console.log('insert command already launched');
+    setSurveyUnit(unit);
+  }, [suData]);
 
   useEffect(() => {
     if (questionnaireUrl && questionnaire && suData && nomenclatures) {
@@ -46,7 +52,6 @@ const Visualizer = () => {
         setSource(questionnaire);
         const suggestersBuilt = buildSuggesterFromNomenclatures(apiUrl)(nomenclatures);
         setSuggesters(suggestersBuilt);
-        setSurveyUnit(createFakeSurveyUnit(suData));
       } else {
         setError(questionnaireError);
       }
@@ -58,6 +63,7 @@ const Visualizer = () => {
   }, [errorMessage]);
 
   const save = useCallback(async (unit, newData) => {
+    console.log(unit, newData);
     await surveyUnitIdbService.addOrUpdateSU({
       ...unit,
       data: newData,
@@ -69,6 +75,9 @@ const Visualizer = () => {
     downloadDataAsJson(data, 'data');
     history.push('/');
   }, [history]);
+  useEffect(() => {
+    console.log(surveyUnit);
+  }, [surveyUnit]);
 
   return (
     <>

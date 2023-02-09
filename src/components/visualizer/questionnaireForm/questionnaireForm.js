@@ -1,23 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Button, AppVersion } from 'components/designSystem';
-import D from 'i18n';
+import { AppVersion, Button } from 'components/designSystem';
+import {
+  Checkbox,
+  Container,
+  FormControlLabel,
+  TextField,
+  Typography,
+  makeStyles,
+} from '@material-ui/core';
 import {
   DATA_EXAMPLE_URL,
+  DEFAULT_DATA_URL,
+  DEFAULT_NOMENCLATURE_URL,
   QUESTIONNAIRE_EXAMPLE_URL,
   SIMPSONS,
-  DEFAULT_DATA_URL,
 } from 'utils/constants';
-import { useHistory } from 'react-router-dom';
-import {
-  Container,
-  makeStyles,
-  Typography,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-} from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+
+import D from 'i18n';
 import Examples from './examples';
 import Helper from './helper';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,6 +50,7 @@ const QuestionnaireForm = () => {
   const classes = useStyles();
   const [questionnaire, setQuestionnaire] = useState('');
   const [data, setData] = useState('');
+  const [nomenclature, setNomenclature] = useState('');
   const [readonly, setReadonly] = useState(false);
 
   const [selected, setSelected] = useState('');
@@ -64,7 +67,8 @@ const QuestionnaireForm = () => {
       pathname: '/queen/visualize',
       search: `?questionnaire=${encodeURIComponent(questionnaire)}${
         data ? `&data=${encodeURIComponent(data)}` : ''
-      }${readonly ? `&readonly=${readonly}` : ''}`,
+      }${nomenclature ? `&nomenclature=${encodeURIComponent(nomenclature)}` : ''}
+      ${readonly ? `&readonly=${readonly}` : ''}`,
     });
     e.preventDefault();
   };
@@ -105,6 +109,22 @@ const QuestionnaireForm = () => {
           value={data}
           onChange={({ target: { value: v } }) => {
             setData(v);
+          }}
+          variant="outlined"
+        />
+        <TextField
+          id="nomenclature-url-form"
+          label={D.labelNomenclature}
+          placeholder={JSON.stringify(DEFAULT_NOMENCLATURE_URL)}
+          helperText={D.helperTextNomenclature}
+          fullWidth
+          margin="normal"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          value={nomenclature}
+          onChange={({ target: { value: v } }) => {
+            setNomenclature(v);
           }}
           variant="outlined"
         />

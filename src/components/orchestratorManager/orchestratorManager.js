@@ -16,7 +16,7 @@ import paradataIdbService from 'utils/indexedbb/services/paradata-idb-service';
 import { sendCloseEvent } from 'utils/communication';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 
-const OrchestratorManager = () => {
+export const OrchestratorManager = () => {
   const { standalone, apiUrl } = useContext(AppContext);
   const { readonly: readonlyParam, idQ, idSU } = useParams();
   const history = useHistory();
@@ -31,6 +31,7 @@ const OrchestratorManager = () => {
 
   const { surveyUnit, questionnaire, nomenclatures, loadingMessage, errorMessage } =
     useAPIRemoteData(idSU, idQ);
+  console.log(surveyUnit);
   const { stateData, comment, data } = surveyUnit;
   const { oidcUser } = useAuth();
   const isAuthenticated = !!oidcUser?.profile;
@@ -186,5 +187,3 @@ const OrchestratorManager = () => {
     </>
   );
 };
-
-export default OrchestratorManager;

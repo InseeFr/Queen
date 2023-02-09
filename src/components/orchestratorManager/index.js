@@ -1,1 +1,1 @@
-export { default } from './orchestratorManager';
+export * from './orchestratorManager';
