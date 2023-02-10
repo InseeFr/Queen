@@ -31,8 +31,10 @@ export const OrchestratorManager = () => {
 
   const { surveyUnit, questionnaire, nomenclatures, loadingMessage, errorMessage } =
     useAPIRemoteData(idSU, idQ);
+  console.log(errorMessage);
   console.log(surveyUnit);
-  const { stateData, comment, data } = surveyUnit;
+  //TODO improve null handling
+  const stateData = surveyUnit?.stateData;
   const { oidcUser } = useAuth();
   const isAuthenticated = !!oidcUser?.profile;
 
@@ -111,17 +113,17 @@ export const OrchestratorManager = () => {
   const saveQueen = useCallback(
     async (lastState, newData, page) => {
       saveData({
+        comment: {},
         ...surveyUnit,
         stateData: {
-          state: lastState ? lastState : state,
+          state: lastState ?? state,
           date: new Date().getTime(),
           currentPage: page,
         },
-        data: newData ?? data,
-        comment: comment,
+        data: newData ?? surveyUnit.data,
       });
     },
-    [comment, saveData, state, surveyUnit, data]
+    [saveData, state, surveyUnit]
   );
 
   const closeOrchestrator = useCallback(() => {
