@@ -226,7 +226,7 @@ function LightOrchestrator({
     } else {
       console.log('no sequence to skip or navigation= ', pageNavigationDirection);
     }
-  }, [lunaticComponentId, lunaticComponentType]);
+  }, [lunaticComponentId, lunaticComponentType, pageNavigationDirection]);
 
   const fakeRereading = false;
   return (
