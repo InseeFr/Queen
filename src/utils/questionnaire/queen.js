@@ -1,4 +1,5 @@
 import * as lunatic from '@inseefr/lunatic';
+
 import { DIRECT_CONTINUE_COMPONENTS } from 'utils/constants';
 
 export const getCalculatedVariablesFromSource = source => {
@@ -94,13 +95,6 @@ export const getResponseOfComponent =
     const newVariables = { COLLECTED: newCOLLECTED, ...other };
     return lunatic.getCollectedStateByValueType({ variables: newVariables })(type);
   };
-
-export const getComponentResponse = questionnaire => component => type => {
-  return getResponseOfComponent(questionnaire)(component)(type)(false);
-};
-export const getComponentResponseMissing = questionnaire => component => type => {
-  return getResponseOfComponent(questionnaire)(component)(type)(true);
-};
 
 export const getIterationValue = values => iterations => {
   const [firstVal, ...otherVals] = iterations;

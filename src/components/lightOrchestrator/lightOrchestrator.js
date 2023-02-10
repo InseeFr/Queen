@@ -16,6 +16,10 @@ function onLogChange(response, value, args) {
   console.log('onChange', { response, value, args });
 }
 
+function noDataChange() {
+  /**/
+}
+
 function LightOrchestrator({
   surveyUnit,
   standalone,
@@ -30,6 +34,7 @@ function LightOrchestrator({
   autoSuggesterLoading,
   filterDescription,
   onChange = onLogChange,
+  onDataChange = noDataChange,
   save,
   quit,
   definitiveQuit,
@@ -87,7 +92,12 @@ function LightOrchestrator({
   const customHandleChange = useCallback(() => {
     console.log('iam custom handle change bro!');
     if (lunaticStateRef === undefined) return;
-    const { getComponents, goNextPage } = lunaticStateRef.current;
+    const { getComponents, goNextPage, getData } = lunaticStateRef.current;
+
+    // check if state should be updated, and events sent
+    const { COLLECTED } = getData();
+    onDataChange(COLLECTED);
+
     const currentComponent = getComponents()[0];
     console.log(currentComponent);
     // search for Radio-like components
@@ -100,7 +110,7 @@ function LightOrchestrator({
     } else {
       console.log('no auto-next page');
     }
-  }, []);
+  }, [onDataChange]);
 
   lunaticStateRef.current = lunatic.useLunatic(source, data, {
     features,

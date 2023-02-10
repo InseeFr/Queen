@@ -1,10 +1,7 @@
-import * as UQ from 'utils/questionnaire';
 import * as lunatic from '@inseefr/lunatic';
 
 import { sendCompletedEvent, sendStartedEvent, sendValidatedEvent } from 'utils/communication';
-import { useEffect, useState } from 'react';
-
-import { getNotNullCollectedState } from 'utils/questionnaire';
+import { useCallback, useState } from 'react';
 
 export const NOT_STARTED = null;
 export const INIT = 'INIT';
@@ -12,48 +9,39 @@ export const COMPLETED = 'COMPLETED';
 export const VALIDATED = 'VALIDATED';
 
 // TODO lunatic V2 : should questionnaire passed as prop => delegate to lunatic is cleaner archi
-export const useQuestionnaireState = (questionnaire, initialState = null, idSurveyUnit) => {
+export const useQuestionnaireState = (idSurveyUnit, initialData, initialState = null) => {
   const [state, setState] = useState(initialState);
 
-  const [initialResponse] = useState(() => JSON.stringify(getNotNullCollectedState(questionnaire)));
+  const [initData, setInitData] = useState(initialData);
 
   // Send an event when questionnaire's state has changed (started, completed, validated)
-  const changeState = newState => {
-    if (state === INIT) sendStartedEvent(idSurveyUnit);
-    if (state === COMPLETED) sendCompletedEvent(idSurveyUnit);
-    if (state === VALIDATED) sendValidatedEvent(idSurveyUnit);
-    setState(newState);
-  };
-
-  // Analyse collected variables to update state (only to STARTED state)
-  useEffect(() => {
-    if (questionnaire && (state === NOT_STARTED || state === VALIDATED)) {
-      // TODO lunatic V2 :  use Lunatic.getData under the hood and hide the dataWithoutNullArray too
-      const dataCollected = getNotNullCollectedState(questionnaire);
-      // TODO : make a better copy without mutate questionnaire object (spread doesn't work)
-      const dataWithoutNullArray = Object.entries(UQ.secureCopy(dataCollected)).filter(
-        ([, value]) => {
-          if (Array.isArray(value)) {
-            if ((value.length = 1 && value[0] === null)) return false;
-          }
-          return true;
-        }
-      );
-      if (
-        (state === VALIDATED &&
-          dataWithoutNullArray.length > 0 &&
-          JSON.stringify(dataCollected) !== initialResponse) ||
-        (state === NOT_STARTED && dataWithoutNullArray.length > 0)
-      ) {
+  const changeState = useCallback(
+    newState => {
+      if (state === INIT) sendStartedEvent(idSurveyUnit);
+      if (state === COMPLETED) sendCompletedEvent(idSurveyUnit);
+      if (state === VALIDATED) sendValidatedEvent(idSurveyUnit);
+      setState(newState);
+    },
+    [idSurveyUnit, state]
+  );
+  const onDataChange = useCallback(
+    newData => {
+      //initialisation des data de référence
+      if (initData === undefined) {
+        console.log('my first data');
+        setInitData(JSON.stringify(newData));
+      } else if (state === NOT_STARTED) {
+        changeState(INIT);
+      } else if (state === VALIDATED && initData !== JSON.stringify(newData)) {
         changeState(INIT);
       }
-    }
+    },
+    [changeState, initData, state]
+  );
 
-    // Assume we want to update only this when questionnaire is updated
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [questionnaire]);
+  // Analyse collected variables to update state (only to STARTED state)
 
-  return [state, changeState];
+  return [state, changeState, onDataChange];
 };
 
 // Manage validatedPages (for rereading for example)

@@ -35,6 +35,7 @@ export const OrchestratorManager = () => {
   console.log(surveyUnit);
   //TODO improve null handling
   const stateData = surveyUnit?.stateData;
+  const initialData = surveyUnit?.data;
   const { oidcUser } = useAuth();
   const isAuthenticated = !!oidcUser?.profile;
 
@@ -46,10 +47,10 @@ export const OrchestratorManager = () => {
 
   const [init, setInit] = useState(false);
 
-  const [state, changeState] = useQuestionnaireState(
-    questionnaire,
-    stateData?.state,
-    surveyUnit?.id
+  const [state, changeState, onDataChange] = useQuestionnaireState(
+    surveyUnit?.id,
+    initialData,
+    stateData?.state
   );
 
   useEffect(() => {
@@ -181,6 +182,7 @@ export const OrchestratorManager = () => {
           missing={true}
           filterDescription={false}
           save={saveData}
+          onDataChange={onDataChange}
           close={closeOrchestrator}
           quit={quit}
           definitiveQuit={definitiveQuit}
