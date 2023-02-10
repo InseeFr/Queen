@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 
 import { AppContext } from 'components/app';
-import OrchestratorManager from 'components/orchestratorManager';
+import { OrchestratorManager } from 'components/orchestratorManager';
 import QueenRedirect from 'components/queenRedirect';
 import { READ_ONLY } from 'utils/constants';
 import Synchronize from 'components/Synchronize';
