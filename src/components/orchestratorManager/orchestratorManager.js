@@ -113,6 +113,7 @@ export const OrchestratorManager = () => {
 
   const saveQueen = useCallback(
     async (lastState, newData, page) => {
+      console.log({ lastState, newData, page, state, surveyUnit });
       saveData({
         comment: {},
         ...surveyUnit,
