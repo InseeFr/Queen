@@ -95,10 +95,10 @@ const ButtonContinue = ({
       />
     </div>
   );
+  const emptyComponent = <div className={classes.wrapperButton} />;
 
-  return (
-    (shouldFastForward || shouldQuit || shouldSaveAndQuit || shouldContinue) && componentToDisplay
-  );
+  const shouldDisplay = shouldFastForward || shouldQuit || shouldSaveAndQuit || shouldContinue;
+  return shouldDisplay ? componentToDisplay : emptyComponent;
 };
 
 ButtonContinue.propTypes = {

@@ -62,7 +62,4 @@ export const SHORTCUT_NEXT = 'alt+enter';
 export const SHORTCUT_PREVIOUS = 'alt+backspace';
 export const SHORTCUT_FAST_FORWARD = 'alt+end';
 
-export const PAGE_NAVIGATION_FORWARD = 'FORWARD';
-export const PAGE_NAVIGATION_BACKWARD = 'BACKWARD';
-
 export * from './paradata';

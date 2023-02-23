@@ -1,8 +1,9 @@
 import './wdyr';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from 'components/app';
 
+import React, { StrictMode } from 'react';
+
+import App from 'components/app';
+import ReactDOM from 'react-dom';
 import { listenParentApp } from 'utils/communication';
 
 class QueenApp extends HTMLElement {
@@ -33,7 +34,12 @@ class QueenApp extends HTMLElement {
   }
 
   mountReactApp() {
-    ReactDOM.render(<App {...this.reactProps()} />, this.mountPoint);
+    ReactDOM.render(
+      <StrictMode>
+        <App {...this.reactProps()} />
+      </StrictMode>,
+      this.mountPoint
+    );
     this.appendChild(this.mountPoint);
   }
 }

@@ -18,10 +18,18 @@ const visualizeMessage = {
     fr: 'Données',
     en: 'Data',
   },
+  labelNomenclature: {
+    fr: 'Dictionnaire de nomenclatures',
+    en: 'Nomenclatures dictionnary',
+  },
   labelReadonly: { fr: 'Lecture seule', en: 'Readonly' },
   helperTextData: {
     fr: `L'url d'un json de données (de réponse)`,
     en: `The url of a data (response) json.`,
+  },
+  helperTextNomenclature: {
+    fr: "Dictionnaire avec en clé le nom de la nomenclaure et en valeur l'url",
+    en: 'Dictionary with the name of the nomenclature as key and the url as value',
   },
   accordionHelperTitle: {
     fr: 'Aide',

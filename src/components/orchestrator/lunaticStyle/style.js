@@ -17,6 +17,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
     marginTop: '3em',
     overflow: 'auto',
     marginRight: 'auto',
+    flexGrow: 1,
     [theme.breakpoints.down('sm')]: {
       marginLeft: 'auto',
     },

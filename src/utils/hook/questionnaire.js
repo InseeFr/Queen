@@ -17,6 +17,7 @@ export const useQuestionnaireState = (idSurveyUnit, initialData, initialState = 
   // Send an event when questionnaire's state has changed (started, completed, validated)
   const changeState = useCallback(
     newState => {
+      console.log('change state to ', newState);
       if (state === INIT) sendStartedEvent(idSurveyUnit);
       if (state === COMPLETED) sendCompletedEvent(idSurveyUnit);
       if (state === VALIDATED) sendValidatedEvent(idSurveyUnit);
@@ -31,9 +32,13 @@ export const useQuestionnaireState = (idSurveyUnit, initialData, initialState = 
         console.log('my first data');
         setInitData(JSON.stringify(newData));
       } else if (state === NOT_STARTED) {
+        console.log(' => ', INIT);
         changeState(INIT);
       } else if (state === VALIDATED && initData !== JSON.stringify(newData)) {
+        console.log('state ', VALIDATED, ' => ', INIT);
         changeState(INIT);
+      } else {
+        console.log({ newData, state });
       }
     },
     [changeState, initData, state]

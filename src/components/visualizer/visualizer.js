@@ -41,7 +41,6 @@ const Visualizer = () => {
       await surveyUnitIdbService.addOrUpdateSU(su);
     };
     insertSuInIndexedDB(unit);
-    console.log('insert command already launched');
     setSurveyUnit(unit);
   }, [suData]);
 

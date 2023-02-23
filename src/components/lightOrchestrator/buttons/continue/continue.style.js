@@ -7,6 +7,7 @@ export const useStyles = makeStyles({
     justifyContent: 'flex-end',
     alignItems: 'center',
     marginRight: '4em',
+    minHeight: '2.3em',
     gap: '0.5em',
   },
   root: { width: 'auto' },

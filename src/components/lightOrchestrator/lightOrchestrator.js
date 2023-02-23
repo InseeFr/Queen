@@ -1,12 +1,11 @@
 import * as lunatic from '@inseefr/lunatic';
 
-import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import ButtonContinue from './buttons/continue/index';
 import D from 'i18n';
 import Header from './header';
 import NavBar from './navBar';
-import { PAGE_NAVIGATION_FORWARD } from 'utils/constants';
 import { componentHasResponse } from 'utils/components/deduceState';
 import { useCustomLunaticStyles } from 'components/orchestrator/lunaticStyle/style';
 import { useLunaticFetcher } from 'utils/hook';
@@ -43,7 +42,6 @@ function LightOrchestrator({
   const { lunaticFetcher: suggesterFetcher } = useLunaticFetcher();
   const classes = useStyles();
   const lunaticClasses = useCustomLunaticStyles();
-  const [pageNavigationDirection, setPageNavigationDirection] = useState(PAGE_NAVIGATION_FORWARD);
   console.log('LIGHT orchestrator renders');
   // TODO remove when provided by lunatic
   const mockedOverview = [
@@ -90,7 +88,6 @@ function LightOrchestrator({
 
   // allow auto-next page when component is "complete"
   const customHandleChange = useCallback(() => {
-    console.log('iam custom handle change bro!');
     if (lunaticStateRef === undefined) return;
     const { getComponents, goNextPage, getData } = lunaticStateRef.current;
 
@@ -99,16 +96,13 @@ function LightOrchestrator({
     onDataChange(COLLECTED);
 
     const currentComponent = getComponents()[0];
-    console.log(currentComponent);
     // search for Radio-like components
     if (
-      (currentComponent.componentType === 'Radio',
-      currentComponent.componentType === 'CheckboxBoolean')
+      currentComponent.componentType === 'Radio' ||
+      currentComponent.componentType === 'CheckboxBoolean' ||
+      currentComponent.componentType === 'CheckboxOne'
     ) {
-      console.log('Need only one response');
       goNextPage();
-    } else {
-      console.log('no auto-next page');
     }
   }, [onDataChange]);
 
@@ -138,16 +132,6 @@ function LightOrchestrator({
     getData,
   } = lunaticStateRef.current;
 
-  const skipProofGoNextPage = useCallback(() => {
-    setPageNavigationDirection('FORWARD');
-    goNextPage();
-  }, [goNextPage]);
-
-  const skipProofGoPreviousPage = useCallback(() => {
-    setPageNavigationDirection('BACKWARD');
-    goPreviousPage();
-  }, [goPreviousPage]);
-
   // TODO restore when lunatic handle object in missingButtons properties
   // const dontKnowButton = <MissingButton shortcutLabel="F2" buttonLabel={D.doesntKnowButton} />;
   // const refusedButton = <MissingButton shortcutLabel="F4" buttonLabel={D.refusalButton} />;
@@ -157,47 +141,84 @@ function LightOrchestrator({
     console.log(getData(true));
   };
 
-  const {
-    maxPage = '1',
-    page = '1',
-    lastReachedPage = 1,
-    subPage,
-    nbSubPages,
-    iteration,
-    nbIterations,
-  } = pager;
-  const isLastReachedPage = page === lastReachedPage;
+  const [currentPager, setCurrentPager] = useState();
+  const [maxPage, setMaxPage] = useState();
+  const [page, setPage] = useState();
+  const [lastReachedPage, setLastReachedPage] = useState();
+  const [subPage, setSubPage] = useState();
+  const [nbSubPages, setNbSubPages] = useState();
+  const [iteration, setIteration] = useState();
+  const [nbIterations, setNbIterations] = useState();
+  const [isLastReachedPage, setIsLastReachedPage] = useState(false);
 
-  // save data on page change
+  useEffect(() => {
+    if (currentPager === undefined) return;
+    const {
+      maxPage: currentMaxPage = '1',
+      page: currentPage = '1',
+      lastReachedPage: currentLastReachedPage = 1,
+      subPage: currentSubPage,
+      nbSubPages: currentNbSubPages,
+      iteration: currentIteration,
+      nbIterations: currentNbIterations,
+    } = currentPager;
+    setIsLastReachedPage(currentPage === currentLastReachedPage);
+    setMaxPage(currentMaxPage);
+    setPage(currentPage);
+    setLastReachedPage(currentLastReachedPage);
+    setSubPage(currentSubPage);
+    setNbSubPages(currentNbSubPages);
+    setIteration(currentIteration);
+    setNbIterations(currentNbIterations);
+  }, [currentPager]);
+
+  // page change : update pager and save data
   useEffect(() => {
     if (lunaticStateRef.current === undefined) return;
-
+    console.log('trigger page/Save effect');
     const { getData, pager } = lunaticStateRef.current;
     // save ask for a surveyUnit, new Data and current page, unused for Visualizer
-    const { page } = pager;
+    const { page: pagerPage } = pager;
 
+    // no page in state yet
     if (page === undefined) {
-      console.log('no pager initialized, no data saved');
+      setCurrentPager(pager);
       return;
     }
+
+    // no page change => no save needed
+    if (pagerPage === page) {
+      return;
+    } else {
+      setCurrentPager(pager);
+    }
+
     const updatedData = getData();
-    console.log({ surveyUnit, updatedData, page });
+    console.log('save', { surveyUnit, updatedData, page });
     save(surveyUnit, updatedData, page);
-    console.log('data saved');
-  }, [page, lunaticStateRef, save, surveyUnit]);
+  }, [page, lunaticStateRef, save, surveyUnit, pager]);
 
   const memoQuit = useCallback(() => {
-    quit(pager, getData);
-  }, [getData, pager, quit]);
+    quit(currentPager, getData);
+  }, [getData, currentPager, quit]);
 
   const memoDefinitiveQuit = useCallback(() => {
-    definitiveQuit(pager, getData);
-  }, [getData, pager, definitiveQuit]);
+    definitiveQuit(currentPager, getData);
+  }, [getData, currentPager, definitiveQuit]);
 
-  const components = getComponents();
+  const [components, setComponents] = useState([]);
+
+  // persist components independently from Lunatic state
+  useEffect(() => {
+    if (typeof getComponents === 'function') {
+      console.log('I get components');
+      setComponents(getComponents);
+    }
+  }, [getComponents]);
+
   // const errors = getErrors();
   // const modalErrors = getModalErrors();
-  const currentErrors = getCurrentErrors();
+  const currentErrors = typeof getCurrentErrors === 'function' ? getCurrentErrors() : [];
 
   const trueGoToPage = useCallback(
     page => {
@@ -210,35 +231,28 @@ function LightOrchestrator({
     trueGoToPage(lastReachedPage);
   }, [lastReachedPage, trueGoToPage]);
 
-  const firstComponent = [...components]?.[0];
-  const lunaticComponentId = firstComponent?.id ?? 'staticMissingId';
-  const lunaticComponentType = firstComponent?.componentType ?? 'staticMissingType';
+  const firstComponent = useMemo(() => [...components]?.[0], [components]);
+  console.log({ firstComponent });
+  // const lunaticComponentId = firstComponent?.id ?? 'staticMissingId';
+  // const lunaticComponentType = firstComponent?.componentType ?? 'staticMissingType';
   const hasResponse = componentHasResponse(firstComponent);
-  const hierarchy = firstComponent?.hierarchy ?? {
+
+  const [hierarchy, setHierarchy] = useState({
     sequence: { label: 'There is no sequence', page: '1' },
-  };
+  });
+
+  useEffect(() => {
+    if (firstComponent !== undefined) setHierarchy(firstComponent.hierarchy);
+  }, [firstComponent]);
   // directly from source, could be in raw VTL in future versions
   const {
     label: { value: questionnaireTitle },
   } = source;
 
-  // skip sequences without declarations
-  useEffect(() => {
-    if (lunaticStateRef.current === undefined) return;
-    const { goNextPage } = lunaticStateRef.current;
-    if (
-      lunaticComponentType === 'Sequence' &&
-      pageNavigationDirection === PAGE_NAVIGATION_FORWARD
-    ) {
-      console.log('rhaaaaa, a sequence!! go nexxt nice fella');
-      // no brain here : can't go back after reaching an empty sequence due to auto-skip
-      goNextPage();
-    } else {
-      console.log('no sequence to skip or navigation= ', pageNavigationDirection);
-    }
-  }, [lunaticComponentId, lunaticComponentType, pageNavigationDirection]);
-
   const fakeRereading = false;
+  const missingShortcut = useMemo(() => ({ dontKnow: 'f2', refused: 'f4' }), []);
+
+  if (currentPager === undefined) return null;
   return (
     <div className={classes.root}>
       <Header
@@ -252,7 +266,7 @@ function LightOrchestrator({
         definitiveQuit={memoDefinitiveQuit}
         currentPage={page}
       />
-      <button onClick={() => logGetData()}>{`Get Lunatic Data ${pageNavigationDirection}`}</button>
+      <button onClick={() => logGetData()}>{`Get Lunatic Data `}</button>
       <div className={classes.bodyContainer}>
         <div className={classes.mainTile}>
           {components.map(function (component) {
@@ -277,7 +291,7 @@ function LightOrchestrator({
                   missingStrategy={goNextPage}
                   savingType={savingType}
                   filterDescription={filterDescription}
-                  missingShortcut={{ dontKnow: 'f2', refused: 'f4' }}
+                  missingShortcut={missingShortcut}
                   dontKnowButton={dontKnowButton}
                   refusedButton={refusedButton}
                   shortcut={true}
@@ -291,7 +305,7 @@ function LightOrchestrator({
             isLastPage={isLastPage}
             page={page}
             quit={quit}
-            goNext={skipProofGoNextPage}
+            goNext={goNextPage}
             rereading={fakeRereading}
             isLastReachedPage={isLastReachedPage}
             componentHasResponse={hasResponse}
@@ -302,8 +316,8 @@ function LightOrchestrator({
           page={page}
           isFirstPage={isFirstPage}
           isLastPage={isLastPage}
-          goPrevious={skipProofGoPreviousPage}
-          goNext={skipProofGoNextPage}
+          goPrevious={goPreviousPage}
+          goNext={goNextPage}
           maxPages={maxPage}
           subPage={subPage + 1}
           nbSubPages={nbSubPages}
@@ -314,7 +328,6 @@ function LightOrchestrator({
           isLastReachedPage={isLastReachedPage}
           goLastReachedPage={goToLastReachedPage}
           readonly={readonly}
-          setPageNavigationDirection={setPageNavigationDirection}
         />
       </div>
     </div>
