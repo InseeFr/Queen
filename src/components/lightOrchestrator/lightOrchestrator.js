@@ -43,8 +43,6 @@ function LightOrchestrator({
   const { data } = surveyUnit;
   const { lunaticFetcher: suggesterFetcher } = useLunaticFetcher();
   const classes = useStyles();
-  const lunaticClasses = useCustomLunaticStyles();
-  console.log('LIGHT orchestrator renders');
   // TODO remove when provided by lunatic
   const mockedOverview = [
     {
@@ -140,9 +138,9 @@ function LightOrchestrator({
   // const refusedButton = <MissingButton shortcutLabel="F4" buttonLabel={D.refusalButton} />;
   const dontKnowButton = 'dunno'; /*D.doesntKnowButton;*/
   const refusedButton = D.refusalButton;
-  const logGetData = () => {
-    console.log(getData(true));
-  };
+  // const logGetData = () => {
+  //   console.log(getData(true));
+  // };
 
   const [currentPager, setCurrentPager] = useState();
   const [maxPage, setMaxPage] = useState();
