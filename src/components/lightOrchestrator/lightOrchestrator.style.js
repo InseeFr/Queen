@@ -19,11 +19,8 @@ export const useStyles = makeStyles(() => ({
     justifyContent: 'space-between',
     width: '100%',
   },
-  loopInfo: {
-    position: 'absolute',
-    // 65(width of top bar) + 4
-    top: '69px',
-    // 60(width of right bar) + 4
-    right: '64px',
+  activeView: {
+    display: 'flex',
+    flexDirection: 'row',
   },
 }));

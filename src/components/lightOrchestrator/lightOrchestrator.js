@@ -3,8 +3,10 @@ import * as lunatic from '@inseefr/lunatic';
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import ButtonContinue from './buttons/continue/index';
+import { ComponentDisplayer } from './componentDisplayer';
 import D from 'i18n';
 import Header from './header';
+import { LoopPanel } from './LoopPanel';
 import NavBar from './navBar';
 import { componentHasResponse } from 'utils/components/deduceState';
 import { useCustomLunaticStyles } from 'components/orchestrator/lunaticStyle/style';
@@ -130,12 +132,13 @@ function LightOrchestrator({
     // getModalErrors,
     getCurrentErrors,
     getData,
+    loopVariables = ['THL_PRENOM'],
   } = lunaticStateRef.current;
 
   // TODO restore when lunatic handle object in missingButtons properties
   // const dontKnowButton = <MissingButton shortcutLabel="F2" buttonLabel={D.doesntKnowButton} />;
   // const refusedButton = <MissingButton shortcutLabel="F4" buttonLabel={D.refusalButton} />;
-  const dontKnowButton = D.doesntKnowButton;
+  const dontKnowButton = 'dunno'; /*D.doesntKnowButton;*/
   const refusedButton = D.refusalButton;
   const logGetData = () => {
     console.log(getData(true));
@@ -211,7 +214,6 @@ function LightOrchestrator({
   // persist components independently from Lunatic state
   useEffect(() => {
     if (typeof getComponents === 'function') {
-      console.log('I get components');
       setComponents(getComponents);
     }
   }, [getComponents]);
@@ -233,8 +235,6 @@ function LightOrchestrator({
 
   const firstComponent = useMemo(() => [...components]?.[0], [components]);
   console.log({ firstComponent });
-  // const lunaticComponentId = firstComponent?.id ?? 'staticMissingId';
-  // const lunaticComponentType = firstComponent?.componentType ?? 'staticMissingType';
   const hasResponse = componentHasResponse(firstComponent);
 
   const [hierarchy, setHierarchy] = useState({
@@ -252,6 +252,11 @@ function LightOrchestrator({
   const fakeRereading = false;
   const missingShortcut = useMemo(() => ({ dontKnow: 'f2', refused: 'f4' }), []);
 
+  const missingStrategy = useCallback(() => {
+    console.log('missing strategy : go next page');
+    goNextPage();
+  }, [goNextPage]);
+
   if (currentPager === undefined) return null;
   return (
     <div className={classes.root}>
@@ -266,40 +271,31 @@ function LightOrchestrator({
         definitiveQuit={memoDefinitiveQuit}
         currentPage={page}
       />
-      <button onClick={() => logGetData()}>{`Get Lunatic Data `}</button>
+      <button onClick={() => goToPage({ page: '29' })}>{`Go loop `}</button>
       <div className={classes.bodyContainer}>
         <div className={classes.mainTile}>
-          {components.map(function (component) {
-            const { id, componentType, response, storeName, ...other } = component;
-            const Component = lunatic[componentType];
-            return (
-              <div className={`${lunaticClasses.lunatic} ${componentType}`} key={`component-${id}`}>
-                <Component
-                  id={id}
-                  response={response}
-                  {...other}
-                  {...component}
-                  labelPosition="TOP"
-                  unitPosition="AFTER"
-                  preferences={preferences}
-                  features={features}
-                  writable
-                  readOnly={readonly}
-                  disabled={readonly}
-                  focused // waiting for Lunatic feature
-                  missing={missing}
-                  missingStrategy={goNextPage}
-                  savingType={savingType}
-                  filterDescription={filterDescription}
-                  missingShortcut={missingShortcut}
-                  dontKnowButton={dontKnowButton}
-                  refusedButton={refusedButton}
-                  shortcut={true}
-                  errors={currentErrors}
-                />
-              </div>
-            );
-          })}
+          <div className={classes.activeView}>
+            <ComponentDisplayer
+              components={components}
+              preferences={preferences}
+              features={features}
+              readonly={readonly}
+              missing={missing}
+              missingStrategy={missingStrategy}
+              savingType={savingType}
+              filterDescription={filterDescription}
+              missingShortcut={missingShortcut}
+              dontKnowButton={dontKnowButton}
+              refusedButton={refusedButton}
+              currentErrors={currentErrors}
+            ></ComponentDisplayer>
+            <LoopPanel
+              loopVariables={loopVariables}
+              getData={getData}
+              pager={pager}
+              goToPage={trueGoToPage}
+            ></LoopPanel>
+          </div>
           <ButtonContinue
             readonly={readonly}
             isLastPage={isLastPage}

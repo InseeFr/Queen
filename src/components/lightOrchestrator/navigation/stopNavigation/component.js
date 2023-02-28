@@ -103,9 +103,9 @@ const StopNavigation = React.forwardRef(({ close, quit, definitiveQuit, currentP
         open={open}
         setOpen={setOpen}
         definitive={definitive}
-        quit
-        definitiveQuit
-        currentPage
+        quit={quit}
+        definitiveQuit={definitiveQuit}
+        currentPage={currentPage}
       />
     </focus-trap>
   );

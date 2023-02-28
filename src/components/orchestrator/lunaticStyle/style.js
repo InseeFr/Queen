@@ -231,6 +231,14 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       },
     },
 
+    // lunatic label
+
+    '& .lunatic-input , .lunatic-textarea, .lunatic-input-number': {
+      '& .lunatic-label': {
+        display: 'block',
+      },
+    },
+
     // Dropdown lunatic
     '& .lunatic-dropdown': {
       display: 'block',
