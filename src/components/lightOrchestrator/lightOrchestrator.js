@@ -9,7 +9,6 @@ import Header from './header';
 import { LoopPanel } from './LoopPanel';
 import NavBar from './navBar';
 import { componentHasResponse } from 'utils/components/deduceState';
-import { useCustomLunaticStyles } from 'components/orchestrator/lunaticStyle/style';
 import { useLunaticFetcher } from 'utils/hook';
 import { useStyles } from './lightOrchestrator.style';
 
