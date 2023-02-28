@@ -175,7 +175,6 @@ function LightOrchestrator({
   // page change : update pager and save data
   useEffect(() => {
     if (lunaticStateRef.current === undefined) return;
-    console.log('trigger page/Save effect');
     const { getData, pager } = lunaticStateRef.current;
     // save ask for a surveyUnit, new Data and current page, unused for Visualizer
     const { page: pagerPage } = pager;
@@ -189,9 +188,8 @@ function LightOrchestrator({
     // no page change => no save needed
     if (pagerPage === page) {
       return;
-    } else {
-      setCurrentPager(pager);
     }
+    setCurrentPager(pager);
 
     const updatedData = getData();
     console.log('save', { surveyUnit, updatedData, page });
@@ -220,8 +218,13 @@ function LightOrchestrator({
   const currentErrors = typeof getCurrentErrors === 'function' ? getCurrentErrors() : [];
 
   const trueGoToPage = useCallback(
-    page => {
-      goToPage({ page: page });
+    targetPage => {
+      if (typeof targetPage === 'string') {
+        goToPage({ page: targetPage });
+      } else {
+        const { page, iteration, subPage } = targetPage;
+        goToPage({ page: page, iteration: iteration, subPage: subPage });
+      }
     },
     [goToPage]
   );
@@ -231,7 +234,6 @@ function LightOrchestrator({
   }, [lastReachedPage, trueGoToPage]);
 
   const firstComponent = useMemo(() => [...components]?.[0], [components]);
-  console.log({ firstComponent });
   const hasResponse = componentHasResponse(firstComponent);
 
   const [hierarchy, setHierarchy] = useState({
@@ -250,7 +252,6 @@ function LightOrchestrator({
   const missingShortcut = useMemo(() => ({ dontKnow: 'f2', refused: 'f4' }), []);
 
   const missingStrategy = useCallback(() => {
-    console.log('missing strategy : go next page');
     goNextPage();
   }, [goNextPage]);
 
@@ -268,7 +269,7 @@ function LightOrchestrator({
         definitiveQuit={memoDefinitiveQuit}
         currentPage={page}
       />
-      <button onClick={() => goToPage({ page: '29' })}>{`Go loop `}</button>
+      <button onClick={() => trueGoToPage({ page: '29' })}>{`Go loop `}</button>
       <div className={classes.bodyContainer}>
         <div className={classes.mainTile}>
           <div className={classes.activeView}>

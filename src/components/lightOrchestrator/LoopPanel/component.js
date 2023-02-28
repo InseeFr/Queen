@@ -5,8 +5,12 @@ export const LoopPanel = ({ loopVariables = [], getData, pager, goToPage }) => {
   const classes = useStyles();
   if (loopVariables.length === 0 || loopVariables[0] === undefined) return null;
 
-  const { page, subPage, lastReachedPage } = pager;
-  console.log({ pager });
+  const {
+    page: currentPage,
+    subPage: currentSubPage,
+    iteration: currentIteration,
+    lastReachedPage,
+  } = pager;
 
   // use page to select loopVariables depth
   const depth = 0;
@@ -15,13 +19,17 @@ export const LoopPanel = ({ loopVariables = [], getData, pager, goToPage }) => {
   const targetData = datas.COLLECTED[targetVariable];
   const { COLLECTED } = targetData;
   if (COLLECTED.length === 0 || COLLECTED[0] === null) return null;
+
+  // get max page/subPage/iteration from lastReachedPage :
+  // handle subPage/iteration starting from 1 in lastReachedPage while starting from 0 in pager
+  const maxPage = parseInt(lastReachedPage.split('.')[0], 10);
+  const maxSubPage = parseInt(lastReachedPage.split('.')[1], 10) - 1;
+  const maxIteration = parseInt(lastReachedPage.split('#')[1], 10) - 1;
   const isReached = iteration => {
-    // if (page < maxPage) return true;
+    if (currentPage < maxPage) return true;
     // same page => check subPage
-    // if (subPage < maxSubPage) return true;
+    if (currentSubPage < maxSubPage) return true;
     // same subPage => check iteration
-    // lastReachedPage 19.2#3
-    const maxIteration = parseInt(lastReachedPage.split('#')[1], 10);
     return iteration < maxIteration;
   };
   return (
@@ -30,25 +38,19 @@ export const LoopPanel = ({ loopVariables = [], getData, pager, goToPage }) => {
         return (
           <Panel
             key={`panel-${index}`}
-            iterationValue={value?.toUpperCase() + `${page}.${subPage}#${index}` ?? ''}
-            current={false}
+            value={value?.toUpperCase() ?? ''}
+            current={currentIteration === index}
             reachable={isReached(index)}
-            onClick={() => {
-              console.log('going to ', {
-                page: page,
-                iteration: index,
-                subPage: subPage,
-              });
+            onClick={() =>
               goToPage({
-                page: page,
+                page: currentPage,
                 iteration: index,
-                subPage: subPage,
-              });
-            }}
+                subPage: currentSubPage,
+              })
+            }
           />
         );
       })}
-      <button onClick={() => goToPage({ page: '32.0#1' })}>Go : 32.1#2</button>
     </div>
   );
 };
