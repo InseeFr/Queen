@@ -2342,7 +2342,7 @@
   ],
   "suggesters": [
     {
-      "name": "L_COMMUNEPASSEE-1-0-0",
+      "name": "L_COMMUNEPASSEE-1-1-0",
       "fields": [
         { "name": "label", "rules": "soft" },
 

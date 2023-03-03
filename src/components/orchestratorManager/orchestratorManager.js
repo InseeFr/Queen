@@ -31,7 +31,6 @@ export const OrchestratorManager = () => {
 
   const { surveyUnit, questionnaire, nomenclatures, loadingMessage, errorMessage } =
     useAPIRemoteData(idSU, idQ);
-  console.log(errorMessage);
   console.log(surveyUnit);
   //TODO improve null handling
   const stateData = surveyUnit?.stateData;

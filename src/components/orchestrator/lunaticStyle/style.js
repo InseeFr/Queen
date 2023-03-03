@@ -62,7 +62,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       left: '0.5em',
       fontWeight: 'bold',
     },
-    '& .declaration-lunatic': {
+    '& .label-description': {
       color: theme.palette.declarations.main,
       marginTop: '1em',
       fontWeight: 'normal',
@@ -70,6 +70,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       '&.declaration-help': {
         color: theme.palette.declarations.help,
       },
+      display: 'table',
     },
 
     '& .label-top label': {
@@ -88,7 +89,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
     '& .field-container': {
       marginTop: '1em',
     },
-    '& .textarea-lunatic': {
+    '& .lunatic-textarea textarea': {
       padding: '0.5em',
       fontSize: '100%',
       marginLeft: '1em',
@@ -236,6 +237,8 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
     '& .lunatic-input , .lunatic-textarea, .lunatic-input-number': {
       '& .lunatic-label': {
         display: 'block',
+        marginBottom: '1em',
+        fontWeight: 'bold',
       },
     },
 

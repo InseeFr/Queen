@@ -22,5 +22,6 @@ export const useStyles = makeStyles(() => ({
   activeView: {
     display: 'flex',
     flexDirection: 'row',
+    height: '100%',
   },
 }));

@@ -129,7 +129,7 @@ function LightOrchestrator({
     // getModalErrors,
     getCurrentErrors,
     getData,
-    loopVariables = ['THL_PRENOM'],
+    loopVariables = [],
   } = lunaticStateRef.current;
 
   // TODO restore when lunatic handle object in missingButtons properties
@@ -269,7 +269,7 @@ function LightOrchestrator({
         definitiveQuit={memoDefinitiveQuit}
         currentPage={page}
       />
-      <button onClick={() => trueGoToPage({ page: '29' })}>{`Go loop `}</button>
+      {/* <button onClick={() => trueGoToPage({ page: '29' })}>{`Go loop `}</button> */}
       <div className={classes.bodyContainer}>
         <div className={classes.mainTile}>
           <div className={classes.activeView}>
