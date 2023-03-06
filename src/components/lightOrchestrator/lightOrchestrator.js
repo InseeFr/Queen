@@ -113,6 +113,8 @@ function LightOrchestrator({
     autoSuggesterLoading,
     suggesters,
     suggesterFetcher,
+    withOverview: true,
+    withAutofocus: true,
   });
 
   const {

@@ -97,6 +97,7 @@ const Visualizer = () => {
           save={save}
           filterDescription={false}
           quit={closeAndDownloadData}
+          definitiveQuit={closeAndDownloadData}
         />
       )}
       {!questionnaireUrl && <QuestionnaireForm />}

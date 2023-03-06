@@ -152,12 +152,12 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       },
 
       '& .checkbox-modality, & .radio-modality': {
-        display: 'block',
         borderRadius: '5px',
         border: `1px solid ${borderColorCheckbox}`,
         backgroundColor: `${backgroundColorCheckbox}`,
         margin: '8px',
-        width: '60%',
+        width: '70%',
+        padding: '0.5em',
 
         '& .lunatic-icon': {
           display: 'none',
@@ -189,7 +189,8 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         '&.checked': {
           backgroundColor: `${backgroundColorCheckboxChecked}`,
           borderColor: `${modalityLabelColorChecked}`,
-          '& .lunatic-input-checkbox::after': {
+          width: '100%',
+          '& label::after': {
             marginLeft: 'auto',
             content: "'✓'",
           },
@@ -239,6 +240,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         display: 'block',
         marginBottom: '1em',
         fontWeight: 'bold',
+        padding: '0.5em',
       },
     },
 
@@ -292,7 +294,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
           outline: 'none',
         },
 
-        '& .lunatic-dropdown-content': {
+        '& .lunatic-combo-box-panel': {
           // background-color: var(--color-very-very-light);
           borderColor: 'white',
           left: 0,
@@ -359,7 +361,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
               boxShadow:
                 '0px 3px 3px -2px rgba(0, 0, 0, 0.9), 0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12)',
 
-              '& .lunatic-dropdown-panel': {
+              '& .lunatic-combo-box-panel': {
                 backgroundColor: 'white',
                 margin: '0 0 12px 0',
                 borderRadius: '4px',
