@@ -17,6 +17,7 @@ import { sendCloseEvent } from 'utils/communication';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 
 export const OrchestratorManager = () => {
+  console.log('OrchestratorManager renders');
   const { standalone, apiUrl } = useContext(AppContext);
   const { readonly: readonlyParam, idQ, idSU } = useParams();
   const history = useHistory();
@@ -181,7 +182,7 @@ export const OrchestratorManager = () => {
           pagination={true}
           missing={true}
           filterDescription={false}
-          save={saveData}
+          save={saveQueen}
           onDataChange={onDataChange}
           close={closeOrchestrator}
           quit={quit}

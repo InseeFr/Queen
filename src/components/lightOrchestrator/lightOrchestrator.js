@@ -43,6 +43,7 @@ function LightOrchestrator({
   const { lunaticFetcher: suggesterFetcher } = useLunaticFetcher();
   const classes = useStyles();
   const lunaticStateRef = useRef();
+  console.log('lightOrchestrator renders');
 
   // allow auto-next page when component is "complete"
   const customHandleChange = useCallback(() => {
@@ -191,6 +192,7 @@ function LightOrchestrator({
 
   const trueGoToPage = useCallback(
     targetPage => {
+      console.log('go to page', targetPage);
       if (typeof targetPage === 'string') {
         goToPage({ page: targetPage });
       } else {

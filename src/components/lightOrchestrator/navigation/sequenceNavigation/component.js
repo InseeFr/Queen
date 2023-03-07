@@ -61,7 +61,7 @@ const SequenceNavigation = ({
         setSelectedSequence(undefined);
         setCurrentFocusElement(undefined);
       }
-    } else if (sequence.reachable) {
+    } else if (isReachable(sequence)) {
       setPage(sequence.page);
     }
   };
