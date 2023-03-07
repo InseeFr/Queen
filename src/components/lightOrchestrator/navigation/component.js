@@ -21,6 +21,7 @@ import PropTypes from 'prop-types';
 import SequenceNavigation from './sequenceNavigation';
 import StopNavigation from './stopNavigation';
 import SubsequenceNavigation from './subSequenceNavigation';
+import isEqual from 'lodash.isequal';
 import { useStyles } from './component.style';
 
 const Navigation = ({
@@ -261,7 +262,7 @@ const Navigation = ({
 };
 
 const comparison = (_, nextProps) => {
-  return !nextProps.menuOpen;
+  return !nextProps.menuOpen && isEqual(_.overview, nextProps.overview);
 };
 
 Navigation.propTypes = {

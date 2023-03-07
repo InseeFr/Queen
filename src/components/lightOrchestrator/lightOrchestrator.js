@@ -43,7 +43,6 @@ function LightOrchestrator({
   const { lunaticFetcher: suggesterFetcher } = useLunaticFetcher();
   const classes = useStyles();
   const lunaticStateRef = useRef();
-  console.log('lightOrchestrator renders');
 
   // allow auto-next page when component is "complete"
   const customHandleChange = useCallback(() => {
@@ -88,6 +87,7 @@ function LightOrchestrator({
     suggesters,
     suggesterFetcher,
     missing: { missing },
+    shortcut: true,
     missingStrategy: { missingStrategy },
     withOverview: true,
     missingShortcut: { missingShortcut },
@@ -103,7 +103,7 @@ function LightOrchestrator({
     goToPage,
     isFirstPage,
     isLastPage,
-    overview,
+    overview = [],
     // waiting,
     pager,
     // getErrors,
@@ -238,7 +238,6 @@ function LightOrchestrator({
         definitiveQuit={memoDefinitiveQuit}
         currentPage={page}
       />
-      {/* <button onClick={() => trueGoToPage({ page: '29' })}>{`Go loop `}</button> */}
       <div className={classes.bodyContainer}>
         <div className={classes.mainTile}>
           <div className={classes.activeView}>
