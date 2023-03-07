@@ -42,47 +42,6 @@ function LightOrchestrator({
   const { data } = surveyUnit;
   const { lunaticFetcher: suggesterFetcher } = useLunaticFetcher();
   const classes = useStyles();
-  // TODO remove when provided by lunatic
-  const mockedOverview = [
-    {
-      label: 'Seq-1',
-      lunaticId: '#123',
-      type: 'sequence',
-      reached: true,
-      visible: true,
-      page: '1',
-      children: [
-        {
-          label: 'Sous-Seq-1',
-          lunaticId: '#124',
-          type: 'subSequence',
-          reached: false,
-          visible: true,
-          page: '2',
-          children: [],
-        },
-      ],
-    },
-    {
-      label: 'Seq-2',
-      lunaticId: '#221',
-      type: 'sequence',
-      reached: false,
-      visible: true,
-      page: '3',
-      children: [
-        {
-          label: 'Sous-Seq-2',
-          lunaticId: '#222',
-          type: 'subSequence',
-          reached: false,
-          visible: false,
-          page: '4',
-          children: [],
-        },
-      ],
-    },
-  ];
   const lunaticStateRef = useRef();
 
   // allow auto-next page when component is "complete"
@@ -143,7 +102,7 @@ function LightOrchestrator({
     goToPage,
     isFirstPage,
     isLastPage,
-    overview = mockedOverview,
+    overview,
     // waiting,
     pager,
     // getErrors,
@@ -163,6 +122,7 @@ function LightOrchestrator({
   const [nbIterations, setNbIterations] = useState();
   const [isLastReachedPage, setIsLastReachedPage] = useState(false);
 
+  console.log({ overview });
   useEffect(() => {
     if (currentPager === undefined) return;
     const {
