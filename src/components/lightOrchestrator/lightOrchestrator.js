@@ -105,6 +105,20 @@ function LightOrchestrator({
     }
   }, [onDataChange]);
 
+  const missingStrategy = useCallback(() => {
+    if (lunaticStateRef === undefined) return;
+    const { goNextPage } = lunaticStateRef.current;
+    goNextPage();
+  }, []);
+
+  const missingShortcut = useMemo(() => ({ dontKnow: 'f2', refused: 'f4' }), []);
+
+  // TODO restore when lunatic handle object in missingButtons properties
+  // const dontKnowButton = <MissingButton shortcutLabel="F2" buttonLabel={D.doesntKnowButton} />;
+  // const refusedButton = <MissingButton shortcutLabel="F4" buttonLabel={D.refusalButton} />;
+  const dontKnowButton = D.doesntKnowButton;
+  const refusedButton = D.refusalButton;
+
   lunaticStateRef.current = lunatic.useLunatic(source, data, {
     features,
     pagination,
@@ -113,7 +127,12 @@ function LightOrchestrator({
     autoSuggesterLoading,
     suggesters,
     suggesterFetcher,
+    missing: { missing },
+    missingStrategy: { missingStrategy },
     withOverview: true,
+    missingShortcut: { missingShortcut },
+    dontKnowButton: { dontKnowButton },
+    refusedButton: { refusedButton },
     withAutofocus: true,
   });
 
@@ -133,15 +152,6 @@ function LightOrchestrator({
     getData,
     loopVariables = [],
   } = lunaticStateRef.current;
-
-  // TODO restore when lunatic handle object in missingButtons properties
-  // const dontKnowButton = <MissingButton shortcutLabel="F2" buttonLabel={D.doesntKnowButton} />;
-  // const refusedButton = <MissingButton shortcutLabel="F4" buttonLabel={D.refusalButton} />;
-  const dontKnowButton = 'dunno'; /*D.doesntKnowButton;*/
-  const refusedButton = D.refusalButton;
-  // const logGetData = () => {
-  //   console.log(getData(true));
-  // };
 
   const [currentPager, setCurrentPager] = useState();
   const [maxPage, setMaxPage] = useState();
@@ -251,11 +261,6 @@ function LightOrchestrator({
   } = source;
 
   const fakeRereading = false;
-  const missingShortcut = useMemo(() => ({ dontKnow: 'f2', refused: 'f4' }), []);
-
-  const missingStrategy = useCallback(() => {
-    goNextPage();
-  }, [goNextPage]);
 
   if (currentPager === undefined) return null;
   return (
@@ -280,13 +285,8 @@ function LightOrchestrator({
               preferences={preferences}
               features={features}
               readonly={readonly}
-              missing={missing}
-              missingStrategy={missingStrategy}
               savingType={savingType}
               filterDescription={filterDescription}
-              missingShortcut={missingShortcut}
-              dontKnowButton={dontKnowButton}
-              refusedButton={refusedButton}
               currentErrors={currentErrors}
             ></ComponentDisplayer>
             <LoopPanel

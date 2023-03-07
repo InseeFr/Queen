@@ -7,13 +7,8 @@ export const ComponentDisplayer = ({
   preferences,
   features,
   readonly,
-  missing,
-  missingStrategy,
   savingType,
   filterDescription,
-  missingShortcut,
-  dontKnowButton,
-  refusedButton,
   currentErrors,
 }) => {
   const lunaticClasses = useCustomLunaticStyles();
@@ -37,13 +32,8 @@ export const ComponentDisplayer = ({
               readOnly={readonly}
               disabled={readonly}
               focused // waiting for Lunatic feature
-              missing={missing}
-              missingStrategy={missingStrategy}
               savingType={savingType}
               filterDescription={filterDescription}
-              missingShortcut={missingShortcut}
-              dontKnowButton={dontKnowButton}
-              refusedButton={refusedButton}
               shortcut={true}
               errors={currentErrors}
             />
