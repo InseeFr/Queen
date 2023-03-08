@@ -1,7 +1,7 @@
 import * as lunatic from '@inseefr/lunatic';
 
 import { sendCompletedEvent, sendStartedEvent, sendValidatedEvent } from 'utils/communication';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export const NOT_STARTED = null;
 export const INIT = 'INIT';
@@ -12,6 +12,12 @@ export const VALIDATED = 'VALIDATED';
 export const useQuestionnaireState = (idSurveyUnit, initialData, initialState = NOT_STARTED) => {
   console.log('useQuestionnaireState', { idSurveyUnit, initialData, initialState });
   const [state, setState] = useState(initialState);
+  const stateRef = useRef(state);
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
+
+  const getState = useCallback(() => stateRef.current, []);
 
   const [initData, setInitData] = useState(initialData);
 
@@ -51,7 +57,7 @@ export const useQuestionnaireState = (idSurveyUnit, initialData, initialState = 
 
   // Analyse collected variables to update state (only to STARTED state)
 
-  return [state, changeState, onDataChange];
+  return [getState, changeState, onDataChange];
 };
 
 // Manage validatedPages (for rereading for example)

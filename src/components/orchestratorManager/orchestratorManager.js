@@ -22,7 +22,7 @@ export const OrchestratorManager = () => {
   const { readonly: readonlyParam, idQ, idSU } = useParams();
   const history = useHistory();
 
-  const [readonly] = useState(readonlyParam === READ_ONLY);
+  const readonly = readonlyParam === READ_ONLY;
 
   const LOGGER = EventsManager.createEventLogger({
     idQuestionnaire: idQ,
@@ -44,10 +44,8 @@ export const OrchestratorManager = () => {
   const [error, setError] = useState(null);
   const [source, setSource] = useState(null);
   const { putUeData, postParadata } = useAPI(idSU, idQ);
-
-  const [init, setInit] = useState(false);
-
-  const [state, changeState, onDataChange] = useQuestionnaireState(
+  console.log({ stateData });
+  const [getState, changeState, onDataChange] = useQuestionnaireState(
     surveyUnit?.id,
     initialData,
     stateData?.state
@@ -65,41 +63,44 @@ export const OrchestratorManager = () => {
   }, [isAuthenticated, LOGGER, questionnaire]);
 
   useEffect(() => {
-    if (!init && questionnaire && surveyUnit && nomenclatures) {
+    console.log('suggesters injection ?');
+    if (!suggesters && questionnaire && surveyUnit && nomenclatures) {
       const { valid, error: questionnaireError } = checkQuestionnaire(questionnaire);
       if (valid) {
         setSource(questionnaire);
         const suggestersBuilt = buildSuggesterFromNomenclatures(apiUrl)(nomenclatures);
         setSuggesters(suggestersBuilt);
-        setInit(true);
+        console.log('suggesters injection done');
         LOGGER.log(INIT_ORCHESTRATOR_EVENT);
       } else {
         setError(questionnaireError);
       }
     }
-  }, [init, questionnaire, surveyUnit, nomenclatures, apiUrl, LOGGER]);
+  }, [suggesters, questionnaire, surveyUnit, nomenclatures, apiUrl, LOGGER]);
 
   useEffect(() => {
     if (errorMessage) setError(errorMessage);
   }, [errorMessage]);
 
-  const [, /* sending */ setSending] = useState(false);
-  const [, /* errorSending */ setErrorSending] = useState(false);
+  // const [, /* sending */ setSending] = useState(false);
+  // const [, /* errorSending */ setErrorSending] = useState(false);
 
   const saveData = useCallback(
     async unit => {
       if (!readonly) {
         const putSurveyUnit = async unit => {
           const { id, ...other } = unit;
-          setErrorSending(null);
-          setSending(true);
-          const { error: putDataError } = await putUeData(id, other);
-          setSending(false);
-          if (putDataError) setErrorSending('Error during sending');
+          await putUeData(id, other);
+          // setErrorSending(null);
+          // setSending(true);
+          // const { error: putDataError } = await putUeData(id, other);
+          // setSending(false);
+          // if (putDataError) setErrorSending('Error during sending');
         };
 
         await surveyUnitIdbService.addOrUpdateSU(unit);
         const paradatas = LOGGER.getEventsToSend();
+        // TODO : make a true update of paradatas : curerntly adding additional completed arrays => SHOULD save one and only one array
         await paradataIdbService.update(paradatas);
         if (standalone) {
           // TODO managing errors
@@ -113,19 +114,20 @@ export const OrchestratorManager = () => {
 
   const saveQueen = useCallback(
     async (lastState, newData, page) => {
-      console.log({ lastState, newData, page, state, surveyUnit });
+      const currentState = getState();
+      console.log('save queen', { lastState, newData, page, currentState, surveyUnit });
       saveData({
         comment: {},
         ...surveyUnit,
         stateData: {
-          state: lastState ?? state,
+          state: lastState ?? currentState,
           date: new Date().getTime(),
           currentPage: page,
         },
         data: newData ?? surveyUnit.data,
       });
     },
-    [saveData, state, surveyUnit]
+    [getState, saveData, surveyUnit]
   );
 
   const closeOrchestrator = useCallback(() => {
@@ -141,7 +143,7 @@ export const OrchestratorManager = () => {
       const { page, maxPage } = pager;
       const isLastPage = page === maxPage;
       const newData = getData();
-      if (isLastPage(pager)) {
+      if (isLastPage) {
         // TODO : make algo to calculate COMPLETED event
         changeState(COMPLETED);
         changeState(VALIDATED);
@@ -162,13 +164,12 @@ export const OrchestratorManager = () => {
     },
     [changeState, closeOrchestrator, saveQueen]
   );
-
   return (
     <>
       {![READ_ONLY, undefined].includes(readonlyParam) && <NotFound />}
       {loadingMessage && <Preloader message={loadingMessage} />}
       {error && <Error message={error} />}
-      {init && !loadingMessage && !errorMessage && source && surveyUnit && suggesters && (
+      {!loadingMessage && !errorMessage && source && surveyUnit && suggesters && (
         <LightOrchestrator
           surveyUnit={surveyUnit}
           source={source}
