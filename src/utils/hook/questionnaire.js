@@ -11,48 +11,46 @@ export const VALIDATED = 'VALIDATED';
 // TODO lunatic V2 : should questionnaire passed as prop => delegate to lunatic is cleaner archi
 export const useQuestionnaireState = (idSurveyUnit, initialData, initialState = NOT_STARTED) => {
   console.log('useQuestionnaireState', { idSurveyUnit, initialData, initialState });
-  const [state, setState] = useState(initialState);
-  const stateRef = useRef(state);
-  useEffect(() => {
-    stateRef.current = state;
-  }, [state]);
-
+  const stateRef = useRef(initialState);
   const getState = useCallback(() => stateRef.current, []);
 
-  const [initData, setInitData] = useState(initialData);
+  const initialDataRef = useRef(initialData);
 
   // Send an event when questionnaire's state has changed (started, completed, validated)
   const changeState = useCallback(
     newState => {
       console.log('change state to ', newState);
-      if (state === INIT) sendStartedEvent(idSurveyUnit);
-      if (state === COMPLETED) sendCompletedEvent(idSurveyUnit);
-      if (state === VALIDATED) sendValidatedEvent(idSurveyUnit);
-      setState(newState);
+      if (newState === INIT) sendStartedEvent(idSurveyUnit);
+      if (newState === COMPLETED) sendCompletedEvent(idSurveyUnit);
+      if (newState === VALIDATED) sendValidatedEvent(idSurveyUnit);
+      stateRef.current = newState;
     },
-    [idSurveyUnit, state]
+    [idSurveyUnit]
   );
   const onDataChange = useCallback(
     newData => {
       // initialisation des data de référence
-      if (initData === undefined) {
-        console.log('my first data');
-        setInitData(JSON.stringify(newData));
+      if (initialDataRef.current === undefined) {
+        console.log('persisting initial data');
+        initialDataRef.current = JSON.stringify(newData);
       }
 
-      if (state === NOT_STARTED) {
+      if (stateRef.current === NOT_STARTED) {
         console.log(' => ', INIT);
         changeState(INIT);
-      } else if (state === VALIDATED && initData !== JSON.stringify(newData)) {
+      } else if (
+        stateRef.current === VALIDATED &&
+        initialDataRef.current !== JSON.stringify(newData)
+      ) {
         // state VALIDATED et données entrantes !== données initiales
         console.log('state ', VALIDATED, ' => ', INIT);
         changeState(INIT);
       } else {
         // here we do nothing
-        console.log({ newData, state });
+        console.log({ newData, state: stateRef.current });
       }
     },
-    [changeState, initData, state]
+    [changeState]
   );
 
   // Analyse collected variables to update state (only to STARTED state)

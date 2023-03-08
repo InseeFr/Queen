@@ -122,10 +122,10 @@ function LightOrchestrator({
   const [iteration, setIteration] = useState();
   const [nbIterations, setNbIterations] = useState();
   const [isLastReachedPage, setIsLastReachedPage] = useState(false);
-
-  console.log({ overview });
+  console.log('lightorchestrator rerender ', overview);
   useEffect(() => {
     if (currentPager === undefined) return;
+    console.log('currentPager changed');
     const {
       maxPage: currentMaxPage = '1',
       page: currentPage = '1',
@@ -149,7 +149,7 @@ function LightOrchestrator({
   useEffect(() => {
     if (lunaticStateRef.current === undefined) return;
     const { getData, pager } = lunaticStateRef.current;
-    // save ask for a surveyUnit, new Data and current page, unused for Visualizer
+    // save ask for an optional new questionnaire state, new Data and current page, unused for Visualizer
     const { page: pagerPage } = pager;
 
     // no page in state yet
@@ -165,9 +165,9 @@ function LightOrchestrator({
     setCurrentPager(pager);
 
     const updatedData = getData();
-    console.log('save', { surveyUnit, updatedData, page });
-    save(surveyUnit, updatedData, page);
-  }, [page, lunaticStateRef, save, surveyUnit, pager]);
+    // no questionnaire stata change here
+    save(undefined, updatedData, page);
+  }, [page, lunaticStateRef, save, pager]);
 
   const memoQuit = useCallback(() => {
     quit(currentPager, getData);
@@ -210,13 +210,10 @@ function LightOrchestrator({
   const firstComponent = useMemo(() => [...components]?.[0], [components]);
   const hasResponse = componentHasResponse(firstComponent);
 
-  const [hierarchy, setHierarchy] = useState({
+  const hierarchy = firstComponent?.hierarchy ?? {
     sequence: { label: 'There is no sequence', page: '1' },
-  });
+  };
 
-  useEffect(() => {
-    if (firstComponent !== undefined) setHierarchy(firstComponent.hierarchy);
-  }, [firstComponent]);
   // directly from source, could be in raw VTL in future versions
   const {
     label: { value: questionnaireTitle },

@@ -15,6 +15,7 @@ import { useConfiguration } from 'utils/hook';
 export const AppContext = React.createContext();
 
 const App = () => {
+  console.log('App rerender');
   const { configuration } = useConfiguration();
   const [init, setInit] = useState(false);
   const [online, setOnline] = useState(navigator.onLine);
