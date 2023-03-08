@@ -49,6 +49,7 @@ const ButtonContinue = ({
   const keysToHandle = [SHORTCUT_NEXT, SHORTCUT_FAST_FORWARD];
 
   const keyboardShortcut = (key, e) => {
+    console.log('keyboardShortcut', { key, e });
     e.preventDefault();
     if (key === SHORTCUT_NEXT) pageNextFunction();
     if (key === SHORTCUT_FAST_FORWARD) localPageFastForward();

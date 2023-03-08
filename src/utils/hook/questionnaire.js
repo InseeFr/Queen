@@ -9,7 +9,8 @@ export const COMPLETED = 'COMPLETED';
 export const VALIDATED = 'VALIDATED';
 
 // TODO lunatic V2 : should questionnaire passed as prop => delegate to lunatic is cleaner archi
-export const useQuestionnaireState = (idSurveyUnit, initialData, initialState = null) => {
+export const useQuestionnaireState = (idSurveyUnit, initialData, initialState = NOT_STARTED) => {
+  console.log('useQuestionnaireState', { idSurveyUnit, initialData, initialState });
   const [state, setState] = useState(initialState);
 
   const [initData, setInitData] = useState(initialData);
@@ -27,17 +28,21 @@ export const useQuestionnaireState = (idSurveyUnit, initialData, initialState = 
   );
   const onDataChange = useCallback(
     newData => {
-      //initialisation des data de référence
+      // initialisation des data de référence
       if (initData === undefined) {
         console.log('my first data');
         setInitData(JSON.stringify(newData));
-      } else if (state === NOT_STARTED) {
+      }
+
+      if (state === NOT_STARTED) {
         console.log(' => ', INIT);
         changeState(INIT);
       } else if (state === VALIDATED && initData !== JSON.stringify(newData)) {
+        // state VALIDATED et données entrantes !== données initiales
         console.log('state ', VALIDATED, ' => ', INIT);
         changeState(INIT);
       } else {
+        // here we do nothing
         console.log({ newData, state });
       }
     },
