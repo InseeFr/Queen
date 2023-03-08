@@ -32,14 +32,14 @@ const getErrorMessage = (response, type = 'q') => {
 };
 
 export const useLunaticFetcher = () => {
-  const { authenticationType, oidcUser } = useAuth();
+  const { authenticationType, getOidcUser } = useAuth();
 
   const lunaticFetcher = useCallback(
     (url, options) => {
-      const token = authenticationType === OIDC ? oidcUser?.access_token : null;
+      const token = authenticationType === OIDC ? getOidcUser()?.access_token : null;
       return getFetcherForLunatic(token)(url, options);
     },
-    [authenticationType, oidcUser]
+    [authenticationType, getOidcUser]
   );
 
   return { lunaticFetcher };
