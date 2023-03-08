@@ -1,7 +1,7 @@
 import * as lunatic from '@inseefr/lunatic';
 
 import { sendCompletedEvent, sendStartedEvent, sendValidatedEvent } from 'utils/communication';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 export const NOT_STARTED = null;
 export const INIT = 'INIT';
