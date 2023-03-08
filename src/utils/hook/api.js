@@ -46,76 +46,76 @@ export const useLunaticFetcher = () => {
 };
 
 export const useAPI = () => {
-  const { authenticationType, oidcUser } = useAuth();
+  const { authenticationType, getOidcUser } = useAuth();
   const { apiUrl } = useContext(AppContext);
 
   const getCampaigns = useCallback(() => {
-    const token = authenticationType === OIDC ? oidcUser?.access_token : null;
+    const token = authenticationType === OIDC ? getOidcUser()?.access_token : null;
     return API.getCampaigns(apiUrl)(token);
-  }, [apiUrl, authenticationType, oidcUser]);
+  }, [apiUrl, authenticationType, getOidcUser]);
 
   const getQuestionnaire = useCallback(
     questionnaireID => {
-      const token = authenticationType === OIDC ? oidcUser?.access_token : null;
+      const token = authenticationType === OIDC ? getOidcUser()?.access_token : null;
       return API.getQuestionnaire(apiUrl)(questionnaireID)(token);
     },
-    [apiUrl, authenticationType, oidcUser]
+    [apiUrl, authenticationType, getOidcUser]
   );
 
   const getRequiredNomenclatures = useCallback(
     id => {
-      const token = authenticationType === OIDC ? oidcUser?.access_token : null;
+      const token = authenticationType === OIDC ? getOidcUser()?.access_token : null;
       return API.getRequiredNomenclatures(apiUrl)(id)(token);
     },
-    [apiUrl, authenticationType, oidcUser]
+    [apiUrl, authenticationType, getOidcUser]
   );
 
   const getSurveyUnits = useCallback(
     id => {
-      const token = authenticationType === OIDC ? oidcUser?.access_token : null;
+      const token = authenticationType === OIDC ? getOidcUser()?.access_token : null;
       return API.getSurveyUnits(apiUrl)(id)(token);
     },
-    [apiUrl, authenticationType, oidcUser]
+    [apiUrl, authenticationType, getOidcUser]
   );
 
   const getNomenclature = useCallback(
     id => {
-      const token = authenticationType === OIDC ? oidcUser?.access_token : null;
+      const token = authenticationType === OIDC ? getOidcUser()?.access_token : null;
       return API.getNomenclature(apiUrl)(id)(token);
     },
-    [apiUrl, authenticationType, oidcUser]
+    [apiUrl, authenticationType, getOidcUser]
   );
 
   const getUeData = useCallback(
     surveyUnitID => {
-      const token = authenticationType === OIDC ? oidcUser?.access_token : null;
+      const token = authenticationType === OIDC ? getOidcUser()?.access_token : null;
       return API.getUeData(apiUrl)(surveyUnitID)(token);
     },
-    [apiUrl, authenticationType, oidcUser]
+    [apiUrl, authenticationType, getOidcUser]
   );
 
   const putUeData = useCallback(
     (surveyUnitID, body) => {
-      const token = authenticationType === OIDC ? oidcUser?.access_token : null;
+      const token = authenticationType === OIDC ? getOidcUser()?.access_token : null;
       return API.putUeData(apiUrl)(surveyUnitID)(token)(body);
     },
-    [apiUrl, authenticationType, oidcUser]
+    [apiUrl, authenticationType, getOidcUser]
   );
 
   const putUeDataToTempZone = useCallback(
     (surveyUnitID, body) => {
-      const token = authenticationType === OIDC ? oidcUser?.access_token : null;
+      const token = authenticationType === OIDC ? getOidcUser()?.access_token : null;
       return API.putUeDataToTempZone(apiUrl)(surveyUnitID)(token)(body);
     },
-    [apiUrl, authenticationType, oidcUser]
+    [apiUrl, authenticationType, getOidcUser]
   );
 
   const postParadata = useCallback(
     body => {
-      const token = authenticationType === OIDC ? oidcUser?.access_token : null;
+      const token = authenticationType === OIDC ? getOidcUser()?.access_token : null;
       return API.postParadata(apiUrl)(token)(body);
     },
-    [apiUrl, authenticationType, oidcUser]
+    [apiUrl, authenticationType, getOidcUser]
   );
 
   return {

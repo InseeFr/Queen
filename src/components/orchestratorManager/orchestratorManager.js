@@ -36,14 +36,14 @@ export const OrchestratorManager = () => {
   //TODO improve null handling
   const stateData = surveyUnit?.stateData;
   const initialData = surveyUnit?.data;
-  const { oidcUser } = useAuth();
-  const isAuthenticated = !!oidcUser?.profile;
+  const { getOidcUser } = useAuth();
+  const isAuthenticated = !!getOidcUser()?.profile;
 
   const [suggesters, setSuggesters] = useState(null);
 
   const [error, setError] = useState(null);
   const [source, setSource] = useState(null);
-  const { putUeData, postParadata } = useAPI(idSU, idQ);
+  const { putUeData, postParadata } = useAPI();
   console.log({ stateData });
   const [getState, changeState, onDataChange] = useQuestionnaireState(
     surveyUnit?.id,
@@ -56,7 +56,7 @@ export const OrchestratorManager = () => {
      * We add to the logger the new session (which will be store in paradata)
      */
     if (isAuthenticated && questionnaire) {
-      LOGGER.addMetadata({ idSession: oidcUser?.session_state });
+      LOGGER.addMetadata({ idSession: getOidcUser()?.session_state });
       LOGGER.log(INIT_SESSION_EVENT);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
