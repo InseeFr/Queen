@@ -1,13 +1,14 @@
+import { DEFAULT_DATA_URL, OIDC } from 'utils/constants';
+import { useCallback, useContext, useEffect, useState } from 'react';
+
+import { API } from 'utils/api';
 import { AppContext } from 'components/app';
 import Dictionary from 'i18n';
-import { useCallback, useContext, useEffect, useState } from 'react';
-import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
-import { API } from 'utils/api';
 import clearAllData from 'utils/indexedbb/services/allTables-idb-service';
-import { DEFAULT_DATA_URL, OIDC } from 'utils/constants';
-import { useAuth } from './auth';
-import { useAsyncValue } from '.';
 import { getFetcherForLunatic } from 'utils/api/fetcher';
+import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
+import { useAsyncValue } from '.';
+import { useAuth } from './auth';
 
 const clean = async (standalone = false) => {
   try {
@@ -137,7 +138,7 @@ export const useGetSurveyUnit = () => {
   return async (idSurveyUnit, standalone = false) => {
     try {
       if (standalone) {
-        const dR = await refreshGetData.current(idSurveyUnit);
+        const dR = await refreshGetData(idSurveyUnit);
         if (!dR.error && dR.status !== 404) {
           await surveyUnitIdbService.addOrUpdateSU({
             id: idSurveyUnit,

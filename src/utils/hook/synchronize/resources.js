@@ -1,4 +1,5 @@
 import { useAPI, useAsyncValue } from 'utils/hook';
+
 import { getPercent } from 'utils';
 
 export const usePutResourcesInCache = updateProgress => {
@@ -9,15 +10,13 @@ export const usePutResourcesInCache = updateProgress => {
 
   const putResourcesInCache = async questionnaireId => {
     const ressourcesFailed = [];
-    const { data, error: mainError } = await refreshGetRequiredNomenclatures.current(
-      questionnaireId
-    );
+    const { data, error: mainError } = await refreshGetRequiredNomenclatures(questionnaireId);
     if (!mainError) {
       updateProgress(0);
       await (data || []).reduce(async (previousPromise, resourceId) => {
         await previousPromise;
         const putResource = async () => {
-          const { error, status, statusText } = await refreshGetNomenclature.current(resourceId);
+          const { error, status, statusText } = await refreshGetNomenclature(resourceId);
           if (error) {
             if ([400, 403, 404, 500].includes(status)) {
               ressourcesFailed.push(resourceId);

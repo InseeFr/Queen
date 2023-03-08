@@ -10,9 +10,7 @@ export const usePutQuestionnairesInCache = () => {
     await (questionnaireIds || []).reduce(async (previousPromise, questionnaireId) => {
       await previousPromise;
       const getQuestionnaire = async () => {
-        const { error, status, statusText } = await refreshGetQuestionnaire.current(
-          questionnaireId
-        );
+        const { error, status, statusText } = await refreshGetQuestionnaire(questionnaireId);
         if (error && ![400, 403, 404, 500].includes(status)) throw new Error(statusText);
         else if (!error) questionnaireIdsSuccess.push(questionnaireId);
       };

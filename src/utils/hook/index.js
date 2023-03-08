@@ -32,7 +32,7 @@ export const useAsyncValue = f => {
   useEffect(() => {
     refreshFunction.current = f;
   }, [f]);
-  return refreshFunction;
+  return refreshFunction.current;
 };
 
 export const usePrevious = (value, initial) => {

@@ -1,15 +1,16 @@
-import D from 'i18n';
-import clearAllTables from 'utils/indexedbb/services/allTables-idb-service';
-import { useState } from 'react';
 import { useAPI, useAsyncValue } from 'utils/hook';
-import { getPercent } from 'utils';
 import {
   usePutResourcesInCache,
   useSaveSUsToLocalDataBase,
   useSendSurveyUnits,
 } from 'utils/hook/synchronize';
+
+import D from 'i18n';
+import clearAllTables from 'utils/indexedbb/services/allTables-idb-service';
+import { getPercent } from 'utils';
 import { usePutQuestionnairesInCache } from 'utils/hook/synchronize/questionnaires';
 import { useSendParadatas } from 'utils/hook/synchronize/paradata';
+import { useState } from 'react';
 
 const clean = async () => {
   await clearAllTables();
@@ -27,7 +28,7 @@ const innerJoinList = (list1 = [], list2 = []) =>
 export const useSynchronisation = () => {
   const { getCampaigns } = useAPI();
 
-  const refrehGetCampaigns = useAsyncValue(getCampaigns);
+  const refreshGetCampaigns = useAsyncValue(getCampaigns);
 
   const [waitingMessage, setWaitingMessage] = useState(null);
   const [sendingProgress, setSendingProgress] = useState(null);
@@ -88,7 +89,7 @@ export const useSynchronisation = () => {
     // (4) : Get the data
     try {
       setWaitingMessage(D.waintingData);
-      const { data: campaigns, status, error, statusText } = await refrehGetCampaigns.current();
+      const { data: campaigns, status, error, statusText } = await refreshGetCampaigns();
       let i = 0;
       setCampaignProgress(0);
 

@@ -1,6 +1,7 @@
-import paradataIdbService from 'utils/indexedbb/services/paradata-idb-service';
 import { useAPI, useAsyncValue } from 'utils/hook';
+
 import { getPercent } from 'utils';
+import paradataIdbService from 'utils/indexedbb/services/paradata-idb-service';
 
 export const useSendParadatas = updateProgress => {
   const { postParadata } = useAPI();
@@ -14,7 +15,7 @@ export const useSendParadatas = updateProgress => {
     await paradatas.reduce(async (previousPromise, paradata) => {
       await previousPromise;
       const sendParadata = async () => {
-        const { error } = await postParadataRef.current(paradata);
+        const { error } = await postParadataRef(paradata);
         if (error) {
           paradatasInError.push(paradata);
           throw new Error('Server is not responding');

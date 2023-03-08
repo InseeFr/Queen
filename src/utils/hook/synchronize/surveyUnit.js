@@ -1,6 +1,7 @@
-import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import { useAPI, useAsyncValue } from 'utils/hook';
+
 import { getPercent } from 'utils';
+import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 
 const useSaveSUToLocalDataBase = () => {
   const { getUeData } = useAPI();
@@ -9,7 +10,7 @@ const useSaveSUToLocalDataBase = () => {
 
   const saveSurveyUnit = async surveyUnit => {
     const { id } = surveyUnit; // surveyUnit : {id, questionnaireId}
-    const { error, status, data, statusText } = await refreshGetUeData.current(id);
+    const { error, status, data, statusText } = await refreshGetUeData(id);
     if (!error) {
       await surveyUnitIdbService.addOrUpdateSU({
         ...surveyUnit,
@@ -25,10 +26,10 @@ export const useSaveSUsToLocalDataBase = updateProgress => {
   const { getSurveyUnits } = useAPI();
   const saveSurveyUnit = useSaveSUToLocalDataBase();
 
-  const refrehGetSurveyUnits = useAsyncValue(getSurveyUnits);
+  const refreshGetSurveyUnits = useAsyncValue(getSurveyUnits);
 
   const putSUS = async campaignId => {
-    const { data, error, status, statusText } = await refrehGetSurveyUnits.current(campaignId);
+    const { data, error, status, statusText } = await refreshGetSurveyUnits(campaignId);
 
     let i = 0;
     if (!error) {
@@ -59,9 +60,9 @@ export const useSendSurveyUnits = updateProgress => {
       await previousPromise;
       const { id, ...other } = surveyUnit;
       const sendSurveyUnit = async () => {
-        const { error, status } = await putDataRef.current(id, other);
+        const { error, status } = await putDataRef(id, other);
         if (error && [400, 403, 404, 500].includes(status)) {
-          const { error: tempZoneError } = await putDataTempZoneRef.current(id, other);
+          const { error: tempZoneError } = await putDataTempZoneRef(id, other);
           if (!tempZoneError) surveyUnitsInTempZone.push(id);
           else throw new Error('Server is not responding');
         }

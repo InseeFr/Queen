@@ -1,6 +1,7 @@
 import * as lunatic from '@inseefr/lunatic';
 
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useAsyncValue, useLunaticFetcher } from 'utils/hook';
 
 import ButtonContinue from './buttons/continue/index';
 import { ComponentDisplayer } from './componentDisplayer';
@@ -9,7 +10,6 @@ import Header from './header';
 import { LoopPanel } from './LoopPanel';
 import NavBar from './navBar';
 import { componentHasResponse } from 'utils/components/deduceState';
-import { useLunaticFetcher } from 'utils/hook';
 import { useStyles } from './lightOrchestrator.style';
 
 function onLogChange(response, value, args) {
@@ -40,7 +40,8 @@ function LightOrchestrator({
   definitiveQuit,
 }) {
   const { data } = surveyUnit;
-  const { lunaticFetcher: suggesterFetcher } = useLunaticFetcher();
+  const { lunaticFetcher } = useLunaticFetcher();
+  const suggesterFetcher = useAsyncValue(lunaticFetcher);
   const classes = useStyles();
   const lunaticStateRef = useRef();
 
