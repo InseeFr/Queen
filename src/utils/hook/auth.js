@@ -15,9 +15,9 @@ export const useAuth = () => {
      * Assume this conditional hook does not break anything
      */
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { oidcUser, login, logout } = useReactOidc();
+    const { oidcUser } = useReactOidc();
     oidcUserRef.current = oidcUser;
-    return { authenticationType, getOidcUser, login, logout, oidcUser };
+    return { authenticationType, getOidcUser };
   }
   throw new Error(`Auth type ${authenticationType} is nor recognized`);
 };
