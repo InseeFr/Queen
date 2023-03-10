@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { checkQuestionnaire, downloadDataAsJson } from 'utils/questionnaire';
 import { useRemoteData, useVisuQuery } from 'utils/hook';
 
