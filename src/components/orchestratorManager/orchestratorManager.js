@@ -1,7 +1,7 @@
 import { COMPLETED, VALIDATED, useQuestionnaireState } from 'utils/hook/questionnaire';
 import { EventsManager, INIT_ORCHESTRATOR_EVENT, INIT_SESSION_EVENT } from 'utils/events';
 import { ORCHESTRATOR_COLLECT, ORCHESTRATOR_READONLY, READ_ONLY } from 'utils/constants';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useAPI, useAPIRemoteData, useAuth } from 'utils/hook';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -24,14 +24,19 @@ export const OrchestratorManager = () => {
 
   const readonly = readonlyParam === READ_ONLY;
 
-  const LOGGER = EventsManager.createEventLogger({
-    idQuestionnaire: idQ,
-    idSurveyUnit: idSU,
-    idOrchestrator: readonly ? ORCHESTRATOR_READONLY : ORCHESTRATOR_COLLECT,
-  });
+  const LOGGER = useMemo(
+    () =>
+      EventsManager.createEventLogger({
+        idQuestionnaire: idQ,
+        idSurveyUnit: idSU,
+        idOrchestrator: readonly ? ORCHESTRATOR_READONLY : ORCHESTRATOR_COLLECT,
+      }),
+    [idQ, idSU, readonly]
+  );
 
   const { surveyUnit, questionnaire, nomenclatures, loadingMessage, errorMessage } =
     useAPIRemoteData(idSU, idQ);
+  useAPIRemoteData(idSU, idQ);
   console.log(surveyUnit);
   //TODO improve null handling
   const stateData = surveyUnit?.stateData;
@@ -63,7 +68,6 @@ export const OrchestratorManager = () => {
   }, [isAuthenticated, LOGGER, questionnaire]);
 
   useEffect(() => {
-    console.log('suggesters injection ?');
     if (!suggesters && questionnaire && surveyUnit && nomenclatures) {
       const { valid, error: questionnaireError } = checkQuestionnaire(questionnaire);
       if (valid) {
@@ -82,25 +86,20 @@ export const OrchestratorManager = () => {
     if (errorMessage) setError(errorMessage);
   }, [errorMessage]);
 
-  // const [, /* sending */ setSending] = useState(false);
-  // const [, /* errorSending */ setErrorSending] = useState(false);
-
+  /** take a survey-unit as parameter, then save it in IDB, then save paradatas in IDB
+   *  If in standalone mode : make API calls to persist data in DB
+   */
   const saveData = useCallback(
     async unit => {
       if (!readonly) {
         const putSurveyUnit = async unit => {
           const { id, ...other } = unit;
           await putUeData(id, other);
-          // setErrorSending(null);
-          // setSending(true);
-          // const { error: putDataError } = await putUeData(id, other);
-          // setSending(false);
-          // if (putDataError) setErrorSending('Error during sending');
         };
 
         await surveyUnitIdbService.addOrUpdateSU(unit);
         const paradatas = LOGGER.getEventsToSend();
-        // TODO : make a true update of paradatas : curerntly adding additional completed arrays => SHOULD save one and only one array
+        // TODO : make a true update of paradatas : currently adding additional completed arrays => SHOULD save one and only one array
         await paradataIdbService.update(paradatas);
         if (standalone) {
           // TODO managing errors
@@ -169,7 +168,7 @@ export const OrchestratorManager = () => {
       {![READ_ONLY, undefined].includes(readonlyParam) && <NotFound />}
       {loadingMessage && <Preloader message={loadingMessage} />}
       {error && <Error message={error} />}
-      {!loadingMessage && !errorMessage && source && surveyUnit && suggesters && (
+      {!loadingMessage && !error && source && surveyUnit && suggesters && (
         <LightOrchestrator
           surveyUnit={surveyUnit}
           source={source}
