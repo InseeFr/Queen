@@ -2,7 +2,7 @@ import { COMPLETED, VALIDATED, useQuestionnaireState } from 'utils/hook/question
 import { EventsManager, INIT_ORCHESTRATOR_EVENT, INIT_SESSION_EVENT } from 'utils/events';
 import { ORCHESTRATOR_COLLECT, ORCHESTRATOR_READONLY, READ_ONLY } from 'utils/constants';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useAPI, useAPIRemoteData, useAuth } from 'utils/hook';
+import { useAPI, useAPIRemoteData } from 'utils/hook';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { AppContext } from 'components/app';
@@ -35,13 +35,11 @@ export const OrchestratorManager = () => {
 
   const { surveyUnit, questionnaire, nomenclatures, loadingMessage, errorMessage } =
     useAPIRemoteData(idSU, idQ);
-  useAPIRemoteData(idSU, idQ);
-  console.log(surveyUnit);
-  //TODO improve null handling
+
   const stateData = surveyUnit?.stateData;
   const initialData = surveyUnit?.data;
-  const { getOidcUser } = useAuth();
-  const isAuthenticated = !!getOidcUser()?.profile;
+  // const { getOidcUser } = useAuth();
+  const isAuthenticated = true;
 
   const [suggesters, setSuggesters] = useState(null);
   const [init, setInit] = useState(false);
@@ -61,7 +59,7 @@ export const OrchestratorManager = () => {
      * We add to the logger the new session (which will be store in paradata)
      */
     if (isAuthenticated && questionnaire) {
-      LOGGER.addMetadata({ idSession: getOidcUser()?.session_state });
+      LOGGER.addMetadata({ idSession: 'idsession' });
       LOGGER.log(INIT_SESSION_EVENT);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
