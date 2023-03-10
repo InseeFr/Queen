@@ -20,15 +20,32 @@ function noDataChange() {
   /**/
 }
 
+const preferences = ['COLLECTED'];
+const features = ['VTL'];
+const savingType = 'COLLECTED';
+
+// function useDetectChange(obj) {
+//   const ref = useRef(obj);
+//   const isFirstRender = useRef(true);
+//   if (isFirstRender.current === true) {
+//     isFirstRender.current = false;
+//     return;
+//   }
+//   console.log('Rerender component');
+//   for (const [key, val] of Object.entries(obj)) {
+//     if (ref.current[key] !== val) {
+//       console.log(`${key} a changé depuis le dernier rendu`);
+//     }
+//   }
+//   ref.current = obj;
+// }
+
 function LightOrchestrator({
   surveyUnit,
   standalone,
   readonly,
-  savingType,
-  preferences,
   pagination,
   missing,
-  features,
   source,
   suggesters,
   autoSuggesterLoading,
@@ -96,6 +113,23 @@ function LightOrchestrator({
     refusedButton: refusedButton,
     withAutofocus: true,
   });
+
+  // useDetectChange({
+  //   source,
+  //   data,
+  //   features,
+  //   pagination,
+  //   customHandleChange,
+  //   preferences,
+  //   autoSuggesterLoading,
+  //   suggesters,
+  //   suggesterFetcher,
+  //   missing,
+  //   missingStrategy,
+  //   missingShortcut,
+  //   dontKnowButton,
+  //   refusedButton,
+  // });
 
   const {
     getComponents,

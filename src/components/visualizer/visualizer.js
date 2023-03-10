@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { checkQuestionnaire, downloadDataAsJson } from 'utils/questionnaire';
 import { useRemoteData, useVisuQuery } from 'utils/hook';
 
@@ -61,14 +61,17 @@ const Visualizer = () => {
     if (errorMessage) setError(errorMessage);
   }, [errorMessage]);
 
-  const save = useCallback(async (unit, newData) => {
-    console.log(unit, newData);
-    await surveyUnitIdbService.addOrUpdateSU({
-      ...unit,
-      data: newData,
-    });
-  }, []);
+  // const save = useCallback(async (unit, newData) => {
+  //   console.log(unit, newData);
+  //   await surveyUnitIdbService.addOrUpdateSU({
+  //     ...unit,
+  //     data: newData,
+  //   });
+  // }, []);
 
+  const save = useCallback(() => {
+    console.log('visu save');
+  }, []);
   const closeAndDownloadData = useCallback(async () => {
     const data = await surveyUnitIdbService.get('1234');
     downloadDataAsJson(data, 'data');
@@ -89,9 +92,6 @@ const Visualizer = () => {
           suggesters={suggesters}
           standalone={standalone}
           readonly={readonly}
-          savingType="COLLECTED"
-          preferences={['COLLECTED']}
-          features={['VTL']}
           pagination={true}
           missing={true}
           save={save}

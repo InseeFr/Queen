@@ -176,8 +176,6 @@ export const OrchestratorManager = () => {
           standalone={standalone}
           readonly={readonly}
           savingType="COLLECTED"
-          preferences={['COLLECTED']}
-          features={['VTL']}
           pagination={true}
           missing={true}
           filterDescription={false}
