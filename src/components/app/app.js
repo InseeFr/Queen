@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { AuthProvider } from 'components/auth';
 import { BrowserRouter } from 'react-router-dom';
@@ -29,10 +29,15 @@ const App = () => {
     }
   }, [init]);
 
+  const contextValue = useMemo(
+    () => ({ ...configuration, online: online }),
+    [configuration, online]
+  );
+
   return (
     <div id="queen-container" style={customStyle}>
       {configuration && (
-        <AppContext.Provider value={{ ...configuration, online: online }}>
+        <AppContext.Provider value={contextValue}>
           <StyleProvider>
             <ServiceWorkerNotification standalone={configuration.standalone} />
             <AuthProvider authType={configuration.authenticationType}>
