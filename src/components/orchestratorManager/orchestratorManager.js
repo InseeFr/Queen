@@ -17,7 +17,6 @@ import { sendCloseEvent } from 'utils/communication';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 
 export const OrchestratorManager = () => {
-  console.log('OrchestratorManager renders');
   const { standalone, apiUrl } = useContext(AppContext);
   const { readonly: readonlyParam, idQ, idSU } = useParams();
   const history = useHistory();
@@ -45,6 +44,7 @@ export const OrchestratorManager = () => {
   const isAuthenticated = !!getOidcUser()?.profile;
 
   const [suggesters, setSuggesters] = useState(null);
+  const [init, setInit] = useState(false);
 
   const [error, setError] = useState(null);
   const [source, setSource] = useState(null);
@@ -68,19 +68,20 @@ export const OrchestratorManager = () => {
   }, [isAuthenticated, LOGGER, questionnaire]);
 
   useEffect(() => {
-    if (!suggesters && questionnaire && surveyUnit && nomenclatures) {
+    if (!init && questionnaire && surveyUnit && nomenclatures) {
       const { valid, error: questionnaireError } = checkQuestionnaire(questionnaire);
       if (valid) {
         setSource(questionnaire);
         const suggestersBuilt = buildSuggesterFromNomenclatures(apiUrl)(nomenclatures);
         setSuggesters(suggestersBuilt);
+        setInit(true);
         console.log('suggesters injection done');
         LOGGER.log(INIT_ORCHESTRATOR_EVENT);
       } else {
         setError(questionnaireError);
       }
     }
-  }, [suggesters, questionnaire, surveyUnit, nomenclatures, apiUrl, LOGGER]);
+  }, [questionnaire, surveyUnit, nomenclatures, apiUrl, LOGGER, init]);
 
   useEffect(() => {
     if (errorMessage) setError(errorMessage);
