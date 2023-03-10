@@ -2,7 +2,7 @@ import { COMPLETED, VALIDATED, useQuestionnaireState } from 'utils/hook/question
 import { EventsManager, INIT_ORCHESTRATOR_EVENT, INIT_SESSION_EVENT } from 'utils/events';
 import { ORCHESTRATOR_COLLECT, ORCHESTRATOR_READONLY, READ_ONLY } from 'utils/constants';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useAPI, useAPIRemoteData } from 'utils/hook';
+import { useAPI, useAPIRemoteData, useAuth } from 'utils/hook';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { AppContext } from 'components/app';
@@ -38,7 +38,7 @@ export const OrchestratorManager = () => {
 
   const stateData = surveyUnit?.stateData;
   const initialData = surveyUnit?.data;
-  // const { getOidcUser } = useAuth();
+  const { getOidcUser } = useAuth();
   const isAuthenticated = true;
 
   const [suggesters, setSuggesters] = useState(null);
@@ -59,7 +59,7 @@ export const OrchestratorManager = () => {
      * We add to the logger the new session (which will be store in paradata)
      */
     if (isAuthenticated && questionnaire) {
-      LOGGER.addMetadata({ idSession: 'idsession' });
+      LOGGER.addMetadata({ idSession: getOidcUser()?.session_state });
       LOGGER.log(INIT_SESSION_EVENT);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
