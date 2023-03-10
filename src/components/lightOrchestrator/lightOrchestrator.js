@@ -87,13 +87,13 @@ function LightOrchestrator({
     autoSuggesterLoading,
     suggesters,
     suggesterFetcher,
-    missing: { missing },
+    missing: missing,
     shortcut: true,
-    missingStrategy: { missingStrategy },
+    missingStrategy: missingStrategy,
     withOverview: true,
-    missingShortcut: { missingShortcut },
-    dontKnowButton: { dontKnowButton },
-    refusedButton: { refusedButton },
+    missingShortcut: missingShortcut,
+    dontKnowButton: dontKnowButton,
+    refusedButton: refusedButton,
     withAutofocus: true,
   });
 
