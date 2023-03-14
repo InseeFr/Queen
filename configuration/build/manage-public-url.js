@@ -34,4 +34,4 @@ function publicURL() {
   });
   console.log('Replacement completed.');
 }
-publicURL();
+//publicURL();
