@@ -38,7 +38,7 @@ export const OrchestratorManager = () => {
 
   const stateData = surveyUnit?.stateData;
   const initialData = surveyUnit?.data;
-  const { getOidcUser } = useAuth();
+  const { oidcUser } = useAuth();
   const isAuthenticated = true;
 
   const [suggesters, setSuggesters] = useState(null);
@@ -59,7 +59,7 @@ export const OrchestratorManager = () => {
      * We add to the logger the new session (which will be store in paradata)
      */
     if (isAuthenticated && questionnaire) {
-      LOGGER.addMetadata({ idSession: getOidcUser()?.session_state });
+      LOGGER.addMetadata({ idSession: oidcUser.session_state });
       LOGGER.log(INIT_SESSION_EVENT);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -178,6 +178,7 @@ export const OrchestratorManager = () => {
           savingType="COLLECTED"
           pagination={true}
           missing={true}
+          shortcut={true}
           filterDescription={false}
           save={saveQueen}
           onDataChange={onDataChange}

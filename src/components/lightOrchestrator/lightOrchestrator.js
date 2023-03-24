@@ -24,30 +24,17 @@ const preferences = ['COLLECTED'];
 const features = ['VTL'];
 const savingType = 'COLLECTED';
 
-// function useDetectChange(obj) {
-//   const ref = useRef(obj);
-//   const isFirstRender = useRef(true);
-//   if (isFirstRender.current === true) {
-//     isFirstRender.current = false;
-//     return;
-//   }
-//   console.log('Rerender component');
-//   for (const [key, val] of Object.entries(obj)) {
-//     if (ref.current[key] !== val) {
-//       console.log(`${key} a changé depuis le dernier rendu`);
-//     }
-//   }
-//   ref.current = obj;
-// }
+const missingShortcut = { dontKnow: 'f2', refused: 'f4' };
 
 function LightOrchestrator({
   surveyUnit,
   standalone,
   readonly,
   pagination,
-  missing,
   source,
   suggesters,
+  missing = true,
+  shortcut = true,
   autoSuggesterLoading,
   filterDescription,
   onChange = onLogChange,
@@ -88,13 +75,11 @@ function LightOrchestrator({
     goNextPage();
   }, []);
 
-  const missingShortcut = useMemo(() => ({ dontKnow: 'f2', refused: 'f4' }), []);
-
   // TODO restore when lunatic handle object in missingButtons properties
   // const dontKnowButton = <MissingButton shortcutLabel="F2" buttonLabel={D.doesntKnowButton} />;
   // const refusedButton = <MissingButton shortcutLabel="F4" buttonLabel={D.refusalButton} />;
-  const dontKnowButton = D.doesntKnowButton;
-  const refusedButton = D.refusalButton;
+  const dontKnowButton = `F2 ${D.doesntKnowButton}`;
+  const refusedButton = `F4 ${D.refusalButton}`;
 
   lunaticStateRef.current = lunatic.useLunatic(source, data, {
     features,
@@ -104,13 +89,13 @@ function LightOrchestrator({
     autoSuggesterLoading,
     suggesters,
     suggesterFetcher,
-    missing: missing,
-    shortcut: true,
-    missingStrategy: missingStrategy,
+    missing,
+    shortcut,
+    missingStrategy,
     withOverview: true,
-    missingShortcut: missingShortcut,
-    dontKnowButton: dontKnowButton,
-    refusedButton: refusedButton,
+    missingShortcut,
+    dontKnowButton,
+    refusedButton,
     withAutofocus: true,
   });
 
@@ -148,69 +133,34 @@ function LightOrchestrator({
     loopVariables = [],
   } = lunaticStateRef.current;
 
-  const [currentPager, setCurrentPager] = useState();
-  const [maxPage, setMaxPage] = useState();
-  const [page, setPage] = useState();
-  const [lastReachedPage, setLastReachedPage] = useState();
-  const [subPage, setSubPage] = useState();
-  const [nbSubPages, setNbSubPages] = useState();
-  const [iteration, setIteration] = useState();
-  const [nbIterations, setNbIterations] = useState();
-  const [isLastReachedPage, setIsLastReachedPage] = useState(false);
-  console.log('lightorchestrator rerender ', overview);
-  useEffect(() => {
-    if (currentPager === undefined) return;
-    console.log('currentPager changed');
-    const {
-      maxPage: currentMaxPage = '1',
-      page: currentPage = '1',
-      lastReachedPage: currentLastReachedPage = 1,
-      subPage: currentSubPage,
-      nbSubPages: currentNbSubPages,
-      iteration: currentIteration,
-      nbIterations: currentNbIterations,
-    } = currentPager;
-    setIsLastReachedPage(currentPage === currentLastReachedPage);
-    setMaxPage(currentMaxPage);
-    setPage(currentPage);
-    setLastReachedPage(currentLastReachedPage);
-    setSubPage(currentSubPage);
-    setNbSubPages(currentNbSubPages);
-    setIteration(currentIteration);
-    setNbIterations(currentNbIterations);
-  }, [currentPager]);
+  const previousPager = useRef();
 
   // page change : update pager and save data
   useEffect(() => {
     if (lunaticStateRef.current === undefined) return;
     const { getData, pager } = lunaticStateRef.current;
     // save ask for an optional new questionnaire state, new Data and current page, unused for Visualizer
-    const { page: pagerPage } = pager;
-
-    // no page in state yet
-    if (page === undefined) {
-      setCurrentPager(pager);
+    // no previous pager for comparison : save current pager for future comparisons
+    if (previousPager.current === undefined) {
+      previousPager.current = pager;
       return;
     }
-
     // no page change => no save needed
-    if (pagerPage === page) {
+    if (previousPager.current.page === pager.page) {
       return;
     }
-    setCurrentPager(pager);
-
-    const updatedData = getData();
-    // no questionnaire stata change here
-    save(undefined, updatedData, page);
-  }, [page, lunaticStateRef, save, pager]);
+    // page change : update current pager then save
+    previousPager.current = pager;
+    save(undefined, getData(), pager.page);
+  }, [save, pager]);
 
   const memoQuit = useCallback(() => {
-    quit(currentPager, getData);
-  }, [getData, currentPager, quit]);
+    quit(previousPager.current, getData);
+  }, [getData, quit]);
 
   const memoDefinitiveQuit = useCallback(() => {
-    definitiveQuit(currentPager, getData);
-  }, [getData, currentPager, definitiveQuit]);
+    definitiveQuit(previousPager.current, getData);
+  }, [getData, definitiveQuit]);
 
   const [components, setComponents] = useState([]);
 
@@ -239,8 +189,9 @@ function LightOrchestrator({
   );
 
   const goToLastReachedPage = useCallback(() => {
-    trueGoToPage(lastReachedPage);
-  }, [lastReachedPage, trueGoToPage]);
+    if (previousPager.current === undefined) return;
+    trueGoToPage(previousPager.current.lastReachedPage);
+  }, [trueGoToPage]);
 
   const firstComponent = useMemo(() => [...components]?.[0], [components]);
   const hasResponse = componentHasResponse(firstComponent);
@@ -254,9 +205,10 @@ function LightOrchestrator({
     label: { value: questionnaireTitle },
   } = source;
 
-  const fakeRereading = false;
+  if (previousPager === undefined) return null;
+  const isLastReachedPage = pager ? pager.page === pager.lastReachedPage : false;
+  const { maxPage, page, subPage, nbSubPages, iteration, nbIterations } = pager;
 
-  if (currentPager === undefined) return null;
   return (
     <div className={classes.root}>
       <Header
@@ -295,7 +247,7 @@ function LightOrchestrator({
             page={page}
             quit={quit}
             goNext={goNextPage}
-            rereading={fakeRereading}
+            rereading={!isLastReachedPage}
             isLastReachedPage={isLastReachedPage}
             componentHasResponse={hasResponse}
             goToLastReachedPage={goToLastReachedPage}
@@ -312,7 +264,7 @@ function LightOrchestrator({
           nbSubPages={nbSubPages}
           iteration={iteration}
           nbIterations={nbIterations}
-          rereading={fakeRereading}
+          rereading={!isLastReachedPage}
           componentHasResponse={hasResponse}
           isLastReachedPage={isLastReachedPage}
           goLastReachedPage={goToLastReachedPage}

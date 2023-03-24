@@ -1,11 +1,11 @@
 import { ArrowRightAlt, SkipNext } from '@material-ui/icons';
-import { SHORTCUT_FAST_FORWARD, SHORTCUT_NEXT } from 'utils/constants';
 
 import { Button } from 'components/designSystem';
 import D from 'i18n';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { SHORTCUT_FAST_FORWARD } from 'utils/constants';
 import { useStyles } from './continue.style';
 
 // import { SIMPLE_CLICK_EVENT, paradataHandler } from 'utils/events';
@@ -46,12 +46,10 @@ const ButtonContinue = ({
   // ? paradataHandler(localFinalQuit)(utilInfo('end-survey'))
   // : paradataHandler(localPageNext)(utilInfo('next-button'));
 
-  const keysToHandle = [SHORTCUT_NEXT, SHORTCUT_FAST_FORWARD];
+  const keysToHandle = [SHORTCUT_FAST_FORWARD];
 
   const keyboardShortcut = (key, e) => {
-    console.log('keyboardShortcut', { key, e });
     e.preventDefault();
-    if (key === SHORTCUT_NEXT) pageNextFunction();
     if (key === SHORTCUT_FAST_FORWARD) localPageFastForward();
   };
 

@@ -33,6 +33,7 @@ export const fetcher = async (url, token, method, body) => {
 };
 
 export const getFetcherForLunatic = token => async (url, options) => {
+  console.log('token', token);
   const otherHeader = options?.headers || {};
   return fetch(url, {
     ...options,
