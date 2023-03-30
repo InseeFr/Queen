@@ -48,7 +48,7 @@ registerRoute(
 
 registerRoute(
   new RegExp(getQuestionnaireUrlRegex()),
-  new CacheFirst({
+  new NetworkFirst({
     cacheName: 'queen-questionnaire',
     plugins: [
       new CacheableResponsePlugin({
