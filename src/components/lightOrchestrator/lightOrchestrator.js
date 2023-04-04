@@ -131,6 +131,7 @@ function LightOrchestrator({
     getCurrentErrors,
     getData,
     loopVariables = [],
+    Provider,
   } = lunaticStateRef.current;
 
   const previousPager = useRef();
@@ -225,15 +226,17 @@ function LightOrchestrator({
       <div className={classes.bodyContainer}>
         <div className={classes.mainTile}>
           <div className={classes.activeView}>
-            <ComponentDisplayer
-              components={components}
-              preferences={preferences}
-              features={features}
-              readonly={readonly}
-              savingType={savingType}
-              filterDescription={filterDescription}
-              currentErrors={currentErrors}
-            ></ComponentDisplayer>
+            <Provider>
+              <ComponentDisplayer
+                components={components}
+                preferences={preferences}
+                features={features}
+                readonly={readonly}
+                savingType={savingType}
+                filterDescription={filterDescription}
+                currentErrors={currentErrors}
+              />
+            </Provider>
             <LoopPanel
               loopVariables={loopVariables}
               getData={getData}
