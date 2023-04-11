@@ -23,15 +23,18 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
     },
 
     /* Remove arrow for input number */
-
     /* Chrome, Safari, Edge, Opera */
     '& input::-webkit-outer-spin-button, input::-webkit-inner-spin-button': {
       WebkitAppearance: 'none',
       margin: '0',
     },
-
     /* Firefox */
-    '& input[type=number]': { MozAppearance: 'textfield' },
+    '& input[type=text]': { minWidth: '40%' },
+    '& input[type=number]': {
+      MozAppearance: 'textfield',
+      marginLeft: '2em',
+      height: '2em',
+    },
 
     // to replace checkbox by svg
     '& .list-icon': { position: 'absolute', marginTop: '-0.2rem' },
@@ -72,7 +75,6 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       },
       display: 'table',
     },
-
     '& .label-top label': {
       fontWeight: 'bold',
     },
@@ -85,6 +87,7 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
 
     '& fieldset legend': {
       fontWeight: 'bold',
+      maxWidth: '90%',
     },
     '& .field-container': {
       marginTop: '1em',
@@ -189,7 +192,6 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         '&.checked': {
           backgroundColor: `${backgroundColorCheckboxChecked}`,
           borderColor: `${modalityLabelColorChecked}`,
-          width: '100%',
           '& label::after': {
             marginLeft: 'auto',
             content: "'✓'",
