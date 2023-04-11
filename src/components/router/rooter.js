@@ -10,7 +10,6 @@ import Visualizer from 'components/visualizer';
 import { secure } from 'components/auth';
 
 const Rooter = () => {
-  console.log('rooter rerender');
   const { standalone } = useContext(AppContext);
   const { pathname } = useLocation();
 

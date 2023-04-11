@@ -52,7 +52,7 @@ export const useAPI = () => {
   const getCampaigns = useCallback(() => {
     const token = authenticationType === OIDC ? oidcUser?.access_token : null;
     return API.getCampaigns(apiUrl)(token);
-  }, [apiUrl, authenticationType, oidcUser.access_token]);
+  }, [apiUrl, authenticationType, oidcUser]);
 
   const getQuestionnaire = useCallback(
     questionnaireID => {
