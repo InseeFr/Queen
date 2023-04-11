@@ -39,7 +39,7 @@ export const OrchestratorManager = () => {
   const stateData = surveyUnit?.stateData;
   const initialData = surveyUnit?.data;
   const { oidcUser } = useAuth();
-  const isAuthenticated = true;
+  const isAuthenticated = !!oidcUser?.profile;
 
   const [suggesters, setSuggesters] = useState(null);
   const [init, setInit] = useState(false);
