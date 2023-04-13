@@ -1,4 +1,3 @@
-import { AppVersion, Button } from 'components/designSystem';
 import {
   Checkbox,
   Container,
@@ -7,19 +6,21 @@ import {
   Typography,
   makeStyles,
 } from '@material-ui/core';
+import { AppVersion, Button } from 'components/designSystem';
+import { useEffect, useState } from 'react';
 import {
   DATA_EXAMPLE_URL,
   DEFAULT_DATA_URL,
   DEFAULT_NOMENCLATURE_URL,
+  NOMENCLATURE_EXAMPLE_URL,
   QUESTIONNAIRE_EXAMPLE_URL,
   SIMPSONS,
 } from 'utils/constants';
-import React, { useEffect, useState } from 'react';
 
 import D from 'i18n';
+import { useHistory } from 'react-router-dom';
 import Examples from './examples';
 import Helper from './helper';
-import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -58,6 +59,7 @@ const QuestionnaireForm = () => {
   useEffect(() => {
     setQuestionnaire(selected ? QUESTIONNAIRE_EXAMPLE_URL(selected) : selected);
     setData(selected ? DATA_EXAMPLE_URL(selected) : selected);
+    setNomenclature(selected ? NOMENCLATURE_EXAMPLE_URL(selected) : selected);
   }, [selected]);
 
   const history = useHistory();
@@ -115,7 +117,7 @@ const QuestionnaireForm = () => {
         <TextField
           id="nomenclature-url-form"
           label={D.labelNomenclature}
-          placeholder={JSON.stringify(DEFAULT_NOMENCLATURE_URL)}
+          placeholder={DEFAULT_NOMENCLATURE_URL}
           helperText={D.helperTextNomenclature}
           fullWidth
           margin="normal"

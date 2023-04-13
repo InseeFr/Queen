@@ -1,15 +1,14 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { useGetReferentiel, useRemoteData, useVisuQuery } from 'utils/hook';
 import { checkQuestionnaire, downloadDataAsJson } from 'utils/questionnaire';
-import { useRemoteData, useVisuQuery } from 'utils/hook';
 
 import { AppContext } from 'components/app';
-import Error from 'components/shared/Error';
 import LightOrchestrator from 'components/lightOrchestrator';
+import Error from 'components/shared/Error';
 import Preloader from 'components/shared/preloader';
-import QuestionnaireForm from './questionnaireForm';
-import { buildSuggesterFromNomenclatures } from 'utils/questionnaire/nomenclatures';
-import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import { useHistory } from 'react-router';
+import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
+import QuestionnaireForm from './questionnaireForm';
 
 const Visualizer = () => {
   const { apiUrl, standalone } = useContext(AppContext);
@@ -18,16 +17,16 @@ const Visualizer = () => {
   const [error, setError] = useState(null);
   const [source, setSource] = useState(null);
 
-  const { questionnaireUrl, dataUrl, readonly } = useVisuQuery();
+  const { questionnaireUrl, dataUrl, nomenclatures, readonly } = useVisuQuery();
   const {
     surveyUnit: suData,
     questionnaire,
-    nomenclatures,
     loadingMessage,
     errorMessage,
   } = useRemoteData(questionnaireUrl, dataUrl);
 
-  const [suggesters, setSuggesters] = useState(null);
+  const { getReferentielForVizu } = useGetReferentiel(nomenclatures);
+
   const history = useHistory();
 
   useEffect(() => {
@@ -45,17 +44,15 @@ const Visualizer = () => {
   }, [suData]);
 
   useEffect(() => {
-    if (questionnaireUrl && questionnaire && suData && nomenclatures) {
+    if (questionnaireUrl && questionnaire && suData) {
       const { valid, error: questionnaireError } = checkQuestionnaire(questionnaire);
       if (valid) {
         setSource(questionnaire);
-        const suggestersBuilt = buildSuggesterFromNomenclatures(apiUrl)(nomenclatures);
-        setSuggesters(suggestersBuilt);
       } else {
         setError(questionnaireError);
       }
     }
-  }, [questionnaireUrl, questionnaire, suData, apiUrl, nomenclatures]);
+  }, [questionnaireUrl, questionnaire, suData, apiUrl]);
 
   useEffect(() => {
     if (errorMessage) setError(errorMessage);
@@ -85,11 +82,12 @@ const Visualizer = () => {
     <>
       {loadingMessage && <Preloader message={loadingMessage} />}
       {error && <Error message={error} />}
-      {questionnaireUrl && source && surveyUnit && suggesters && (
+      {questionnaireUrl && source && surveyUnit && (
         <LightOrchestrator
           surveyUnit={surveyUnit}
           source={source}
-          suggesters={suggesters}
+          autoSuggesterLoading={true}
+          getReferentiel={getReferentielForVizu}
           standalone={standalone}
           readonly={readonly}
           pagination={true}

@@ -1,11 +1,11 @@
-import { DEFAULT_DATA_URL, OIDC } from 'utils/constants';
 import { useCallback, useContext, useEffect, useState } from 'react';
+import { DEFAULT_DATA_URL, OIDC } from 'utils/constants';
 
-import { API } from 'utils/api';
 import { AppContext } from 'components/app';
 import Dictionary from 'i18n';
-import clearAllData from 'utils/indexedbb/services/allTables-idb-service';
+import { API } from 'utils/api';
 import { getFetcherForLunatic } from 'utils/api/fetcher';
+import clearAllData from 'utils/indexedbb/services/allTables-idb-service';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import { useAsyncValue } from '.';
 import { useAuth } from './auth';
@@ -31,18 +31,32 @@ const getErrorMessage = (response, type = 'q') => {
   return Dictionary.getUnknownError;
 };
 
-export const useLunaticFetcher = () => {
-  const { authenticationType, oidcUser } = useAuth();
+/** Nomenclatures params is optional, it is used only in vizualise mode */
+export const useGetReferentiel = nomenclatures => {
+  const { oidcUser } = useAuth();
+  const { apiUrl } = useContext(AppContext);
 
-  const lunaticFetcher = useCallback(
-    (url, options) => {
-      const token = authenticationType === OIDC ? oidcUser?.access_token : null;
-      return getFetcherForLunatic(token)(url, options);
+  const getReferentiel = useCallback(
+    refName => {
+      const finalUrl = `${apiUrl}/api/nomenclature/${refName}`;
+      return getFetcherForLunatic(oidcUser?.accessToken)(finalUrl);
     },
-    [authenticationType, oidcUser]
+    [apiUrl, oidcUser]
   );
 
-  return { lunaticFetcher };
+  const getReferentielForVizu = useCallback(
+    refName => {
+      if (nomenclatures && Object.keys(nomenclatures).includes(refName)) {
+        const finalUrl = nomenclatures[refName];
+        return getFetcherForLunatic(oidcUser?.accessToken)(finalUrl);
+      }
+      // No nomenclature, return empty array to lunatic
+      return Promise.resolve([]);
+    },
+    [nomenclatures, oidcUser]
+  );
+
+  return { getReferentiel, getReferentielForVizu };
 };
 
 export const useAPI = () => {
@@ -204,7 +218,6 @@ export const useAPIRemoteData = (surveyUnitID, questionnaireID) => {
 export const useRemoteData = (questionnaireUrl, dataUrl) => {
   const { standalone } = useContext(AppContext);
   const [questionnaire, setQuestionnaire] = useState(null);
-  const [nomenclatures, setNomenclatures] = useState(null);
   const [surveyUnit, setSurveyUnit] = useState(null);
 
   const [loadingMessage, setLoadingMessage] = useState(null);
@@ -214,7 +227,6 @@ export const useRemoteData = (questionnaireUrl, dataUrl) => {
     if (questionnaireUrl) {
       setErrorMessage(null);
       setQuestionnaire(null);
-      setNomenclatures(null);
       setSurveyUnit(null);
       const fakeToken = null;
       const load = async () => {
@@ -225,7 +237,6 @@ export const useRemoteData = (questionnaireUrl, dataUrl) => {
           const qR = await API.getRequest(questionnaireUrl)(fakeToken);
           if (!qR.error) {
             setQuestionnaire(qR.data);
-            setNomenclatures([]); // fake nomenclatures for vizu
             setLoadingMessage(Dictionary.waintingData);
             const dR = await API.getRequest(dataUrl || DEFAULT_DATA_URL)(fakeToken);
             if (!dR.error) {
@@ -242,5 +253,5 @@ export const useRemoteData = (questionnaireUrl, dataUrl) => {
     }
   }, [questionnaireUrl, dataUrl, standalone]);
 
-  return { loadingMessage, errorMessage, surveyUnit, questionnaire, nomenclatures };
+  return { loadingMessage, errorMessage, surveyUnit, questionnaire };
 };

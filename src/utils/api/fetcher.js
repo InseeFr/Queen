@@ -32,11 +32,10 @@ export const fetcher = async (url, token, method, body) => {
   }
 };
 
-export const getFetcherForLunatic = token => async (url, options) => {
-  console.log('token', token);
+export const getFetcherForLunatic = token => (url, options) => {
   const otherHeader = options?.headers || {};
   return fetch(url, {
     ...options,
     headers: token ? { ...otherHeader, Authorization: `Bearer ${token}` } : otherHeader,
-  });
+  }).then(r => r.json());
 };

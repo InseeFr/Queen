@@ -1,20 +1,19 @@
-import { COMPLETED, VALIDATED, useQuestionnaireState } from 'utils/hook/questionnaire';
-import { EventsManager, INIT_ORCHESTRATOR_EVENT, INIT_SESSION_EVENT } from 'utils/events';
-import { ORCHESTRATOR_COLLECT, ORCHESTRATOR_READONLY, READ_ONLY } from 'utils/constants';
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useAPI, useAPIRemoteData, useAuth } from 'utils/hook';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { ORCHESTRATOR_COLLECT, ORCHESTRATOR_READONLY, READ_ONLY } from 'utils/constants';
+import { EventsManager, INIT_ORCHESTRATOR_EVENT, INIT_SESSION_EVENT } from 'utils/events';
+import { useAPI, useAPIRemoteData, useAuth, useGetReferentiel } from 'utils/hook';
+import { COMPLETED, VALIDATED, useQuestionnaireState } from 'utils/hook/questionnaire';
 
 import { AppContext } from 'components/app';
-import Error from 'components/shared/Error';
 import LightOrchestrator from 'components/lightOrchestrator';
+import Error from 'components/shared/Error';
 import NotFound from 'components/shared/not-found';
 import Preloader from 'components/shared/preloader';
-import { buildSuggesterFromNomenclatures } from 'utils/questionnaire/nomenclatures';
-import { checkQuestionnaire } from 'utils/questionnaire';
-import paradataIdbService from 'utils/indexedbb/services/paradata-idb-service';
 import { sendCloseEvent } from 'utils/communication';
+import paradataIdbService from 'utils/indexedbb/services/paradata-idb-service';
 import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
+import { checkQuestionnaire } from 'utils/questionnaire';
 
 export const OrchestratorManager = () => {
   const { standalone, apiUrl } = useContext(AppContext);
@@ -41,7 +40,7 @@ export const OrchestratorManager = () => {
   const { oidcUser } = useAuth();
   const isAuthenticated = !!oidcUser?.profile;
 
-  const [suggesters, setSuggesters] = useState(null);
+  const { getReferentiel } = useGetReferentiel();
   const [init, setInit] = useState(false);
 
   const [error, setError] = useState(null);
@@ -66,14 +65,11 @@ export const OrchestratorManager = () => {
   }, [isAuthenticated, LOGGER, questionnaire]);
 
   useEffect(() => {
-    if (!init && questionnaire && surveyUnit && nomenclatures) {
+    if (!init && questionnaire && surveyUnit) {
       const { valid, error: questionnaireError } = checkQuestionnaire(questionnaire);
       if (valid) {
         setSource(questionnaire);
-        const suggestersBuilt = buildSuggesterFromNomenclatures(apiUrl)(nomenclatures);
-        setSuggesters(suggestersBuilt);
         setInit(true);
-        console.log('suggesters injection done');
         LOGGER.log(INIT_ORCHESTRATOR_EVENT);
       } else {
         setError(questionnaireError);
@@ -167,11 +163,11 @@ export const OrchestratorManager = () => {
       {![READ_ONLY, undefined].includes(readonlyParam) && <NotFound />}
       {loadingMessage && <Preloader message={loadingMessage} />}
       {error && <Error message={error} />}
-      {!loadingMessage && !error && source && surveyUnit && suggesters && (
+      {!loadingMessage && !error && source && surveyUnit && (
         <LightOrchestrator
           surveyUnit={surveyUnit}
           source={source}
-          suggesters={suggesters}
+          getReferentiel={getReferentiel}
           autoSuggesterLoading={true}
           standalone={standalone}
           readonly={readonly}
