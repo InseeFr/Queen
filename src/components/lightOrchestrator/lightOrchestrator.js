@@ -1,7 +1,6 @@
 import * as lunatic from '@inseefr/lunatic';
 
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useAsyncValue, useLunaticFetcher } from 'utils/hook';
 
 import D from 'i18n';
 import { componentHasResponse } from 'utils/components/deduceState';
@@ -44,8 +43,6 @@ function LightOrchestrator({
   definitiveQuit,
 }) {
   const { data } = surveyUnit;
-  const { lunaticFetcher } = useLunaticFetcher();
-  const suggesterFetcher = useAsyncValue(lunaticFetcher);
   const classes = useStyles();
   const lunaticStateRef = useRef();
 
@@ -88,7 +85,6 @@ function LightOrchestrator({
     preferences,
     autoSuggesterLoading,
     getReferentiel,
-    suggesterFetcher,
     missing,
     shortcut,
     missingStrategy,

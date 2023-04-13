@@ -1,4 +1,7 @@
 {
+  "enoCoreVersion": "2.4.1",
+  "lunaticModelVersion": "2.3.1",
+  "pagination": "question",
   "maxPage": "4",
   "label": {
     "value": "\"Test Sympa\"",
