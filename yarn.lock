@@ -2115,12 +2115,12 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@inseefr/lunatic@2.0.7-v2-main-2023-02-28-14-48-47":
-  version "2.0.7-v2-main-2023-02-28-14-48-47"
-  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-2.0.7-v2-main-2023-02-28-14-48-47.tgz#4c67484e34852da7134aa98e57deadeddcd48d1b"
-  integrity sha512-UCH7ae+Y4YV4GLb5C58d4TBNsga3cyLzcNXF6++RwomYxDpPw9Sas2Q7GS5ZK4hNwTbgEyXkMGTWxw+kCn8VUg==
+"@inseefr/lunatic@2.4.1":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@inseefr/lunatic/-/lunatic-2.4.1.tgz#52908aeb688130821cb0a68bf53f3652a5232056"
+  integrity sha512-v9SSItM4bR/lrg3t/Cp0Xr7Y+esapqasXknV6c0rBb7wZ5SsH5DF0sF7OXbvNChcviEzs15LeIUvf1zhHzRP9Q==
   dependencies:
-    "@inseefr/trevas" "^0.1.16"
+    "@inseefr/trevas" "^0.1.17"
     "@inseefr/vtl-2.0-antlr-tools" "^0.1.0-bundle"
     antlr4 "4.11.0"
     classnames "^2.3.1"
@@ -2132,10 +2132,10 @@
     prop-types "^15.7.2"
     react-keyboard-event-handler "^1.5.4"
     react-markdown "^8.0.3"
-    react-number-format "^5.0.0-beta.4"
+    react-number-format "^5.1.3"
     react-tooltip "^4.2.15"
     remove-accents "^0.4.2"
-    sass "^1.32.2"
+    sass "^1.58.3"
     snowball "^0.3.1"
     string-tokenizer "^0.0.8"
 
@@ -2143,6 +2143,16 @@
   version "0.1.16"
   resolved "https://registry.yarnpkg.com/@inseefr/trevas/-/trevas-0.1.16.tgz#179bbde45b0b67b70bae3e26848049f84701b2f1"
   integrity sha512-VCsPEzCtHpYHQljIErn86lWhEZWg0iAlxkl46ZgyfDrMpfD4wsByH3pUKKSidz24396Em3CqvOQ1EfPHUE+7mw==
+  dependencies:
+    "@inseefr/vtl-2.0-antlr-tools" "0.1.0"
+    antlr4 "4.8.0"
+    data-forge "^1.8.8"
+    date-fns "^2.27.0"
+
+"@inseefr/trevas@^0.1.17":
+  version "0.1.17"
+  resolved "https://registry.yarnpkg.com/@inseefr/trevas/-/trevas-0.1.17.tgz#747ee1b2c712b0d5b277760ea27ce1fb78f65415"
+  integrity sha512-hQ6mXtcID6kmbpQPuJpyjiBMzGnsC2MAFKIt3qjHBCpYOXbgzl+VteSi+Sj0q4J2EQAx45drIcIZdX7FOf4EUw==
   dependencies:
     "@inseefr/vtl-2.0-antlr-tools" "0.1.0"
     antlr4 "4.8.0"
@@ -4527,20 +4537,20 @@ chokidar@3.5.2:
   optionalDependencies:
     fsevents "~2.3.2"
 
-"chokidar@>=2.0.0 <4.0.0":
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.1.tgz#ee9ce7bbebd2b79f49f304799d5468e31e14e68a"
-  integrity sha512-9+s+Od+W0VJJzawDma/gvBNQqkTiqYTWLuZoyAsivsI4AaWTCzHG06/TMjsf1cYe9Cb97UCEhjz7HvnPk2p/tw==
+"chokidar@>=3.0.0 <4.0.0":
+  version "3.5.3"
+  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.3.tgz#1cf37c8707b932bd1af1ae22c0432e2acd1903bd"
+  integrity sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==
   dependencies:
-    anymatch "~3.1.1"
+    anymatch "~3.1.2"
     braces "~3.0.2"
-    glob-parent "~5.1.0"
+    glob-parent "~5.1.2"
     is-binary-path "~2.1.0"
     is-glob "~4.0.1"
     normalize-path "~3.0.0"
-    readdirp "~3.5.0"
+    readdirp "~3.6.0"
   optionalDependencies:
-    fsevents "~2.3.1"
+    fsevents "~2.3.2"
 
 chokidar@^2.1.8:
   version "2.1.8"
@@ -6895,7 +6905,7 @@ fsevents@^1.2.7:
     bindings "^1.5.0"
     nan "^2.12.1"
 
-fsevents@^2.1.2, fsevents@^2.1.3, fsevents@~2.3.1, fsevents@~2.3.2:
+fsevents@^2.1.2, fsevents@^2.1.3, fsevents@~2.3.2:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
   integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
@@ -7566,6 +7576,11 @@ immer@8.0.1:
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/immer/-/immer-8.0.1.tgz#9c73db683e2b3975c424fb0572af5889877ae656"
   integrity sha512-aqXhGP7//Gui2+UrEtvxZxSquQVXTpZ7KDxfCcKAF3Vysvw0CViVaW9RZ1j1xlIYqaaaipBoqdqeibkc18PNvA==
+
+immutable@^4.0.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.3.0.tgz#eb1738f14ffb39fd068b1dbe1296117484dd34be"
+  integrity sha512-0AOCmOip+xgJwEVTQj1EfiDDOkPmuyllDuTuEX+DDXUgapLAsBIfkg3sxCYyCEA8mQqZrrxPUGjcOQ2JS3WLkg==
 
 import-cwd@^2.0.0:
   version "2.1.0"
@@ -11683,10 +11698,10 @@ react-markdown@^8.0.3:
     unist-util-visit "^4.0.0"
     vfile "^5.0.0"
 
-react-number-format@^5.0.0-beta.4:
-  version "5.1.3"
-  resolved "https://registry.yarnpkg.com/react-number-format/-/react-number-format-5.1.3.tgz#5534f5141cea29e0fe889f76c73dfad11ddf2e17"
-  integrity sha512-N4XVBXDEIu9qVZIIwKTfCwhPh1fWx/i50I6XnMLsckj7OHi7A85+AMCzUmMCpx05usVVee14Rr/P7MUY0Pp2Kg==
+react-number-format@^5.1.3:
+  version "5.1.4"
+  resolved "https://registry.yarnpkg.com/react-number-format/-/react-number-format-5.1.4.tgz#23057d94a4f1b08e12ee41328e86be929b60a791"
+  integrity sha512-QV7QHzHrk9ZS9V0bWkIwu6ywiXJt0www4/cXWEVEgwaNqthmOZl/Cf5O0ukEPlGZJJr06Jh3+CM4rZsvXn8cOg==
   dependencies:
     prop-types "^15.7.2"
 
@@ -12460,12 +12475,14 @@ sass-loader@^10.0.5:
     schema-utils "^3.0.0"
     semver "^7.3.2"
 
-sass@^1.32.2:
-  version "1.32.8"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.32.8.tgz#f16a9abd8dc530add8834e506878a2808c037bdc"
-  integrity sha512-Sl6mIeGpzjIUZqvKnKETfMf0iDAswD9TNlv13A7aAF3XZlRPMq4VvJWBC2N2DXbp94MQVdNSFG6LfF/iOXrPHQ==
+sass@^1.58.3:
+  version "1.62.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.62.0.tgz#3686b2195b93295d20765135e562366b33ece37d"
+  integrity sha512-Q4USplo4pLYgCi+XlipZCWUQz5pkg/ruSSgJ0WRDSb/+3z9tXUOkQ7QPYn4XrhZKYAK4HlpaQecRwKLJX6+DBg==
   dependencies:
-    chokidar ">=2.0.0 <4.0.0"
+    chokidar ">=3.0.0 <4.0.0"
+    immutable "^4.0.0"
+    source-map-js ">=0.6.2 <2.0.0"
 
 sax@~1.2.4:
   version "1.2.4"
@@ -12813,6 +12830,11 @@ source-list-map@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/source-list-map/-/source-list-map-2.0.1.tgz#3993bd873bfc48479cca9ea3a547835c7c154b34"
   integrity sha512-qnQ7gVMxGNxsiL4lEuJwe/To8UnK7fAnmbGEEH8RpLouuKbeEm0lhbQVFIrNSuB+G7tVrAlVsZgETT5nljf+Iw==
+
+"source-map-js@>=0.6.2 <2.0.0":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.0.2.tgz#adbc361d9c62df380125e7f161f71c826f1e490c"
+  integrity sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==
 
 source-map-resolve@^0.5.0, source-map-resolve@^0.5.2:
   version "0.5.3"
