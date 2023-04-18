@@ -12,7 +12,6 @@ export const useVisuQuery = () => {
   const dataUrl = searchUrl.get('data');
   const readonly = searchUrl.get('readonly') === `true`;
   const stringNomenclature = searchUrl.get('nomenclature');
-  console.log('stringNomenclature', stringNomenclature);
   return { questionnaireUrl, dataUrl, readonly, nomenclatures: JSON.parse(stringNomenclature) };
 };
 
