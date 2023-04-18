@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { Button, AppVersion } from 'components/designSystem';
-import D from 'i18n';
 import {
-  DATA_EXAMPLE_URL,
-  QUESTIONNAIRE_EXAMPLE_URL,
-  SIMPSONS,
-  DEFAULT_DATA_URL,
-} from 'utils/constants';
+  Checkbox,
+  Container,
+  FormControlLabel,
+  TextField,
+  Typography,
+  makeStyles,
+} from '@material-ui/core';
+import { AppVersion, Button } from 'components/designSystem';
+import D from 'i18n';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
-  Container,
-  makeStyles,
-  Typography,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-} from '@material-ui/core';
+  DATA_EXAMPLE_URL,
+  DEFAULT_DATA_URL,
+  DEFAULT_NOMENCLATURE,
+  NOMENCLATURE_EXAMPLE_URL,
+  QUESTIONNAIRE_EXAMPLE_URL,
+  SIMPSONS,
+} from 'utils/constants';
 import Examples from './examples';
 import Helper from './helper';
 
@@ -48,6 +50,7 @@ const QuestionnaireForm = () => {
   const classes = useStyles();
   const [questionnaire, setQuestionnaire] = useState('');
   const [data, setData] = useState('');
+  const [nomenclature, setNomenclature] = useState('');
   const [readonly, setReadonly] = useState(false);
 
   const [selected, setSelected] = useState('');
@@ -55,6 +58,7 @@ const QuestionnaireForm = () => {
   useEffect(() => {
     setQuestionnaire(selected ? QUESTIONNAIRE_EXAMPLE_URL(selected) : selected);
     setData(selected ? DATA_EXAMPLE_URL(selected) : selected);
+    setNomenclature(selected ? NOMENCLATURE_EXAMPLE_URL(selected) : selected);
   }, [selected]);
 
   const history = useHistory();
@@ -64,7 +68,9 @@ const QuestionnaireForm = () => {
       pathname: '/queen/visualize',
       search: `?questionnaire=${encodeURIComponent(questionnaire)}${
         data ? `&data=${encodeURIComponent(data)}` : ''
-      }${readonly ? `&readonly=${readonly}` : ''}`,
+      }${nomenclature ? `&nomenclature=${encodeURIComponent(nomenclature)}` : ''}${
+        readonly ? `&readonly=${readonly}` : ''
+      }`,
     });
     e.preventDefault();
   };
@@ -105,6 +111,22 @@ const QuestionnaireForm = () => {
           value={data}
           onChange={({ target: { value: v } }) => {
             setData(v);
+          }}
+          variant="outlined"
+        />
+        <TextField
+          id="nomenclature-url-form"
+          label={D.labelNomenclature}
+          placeholder={DEFAULT_NOMENCLATURE}
+          helperText={D.helperTextNomenclature}
+          fullWidth
+          margin="normal"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          value={nomenclature}
+          onChange={({ target: { value: v } }) => {
+            setNomenclature(v);
           }}
           variant="outlined"
         />

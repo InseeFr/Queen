@@ -1,17 +1,19 @@
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
-export * from './auth';
 export * from './api';
-export * from './serviceWorker';
+export * from './auth';
 export * from './configuration';
+export * from './serviceWorker';
 
 export const useVisuQuery = () => {
   const searchUrl = new URLSearchParams(useLocation().search);
   const questionnaireUrl = searchUrl.get('questionnaire');
   const dataUrl = searchUrl.get('data');
   const readonly = searchUrl.get('readonly') === `true`;
-  return { questionnaireUrl, dataUrl, readonly };
+  const stringNomenclature = searchUrl.get('nomenclature');
+  console.log('stringNomenclature', stringNomenclature);
+  return { questionnaireUrl, dataUrl, readonly, nomenclatures: JSON.parse(stringNomenclature) };
 };
 
 // https://css-tricks.com/dealing-with-stale-props-and-states-in-reacts-functional-components/

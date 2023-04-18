@@ -32,6 +32,18 @@ export const TEST = 'test';
 
 export const QUESTIONNAIRE_EXAMPLES = [SIMPSONS, TIC, LOGEMENT, TEST];
 
+export const NOMENCLATURE_EXAMPLE_URL = q => {
+  if (q === TIC)
+    return JSON.stringify({
+      'L_DEPNAIS-1-0-0': { url: `${QUEEN_URL}/static/nomenclatures/L_DEPNAIS-1-0-0.json` },
+      'L_PAYSNAIS-1-0-0': { url: `${QUEEN_URL}/static/nomenclatures/L_PAYSNAIS-1-0-0.json` },
+      'L_NATIONETR-1-0-0': { url: `${QUEEN_URL}/static/nomenclatures/L_NATIONETR-1-0-0.json` },
+    });
+  return JSON.stringify({});
+};
+
+export const DEFAULT_NOMENCLATURE = NOMENCLATURE_EXAMPLE_URL();
+
 export const QUESTIONNAIRE_EXAMPLE_URL = q =>
   `${QUEEN_URL || window.location.origin}/static/questionnaire/${q}/form.json`;
 export const DATA_EXAMPLE_URL = q =>

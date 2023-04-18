@@ -1,13 +1,13 @@
 import { AppContext } from 'components/app';
 import Dictionary from 'i18n';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import { API } from 'utils/api';
-import clearAllData from 'utils/indexedbb/services/allTables-idb-service';
-import { DEFAULT_DATA_URL, OIDC } from 'utils/constants';
-import { useAuth } from './auth';
-import { useAsyncValue } from '.';
 import { getFetcherForLunatic } from 'utils/api/fetcher';
+import { DEFAULT_DATA_URL, OIDC } from 'utils/constants';
+import clearAllData from 'utils/indexedbb/services/allTables-idb-service';
+import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
+import { useAsyncValue } from '.';
+import { useAuth } from './auth';
 
 const clean = async (standalone = false) => {
   try {
@@ -203,7 +203,6 @@ export const useAPIRemoteData = (surveyUnitID, questionnaireID) => {
 export const useRemoteData = (questionnaireUrl, dataUrl) => {
   const { standalone } = useContext(AppContext);
   const [questionnaire, setQuestionnaire] = useState(null);
-  const [nomenclatures, setNomenclatures] = useState(null);
   const [surveyUnit, setSurveyUnit] = useState(null);
 
   const [loadingMessage, setLoadingMessage] = useState(null);
@@ -213,7 +212,6 @@ export const useRemoteData = (questionnaireUrl, dataUrl) => {
     if (questionnaireUrl) {
       setErrorMessage(null);
       setQuestionnaire(null);
-      setNomenclatures(null);
       setSurveyUnit(null);
       const fakeToken = null;
       const load = async () => {
@@ -224,7 +222,6 @@ export const useRemoteData = (questionnaireUrl, dataUrl) => {
           const qR = await API.getRequest(questionnaireUrl)(fakeToken);
           if (!qR.error) {
             setQuestionnaire(qR.data);
-            setNomenclatures([]); // fake nomenclatures for vizu
             setLoadingMessage(Dictionary.waintingData);
             const dR = await API.getRequest(dataUrl || DEFAULT_DATA_URL)(fakeToken);
             if (!dR.error) {
@@ -241,5 +238,5 @@ export const useRemoteData = (questionnaireUrl, dataUrl) => {
     }
   }, [questionnaireUrl, dataUrl, standalone]);
 
-  return { loadingMessage, errorMessage, surveyUnit, questionnaire, nomenclatures };
+  return { loadingMessage, errorMessage, surveyUnit, questionnaire };
 };

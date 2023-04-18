@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from 'components/app';
 import Orchestrator from 'components/orchestrator';
-import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
-import Preloader from 'components/shared/preloader';
 import Error from 'components/shared/Error';
-import { useRemoteData, useVisuQuery } from 'utils/hook';
-import QuestionnaireForm from './questionnaireForm';
+import Preloader from 'components/shared/preloader';
+import { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import { useRemoteData, useVisuQuery } from 'utils/hook';
+import surveyUnitIdbService from 'utils/indexedbb/services/surveyUnit-idb-service';
 import { checkQuestionnaire, downloadDataAsJson } from 'utils/questionnaire';
-import { buildSuggesterFromNomenclatures } from 'utils/questionnaire/nomenclatures';
+import QuestionnaireForm from './questionnaireForm';
 
 const Visualizer = () => {
   const { apiUrl, standalone } = useContext(AppContext);
@@ -17,16 +16,13 @@ const Visualizer = () => {
   const [error, setError] = useState(null);
   const [source, setSource] = useState(null);
 
-  const { questionnaireUrl, dataUrl, readonly } = useVisuQuery();
-  const {
-    surveyUnit: suData,
-    questionnaire,
-    nomenclatures,
-    loadingMessage,
-    errorMessage,
-  } = useRemoteData(questionnaireUrl, dataUrl);
+  const { questionnaireUrl, dataUrl, readonly, nomenclatures } = useVisuQuery();
+  const { surveyUnit: suData, questionnaire, loadingMessage, errorMessage } = useRemoteData(
+    questionnaireUrl,
+    dataUrl
+  );
 
-  const [suggesters, setSuggesters] = useState(null);
+  const [suggesters] = useState(nomenclatures);
   const history = useHistory();
 
   const createFakeSurveyUnit = surveyUnit => {
@@ -39,18 +35,16 @@ const Visualizer = () => {
   };
 
   useEffect(() => {
-    if (questionnaireUrl && questionnaire && suData && nomenclatures) {
+    if (questionnaireUrl && questionnaire && suData) {
       const { valid, error: questionnaireError } = checkQuestionnaire(questionnaire);
       if (valid) {
         setSource(questionnaire);
-        const suggestersBuilt = buildSuggesterFromNomenclatures(apiUrl)(nomenclatures);
-        setSuggesters(suggestersBuilt);
         setSurveyUnit(createFakeSurveyUnit(suData));
       } else {
         setError(questionnaireError);
       }
     }
-  }, [questionnaireUrl, questionnaire, suData, apiUrl, nomenclatures]);
+  }, [questionnaireUrl, questionnaire, suData, apiUrl]);
 
   useEffect(() => {
     if (errorMessage) setError(errorMessage);
@@ -71,6 +65,7 @@ const Visualizer = () => {
           surveyUnit={surveyUnit}
           source={source}
           suggesters={suggesters}
+          autoSuggesterLoading
           standalone={standalone}
           readonly={readonly}
           savingType="COLLECTED"
