@@ -1,30 +1,37 @@
 {
-  "id": "i6vwi2506qf2mms",
-  "modele": "SIMPSONS",
-  "enoCoreVersion": "2.2.11",
-  "lunaticModelVersion": "2.2.3",
-  "generatingDate": "16-09-2021 09:08:11",
+  "id": "simpsonsvtl",
+  "modele": "m1",
+  "enoCoreVersion": "2.4.1-pairwise",
+  "lunaticModelVersion": "2.3.2-rc4",
+  "generatingDate": "18-04-2023 12:52:18",
   "missing": true,
   "pagination": "question",
-  "maxPage": "37",
-  "label": "Questionnaire SIMPSONS 20201215",
+  "maxPage": "41",
+  "label": { "value": "QNONREG - Questionnaire SIMPSONS VTL", "type": "VTL|MD" },
   "components": [
     {
       "id": "j6p0ti5h",
       "componentType": "Sequence",
       "page": "1",
-      "label": "\"I - Introduction\"",
+      "label": { "value": "\"I - \" || \"Introduction\"", "type": "VTL|MD" },
       "declarations": [
         {
           "id": "j6p0ti5h-d1",
-          "declarationType": "COMMENT",
+          "declarationType": "HELP",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"We’re going to test your knowledge about the simpsons series.Welcome in the simpsons world!\""
+          "label": {
+            "value": "We’re going to test your knowledge about the simpsons series.Welcome in the simpsons world!",
+            "type": "VTL|MD"
+          }
         }
       ],
-      "conditionFilter": { "value": "true" },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j6p0ti5h", "page": "1", "label": "\"I - Introduction\"" }
+        "sequence": {
+          "id": "j6p0ti5h",
+          "page": "1",
+          "label": { "value": "\"I - \" || \"Introduction\"", "type": "VTL|MD" }
+        }
       }
     },
 
@@ -34,10 +41,17 @@
       "mandatory": true,
       "page": "2",
       "maxLength": 500,
-      "label": "\"Before starting, do you have any comments about the Simpsons family?\"",
-      "conditionFilter": { "value": "true" },
+      "label": {
+        "value": "\"Before starting, do you have any comments about the Simpsons family?\"",
+        "type": "VTL|MD"
+      },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j6p0ti5h", "page": "1", "label": "\"I - Introduction\"" }
+        "sequence": {
+          "id": "j6p0ti5h",
+          "page": "1",
+          "label": { "value": "\"I - \" || \"Introduction\"", "type": "VTL|MD" }
+        }
       },
       "missingResponse": { "name": "COMMENT_MISSING" },
       "bindingDependencies": ["COMMENT_MISSING", "COMMENT"],
@@ -49,18 +63,28 @@
       "componentType": "CheckboxBoolean",
       "mandatory": false,
       "page": "3",
-      "label": "\"If you agree to answer this questionnaire, please check the box\"",
+      "label": {
+        "value": "\"If you agree to answer this questionnaire, please check the box\"",
+        "type": "VTL|MD"
+      },
       "declarations": [
         {
           "id": "j6p0np9q-kir6xl1e",
-          "declarationType": "COMMENT",
+          "declarationType": "HELP",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"If not, this is unfortunately the end of this questionnaire.\""
+          "label": {
+            "value": "If not, this is unfortunately the end of this questionnaire.",
+            "type": "VTL|MD"
+          }
         }
       ],
-      "conditionFilter": { "value": "true" },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j6p0ti5h", "page": "1", "label": "\"I - Introduction\"" }
+        "sequence": {
+          "id": "j6p0ti5h",
+          "page": "1",
+          "label": { "value": "\"I - \" || \"Introduction\"", "type": "VTL|MD" }
+        }
       },
       "missingResponse": { "name": "READY_MISSING" },
       "bindingDependencies": ["READY_MISSING", "READY"],
@@ -68,32 +92,33 @@
     },
 
     {
-      "id": "j6p6my1d",
-      "componentType": "FilterDescription",
-      "page": "3",
-      "filterDescription": false,
-      "label": "\"If you are not ready, please go to the end of the questionnaire\"",
-      "conditionFilter": { "value": "true" },
-      "hierarchy": {
-        "sequence": { "id": "j6p0ti5h", "page": "1", "label": "\"I - Introduction\"" }
-      }
-    },
-
-    {
       "id": "j6p0s7o5",
       "componentType": "Subsequence",
+      "page": "4",
       "goToPage": "4",
-      "label": "\"General knowledge of the series\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "label": { "value": "General knowledge of the series", "type": "VTL|MD" },
+      "declarations": [
+        {
+          "id": "j6p0s7o5-kn8j1kv7",
+          "declarationType": "INSTRUCTION",
+          "position": "AFTER_QUESTION_TEXT",
+          "label": {
+            "value": "We’re going to test your general knowledge about the simpsons series.",
+            "type": "VTL|MD"
+          }
+        }
+      ],
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j6p0ti5h", "page": "1", "label": "\"I - Introduction\"" },
+        "sequence": {
+          "id": "j6p0ti5h",
+          "page": "1",
+          "label": { "value": "\"I - \" || \"Introduction\"", "type": "VTL|MD" }
+        },
         "subSequence": {
           "id": "j6p0s7o5",
           "page": "4",
-          "label": "\"General knowledge of the series\""
+          "label": { "value": "General knowledge of the series", "type": "VTL|MD" }
         }
       }
     },
@@ -102,19 +127,20 @@
       "id": "j3343qhx",
       "componentType": "Input",
       "mandatory": false,
-      "page": "4",
+      "page": "5",
       "maxLength": 30,
-      "label": "\"Who is the producer?\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "label": { "value": "\"Who is the producer?\"", "type": "VTL|MD" },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j6p0ti5h", "page": "1", "label": "\"I - Introduction\"" },
+        "sequence": {
+          "id": "j6p0ti5h",
+          "page": "1",
+          "label": { "value": "\"I - \" || \"Introduction\"", "type": "VTL|MD" }
+        },
         "subSequence": {
           "id": "j6p0s7o5",
           "page": "4",
-          "label": "\"General knowledge of the series\""
+          "label": { "value": "General knowledge of the series", "type": "VTL|MD" }
         }
       },
       "missingResponse": { "name": "PRODUCER_MISSING" },
@@ -126,30 +152,51 @@
       "id": "j6q9h8tj",
       "componentType": "InputNumber",
       "mandatory": true,
-      "page": "5",
+      "page": "6",
       "min": 0,
       "max": 99,
       "decimals": 0,
-      "label": "\"What is the current season number?\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "label": { "value": "\"What is the current season number?\"", "type": "VTL|MD" },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "controls": [
         {
-          "id": "j6q9h8tj-CI-0",
-          "criticality": "WARN",
-          "control": "not(cast(SEASON_NUMBER,integer) = 0)",
-          "errorMessage": "\"Please enter a season number\"",
-          "bindingDependencies": ["SEASON_NUMBER"]
+          "id": "j6q9h8tj-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(SEASON_NUMBER)) and (0>SEASON_NUMBER or 99<SEASON_NUMBER))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 99.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "j6q9h8tj-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(SEASON_NUMBER))  and round(SEASON_NUMBER,0)<>SEASON_NUMBER)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
         }
       ],
       "hierarchy": {
-        "sequence": { "id": "j6p0ti5h", "page": "1", "label": "\"I - Introduction\"" },
+        "sequence": {
+          "id": "j6p0ti5h",
+          "page": "1",
+          "label": { "value": "\"I - \" || \"Introduction\"", "type": "VTL|MD" }
+        },
         "subSequence": {
           "id": "j6p0s7o5",
           "page": "4",
-          "label": "\"General knowledge of the series\""
+          "label": { "value": "General knowledge of the series", "type": "VTL|MD" }
         }
       },
       "missingResponse": { "name": "SEASON_NUMBER_MISSING" },
@@ -161,28 +208,47 @@
       "id": "kiq71eoi",
       "componentType": "Datepicker",
       "mandatory": false,
-      "page": "6",
+      "page": "7",
       "min": "1900-01-01",
       "max": "format-date(current-date(),'[Y0001]-[M01]-[D01]')",
-      "label": "\"When was the first episode of Simpsons? (format YYYY-MM-DD)\"",
+      "label": {
+        "value": "\"When was the first episode of Simpsons? (format YYYY-MM-DD)\"",
+        "type": "VTL|MD"
+      },
       "declarations": [
         {
           "id": "kiq71eoi-kiq7dsy2",
-          "declarationType": "INSTRUCTION",
+          "declarationType": "HELP",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"Please answer with YYYY-MM-DD format\""
+          "label": { "value": "Please answer with YYYY-MM-DD format", "type": "VTL|MD" }
         }
       ],
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "controls": [
+        {
+          "id": "kiq71eoi-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(DATEFIRST)) and (cast(DATEFIRST, date, \"YYYY-MM-DD\")>cast(\"format-date(current-date(),'[Y0001]-[M01]-[D01]')\", date, \"YYYY-MM-DD\") or cast(DATEFIRST, date, \"YYYY-MM-DD\")<cast(\"1900-01-01\", date, \"YYYY-MM-DD\")))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"La date saisie doit être comprise entre 1900-01-01 et format-date(current-date(),'[Y0001]-[M01]-[D01]').\"",
+            "type": "VTL|MD"
+          }
+        }
+      ],
       "hierarchy": {
-        "sequence": { "id": "j6p0ti5h", "page": "1", "label": "\"I - Introduction\"" },
+        "sequence": {
+          "id": "j6p0ti5h",
+          "page": "1",
+          "label": { "value": "\"I - \" || \"Introduction\"", "type": "VTL|MD" }
+        },
         "subSequence": {
           "id": "j6p0s7o5",
           "page": "4",
-          "label": "\"General knowledge of the series\""
+          "label": { "value": "General knowledge of the series", "type": "VTL|MD" }
         }
       },
       "missingResponse": { "name": "DATEFIRST_MISSING" },
@@ -195,27 +261,46 @@
       "id": "k5nvty2o",
       "componentType": "Datepicker",
       "mandatory": false,
-      "page": "7",
+      "page": "8",
       "min": "1980-05",
-      "label": "\"When was the first episode of the Simpsons? (format YYYY-MM)\"",
+      "label": {
+        "value": "\"When was the first episode of the Simpsons? (format YYYY-MM)\"",
+        "type": "VTL|MD"
+      },
       "declarations": [
         {
           "id": "k5nvty2o-k5nvxld8",
-          "declarationType": "COMMENT",
+          "declarationType": "HELP",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"Please answer with YYYY-MM format\""
+          "label": { "value": "Please answer with YYYY-MM format", "type": "VTL|MD" }
         }
       ],
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "controls": [
+        {
+          "id": "k5nvty2o-format-date-borne-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(DATEYYYYMM)) and cast(DATEYYYYMM, date, \"YYYY-MM\")<cast(\"1980-05\", date, \"YYYY-MM\"))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"La date saisie doit être postérieure à 1980-05.\"",
+            "type": "VTL|MD"
+          }
+        }
+      ],
       "hierarchy": {
-        "sequence": { "id": "j6p0ti5h", "page": "1", "label": "\"I - Introduction\"" },
+        "sequence": {
+          "id": "j6p0ti5h",
+          "page": "1",
+          "label": { "value": "\"I - \" || \"Introduction\"", "type": "VTL|MD" }
+        },
         "subSequence": {
           "id": "j6p0s7o5",
           "page": "4",
-          "label": "\"General knowledge of the series\""
+          "label": { "value": "General knowledge of the series", "type": "VTL|MD" }
         }
       },
       "missingResponse": { "name": "DATEYYYYMM_MISSING" },
@@ -228,28 +313,47 @@
       "id": "k5nw1fir",
       "componentType": "Datepicker",
       "mandatory": false,
-      "page": "8",
+      "page": "9",
       "min": "1900",
       "max": "year-from-date(current-date())",
-      "label": "\"When was the first episode of the Simpsons? (format YYYY)\"",
+      "label": {
+        "value": "\"When was the first episode of the Simpsons? (format YYYY)\"",
+        "type": "VTL|MD"
+      },
       "declarations": [
         {
           "id": "k5nw1fir-k5nvmx3n",
-          "declarationType": "COMMENT",
+          "declarationType": "HELP",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"Please answer with YYYY format\""
+          "label": { "value": "Please answer with YYYY format", "type": "VTL|MD" }
         }
       ],
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "controls": [
+        {
+          "id": "k5nw1fir-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(DATEYYYY)) and (cast(DATEYYYY, date, \"YYYY\")>cast(\"year-from-date(current-date())\", date, \"YYYY\") or cast(DATEYYYY, date, \"YYYY\")<cast(\"1900\", date, \"YYYY\")))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"La date saisie doit être comprise entre 1900 et year-from-date(current-date()).\"",
+            "type": "VTL|MD"
+          }
+        }
+      ],
       "hierarchy": {
-        "sequence": { "id": "j6p0ti5h", "page": "1", "label": "\"I - Introduction\"" },
+        "sequence": {
+          "id": "j6p0ti5h",
+          "page": "1",
+          "label": { "value": "\"I - \" || \"Introduction\"", "type": "VTL|MD" }
+        },
         "subSequence": {
           "id": "j6p0s7o5",
           "page": "4",
-          "label": "\"General knowledge of the series\""
+          "label": { "value": "General knowledge of the series", "type": "VTL|MD" }
         }
       },
       "missingResponse": { "name": "DATEYYYY_MISSING" },
@@ -262,21 +366,51 @@
       "id": "k5nw0w05",
       "componentType": "InputNumber",
       "mandatory": false,
-      "page": "9",
+      "page": "10",
       "min": 0,
       "max": 70,
       "decimals": 2,
-      "label": "\"How long does an episode last?\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "label": { "value": "\"How long does an episode last?\"", "type": "VTL|MD" },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "controls": [
+        {
+          "id": "k5nw0w05-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(DURATIONH)) and (0.00>DURATIONH or 70.00<DURATIONH))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0.00 et 70.00.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "k5nw0w05-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(DURATIONH))  and round(DURATIONH,2)<>DURATIONH)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 2 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        }
+      ],
       "hierarchy": {
-        "sequence": { "id": "j6p0ti5h", "page": "1", "label": "\"I - Introduction\"" },
+        "sequence": {
+          "id": "j6p0ti5h",
+          "page": "1",
+          "label": { "value": "\"I - \" || \"Introduction\"", "type": "VTL|MD" }
+        },
         "subSequence": {
           "id": "j6p0s7o5",
           "page": "4",
-          "label": "\"General knowledge of the series\""
+          "label": { "value": "General knowledge of the series", "type": "VTL|MD" }
         }
       },
       "missingResponse": { "name": "DURATIONH_MISSING" },
@@ -289,21 +423,51 @@
       "id": "k5nvu98z",
       "componentType": "InputNumber",
       "mandatory": false,
-      "page": "10",
+      "page": "11",
       "min": 0,
       "max": 366,
       "decimals": 1,
-      "label": "\"How long does it take to write a new episode?\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "label": { "value": "\"How long does it take to write a new episode?\"", "type": "VTL|MD" },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "controls": [
+        {
+          "id": "k5nvu98z-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(DURATIOND)) and (0.0>DURATIOND or 366.0<DURATIOND))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0.0 et 366.0.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "k5nvu98z-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(DURATIOND))  and round(DURATIOND,1)<>DURATIOND)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 1 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        }
+      ],
       "hierarchy": {
-        "sequence": { "id": "j6p0ti5h", "page": "1", "label": "\"I - Introduction\"" },
+        "sequence": {
+          "id": "j6p0ti5h",
+          "page": "1",
+          "label": { "value": "\"I - \" || \"Introduction\"", "type": "VTL|MD" }
+        },
         "subSequence": {
           "id": "j6p0s7o5",
           "page": "4",
-          "label": "\"General knowledge of the series\""
+          "label": { "value": "General knowledge of the series", "type": "VTL|MD" }
         }
       },
       "missingResponse": { "name": "DURATIOND_MISSING" },
@@ -316,21 +480,54 @@
       "id": "k5nw8ei1",
       "componentType": "InputNumber",
       "mandatory": false,
-      "page": "11",
+      "page": "12",
       "min": 0,
       "max": 12,
       "decimals": 0,
-      "label": "\"How long will it take you to watch all the existing episodes?\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
+      "label": {
+        "value": "\"How long will it take you to watch all the existing episodes?\"",
+        "type": "VTL|MD"
       },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "controls": [
+        {
+          "id": "k5nw8ei1-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(DURATIONM)) and (0>DURATIONM or 12<DURATIONM))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 12.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "k5nw8ei1-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(DURATIONM))  and round(DURATIONM,0)<>DURATIONM)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        }
+      ],
       "hierarchy": {
-        "sequence": { "id": "j6p0ti5h", "page": "1", "label": "\"I - Introduction\"" },
+        "sequence": {
+          "id": "j6p0ti5h",
+          "page": "1",
+          "label": { "value": "\"I - \" || \"Introduction\"", "type": "VTL|MD" }
+        },
         "subSequence": {
           "id": "j6p0s7o5",
           "page": "4",
-          "label": "\"General knowledge of the series\""
+          "label": { "value": "General knowledge of the series", "type": "VTL|MD" }
         }
       },
       "missingResponse": { "name": "DURATIONM_MISSING" },
@@ -343,21 +540,54 @@
       "id": "k5nw9dk4",
       "componentType": "InputNumber",
       "mandatory": false,
-      "page": "12",
+      "page": "13",
       "min": 0,
       "max": 100,
       "decimals": 0,
-      "label": "\"For how long have you known the Simpsons family?\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
+      "label": {
+        "value": "\"For how long have you known the Simpsons family?\"",
+        "type": "VTL|MD"
       },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "controls": [
+        {
+          "id": "k5nw9dk4-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(DURATIONY)) and (0>DURATIONY or 100<DURATIONY))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "k5nw9dk4-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(DURATIONY))  and round(DURATIONY,0)<>DURATIONY)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        }
+      ],
       "hierarchy": {
-        "sequence": { "id": "j6p0ti5h", "page": "1", "label": "\"I - Introduction\"" },
+        "sequence": {
+          "id": "j6p0ti5h",
+          "page": "1",
+          "label": { "value": "\"I - \" || \"Introduction\"", "type": "VTL|MD" }
+        },
         "subSequence": {
           "id": "j6p0s7o5",
           "page": "4",
-          "label": "\"General knowledge of the series\""
+          "label": { "value": "General knowledge of the series", "type": "VTL|MD" }
         }
       },
       "missingResponse": { "name": "DURATIONY_MISSING" },
@@ -370,21 +600,54 @@
       "id": "j6z06z1e",
       "componentType": "InputNumber",
       "mandatory": false,
-      "page": "13",
+      "page": "14",
       "min": 0,
       "max": 99,
       "decimals": 1,
-      "label": "\"In your opinion, how much is the part of audience share in US for the 2016 season?\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
+      "label": {
+        "value": "\"In your opinion, how much is the part of audience share in US for the 2016 season?\"",
+        "type": "VTL|MD"
       },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "controls": [
+        {
+          "id": "j6z06z1e-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(AUDIENCE_SHARE)) and (0.0>AUDIENCE_SHARE or 99.0<AUDIENCE_SHARE))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0.0 et 99.0.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "j6z06z1e-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(AUDIENCE_SHARE))  and round(AUDIENCE_SHARE,1)<>AUDIENCE_SHARE)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 1 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        }
+      ],
       "hierarchy": {
-        "sequence": { "id": "j6p0ti5h", "page": "1", "label": "\"I - Introduction\"" },
+        "sequence": {
+          "id": "j6p0ti5h",
+          "page": "1",
+          "label": { "value": "\"I - \" || \"Introduction\"", "type": "VTL|MD" }
+        },
         "subSequence": {
           "id": "j6p0s7o5",
           "page": "4",
-          "label": "\"General knowledge of the series\""
+          "label": { "value": "General knowledge of the series", "type": "VTL|MD" }
         }
       },
       "missingResponse": { "name": "AUDIENCE_SHARE_MISSING" },
@@ -396,22 +659,26 @@
     {
       "id": "j3341528",
       "componentType": "Sequence",
-      "page": "14",
-      "label": "\"II - Simpsons’ city\"",
+      "page": "15",
+      "label": { "value": "\"II - \" || \"Simpsons’ city\"", "type": "VTL|MD" },
       "declarations": [
         {
           "id": "j3341528-d2",
-          "declarationType": "COMMENT",
+          "declarationType": "HELP",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"This module asks about your general knowledge of the Simpsons city\""
+          "label": {
+            "value": "This module asks about your general knowledge of the Simpsons city",
+            "type": "VTL|MD"
+          }
         }
       ],
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j3341528", "page": "14", "label": "\"II - Simpsons’ city\"" }
+        "sequence": {
+          "id": "j3341528",
+          "page": "15",
+          "label": { "value": "\"II - \" || \"Simpsons’ city\"", "type": "VTL|MD" }
+        }
       }
     },
 
@@ -419,31 +686,32 @@
       "id": "j3343clt",
       "componentType": "Radio",
       "mandatory": true,
-      "page": "15",
-      "label": "\"In which city do the Simpsons reside?\"",
+      "page": "16",
+      "label": { "value": "\"In which city do the Simpsons reside?\"", "type": "VTL|MD" },
       "declarations": [
         {
           "id": "j3343clt-d3",
-          "declarationType": "INSTRUCTION",
+          "declarationType": "HELP",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"One possible answer\""
+          "label": { "value": "One possible answer", "type": "VTL|MD" }
         }
       ],
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j3341528", "page": "14", "label": "\"II - Simpsons’ city\"" }
+        "sequence": {
+          "id": "j3341528",
+          "page": "15",
+          "label": { "value": "\"II - \" || \"Simpsons’ city\"", "type": "VTL|MD" }
+        }
       },
       "missingResponse": { "name": "CITY_MISSING" },
       "bindingDependencies": ["CITY_MISSING", "CITY"],
       "options": [
-        { "value": "00001", "label": "\"Springfield\"" },
+        { "value": "00001", "label": { "value": "Springfield", "type": "VTL|MD" } },
 
-        { "value": "00002", "label": "\"Shelbyville\"" },
+        { "value": "00002", "label": { "value": "Shelbyville", "type": "VTL|MD" } },
 
-        { "value": "03", "label": "\"Seinfeld\"" }
+        { "value": "03", "label": { "value": "Seinfeld", "type": "VTL|MD" } }
       ],
       "response": { "name": "CITY" }
     },
@@ -452,33 +720,34 @@
       "id": "j6qdfhvw",
       "componentType": "CheckboxOne",
       "mandatory": false,
-      "page": "16",
-      "label": "\"Who is the Simpsons city mayor?\"",
+      "page": "17",
+      "label": { "value": "\"Who is the Simpsons city mayor?\"", "type": "VTL|MD" },
       "declarations": [
         {
           "id": "j6qdfhvw-d4",
-          "declarationType": "INSTRUCTION",
+          "declarationType": "HELP",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"Only one possible answer\""
+          "label": { "value": "Only one possible answer", "type": "VTL|MD" }
         }
       ],
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j3341528", "page": "14", "label": "\"II - Simpsons’ city\"" }
+        "sequence": {
+          "id": "j3341528",
+          "page": "15",
+          "label": { "value": "\"II - \" || \"Simpsons’ city\"", "type": "VTL|MD" }
+        }
       },
       "missingResponse": { "name": "MAYOR_MISSING" },
       "bindingDependencies": ["MAYOR_MISSING", "MAYOR"],
       "options": [
-        { "value": "1", "label": "\"Constance Harm\"" },
+        { "value": "1", "label": { "value": "Constance Harm", "type": "VTL|MD" } },
 
-        { "value": "2", "label": "\"Timothy Lovejoy\"" },
+        { "value": "2", "label": { "value": "Timothy Lovejoy", "type": "VTL|MD" } },
 
-        { "value": "3", "label": "\"Joe Quimby\"" },
+        { "value": "3", "label": { "value": "Joe Quimby", "type": "VTL|MD" } },
 
-        { "value": "OT", "label": "\"Other name\"" }
+        { "value": "OT", "label": { "value": "Other name", "type": "VTL|MD" } }
       ],
       "response": { "name": "MAYOR" }
     },
@@ -487,43 +756,44 @@
       "id": "j4nw5cqz",
       "componentType": "Dropdown",
       "mandatory": false,
-      "page": "17",
-      "label": "\"In which state do The Simpsons reside?\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "page": "18",
+      "label": { "value": "\"In which state do The Simpsons reside?\"", "type": "VTL|MD" },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j3341528", "page": "14", "label": "\"II - Simpsons’ city\"" }
+        "sequence": {
+          "id": "j3341528",
+          "page": "15",
+          "label": { "value": "\"II - \" || \"Simpsons’ city\"", "type": "VTL|MD" }
+        }
       },
       "missingResponse": { "name": "STATE_MISSING" },
       "bindingDependencies": ["STATE_MISSING", "STATE"],
       "options": [
-        { "value": "1", "label": "\"Washington\"" },
+        { "value": "1", "label": { "value": "Washington", "type": "VTL|MD" } },
 
-        { "value": "2", "label": "\"Kentucky\"" },
+        { "value": "2", "label": { "value": "Kentucky", "type": "VTL|MD" } },
 
-        { "value": "3", "label": "\"Ohio\"" },
+        { "value": "3", "label": { "value": "Ohio", "type": "VTL|MD" } },
 
-        { "value": "4", "label": "\"Maine\"" },
+        { "value": "4", "label": { "value": "Maine", "type": "VTL|MD" } },
 
-        { "value": "5", "label": "\"North Dakota\"" },
+        { "value": "5", "label": { "value": "North Dakota", "type": "VTL|MD" } },
 
-        { "value": "6", "label": "\"Florida\"" },
+        { "value": "6", "label": { "value": "Florida", "type": "VTL|MD" } },
 
-        { "value": "7", "label": "\"North Takoma\"" },
+        { "value": "7", "label": { "value": "North Takoma", "type": "VTL|MD" } },
 
-        { "value": "8", "label": "\"California\"" },
+        { "value": "8", "label": { "value": "California", "type": "VTL|MD" } },
 
-        { "value": "9", "label": "\"Texas\"" },
+        { "value": "9", "label": { "value": "Texas", "type": "VTL|MD" } },
 
-        { "value": "10", "label": "\"Massachusetts\"" },
+        { "value": "10", "label": { "value": "Massachusetts", "type": "VTL|MD" } },
 
-        { "value": "11", "label": "\"Nevada\"" },
+        { "value": "11", "label": { "value": "Nevada", "type": "VTL|MD" } },
 
-        { "value": "12", "label": "\"Illinois\"" },
+        { "value": "12", "label": { "value": "Illinois", "type": "VTL|MD" } },
 
-        { "value": "13", "label": "\"Not in any state, you fool!\"" }
+        { "value": "13", "label": { "value": "Not in any state, you fool!", "type": "VTL|MD" } }
       ],
       "response": { "name": "STATE" }
     },
@@ -531,55 +801,68 @@
     {
       "id": "j6qe0h9q",
       "componentType": "Sequence",
-      "page": "18",
-      "label": "\"III - Characters\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "page": "19",
+      "label": { "value": "\"III - \" || \"Characters\"", "type": "VTL|MD" },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j6qe0h9q", "page": "18", "label": "\"III - Characters\"" }
+        "sequence": {
+          "id": "j6qe0h9q",
+          "page": "19",
+          "label": { "value": "\"III - \" || \"Characters\"", "type": "VTL|MD" }
+        }
       }
     },
 
     {
       "id": "j334akov",
       "componentType": "CheckboxGroup",
-      "page": "19",
-      "label": "\"What are the pet names that the Simpsons family had?\"",
+      "page": "20",
+      "label": {
+        "value": "\"What are the pet names that the Simpsons family had?\"",
+        "type": "VTL|MD"
+      },
       "declarations": [
         {
           "id": "j334akov-d5",
-          "declarationType": "INSTRUCTION",
+          "declarationType": "HELP",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"Several possible answers\""
+          "label": { "value": "Several possible answers", "type": "VTL|MD" }
         }
       ],
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j6qe0h9q", "page": "18", "label": "\"III - Characters\"" }
+        "sequence": {
+          "id": "j6qe0h9q",
+          "page": "19",
+          "label": { "value": "\"III - \" || \"Characters\"", "type": "VTL|MD" }
+        }
       },
       "missingResponse": { "name": "PET_MISSING" },
       "bindingDependencies": ["PET_MISSING", "PET1", "PET2", "PET3", "PET4"],
       "responses": [
         {
           "id": "j334akov-QOP-khokqjtw",
-          "label": "\"Santa’s Little Helper\"",
+          "label": { "value": "Santa’s Little Helper", "type": "VTL|MD" },
           "response": { "name": "PET1" }
         },
 
         {
           "id": "j334akov-QOP-khokur7a",
-          "label": "\"Snowball I\"",
+          "label": { "value": "Snowball I", "type": "VTL|MD" },
           "response": { "name": "PET2" }
         },
 
-        { "id": "j334akov-QOP-khol82ux", "label": "\"Coltrane\"", "response": { "name": "PET3" } },
+        {
+          "id": "j334akov-QOP-khol82ux",
+          "label": { "value": "Coltrane", "type": "VTL|MD" },
+          "response": { "name": "PET3" }
+        },
 
-        { "id": "j334akov-QOP-khokqee5", "label": "\"Other name\"", "response": { "name": "PET4" } }
+        {
+          "id": "j334akov-QOP-khokqee5",
+          "label": { "value": "Other name", "type": "VTL|MD" },
+          "response": { "name": "PET4" }
+        }
       ]
     },
 
@@ -587,23 +870,27 @@
       "id": "j6p29i81",
       "componentType": "Table",
       "mandatory": false,
-      "page": "20",
+      "page": "21",
       "positioning": "HORIZONTAL",
-      "label": "\"Does Jay like the following ice cream flavours?\"",
+      "label": { "value": "\"Does Jay like the following ice cream flavours?\"", "type": "VTL|MD" },
       "declarations": [
         {
           "id": "d12-SI",
           "declarationType": "STATEMENT",
           "position": "BEFORE_QUESTION_TEXT",
-          "label": "\"Now we are going to know if you think that Jay is a gluton.\""
+          "label": {
+            "value": "Now we are going to know if you think that Jay is a gluton.",
+            "type": "VTL|MD"
+          }
         }
       ],
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j6qe0h9q", "page": "18", "label": "\"III - Characters\"" }
+        "sequence": {
+          "id": "j6qe0h9q",
+          "page": "19",
+          "label": { "value": "\"III - \" || \"Characters\"", "type": "VTL|MD" }
+        }
       },
       "missingResponse": { "name": "ICE_FLAVOUR_MISSING" },
       "bindingDependencies": [
@@ -613,17 +900,17 @@
         "ICE_FLAVOUR3",
         "ICE_FLAVOUR4"
       ],
-      "cells": [
+      "body": [
         [
-          { "value": "1", "label": "\"Vanilla\"" },
+          { "value": "1", "label": { "value": "Vanilla", "type": "VTL|MD" } },
 
           {
             "componentType": "Radio",
             "id": "j6p29i81-QOP-kiq5w99y",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
+              { "value": "1", "label": { "value": "Yes", "type": "VTL|MD" } },
 
-              { "value": "0", "label": "\"No\"" }
+              { "value": "0", "label": { "value": "No", "type": "VTL|MD" } }
             ],
             "response": { "name": "ICE_FLAVOUR1" },
             "bindingDependencies": ["ICE_FLAVOUR1"]
@@ -631,15 +918,15 @@
         ],
 
         [
-          { "value": "2", "label": "\"Strawberry\"" },
+          { "value": "2", "label": { "value": "Strawberry", "type": "VTL|MD" } },
 
           {
             "componentType": "Radio",
             "id": "j6p29i81-QOP-kiq5ummf",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
+              { "value": "1", "label": { "value": "Yes", "type": "VTL|MD" } },
 
-              { "value": "0", "label": "\"No\"" }
+              { "value": "0", "label": { "value": "No", "type": "VTL|MD" } }
             ],
             "response": { "name": "ICE_FLAVOUR2" },
             "bindingDependencies": ["ICE_FLAVOUR2"]
@@ -647,15 +934,15 @@
         ],
 
         [
-          { "value": "3", "label": "\"Apple\"" },
+          { "value": "3", "label": { "value": "Apple", "type": "VTL|MD" } },
 
           {
             "componentType": "Radio",
             "id": "j6p29i81-QOP-kiq5mry5",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
+              { "value": "1", "label": { "value": "Yes", "type": "VTL|MD" } },
 
-              { "value": "0", "label": "\"No\"" }
+              { "value": "0", "label": { "value": "No", "type": "VTL|MD" } }
             ],
             "response": { "name": "ICE_FLAVOUR3" },
             "bindingDependencies": ["ICE_FLAVOUR3"]
@@ -663,15 +950,15 @@
         ],
 
         [
-          { "value": "OT", "label": "\"Other flavour\"" },
+          { "value": "OT", "label": { "value": "Other flavour", "type": "VTL|MD" } },
 
           {
             "componentType": "Radio",
             "id": "j6p29i81-QOP-kiq5lkr8",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
+              { "value": "1", "label": { "value": "Yes", "type": "VTL|MD" } },
 
-              { "value": "0", "label": "\"No\"" }
+              { "value": "0", "label": { "value": "No", "type": "VTL|MD" } }
             ],
             "response": { "name": "ICE_FLAVOUR4" },
             "bindingDependencies": ["ICE_FLAVOUR4"]
@@ -684,15 +971,19 @@
       "id": "j6qefnga",
       "componentType": "Table",
       "mandatory": false,
-      "page": "21",
+      "page": "22",
       "positioning": "HORIZONTAL",
-      "label": "\"Which character works in the nuclear power plant?\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
+      "label": {
+        "value": "\"Which character works in the nuclear power plant?\"",
+        "type": "VTL|MD"
       },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j6qe0h9q", "page": "18", "label": "\"III - Characters\"" }
+        "sequence": {
+          "id": "j6qe0h9q",
+          "page": "19",
+          "label": { "value": "\"III - \" || \"Characters\"", "type": "VTL|MD" }
+        }
       },
       "missingResponse": { "name": "NUCLEAR_CHARACTER_MISSING" },
       "bindingDependencies": [
@@ -702,17 +993,17 @@
         "NUCLEAR_CHARACTER3",
         "NUCLEAR_CHARACTER4"
       ],
-      "cells": [
+      "body": [
         [
-          { "value": "1", "label": "\"Charles Montgomery Burns\"" },
+          { "value": "1", "label": { "value": "Charles Montgomery Burns", "type": "VTL|MD" } },
 
           {
             "componentType": "Dropdown",
             "id": "j6qefnga-QOP-kewva8xg",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
+              { "value": "1", "label": { "value": "Yes", "type": "VTL|MD" } },
 
-              { "value": "0", "label": "\"No\"" }
+              { "value": "0", "label": { "value": "No", "type": "VTL|MD" } }
             ],
             "response": { "name": "NUCLEAR_CHARACTER1" },
             "bindingDependencies": ["NUCLEAR_CHARACTER1"]
@@ -720,15 +1011,15 @@
         ],
 
         [
-          { "value": "2", "label": "\"Carl Carlson\"" },
+          { "value": "2", "label": { "value": "Carl Carlson", "type": "VTL|MD" } },
 
           {
             "componentType": "Dropdown",
             "id": "j6qefnga-QOP-kewvj0ad",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
+              { "value": "1", "label": { "value": "Yes", "type": "VTL|MD" } },
 
-              { "value": "0", "label": "\"No\"" }
+              { "value": "0", "label": { "value": "No", "type": "VTL|MD" } }
             ],
             "response": { "name": "NUCLEAR_CHARACTER2" },
             "bindingDependencies": ["NUCLEAR_CHARACTER2"]
@@ -736,15 +1027,15 @@
         ],
 
         [
-          { "value": "3", "label": "\"Otto Mann\"" },
+          { "value": "3", "label": { "value": "Otto Mann", "type": "VTL|MD" } },
 
           {
             "componentType": "Dropdown",
             "id": "j6qefnga-QOP-kewveltm",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
+              { "value": "1", "label": { "value": "Yes", "type": "VTL|MD" } },
 
-              { "value": "0", "label": "\"No\"" }
+              { "value": "0", "label": { "value": "No", "type": "VTL|MD" } }
             ],
             "response": { "name": "NUCLEAR_CHARACTER3" },
             "bindingDependencies": ["NUCLEAR_CHARACTER3"]
@@ -752,15 +1043,15 @@
         ],
 
         [
-          { "value": "4", "label": "\"Lenny Leonard\"" },
+          { "value": "4", "label": { "value": "Lenny Leonard", "type": "VTL|MD" } },
 
           {
             "componentType": "Dropdown",
             "id": "j6qefnga-QOP-kewvgax4",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
+              { "value": "1", "label": { "value": "Yes", "type": "VTL|MD" } },
 
-              { "value": "0", "label": "\"No\"" }
+              { "value": "0", "label": { "value": "No", "type": "VTL|MD" } }
             ],
             "response": { "name": "NUCLEAR_CHARACTER4" },
             "bindingDependencies": ["NUCLEAR_CHARACTER4"]
@@ -773,15 +1064,16 @@
       "id": "j6yzoc6g",
       "componentType": "Table",
       "mandatory": false,
-      "page": "22",
+      "page": "23",
       "positioning": "HORIZONTAL",
-      "label": "\"In which city each character was born?\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "label": { "value": "\"In which city each character was born?\"", "type": "VTL|MD" },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j6qe0h9q", "page": "18", "label": "\"III - Characters\"" }
+        "sequence": {
+          "id": "j6qe0h9q",
+          "page": "19",
+          "label": { "value": "\"III - \" || \"Characters\"", "type": "VTL|MD" }
+        }
       },
       "missingResponse": { "name": "BIRTH_CHARACTER_MISSING" },
       "bindingDependencies": [
@@ -792,23 +1084,23 @@
         "BIRTH_CHARACTER4",
         "BIRTH_CHARACTER5"
       ],
-      "cells": [
+      "body": [
         [
-          { "value": "1", "label": "\"Selma Bouvier\"" },
+          { "value": "1", "label": { "value": "Selma Bouvier", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxOne",
             "id": "j6yzoc6g-QOP-kewvjvcs",
             "options": [
-              { "value": "1", "label": "\"Albuquerque\"" },
+              { "value": "1", "label": { "value": "Albuquerque", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"Springfield\"" },
+              { "value": "2", "label": { "value": "Springfield", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Portland\"" },
+              { "value": "3", "label": { "value": "Portland", "type": "VTL|MD" } },
 
-              { "value": "4", "label": "\"Shelbyville\"" },
+              { "value": "4", "label": { "value": "Shelbyville", "type": "VTL|MD" } },
 
-              { "value": "5", "label": "\"Dagstuhl\"" }
+              { "value": "5", "label": { "value": "Dagstuhl", "type": "VTL|MD" } }
             ],
             "response": { "name": "BIRTH_CHARACTER1" },
             "bindingDependencies": ["BIRTH_CHARACTER1"]
@@ -816,21 +1108,21 @@
         ],
 
         [
-          { "value": "2", "label": "\"Kent Brockman\"" },
+          { "value": "2", "label": { "value": "Kent Brockman", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxOne",
             "id": "j6yzoc6g-QOP-kewvhoda",
             "options": [
-              { "value": "1", "label": "\"Albuquerque\"" },
+              { "value": "1", "label": { "value": "Albuquerque", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"Springfield\"" },
+              { "value": "2", "label": { "value": "Springfield", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Portland\"" },
+              { "value": "3", "label": { "value": "Portland", "type": "VTL|MD" } },
 
-              { "value": "4", "label": "\"Shelbyville\"" },
+              { "value": "4", "label": { "value": "Shelbyville", "type": "VTL|MD" } },
 
-              { "value": "5", "label": "\"Dagstuhl\"" }
+              { "value": "5", "label": { "value": "Dagstuhl", "type": "VTL|MD" } }
             ],
             "response": { "name": "BIRTH_CHARACTER2" },
             "bindingDependencies": ["BIRTH_CHARACTER2"]
@@ -838,21 +1130,21 @@
         ],
 
         [
-          { "value": "3", "label": "\"Milhouse Van Houten\"" },
+          { "value": "3", "label": { "value": "Milhouse Van Houten", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxOne",
             "id": "j6yzoc6g-QOP-kewv64s5",
             "options": [
-              { "value": "1", "label": "\"Albuquerque\"" },
+              { "value": "1", "label": { "value": "Albuquerque", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"Springfield\"" },
+              { "value": "2", "label": { "value": "Springfield", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Portland\"" },
+              { "value": "3", "label": { "value": "Portland", "type": "VTL|MD" } },
 
-              { "value": "4", "label": "\"Shelbyville\"" },
+              { "value": "4", "label": { "value": "Shelbyville", "type": "VTL|MD" } },
 
-              { "value": "5", "label": "\"Dagstuhl\"" }
+              { "value": "5", "label": { "value": "Dagstuhl", "type": "VTL|MD" } }
             ],
             "response": { "name": "BIRTH_CHARACTER3" },
             "bindingDependencies": ["BIRTH_CHARACTER3"]
@@ -860,21 +1152,21 @@
         ],
 
         [
-          { "value": "4", "label": "\"Nelson Muntz\"" },
+          { "value": "4", "label": { "value": "Nelson Muntz", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxOne",
             "id": "j6yzoc6g-QOP-kewvj21j",
             "options": [
-              { "value": "1", "label": "\"Albuquerque\"" },
+              { "value": "1", "label": { "value": "Albuquerque", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"Springfield\"" },
+              { "value": "2", "label": { "value": "Springfield", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Portland\"" },
+              { "value": "3", "label": { "value": "Portland", "type": "VTL|MD" } },
 
-              { "value": "4", "label": "\"Shelbyville\"" },
+              { "value": "4", "label": { "value": "Shelbyville", "type": "VTL|MD" } },
 
-              { "value": "5", "label": "\"Dagstuhl\"" }
+              { "value": "5", "label": { "value": "Dagstuhl", "type": "VTL|MD" } }
             ],
             "response": { "name": "BIRTH_CHARACTER4" },
             "bindingDependencies": ["BIRTH_CHARACTER4"]
@@ -882,21 +1174,21 @@
         ],
 
         [
-          { "value": "5", "label": "\"Crazy Cat Lady\"" },
+          { "value": "5", "label": { "value": "Crazy Cat Lady", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxOne",
             "id": "j6yzoc6g-QOP-kewva5uf",
             "options": [
-              { "value": "1", "label": "\"Albuquerque\"" },
+              { "value": "1", "label": { "value": "Albuquerque", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"Springfield\"" },
+              { "value": "2", "label": { "value": "Springfield", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Portland\"" },
+              { "value": "3", "label": { "value": "Portland", "type": "VTL|MD" } },
 
-              { "value": "4", "label": "\"Shelbyville\"" },
+              { "value": "4", "label": { "value": "Shelbyville", "type": "VTL|MD" } },
 
-              { "value": "5", "label": "\"Dagstuhl\"" }
+              { "value": "5", "label": { "value": "Dagstuhl", "type": "VTL|MD" } }
             ],
             "response": { "name": "BIRTH_CHARACTER5" },
             "bindingDependencies": ["BIRTH_CHARACTER5"]
@@ -908,29 +1200,35 @@
     {
       "id": "j4nw88h2",
       "componentType": "Sequence",
-      "page": "23",
-      "label": "\"IV - General questions\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "page": "24",
+      "label": { "value": "\"IV - \" || \"General questions\"", "type": "VTL|MD" },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j4nw88h2", "page": "23", "label": "\"IV - General questions\"" }
+        "sequence": {
+          "id": "j4nw88h2",
+          "page": "24",
+          "label": { "value": "\"IV - \" || \"General questions\"", "type": "VTL|MD" }
+        }
       }
     },
 
     {
       "id": "j6qe237q",
       "componentType": "Subsequence",
-      "goToPage": "24",
-      "label": "\"Kwik-E-Mart\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "goToPage": "25",
+      "label": { "value": "Kwik-E-Mart", "type": "VTL|MD" },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j4nw88h2", "page": "23", "label": "\"IV - General questions\"" },
-        "subSequence": { "id": "j6qe237q", "page": "24", "label": "\"Kwik-E-Mart\"" }
+        "sequence": {
+          "id": "j4nw88h2",
+          "page": "24",
+          "label": { "value": "\"IV - \" || \"General questions\"", "type": "VTL|MD" }
+        },
+        "subSequence": {
+          "id": "j6qe237q",
+          "page": "25",
+          "label": { "value": "Kwik-E-Mart", "type": "VTL|MD" }
+        }
       }
     },
 
@@ -938,19 +1236,264 @@
       "id": "j4nwc63q",
       "componentType": "Table",
       "mandatory": false,
-      "page": "24",
+      "page": "25",
       "positioning": "HORIZONTAL",
-      "label": "\"Please, specify the percentage of Jay’s expenses in the Kwik-E-Mart for each product?\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
+      "label": {
+        "value": "\"Please, specify the percentage of Jay’s expenses in the Kwik-E-Mart for each product?\"",
+        "type": "VTL|MD"
       },
+      "declarations": [
+        {
+          "id": "j4nwc63q-kvl4c90v",
+          "declarationType": "HELP",
+          "position": "AFTER_QUESTION_TEXT",
+          "label": {
+            "value": "\"Sum of percentages - except Total \" || cast(SUM_EXPENSES,string)",
+            "type": "VTL|MD"
+          }
+        }
+      ],
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "controls": [
+        {
+          "id": "j4nwc63q-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(PERCENTAGE_EXPENSES11)) and (0>PERCENTAGE_EXPENSES11 or 100<PERCENTAGE_EXPENSES11))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "j4nwc63q-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(PERCENTAGE_EXPENSES11))  and round(PERCENTAGE_EXPENSES11,0)<>PERCENTAGE_EXPENSES11)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "j4nwc63q-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(PERCENTAGE_EXPENSES21)) and (0>PERCENTAGE_EXPENSES21 or 100<PERCENTAGE_EXPENSES21))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "j4nwc63q-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(PERCENTAGE_EXPENSES21))  and round(PERCENTAGE_EXPENSES21,0)<>PERCENTAGE_EXPENSES21)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "j4nwc63q-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(PERCENTAGE_EXPENSES31)) and (0>PERCENTAGE_EXPENSES31 or 100<PERCENTAGE_EXPENSES31))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "j4nwc63q-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(PERCENTAGE_EXPENSES31))  and round(PERCENTAGE_EXPENSES31,0)<>PERCENTAGE_EXPENSES31)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "j4nwc63q-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(PERCENTAGE_EXPENSES41)) and (0>PERCENTAGE_EXPENSES41 or 100<PERCENTAGE_EXPENSES41))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "j4nwc63q-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(PERCENTAGE_EXPENSES41))  and round(PERCENTAGE_EXPENSES41,0)<>PERCENTAGE_EXPENSES41)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "j4nwc63q-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(PERCENTAGE_EXPENSES51)) and (0>PERCENTAGE_EXPENSES51 or 100<PERCENTAGE_EXPENSES51))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "j4nwc63q-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(PERCENTAGE_EXPENSES51))  and round(PERCENTAGE_EXPENSES51,0)<>PERCENTAGE_EXPENSES51)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "j4nwc63q-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(PERCENTAGE_EXPENSES61)) and (0>PERCENTAGE_EXPENSES61 or 100<PERCENTAGE_EXPENSES61))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "j4nwc63q-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(PERCENTAGE_EXPENSES61))  and round(PERCENTAGE_EXPENSES61,0)<>PERCENTAGE_EXPENSES61)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "j4nwc63q-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(PERCENTAGE_EXPENSES71)) and (0>PERCENTAGE_EXPENSES71 or 100<PERCENTAGE_EXPENSES71))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "j4nwc63q-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(PERCENTAGE_EXPENSES71))  and round(PERCENTAGE_EXPENSES71,0)<>PERCENTAGE_EXPENSES71)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "j4nwc63q-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(PERCENTAGE_EXPENSES81)) and (0>PERCENTAGE_EXPENSES81 or 100<PERCENTAGE_EXPENSES81))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "j4nwc63q-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(PERCENTAGE_EXPENSES81))  and round(PERCENTAGE_EXPENSES81,0)<>PERCENTAGE_EXPENSES81)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        }
+      ],
       "hierarchy": {
-        "sequence": { "id": "j4nw88h2", "page": "23", "label": "\"IV - General questions\"" },
-        "subSequence": { "id": "j6qe237q", "page": "24", "label": "\"Kwik-E-Mart\"" }
+        "sequence": {
+          "id": "j4nw88h2",
+          "page": "24",
+          "label": { "value": "\"IV - \" || \"General questions\"", "type": "VTL|MD" }
+        },
+        "subSequence": {
+          "id": "j6qe237q",
+          "page": "25",
+          "label": { "value": "Kwik-E-Mart", "type": "VTL|MD" }
+        }
       },
       "missingResponse": { "name": "PERCENTAGE_EXPENSES_MISSING" },
       "bindingDependencies": [
+        "SUM_EXPENSES",
         "PERCENTAGE_EXPENSES_MISSING",
         "PERCENTAGE_EXPENSES11",
         "PERCENTAGE_EXPENSES21",
@@ -958,26 +1501,26 @@
         "PERCENTAGE_EXPENSES41",
         "PERCENTAGE_EXPENSES51",
         "PERCENTAGE_EXPENSES61",
-        "PERCENTAGE_EXPENSES71"
+        "PERCENTAGE_EXPENSES71",
+        "PERCENTAGE_EXPENSES81"
       ],
-      "cells": [
+      "header": [
+        { "colspan": 2, "label": { "value": "", "type": "VTL|MD" } },
+
+        { "label": { "value": "Percentage", "type": "VTL|MD" } }
+      ],
+      "body": [
         [
-          { "headerCell": true, "colspan": 2, "label": "" },
+          { "rowspan": 2, "value": "A", "label": { "value": "Frozen products", "type": "VTL|MD" } },
 
-          { "headerCell": true, "label": "\"Percentage\"" }
-        ],
-
-        [
-          { "rowspan": 2, "value": "A", "label": "\"Frozen products\"" },
-
-          { "value": "A1", "label": "\"Ice creams\"" },
+          { "value": "A1", "label": { "value": "Ice creams", "type": "VTL|MD" } },
 
           {
             "componentType": "InputNumber",
             "min": 0,
             "max": 100,
-            "decimals": 1,
-            "id": "j4nwc63q-QOP-kewv2h3o",
+            "decimals": 0,
+            "id": "j4nwc63q-QOP-kvl2c85m",
             "unit": "%",
             "response": { "name": "PERCENTAGE_EXPENSES11" },
             "bindingDependencies": ["PERCENTAGE_EXPENSES11"]
@@ -985,14 +1528,14 @@
         ],
 
         [
-          { "value": "A2", "label": "\"Jasper Beardly\"" },
+          { "value": "A2", "label": { "value": "Jasper Beardly", "type": "VTL|MD" } },
 
           {
             "componentType": "InputNumber",
             "min": 0,
             "max": 100,
-            "decimals": 1,
-            "id": "j4nwc63q-QOP-kewvka2j",
+            "decimals": 0,
+            "id": "j4nwc63q-QOP-kvl1z84g",
             "unit": "%",
             "response": { "name": "PERCENTAGE_EXPENSES21" },
             "bindingDependencies": ["PERCENTAGE_EXPENSES21"]
@@ -1000,16 +1543,16 @@
         ],
 
         [
-          { "rowspan": 3, "value": "B", "label": "\"Meat\"" },
+          { "rowspan": 3, "value": "B", "label": { "value": "Meat", "type": "VTL|MD" } },
 
-          { "value": "B1", "label": "\"Bacon\"" },
+          { "value": "B1", "label": { "value": "Bacon", "type": "VTL|MD" } },
 
           {
             "componentType": "InputNumber",
             "min": 0,
             "max": 100,
-            "decimals": 1,
-            "id": "j4nwc63q-QOP-kewv1f2a",
+            "decimals": 0,
+            "id": "j4nwc63q-QOP-kvl23geb",
             "unit": "%",
             "response": { "name": "PERCENTAGE_EXPENSES31" },
             "bindingDependencies": ["PERCENTAGE_EXPENSES31"]
@@ -1017,14 +1560,14 @@
         ],
 
         [
-          { "value": "B2", "label": "\"Pork chop\"" },
+          { "value": "B2", "label": { "value": "Pork chop", "type": "VTL|MD" } },
 
           {
             "componentType": "InputNumber",
             "min": 0,
             "max": 100,
-            "decimals": 1,
-            "id": "j4nwc63q-QOP-kewvb2ql",
+            "decimals": 0,
+            "id": "j4nwc63q-QOP-kvl25fb5",
             "unit": "%",
             "response": { "name": "PERCENTAGE_EXPENSES41" },
             "bindingDependencies": ["PERCENTAGE_EXPENSES41"]
@@ -1032,14 +1575,14 @@
         ],
 
         [
-          { "value": "B3", "label": "\"Chicken\"" },
+          { "value": "B3", "label": { "value": "Chicken", "type": "VTL|MD" } },
 
           {
             "componentType": "InputNumber",
             "min": 0,
             "max": 100,
-            "decimals": 1,
-            "id": "j4nwc63q-QOP-kewvbxla",
+            "decimals": 0,
+            "id": "j4nwc63q-QOP-kvl2dhtr",
             "unit": "%",
             "response": { "name": "PERCENTAGE_EXPENSES51" },
             "bindingDependencies": ["PERCENTAGE_EXPENSES51"]
@@ -1047,16 +1590,16 @@
         ],
 
         [
-          { "value": "C", "label": "\"Compote\"" },
+          { "value": "C", "label": { "value": "Compote", "type": "VTL|MD" } },
 
-          { "value": "C1", "label": "\"Powersauce\"" },
+          { "value": "C1", "label": { "value": "Powersauce", "type": "VTL|MD" } },
 
           {
             "componentType": "InputNumber",
             "min": 0,
             "max": 100,
-            "decimals": 1,
-            "id": "j4nwc63q-QOP-kewvkjp0",
+            "decimals": 0,
+            "id": "j4nwc63q-QOP-kvl26psd",
             "unit": "%",
             "response": { "name": "PERCENTAGE_EXPENSES61" },
             "bindingDependencies": ["PERCENTAGE_EXPENSES61"]
@@ -1064,21 +1607,34 @@
         ],
 
         [
-          { "colspan": 2, "value": "D", "label": "\"Other\"" },
+          { "colspan": 2, "value": "D", "label": { "value": "Other", "type": "VTL|MD" } },
 
           {
             "componentType": "InputNumber",
             "min": 0,
             "max": 100,
-            "decimals": 1,
-            "id": "j4nwc63q-QOP-kewv2cyx",
+            "decimals": 0,
+            "id": "j4nwc63q-QOP-kvl1ydfp",
             "unit": "%",
             "response": { "name": "PERCENTAGE_EXPENSES71" },
             "bindingDependencies": ["PERCENTAGE_EXPENSES71"]
           }
         ],
 
-        [{ "colspan": 2, "value": "E", "label": "\"Total\"" }, { "headerCell": false }]
+        [
+          { "colspan": 2, "value": "E", "label": { "value": "Total", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "j4nwc63q-QOP-kvl2gx8k",
+            "unit": "%",
+            "response": { "name": "PERCENTAGE_EXPENSES81" },
+            "bindingDependencies": ["PERCENTAGE_EXPENSES81"]
+          }
+        ]
       ]
     },
 
@@ -1086,16 +1642,24 @@
       "id": "k9cg2q5t",
       "componentType": "Table",
       "mandatory": false,
-      "page": "25",
+      "page": "26",
       "positioning": "HORIZONTAL",
-      "label": "\"Please specify if Jay has bought each product in his last food shopping\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
+      "label": {
+        "value": "\"Please specify if Jay has bought each product in his last food shopping\"",
+        "type": "VTL|MD"
       },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j4nw88h2", "page": "23", "label": "\"IV - General questions\"" },
-        "subSequence": { "id": "j6qe237q", "page": "24", "label": "\"Kwik-E-Mart\"" }
+        "sequence": {
+          "id": "j4nw88h2",
+          "page": "24",
+          "label": { "value": "\"IV - \" || \"General questions\"", "type": "VTL|MD" }
+        },
+        "subSequence": {
+          "id": "j6qe237q",
+          "page": "25",
+          "label": { "value": "Kwik-E-Mart", "type": "VTL|MD" }
+        }
       },
       "missingResponse": { "name": "LAST_FOOD_SHOPPING_MISSING" },
       "bindingDependencies": [
@@ -1109,27 +1673,26 @@
         "LAST_FOOD_SHOPPING71",
         "LAST_FOOD_SHOPPING81"
       ],
-      "cells": [
+      "header": [
+        { "colspan": 2, "label": { "value": "", "type": "VTL|MD" } },
+
+        { "label": { "value": "In his last food shopping", "type": "VTL|MD" } }
+      ],
+      "body": [
         [
-          { "headerCell": true, "colspan": 2, "label": "" },
+          { "rowspan": 2, "value": "A", "label": { "value": "Frozen products", "type": "VTL|MD" } },
 
-          { "headerCell": true, "label": "\"In his last food shopping\"" }
-        ],
-
-        [
-          { "rowspan": 2, "value": "A", "label": "\"Frozen products\"" },
-
-          { "value": "A1", "label": "\"Ice creams\"" },
+          { "value": "A1", "label": { "value": "Ice creams", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxOne",
             "id": "k9cg2q5t-QOP-kiq6pljq",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
+              { "value": "1", "label": { "value": "Yes", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"No\"" },
+              { "value": "2", "label": { "value": "No", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Other\"" }
+              { "value": "3", "label": { "value": "Other", "type": "VTL|MD" } }
             ],
             "response": { "name": "LAST_FOOD_SHOPPING11" },
             "bindingDependencies": ["LAST_FOOD_SHOPPING11"]
@@ -1137,17 +1700,17 @@
         ],
 
         [
-          { "value": "A2", "label": "\"Jasper Beardly\"" },
+          { "value": "A2", "label": { "value": "Jasper Beardly", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxOne",
             "id": "k9cg2q5t-QOP-kiq6mgpv",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
+              { "value": "1", "label": { "value": "Yes", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"No\"" },
+              { "value": "2", "label": { "value": "No", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Other\"" }
+              { "value": "3", "label": { "value": "Other", "type": "VTL|MD" } }
             ],
             "response": { "name": "LAST_FOOD_SHOPPING21" },
             "bindingDependencies": ["LAST_FOOD_SHOPPING21"]
@@ -1155,19 +1718,19 @@
         ],
 
         [
-          { "rowspan": 3, "value": "B", "label": "\"Meat\"" },
+          { "rowspan": 3, "value": "B", "label": { "value": "Meat", "type": "VTL|MD" } },
 
-          { "value": "B1", "label": "\"Bacon\"" },
+          { "value": "B1", "label": { "value": "Bacon", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxOne",
             "id": "k9cg2q5t-QOP-kiq6pmtz",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
+              { "value": "1", "label": { "value": "Yes", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"No\"" },
+              { "value": "2", "label": { "value": "No", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Other\"" }
+              { "value": "3", "label": { "value": "Other", "type": "VTL|MD" } }
             ],
             "response": { "name": "LAST_FOOD_SHOPPING31" },
             "bindingDependencies": ["LAST_FOOD_SHOPPING31"]
@@ -1175,17 +1738,17 @@
         ],
 
         [
-          { "value": "B2", "label": "\"Pork chop\"" },
+          { "value": "B2", "label": { "value": "Pork chop", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxOne",
             "id": "k9cg2q5t-QOP-kiq6k4lf",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
+              { "value": "1", "label": { "value": "Yes", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"No\"" },
+              { "value": "2", "label": { "value": "No", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Other\"" }
+              { "value": "3", "label": { "value": "Other", "type": "VTL|MD" } }
             ],
             "response": { "name": "LAST_FOOD_SHOPPING41" },
             "bindingDependencies": ["LAST_FOOD_SHOPPING41"]
@@ -1193,17 +1756,17 @@
         ],
 
         [
-          { "value": "B3", "label": "\"Chicken\"" },
+          { "value": "B3", "label": { "value": "Chicken", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxOne",
             "id": "k9cg2q5t-QOP-kiq6p70n",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
+              { "value": "1", "label": { "value": "Yes", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"No\"" },
+              { "value": "2", "label": { "value": "No", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Other\"" }
+              { "value": "3", "label": { "value": "Other", "type": "VTL|MD" } }
             ],
             "response": { "name": "LAST_FOOD_SHOPPING51" },
             "bindingDependencies": ["LAST_FOOD_SHOPPING51"]
@@ -1211,19 +1774,19 @@
         ],
 
         [
-          { "value": "C", "label": "\"Compote\"" },
+          { "value": "C", "label": { "value": "Compote", "type": "VTL|MD" } },
 
-          { "value": "C1", "label": "\"Powersauce\"" },
+          { "value": "C1", "label": { "value": "Powersauce", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxOne",
             "id": "k9cg2q5t-QOP-kiq6lh5v",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
+              { "value": "1", "label": { "value": "Yes", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"No\"" },
+              { "value": "2", "label": { "value": "No", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Other\"" }
+              { "value": "3", "label": { "value": "Other", "type": "VTL|MD" } }
             ],
             "response": { "name": "LAST_FOOD_SHOPPING61" },
             "bindingDependencies": ["LAST_FOOD_SHOPPING61"]
@@ -1231,17 +1794,17 @@
         ],
 
         [
-          { "colspan": 2, "value": "D", "label": "\"Other\"" },
+          { "colspan": 2, "value": "D", "label": { "value": "Other", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxOne",
             "id": "k9cg2q5t-QOP-kiq703te",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
+              { "value": "1", "label": { "value": "Yes", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"No\"" },
+              { "value": "2", "label": { "value": "No", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Other\"" }
+              { "value": "3", "label": { "value": "Other", "type": "VTL|MD" } }
             ],
             "response": { "name": "LAST_FOOD_SHOPPING71" },
             "bindingDependencies": ["LAST_FOOD_SHOPPING71"]
@@ -1249,17 +1812,17 @@
         ],
 
         [
-          { "colspan": 2, "value": "E", "label": "\"Total\"" },
+          { "colspan": 2, "value": "E", "label": { "value": "Total", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxOne",
             "id": "k9cg2q5t-QOP-kiq6zpd3",
             "options": [
-              { "value": "1", "label": "\"Yes\"" },
+              { "value": "1", "label": { "value": "Yes", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"No\"" },
+              { "value": "2", "label": { "value": "No", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Other\"" }
+              { "value": "3", "label": { "value": "Other", "type": "VTL|MD" } }
             ],
             "response": { "name": "LAST_FOOD_SHOPPING81" },
             "bindingDependencies": ["LAST_FOOD_SHOPPING81"]
@@ -1271,15 +1834,20 @@
     {
       "id": "j6qejudb",
       "componentType": "Subsequence",
-      "goToPage": "26",
-      "label": "\"Clowning\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "goToPage": "27",
+      "label": { "value": "Clowning", "type": "VTL|MD" },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j4nw88h2", "page": "23", "label": "\"IV - General questions\"" },
-        "subSequence": { "id": "j6qejudb", "page": "26", "label": "\"Clowning\"" }
+        "sequence": {
+          "id": "j4nw88h2",
+          "page": "24",
+          "label": { "value": "\"IV - \" || \"General questions\"", "type": "VTL|MD" }
+        },
+        "subSequence": {
+          "id": "j6qejudb",
+          "page": "27",
+          "label": { "value": "Clowning", "type": "VTL|MD" }
+        }
       }
     },
 
@@ -1287,16 +1855,24 @@
       "id": "kbkjvgel",
       "componentType": "Table",
       "mandatory": false,
-      "page": "26",
+      "page": "27",
       "positioning": "HORIZONTAL",
-      "label": "\"Who did these clownings and tell us what you remember?\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
+      "label": {
+        "value": "\"Who did these clownings and tell us what you remember?\"",
+        "type": "VTL|MD"
       },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j4nw88h2", "page": "23", "label": "\"IV - General questions\"" },
-        "subSequence": { "id": "j6qejudb", "page": "26", "label": "\"Clowning\"" }
+        "sequence": {
+          "id": "j4nw88h2",
+          "page": "24",
+          "label": { "value": "\"IV - \" || \"General questions\"", "type": "VTL|MD" }
+        },
+        "subSequence": {
+          "id": "j6qejudb",
+          "page": "27",
+          "label": { "value": "Clowning", "type": "VTL|MD" }
+        }
       },
       "missingResponse": { "name": "CLOWNING_MISSING" },
       "bindingDependencies": [
@@ -1310,29 +1886,31 @@
         "CLOWNING41",
         "CLOWNING42"
       ],
-      "cells": [
+      "header": [
+        { "label": { "value": "", "type": "VTL|MD" } },
+
+        { "label": { "value": "Clowning", "type": "VTL|MD" } },
+
+        { "label": { "value": "Remember?", "type": "VTL|MD" } }
+      ],
+      "body": [
         [
-          { "headerCell": true, "label": "" },
-
-          { "headerCell": true, "label": "\"Clowning\"" },
-
-          { "headerCell": true, "label": "\"Remember?\"" }
-        ],
-
-        [
-          { "value": "1", "label": "\"Break the windows of the whole city\"" },
+          {
+            "value": "1",
+            "label": { "value": "Break the windows of the whole city", "type": "VTL|MD" }
+          },
 
           {
             "componentType": "Dropdown",
             "id": "kbkjvgel-QOP-kiq6m5n0",
             "options": [
-              { "value": "1", "label": "\"Jay\"" },
+              { "value": "1", "label": { "value": "Jay", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"Bart\"" },
+              { "value": "2", "label": { "value": "Bart", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Krusty the clown\"" },
+              { "value": "3", "label": { "value": "Krusty the clown", "type": "VTL|MD" } },
 
-              { "value": "O", "label": "\"Other\"" }
+              { "value": "O", "label": { "value": "Other", "type": "VTL|MD" } }
             ],
             "response": { "name": "CLOWNING11" },
             "bindingDependencies": ["CLOWNING11"]
@@ -1348,19 +1926,22 @@
         ],
 
         [
-          { "value": "2", "label": "\"Loose the violin of his daughter playing poker\"" },
+          {
+            "value": "2",
+            "label": { "value": "Loose the violin of his daughter playing poker", "type": "VTL|MD" }
+          },
 
           {
             "componentType": "Dropdown",
             "id": "kbkjvgel-QOP-kiq6l29o",
             "options": [
-              { "value": "1", "label": "\"Jay\"" },
+              { "value": "1", "label": { "value": "Jay", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"Bart\"" },
+              { "value": "2", "label": { "value": "Bart", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Krusty the clown\"" },
+              { "value": "3", "label": { "value": "Krusty the clown", "type": "VTL|MD" } },
 
-              { "value": "O", "label": "\"Other\"" }
+              { "value": "O", "label": { "value": "Other", "type": "VTL|MD" } }
             ],
             "response": { "name": "CLOWNING21" },
             "bindingDependencies": ["CLOWNING21"]
@@ -1376,19 +1957,19 @@
         ],
 
         [
-          { "value": "3", "label": "\"Kill Mr Burns\"" },
+          { "value": "3", "label": { "value": "Kill Mr Burns", "type": "VTL|MD" } },
 
           {
             "componentType": "Dropdown",
             "id": "kbkjvgel-QOP-kiq72biw",
             "options": [
-              { "value": "1", "label": "\"Jay\"" },
+              { "value": "1", "label": { "value": "Jay", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"Bart\"" },
+              { "value": "2", "label": { "value": "Bart", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Krusty the clown\"" },
+              { "value": "3", "label": { "value": "Krusty the clown", "type": "VTL|MD" } },
 
-              { "value": "O", "label": "\"Other\"" }
+              { "value": "O", "label": { "value": "Other", "type": "VTL|MD" } }
             ],
             "response": { "name": "CLOWNING31" },
             "bindingDependencies": ["CLOWNING31"]
@@ -1406,20 +1987,23 @@
         [
           {
             "value": "4",
-            "label": "\"Leaving a mechanical object to control the nuclear power plant\""
+            "label": {
+              "value": "Leaving a mechanical object to control the nuclear power plant",
+              "type": "VTL|MD"
+            }
           },
 
           {
             "componentType": "Dropdown",
             "id": "kbkjvgel-QOP-kiq6mlan",
             "options": [
-              { "value": "1", "label": "\"Jay\"" },
+              { "value": "1", "label": { "value": "Jay", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"Bart\"" },
+              { "value": "2", "label": { "value": "Bart", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Krusty the clown\"" },
+              { "value": "3", "label": { "value": "Krusty the clown", "type": "VTL|MD" } },
 
-              { "value": "O", "label": "\"Other\"" }
+              { "value": "O", "label": { "value": "Other", "type": "VTL|MD" } }
             ],
             "response": { "name": "CLOWNING41" },
             "bindingDependencies": ["CLOWNING41"]
@@ -1439,15 +2023,20 @@
     {
       "id": "j6qeh91y",
       "componentType": "Subsequence",
-      "goToPage": "27",
-      "label": "\"Transport\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "goToPage": "28",
+      "label": { "value": "Transport", "type": "VTL|MD" },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j4nw88h2", "page": "23", "label": "\"IV - General questions\"" },
-        "subSequence": { "id": "j6qeh91y", "page": "27", "label": "\"Transport\"" }
+        "sequence": {
+          "id": "j4nw88h2",
+          "page": "24",
+          "label": { "value": "\"IV - \" || \"General questions\"", "type": "VTL|MD" }
+        },
+        "subSequence": {
+          "id": "j6qeh91y",
+          "page": "28",
+          "label": { "value": "Transport", "type": "VTL|MD" }
+        }
       }
     },
 
@@ -1455,24 +2044,35 @@
       "id": "j6p2lwuj",
       "componentType": "Table",
       "mandatory": false,
-      "page": "27",
+      "page": "28",
       "positioning": "HORIZONTAL",
-      "label": "\"Which of the following means of transport were used by the hero and in which country?\"",
+      "label": {
+        "value": "\"Which of the following means of transport were used by the hero and in which country?\"",
+        "type": "VTL|MD"
+      },
       "declarations": [
         {
           "id": "j6p2lwuj-d10",
-          "declarationType": "INSTRUCTION",
+          "declarationType": "HELP",
           "position": "AFTER_QUESTION_TEXT",
-          "label": "\"Several answers possible: check off all the relevant boxes\""
+          "label": {
+            "value": "Several answers possible: check off all the relevant boxes",
+            "type": "VTL|MD"
+          }
         }
       ],
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j4nw88h2", "page": "23", "label": "\"IV - General questions\"" },
-        "subSequence": { "id": "j6qeh91y", "page": "27", "label": "\"Transport\"" }
+        "sequence": {
+          "id": "j4nw88h2",
+          "page": "24",
+          "label": { "value": "\"IV - \" || \"General questions\"", "type": "VTL|MD" }
+        },
+        "subSequence": {
+          "id": "j6qeh91y",
+          "page": "28",
+          "label": { "value": "Transport", "type": "VTL|MD" }
+        }
       },
       "missingResponse": { "name": "TRAVEL_MISSING" },
       "bindingDependencies": [
@@ -1502,25 +2102,24 @@
         "TRAVEL45",
         "TRAVEL46"
       ],
-      "cells": [
+      "header": [
+        { "label": { "value": "", "type": "VTL|MD" } },
+
+        { "label": { "value": "Brazil", "type": "VTL|MD" } },
+
+        { "label": { "value": "Canada", "type": "VTL|MD" } },
+
+        { "label": { "value": "Japan", "type": "VTL|MD" } },
+
+        { "label": { "value": "France", "type": "VTL|MD" } },
+
+        { "label": { "value": "Other country", "type": "VTL|MD" } },
+
+        { "label": { "value": "Other planet", "type": "VTL|MD" } }
+      ],
+      "body": [
         [
-          { "headerCell": true, "label": "" },
-
-          { "headerCell": true, "label": "\"Brazil\"" },
-
-          { "headerCell": true, "label": "\"Canada\"" },
-
-          { "headerCell": true, "label": "\"Japan\"" },
-
-          { "headerCell": true, "label": "\"France\"" },
-
-          { "headerCell": true, "label": "\"Other country\"" },
-
-          { "headerCell": true, "label": "\"Other planet\"" }
-        ],
-
-        [
-          { "value": "1", "label": "\"Car\"" },
+          { "value": "1", "label": { "value": "Car", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxBoolean",
@@ -1566,7 +2165,7 @@
         ],
 
         [
-          { "value": "2", "label": "\"Bike\"" },
+          { "value": "2", "label": { "value": "Bike", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxBoolean",
@@ -1612,7 +2211,7 @@
         ],
 
         [
-          { "value": "3", "label": "\"Skateboard\"" },
+          { "value": "3", "label": { "value": "Skateboard", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxBoolean",
@@ -1658,7 +2257,7 @@
         ],
 
         [
-          { "value": "4", "label": "\"Plane\"" },
+          { "value": "4", "label": { "value": "Plane", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxBoolean",
@@ -1708,405 +2307,57 @@
     {
       "id": "j6qfx9qe",
       "componentType": "Sequence",
-      "page": "28",
-      "label": "\"V - Favourite characters (dynamic table)\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
+      "page": "29",
+      "label": {
+        "value": "\"V - \" || \"Favourite characters (dynamic table)\"",
+        "type": "VTL|MD"
       },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "j6qfx9qe",
-          "page": "28",
-          "label": "\"V - Favourite characters (dynamic table)\""
+          "page": "29",
+          "label": {
+            "value": "\"V - \" || \"Favourite characters (dynamic table)\"",
+            "type": "VTL|MD"
+          }
         }
       }
     },
 
     {
-      "id": "j6qg8rc6",
-      "componentType": "Table",
+      "id": "kvkvfojo",
+      "componentType": "RosterForLoop",
       "mandatory": false,
-      "page": "29",
+      "page": "30",
       "positioning": "HORIZONTAL",
-      "label": "\"Please, complete the following grid with your favourite characters\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
+      "label": {
+        "value": "\"Please, complete the following grid with your favourite characters (PLUS UN TABLEAU DYNAMIQUE)\"",
+        "type": "VTL|MD"
       },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "j6qfx9qe",
-          "page": "28",
-          "label": "\"V - Favourite characters (dynamic table)\""
+          "page": "29",
+          "label": {
+            "value": "\"V - \" || \"Favourite characters (dynamic table)\"",
+            "type": "VTL|MD"
+          }
         }
       },
       "missingResponse": { "name": "FAVOURITE_CHAR_MISSING" },
-      "bindingDependencies": [
-        "FAVOURITE_CHAR_MISSING",
-        "FAVOURITE_CHAR1",
-        "FAVOURITE_CHAR2",
-        "FAVOURITE_CHAR3",
-        "FAVOURITE_CHAR1_1_1",
-        "FAVOURITE_CHAR2_1_2",
-        "FAVOURITE_CHAR3_1_3",
-        "FAVOURITE_CHAR1_2_1",
-        "FAVOURITE_CHAR2_2_2",
-        "FAVOURITE_CHAR3_2_3",
-        "FAVOURITE_CHAR1_3_1",
-        "FAVOURITE_CHAR2_3_2",
-        "FAVOURITE_CHAR3_3_3",
-        "FAVOURITE_CHAR1_4_1",
-        "FAVOURITE_CHAR2_4_2",
-        "FAVOURITE_CHAR3_4_3",
-        "FAVOURITE_CHAR1_5_1",
-        "FAVOURITE_CHAR2_5_2",
-        "FAVOURITE_CHAR3_5_3",
-        "FAVOURITE_CHAR1_6_1",
-        "FAVOURITE_CHAR2_6_2",
-        "FAVOURITE_CHAR3_6_3",
-        "FAVOURITE_CHAR1_7_1",
-        "FAVOURITE_CHAR2_7_2",
-        "FAVOURITE_CHAR3_7_3",
-        "FAVOURITE_CHAR1_8_1",
-        "FAVOURITE_CHAR2_8_2",
-        "FAVOURITE_CHAR3_8_3",
-        "FAVOURITE_CHAR1_9_1",
-        "FAVOURITE_CHAR2_9_2",
-        "FAVOURITE_CHAR3_9_3",
-        "FAVOURITE_CHAR1_10_1",
-        "FAVOURITE_CHAR2_10_2",
-        "FAVOURITE_CHAR3_10_3"
-      ],
-      "lines": { "min": 1, "max": 10 },
-      "cells": [
-        [
-          { "headerCell": true, "label": "\"Name\"" },
-
-          { "headerCell": true, "label": "\"Age\"" },
-
-          { "headerCell": true, "label": "\"Member of the Simpsons family\"" }
-        ],
-
-        [
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7p16z_1_1",
-            "response": { "name": "FAVOURITE_CHAR1_1_1" },
-            "bindingDependencies": ["FAVOURITE_CHAR1_1_1"]
-          },
-
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7kny3_1_2",
-            "response": { "name": "FAVOURITE_CHAR2_1_2" },
-            "bindingDependencies": ["FAVOURITE_CHAR2_1_2"]
-          },
-
-          {
-            "componentType": "CheckboxOne",
-            "id": "j6qg8rc6-QOP-kiq7lffy_1_3",
-            "options": [
-              { "value": "1", "label": "\"Yes\"" },
-
-              { "value": "2", "label": "\"No\"" },
-
-              { "value": "3", "label": "\"Other\"" }
-            ],
-            "response": { "name": "FAVOURITE_CHAR3_1_3" },
-            "bindingDependencies": ["FAVOURITE_CHAR3_1_3"]
-          }
-        ],
-
-        [
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7p16z_2_1",
-            "response": { "name": "FAVOURITE_CHAR1_2_1" },
-            "bindingDependencies": ["FAVOURITE_CHAR1_2_1"]
-          },
-
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7kny3_2_2",
-            "response": { "name": "FAVOURITE_CHAR2_2_2" },
-            "bindingDependencies": ["FAVOURITE_CHAR2_2_2"]
-          },
-
-          {
-            "componentType": "CheckboxOne",
-            "id": "j6qg8rc6-QOP-kiq7lffy_2_3",
-            "options": [
-              { "value": "1", "label": "\"Yes\"" },
-
-              { "value": "2", "label": "\"No\"" },
-
-              { "value": "3", "label": "\"Other\"" }
-            ],
-            "response": { "name": "FAVOURITE_CHAR3_2_3" },
-            "bindingDependencies": ["FAVOURITE_CHAR3_2_3"]
-          }
-        ],
-
-        [
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7p16z_3_1",
-            "response": { "name": "FAVOURITE_CHAR1_3_1" },
-            "bindingDependencies": ["FAVOURITE_CHAR1_3_1"]
-          },
-
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7kny3_3_2",
-            "response": { "name": "FAVOURITE_CHAR2_3_2" },
-            "bindingDependencies": ["FAVOURITE_CHAR2_3_2"]
-          },
-
-          {
-            "componentType": "CheckboxOne",
-            "id": "j6qg8rc6-QOP-kiq7lffy_3_3",
-            "options": [
-              { "value": "1", "label": "\"Yes\"" },
-
-              { "value": "2", "label": "\"No\"" },
-
-              { "value": "3", "label": "\"Other\"" }
-            ],
-            "response": { "name": "FAVOURITE_CHAR3_3_3" },
-            "bindingDependencies": ["FAVOURITE_CHAR3_3_3"]
-          }
-        ],
-
-        [
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7p16z_4_1",
-            "response": { "name": "FAVOURITE_CHAR1_4_1" },
-            "bindingDependencies": ["FAVOURITE_CHAR1_4_1"]
-          },
-
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7kny3_4_2",
-            "response": { "name": "FAVOURITE_CHAR2_4_2" },
-            "bindingDependencies": ["FAVOURITE_CHAR2_4_2"]
-          },
-
-          {
-            "componentType": "CheckboxOne",
-            "id": "j6qg8rc6-QOP-kiq7lffy_4_3",
-            "options": [
-              { "value": "1", "label": "\"Yes\"" },
-
-              { "value": "2", "label": "\"No\"" },
-
-              { "value": "3", "label": "\"Other\"" }
-            ],
-            "response": { "name": "FAVOURITE_CHAR3_4_3" },
-            "bindingDependencies": ["FAVOURITE_CHAR3_4_3"]
-          }
-        ],
-
-        [
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7p16z_5_1",
-            "response": { "name": "FAVOURITE_CHAR1_5_1" },
-            "bindingDependencies": ["FAVOURITE_CHAR1_5_1"]
-          },
-
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7kny3_5_2",
-            "response": { "name": "FAVOURITE_CHAR2_5_2" },
-            "bindingDependencies": ["FAVOURITE_CHAR2_5_2"]
-          },
-
-          {
-            "componentType": "CheckboxOne",
-            "id": "j6qg8rc6-QOP-kiq7lffy_5_3",
-            "options": [
-              { "value": "1", "label": "\"Yes\"" },
-
-              { "value": "2", "label": "\"No\"" },
-
-              { "value": "3", "label": "\"Other\"" }
-            ],
-            "response": { "name": "FAVOURITE_CHAR3_5_3" },
-            "bindingDependencies": ["FAVOURITE_CHAR3_5_3"]
-          }
-        ],
-
-        [
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7p16z_6_1",
-            "response": { "name": "FAVOURITE_CHAR1_6_1" },
-            "bindingDependencies": ["FAVOURITE_CHAR1_6_1"]
-          },
-
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7kny3_6_2",
-            "response": { "name": "FAVOURITE_CHAR2_6_2" },
-            "bindingDependencies": ["FAVOURITE_CHAR2_6_2"]
-          },
-
-          {
-            "componentType": "CheckboxOne",
-            "id": "j6qg8rc6-QOP-kiq7lffy_6_3",
-            "options": [
-              { "value": "1", "label": "\"Yes\"" },
-
-              { "value": "2", "label": "\"No\"" },
-
-              { "value": "3", "label": "\"Other\"" }
-            ],
-            "response": { "name": "FAVOURITE_CHAR3_6_3" },
-            "bindingDependencies": ["FAVOURITE_CHAR3_6_3"]
-          }
-        ],
-
-        [
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7p16z_7_1",
-            "response": { "name": "FAVOURITE_CHAR1_7_1" },
-            "bindingDependencies": ["FAVOURITE_CHAR1_7_1"]
-          },
-
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7kny3_7_2",
-            "response": { "name": "FAVOURITE_CHAR2_7_2" },
-            "bindingDependencies": ["FAVOURITE_CHAR2_7_2"]
-          },
-
-          {
-            "componentType": "CheckboxOne",
-            "id": "j6qg8rc6-QOP-kiq7lffy_7_3",
-            "options": [
-              { "value": "1", "label": "\"Yes\"" },
-
-              { "value": "2", "label": "\"No\"" },
-
-              { "value": "3", "label": "\"Other\"" }
-            ],
-            "response": { "name": "FAVOURITE_CHAR3_7_3" },
-            "bindingDependencies": ["FAVOURITE_CHAR3_7_3"]
-          }
-        ],
-
-        [
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7p16z_8_1",
-            "response": { "name": "FAVOURITE_CHAR1_8_1" },
-            "bindingDependencies": ["FAVOURITE_CHAR1_8_1"]
-          },
-
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7kny3_8_2",
-            "response": { "name": "FAVOURITE_CHAR2_8_2" },
-            "bindingDependencies": ["FAVOURITE_CHAR2_8_2"]
-          },
-
-          {
-            "componentType": "CheckboxOne",
-            "id": "j6qg8rc6-QOP-kiq7lffy_8_3",
-            "options": [
-              { "value": "1", "label": "\"Yes\"" },
-
-              { "value": "2", "label": "\"No\"" },
-
-              { "value": "3", "label": "\"Other\"" }
-            ],
-            "response": { "name": "FAVOURITE_CHAR3_8_3" },
-            "bindingDependencies": ["FAVOURITE_CHAR3_8_3"]
-          }
-        ],
-
-        [
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7p16z_9_1",
-            "response": { "name": "FAVOURITE_CHAR1_9_1" },
-            "bindingDependencies": ["FAVOURITE_CHAR1_9_1"]
-          },
-
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7kny3_9_2",
-            "response": { "name": "FAVOURITE_CHAR2_9_2" },
-            "bindingDependencies": ["FAVOURITE_CHAR2_9_2"]
-          },
-
-          {
-            "componentType": "CheckboxOne",
-            "id": "j6qg8rc6-QOP-kiq7lffy_9_3",
-            "options": [
-              { "value": "1", "label": "\"Yes\"" },
-
-              { "value": "2", "label": "\"No\"" },
-
-              { "value": "3", "label": "\"Other\"" }
-            ],
-            "response": { "name": "FAVOURITE_CHAR3_9_3" },
-            "bindingDependencies": ["FAVOURITE_CHAR3_9_3"]
-          }
-        ],
-
-        [
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7p16z_10_1",
-            "response": { "name": "FAVOURITE_CHAR1_10_1" },
-            "bindingDependencies": ["FAVOURITE_CHAR1_10_1"]
-          },
-
-          {
-            "componentType": "Textarea",
-            "maxLength": 255,
-            "id": "j6qg8rc6-QOP-kiq7kny3_10_2",
-            "response": { "name": "FAVOURITE_CHAR2_10_2" },
-            "bindingDependencies": ["FAVOURITE_CHAR2_10_2"]
-          },
-
-          {
-            "componentType": "CheckboxOne",
-            "id": "j6qg8rc6-QOP-kiq7lffy_10_3",
-            "options": [
-              { "value": "1", "label": "\"Yes\"" },
-
-              { "value": "2", "label": "\"No\"" },
-
-              { "value": "3", "label": "\"Other\"" }
-            ],
-            "response": { "name": "FAVOURITE_CHAR3_10_3" },
-            "bindingDependencies": ["FAVOURITE_CHAR3_10_3"]
-          }
-        ]
+      "bindingDependencies": ["FAVOURITE_CHAR_MISSING", "FAVOURITE_CHAR1"],
+      "lines": { "min": { "value": "1", "type": "VTL" }, "max": { "value": "5", "type": "VTL" } },
+      "header": [{ "label": { "value": "\"FAVOURITE_CHAR\"", "type": "VTL|MD" } }],
+      "components": [
+        {
+          "componentType": "Input",
+          "maxLength": 249,
+          "id": "kvkvfojo-QOP-ldstqjc8",
+          "response": { "name": "FAVOURITE_CHAR1" },
+          "bindingDependencies": ["FAVOURITE_CHAR1"]
+        }
       ]
     },
 
@@ -2114,18 +2365,21 @@
       "id": "jvxux0mi",
       "componentType": "Table",
       "mandatory": false,
-      "page": "30",
+      "page": "32",
       "positioning": "HORIZONTAL",
-      "label": "\"How has your feeling about the following characters evolved over time?\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
+      "label": {
+        "value": "\"How has your feeling about the following characters evolved over time?\"",
+        "type": "VTL|MD"
       },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "j6qfx9qe",
-          "page": "28",
-          "label": "\"V - Favourite characters (dynamic table)\""
+          "page": "29",
+          "label": {
+            "value": "\"V - \" || \"Favourite characters (dynamic table)\"",
+            "type": "VTL|MD"
+          }
         }
       },
       "missingResponse": { "name": "FEELCHAREV_MISSING" },
@@ -2136,19 +2390,19 @@
         "FEELCHAREV3",
         "FEELCHAREV4"
       ],
-      "cells": [
+      "body": [
         [
-          { "value": "1", "label": "\"Jay\"" },
+          { "value": "1", "label": { "value": "Jay", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxOne",
             "id": "jvxux0mi-QOP-kiq76emy",
             "options": [
-              { "value": "1", "label": "\"Up\"" },
+              { "value": "1", "label": { "value": "Up", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"Down\"" },
+              { "value": "2", "label": { "value": "Down", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Steady\"" }
+              { "value": "3", "label": { "value": "Steady", "type": "VTL|MD" } }
             ],
             "response": { "name": "FEELCHAREV1" },
             "bindingDependencies": ["FEELCHAREV1"]
@@ -2156,17 +2410,17 @@
         ],
 
         [
-          { "value": "2", "label": "\"Bart\"" },
+          { "value": "2", "label": { "value": "Bart", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxOne",
             "id": "jvxux0mi-QOP-kiq6zv60",
             "options": [
-              { "value": "1", "label": "\"Up\"" },
+              { "value": "1", "label": { "value": "Up", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"Down\"" },
+              { "value": "2", "label": { "value": "Down", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Steady\"" }
+              { "value": "3", "label": { "value": "Steady", "type": "VTL|MD" } }
             ],
             "response": { "name": "FEELCHAREV2" },
             "bindingDependencies": ["FEELCHAREV2"]
@@ -2174,17 +2428,17 @@
         ],
 
         [
-          { "value": "3", "label": "\"Krusty the clown\"" },
+          { "value": "3", "label": { "value": "Krusty the clown", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxOne",
             "id": "jvxux0mi-QOP-kiq7bgk3",
             "options": [
-              { "value": "1", "label": "\"Up\"" },
+              { "value": "1", "label": { "value": "Up", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"Down\"" },
+              { "value": "2", "label": { "value": "Down", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Steady\"" }
+              { "value": "3", "label": { "value": "Steady", "type": "VTL|MD" } }
             ],
             "response": { "name": "FEELCHAREV3" },
             "bindingDependencies": ["FEELCHAREV3"]
@@ -2192,17 +2446,17 @@
         ],
 
         [
-          { "value": "O", "label": "\"Other\"" },
+          { "value": "O", "label": { "value": "Other", "type": "VTL|MD" } },
 
           {
             "componentType": "CheckboxOne",
             "id": "jvxux0mi-QOP-kiq6ync3",
             "options": [
-              { "value": "1", "label": "\"Up\"" },
+              { "value": "1", "label": { "value": "Up", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"Down\"" },
+              { "value": "2", "label": { "value": "Down", "type": "VTL|MD" } },
 
-              { "value": "3", "label": "\"Steady\"" }
+              { "value": "3", "label": { "value": "Steady", "type": "VTL|MD" } }
             ],
             "response": { "name": "FEELCHAREV4" },
             "bindingDependencies": ["FEELCHAREV4"]
@@ -2215,18 +2469,162 @@
       "id": "jvxwy68n",
       "componentType": "Table",
       "mandatory": false,
-      "page": "31",
+      "page": "33",
       "positioning": "HORIZONTAL",
-      "label": "\"Can you tell how long Bart Simpson has been on leave for each type and whether there has been another type?\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
+      "label": {
+        "value": "\"Can you tell how long Bart Simpson has been on leave for each type and whether there has been another type?\"",
+        "type": "VTL|MD"
       },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "controls": [
+        {
+          "id": "jvxwy68n-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(LEAVDURATION11)) and (0>LEAVDURATION11 or 365<LEAVDURATION11))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 365.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jvxwy68n-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(LEAVDURATION11))  and round(LEAVDURATION11,0)<>LEAVDURATION11)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jvxwy68n-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(LEAVDURATION21)) and (0>LEAVDURATION21 or 365<LEAVDURATION21))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 365.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jvxwy68n-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(LEAVDURATION21))  and round(LEAVDURATION21,0)<>LEAVDURATION21)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jvxwy68n-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(LEAVDURATION31)) and (0>LEAVDURATION31 or 365<LEAVDURATION31))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 365.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jvxwy68n-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(LEAVDURATION31))  and round(LEAVDURATION31,0)<>LEAVDURATION31)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jvxwy68n-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(LEAVDURATION41)) and (0>LEAVDURATION41 or 365<LEAVDURATION41))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 365.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jvxwy68n-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(LEAVDURATION41))  and round(LEAVDURATION41,0)<>LEAVDURATION41)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jvxwy68n-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(LEAVDURATION51)) and (0>LEAVDURATION51 or 365<LEAVDURATION51))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 365.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jvxwy68n-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(LEAVDURATION51))  and round(LEAVDURATION51,0)<>LEAVDURATION51)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "j6qfx9qe",
-          "page": "28",
-          "label": "\"V - Favourite characters (dynamic table)\""
+          "page": "29",
+          "label": {
+            "value": "\"V - \" || \"Favourite characters (dynamic table)\"",
+            "type": "VTL|MD"
+          }
         }
       },
       "missingResponse": { "name": "LEAVDURATION_MISSING" },
@@ -2243,17 +2641,16 @@
         "LEAVDURATION51",
         "LEAVDURATION52"
       ],
-      "cells": [
+      "header": [
+        { "label": { "value": "", "type": "VTL|MD" } },
+
+        { "label": { "value": "Days", "type": "VTL|MD" } },
+
+        { "label": { "value": "Unit", "type": "VTL|MD" } }
+      ],
+      "body": [
         [
-          { "headerCell": true, "label": "" },
-
-          { "headerCell": true, "label": "\"Days\"" },
-
-          { "headerCell": true, "label": "\"Unit\"" }
-        ],
-
-        [
-          { "value": "1", "label": "\"Leave with pay\"" },
+          { "value": "1", "label": { "value": "Leave with pay", "type": "VTL|MD" } },
 
           {
             "componentType": "InputNumber",
@@ -2269,9 +2666,9 @@
             "componentType": "Dropdown",
             "id": "jvxwy68n-QOP-kewv20qg",
             "options": [
-              { "value": "1", "label": "\"Working Days\"" },
+              { "value": "1", "label": { "value": "Working Days", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"Calendar days\"" }
+              { "value": "2", "label": { "value": "Calendar days", "type": "VTL|MD" } }
             ],
             "response": { "name": "LEAVDURATION12" },
             "bindingDependencies": ["LEAVDURATION12"]
@@ -2279,7 +2676,7 @@
         ],
 
         [
-          { "value": "2", "label": "\"Public holiday\"" },
+          { "value": "2", "label": { "value": "Public holiday", "type": "VTL|MD" } },
 
           {
             "componentType": "InputNumber",
@@ -2295,9 +2692,9 @@
             "componentType": "Dropdown",
             "id": "jvxwy68n-QOP-kewvizdm",
             "options": [
-              { "value": "1", "label": "\"Working Days\"" },
+              { "value": "1", "label": { "value": "Working Days", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"Calendar days\"" }
+              { "value": "2", "label": { "value": "Calendar days", "type": "VTL|MD" } }
             ],
             "response": { "name": "LEAVDURATION22" },
             "bindingDependencies": ["LEAVDURATION22"]
@@ -2305,7 +2702,7 @@
         ],
 
         [
-          { "value": "3", "label": "\"Sick leave\"" },
+          { "value": "3", "label": { "value": "Sick leave", "type": "VTL|MD" } },
 
           {
             "componentType": "InputNumber",
@@ -2321,9 +2718,9 @@
             "componentType": "Dropdown",
             "id": "jvxwy68n-QOP-kewv9jcl",
             "options": [
-              { "value": "1", "label": "\"Working Days\"" },
+              { "value": "1", "label": { "value": "Working Days", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"Calendar days\"" }
+              { "value": "2", "label": { "value": "Calendar days", "type": "VTL|MD" } }
             ],
             "response": { "name": "LEAVDURATION32" },
             "bindingDependencies": ["LEAVDURATION32"]
@@ -2331,7 +2728,7 @@
         ],
 
         [
-          { "value": "4", "label": "\"Maternity/paternity leave\"" },
+          { "value": "4", "label": { "value": "Maternity/paternity leave", "type": "VTL|MD" } },
 
           {
             "componentType": "InputNumber",
@@ -2347,9 +2744,9 @@
             "componentType": "Dropdown",
             "id": "jvxwy68n-QOP-kewvf0gf",
             "options": [
-              { "value": "1", "label": "\"Working Days\"" },
+              { "value": "1", "label": { "value": "Working Days", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"Calendar days\"" }
+              { "value": "2", "label": { "value": "Calendar days", "type": "VTL|MD" } }
             ],
             "response": { "name": "LEAVDURATION42" },
             "bindingDependencies": ["LEAVDURATION42"]
@@ -2357,7 +2754,7 @@
         ],
 
         [
-          { "value": "5", "label": "\"Other type\"" },
+          { "value": "5", "label": { "value": "Other type", "type": "VTL|MD" } },
 
           {
             "componentType": "InputNumber",
@@ -2373,9 +2770,9 @@
             "componentType": "Dropdown",
             "id": "jvxwy68n-QOP-kewvalmd",
             "options": [
-              { "value": "1", "label": "\"Working Days\"" },
+              { "value": "1", "label": { "value": "Working Days", "type": "VTL|MD" } },
 
-              { "value": "2", "label": "\"Calendar days\"" }
+              { "value": "2", "label": { "value": "Calendar days", "type": "VTL|MD" } }
             ],
             "response": { "name": "LEAVDURATION52" },
             "bindingDependencies": ["LEAVDURATION52"]
@@ -2387,17 +2784,14 @@
     {
       "id": "kiq5mr0b",
       "componentType": "Sequence",
-      "page": "32",
-      "label": "\"VI - Favourite characters (Loop)\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "page": "34",
+      "label": { "value": "\"VI - \" || \"Favourite characters (Loop)\"", "type": "VTL|MD" },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "kiq5mr0b",
-          "page": "32",
-          "label": "\"VI - Favourite characters (Loop)\""
+          "page": "34",
+          "label": { "value": "\"VI - \" || \"Favourite characters (Loop)\"", "type": "VTL|MD" }
         }
       }
     },
@@ -2406,20 +2800,49 @@
       "id": "kiq612ky",
       "componentType": "InputNumber",
       "mandatory": false,
-      "page": "33",
+      "page": "35",
       "min": 0,
       "max": 20,
       "decimals": 0,
-      "label": "\"How many characters from the Simpsons family could you precisely describe?\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
+      "label": {
+        "value": "\"How many characters from the Simpsons family could you precisely describe?\"",
+        "type": "VTL|MD"
       },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "controls": [
+        {
+          "id": "kiq612ky-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(NB_CHAR)) and (0>NB_CHAR or 20<NB_CHAR))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 20.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "kiq612ky-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(NB_CHAR))  and round(NB_CHAR,0)<>NB_CHAR)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        }
+      ],
       "hierarchy": {
         "sequence": {
           "id": "kiq5mr0b",
-          "page": "32",
-          "label": "\"VI - Favourite characters (Loop)\""
+          "page": "34",
+          "label": { "value": "\"VI - \" || \"Favourite characters (Loop)\"", "type": "VTL|MD" }
         }
       },
       "missingResponse": { "name": "NB_CHAR_MISSING" },
@@ -2430,45 +2853,43 @@
     {
       "id": "kiq7bjam",
       "componentType": "Loop",
-      "page": "34",
+      "page": "36",
       "depth": 1,
       "paginatedLoop": false,
-      "label": "\"Add a character\"",
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "label": { "value": "Add a character", "type": "VTL|MD" },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "kiq5mr0b",
-          "page": "32",
-          "label": "\"VI - Favourite characters (Loop)\""
+          "page": "34",
+          "label": { "value": "\"VI - \" || \"Favourite characters (Loop)\"", "type": "VTL|MD" }
         }
       },
-      "bindingDependencies": ["NB_CHAR", "LOOP_kiq7bjam_MISSING", "NAME_CHAR", "AGE_CHAR"],
+      "missingResponse": { "name": "NAME_CHAR_MISSING" },
+      "bindingDependencies": ["NB_CHAR", "NAME_CHAR_MISSING", "NAME_CHAR", "AGE_CHAR"],
       "loopDependencies": ["NB_CHAR"],
-      "lines": { "min": "1", "max": "cast(NB_CHAR,integer)" },
+      "lines": {
+        "min": { "value": "1", "type": "VTL" },
+        "max": { "value": "cast(NB_CHAR,integer)", "type": "VTL" }
+      },
       "components": [
         {
           "id": "kiq5u8d5",
           "componentType": "Subsequence",
-          "page": "34",
-          "goToPage": "34",
-          "label": "\"Description of each character\"",
-          "conditionFilter": {
-            "value": "(not(cast(READY,integer)  <>  1))",
-            "bindingDependencies": ["READY"]
-          },
+          "page": "36",
+          "goToPage": "36",
+          "label": { "value": "Description of each character", "type": "VTL|MD" },
+          "conditionFilter": { "value": "true", "type": "VTL" },
           "hierarchy": {
             "sequence": {
               "id": "kiq5mr0b",
-              "page": "32",
-              "label": "\"VI - Favourite characters (Loop)\""
+              "page": "34",
+              "label": { "value": "\"VI - \" || \"Favourite characters (Loop)\"", "type": "VTL|MD" }
             },
             "subSequence": {
               "id": "kiq5u8d5",
-              "page": "34",
-              "label": "\"Description of each character\""
+              "page": "36",
+              "label": { "value": "Description of each character", "type": "VTL|MD" }
             }
           },
           "bindingDependencies": ["NB_CHAR"]
@@ -2478,23 +2899,20 @@
           "id": "kiq66gtw",
           "componentType": "Input",
           "mandatory": false,
-          "page": "34",
+          "page": "36",
           "maxLength": 30,
-          "label": "\"What is the first name of this character?\"",
-          "conditionFilter": {
-            "value": "(not(cast(READY,integer)  <>  1))",
-            "bindingDependencies": ["READY"]
-          },
+          "label": { "value": "\"What is the first name of this character?\"", "type": "VTL|MD" },
+          "conditionFilter": { "value": "true", "type": "VTL" },
           "hierarchy": {
             "sequence": {
               "id": "kiq5mr0b",
-              "page": "32",
-              "label": "\"VI - Favourite characters (Loop)\""
+              "page": "34",
+              "label": { "value": "\"VI - \" || \"Favourite characters (Loop)\"", "type": "VTL|MD" }
             },
             "subSequence": {
               "id": "kiq5u8d5",
-              "page": "34",
-              "label": "\"Description of each character\""
+              "page": "36",
+              "label": { "value": "Description of each character", "type": "VTL|MD" }
             }
           },
           "bindingDependencies": ["NAME_CHAR", "NB_CHAR"],
@@ -2505,25 +2923,54 @@
           "id": "kiq5r8wu",
           "componentType": "InputNumber",
           "mandatory": false,
-          "page": "34",
+          "page": "36",
           "min": 0,
           "max": 120,
           "decimals": 0,
-          "label": "\"How old is this character in the first episode of the Simpsons family?\"",
-          "conditionFilter": {
-            "value": "(not(cast(READY,integer)  <>  1))",
-            "bindingDependencies": ["READY"]
+          "label": {
+            "value": "\"How old is this character in the first episode of the Simpsons family?\"",
+            "type": "VTL|MD"
           },
+          "conditionFilter": { "value": "true", "type": "VTL" },
+          "controls": [
+            {
+              "id": "kiq5r8wu-format-borne-inf-sup",
+              "typeOfControl": "FORMAT",
+              "criticality": "ERROR",
+              "control": {
+                "value": "not(not(isnull(AGE_CHAR)) and (0>AGE_CHAR or 120<AGE_CHAR))",
+                "type": "VTL"
+              },
+              "errorMessage": {
+                "value": "\" La valeur doit être comprise entre 0 et 120.\"",
+                "type": "VTL|MD"
+              }
+            },
+
+            {
+              "id": "kiq5r8wu-format-decimal",
+              "typeOfControl": "FORMAT",
+              "criticality": "ERROR",
+              "control": {
+                "value": "not(not(isnull(AGE_CHAR))  and round(AGE_CHAR,0)<>AGE_CHAR)",
+                "type": "VTL"
+              },
+              "errorMessage": {
+                "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+                "type": "VTL|MD"
+              }
+            }
+          ],
           "hierarchy": {
             "sequence": {
               "id": "kiq5mr0b",
-              "page": "32",
-              "label": "\"VI - Favourite characters (Loop)\""
+              "page": "34",
+              "label": { "value": "\"VI - \" || \"Favourite characters (Loop)\"", "type": "VTL|MD" }
             },
             "subSequence": {
               "id": "kiq5u8d5",
-              "page": "34",
-              "label": "\"Description of each character\""
+              "page": "36",
+              "label": { "value": "Description of each character", "type": "VTL|MD" }
             }
           },
           "bindingDependencies": ["AGE_CHAR", "NB_CHAR"],
@@ -2535,15 +2982,11 @@
     {
       "id": "kiq7cbgo",
       "componentType": "Loop",
-      "page": "35",
+      "page": "37",
       "maxPage": "3",
-      "iterations": "count(NAME_CHAR)",
       "depth": 1,
       "paginatedLoop": true,
-      "conditionFilter": {
-        "value": "(not(cast(READY,integer)  <>  1))",
-        "bindingDependencies": ["READY"]
-      },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "bindingDependencies": [
         "NAME_CHAR",
         "FAVCHAR_MISSING",
@@ -2556,17 +2999,20 @@
         {
           "id": "kiq5xw5p",
           "componentType": "Sequence",
-          "page": "35.1",
-          "label": "\"VII - Other details about character named \" || cast(cast(NAME_CHAR,string),string) || \" \"",
-          "conditionFilter": {
-            "value": "(not(cast(READY,integer)  <>  1))",
-            "bindingDependencies": ["READY"]
+          "page": "37.1",
+          "label": {
+            "value": "\"VII - \" || \"Other details about character named \" || NAME_CHAR",
+            "type": "VTL|MD"
           },
+          "conditionFilter": { "value": "true", "type": "VTL" },
           "hierarchy": {
             "sequence": {
               "id": "kiq5xw5p",
-              "page": "35.1",
-              "label": "\"VII - Other details about character named \" || cast(cast(NAME_CHAR,string),string) || \" \""
+              "page": "37.1",
+              "label": {
+                "value": "\"VII - \" || \"Other details about character named \" || NAME_CHAR",
+                "type": "VTL|MD"
+              }
             }
           },
           "bindingDependencies": ["NAME_CHAR", "AGE_CHAR"]
@@ -2576,25 +3022,28 @@
           "id": "kiq65x3c",
           "componentType": "CheckboxOne",
           "mandatory": false,
-          "page": "35.2",
-          "label": "\"Is character named \" || cast(cast(NAME_CHAR,string),string) || \" your favourite one ? \"",
-          "conditionFilter": {
-            "value": "(not(cast(READY,integer)  <>  1))",
-            "bindingDependencies": ["READY"]
+          "page": "37.2",
+          "label": {
+            "value": "\"Is character named \" || NAME_CHAR || \" your favourite one ?\"",
+            "type": "VTL|MD"
           },
+          "conditionFilter": { "value": "true", "type": "VTL" },
           "hierarchy": {
             "sequence": {
               "id": "kiq5xw5p",
-              "page": "35.1",
-              "label": "\"VII - Other details about character named \" || cast(cast(NAME_CHAR,string),string) || \" \""
+              "page": "37.1",
+              "label": {
+                "value": "\"VII - \" || \"Other details about character named \" || NAME_CHAR",
+                "type": "VTL|MD"
+              }
             }
           },
           "missingResponse": { "name": "FAVCHAR_MISSING" },
           "bindingDependencies": ["NAME_CHAR", "FAVCHAR_MISSING", "FAVCHAR", "AGE_CHAR"],
           "options": [
-            { "value": "1", "label": "\"Yes\"" },
+            { "value": "1", "label": { "value": "Yes", "type": "VTL|MD" } },
 
-            { "value": "0", "label": "\"No\"" }
+            { "value": "0", "label": { "value": "No", "type": "VTL|MD" } }
           ],
           "response": { "name": "FAVCHAR" }
         },
@@ -2603,434 +3052,107 @@
           "id": "kiq651zv",
           "componentType": "Textarea",
           "mandatory": false,
-          "page": "35.3",
+          "page": "37.3",
           "maxLength": 255,
-          "label": "\"What is your best memory about character named \" || cast(cast(NAME_CHAR,string),string) || \" ? \"",
-          "conditionFilter": {
-            "value": "(not(cast(READY,integer)  <>  1))",
-            "bindingDependencies": ["READY"]
+          "label": {
+            "value": "\"What is your best memory about character named \" || NAME_CHAR || \" ?\"",
+            "type": "VTL|MD"
           },
+          "conditionFilter": { "value": "true", "type": "VTL" },
           "hierarchy": {
             "sequence": {
               "id": "kiq5xw5p",
-              "page": "35.1",
-              "label": "\"VII - Other details about character named \" || cast(cast(NAME_CHAR,string),string) || \" \""
+              "page": "37.1",
+              "label": {
+                "value": "\"VII - \" || \"Other details about character named \" || NAME_CHAR",
+                "type": "VTL|MD"
+              }
             }
           },
           "missingResponse": { "name": "MEMORY_CHAR_MISSING" },
           "bindingDependencies": ["NAME_CHAR", "MEMORY_CHAR_MISSING", "MEMORY_CHAR", "AGE_CHAR"],
           "response": { "name": "MEMORY_CHAR" }
         }
-      ]
+      ],
+      "iterations": { "value": "count(NAME_CHAR)", "type": "VTL" }
     },
 
     {
       "id": "j6z12s2d",
       "componentType": "Sequence",
-      "page": "36",
-      "label": "\"VIII - Comment\"",
-      "conditionFilter": { "value": "true" },
-      "hierarchy": { "sequence": { "id": "j6z12s2d", "page": "36", "label": "\"VIII - Comment\"" } }
+      "page": "38",
+      "label": { "value": "\"VIII - \" || \"Comment\"", "type": "VTL|MD" },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "hierarchy": {
+        "sequence": {
+          "id": "j6z12s2d",
+          "page": "38",
+          "label": { "value": "\"VIII - \" || \"Comment\"", "type": "VTL|MD" }
+        }
+      }
     },
 
     {
       "id": "j6z0z3us",
       "componentType": "Textarea",
       "mandatory": false,
-      "page": "37",
+      "page": "39",
       "maxLength": 255,
-      "label": "\"Do you have any comment about the survey?\"",
-      "conditionFilter": { "value": "true" },
+      "label": { "value": "\"Do you have any comment about the survey?\"", "type": "VTL|MD" },
+      "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
-        "sequence": { "id": "j6z12s2d", "page": "36", "label": "\"VIII - Comment\"" }
+        "sequence": {
+          "id": "j6z12s2d",
+          "page": "38",
+          "label": { "value": "\"VIII - \" || \"Comment\"", "type": "VTL|MD" }
+        }
       },
       "missingResponse": { "name": "SURVEY_COMMENT_MISSING" },
       "bindingDependencies": ["SURVEY_COMMENT_MISSING", "SURVEY_COMMENT"],
       "response": { "name": "SURVEY_COMMENT" }
+    },
+
+    {
+      "id": "COMMENT-SEQ",
+      "componentType": "Sequence",
+      "page": "40",
+      "label": { "value": "\"Commentaire\"", "type": "VTL|MD" },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "hierarchy": {
+        "sequence": {
+          "id": "COMMENT-SEQ",
+          "page": "40",
+          "label": { "value": "\"Commentaire\"", "type": "VTL|MD" }
+        }
+      }
+    },
+
+    {
+      "id": "COMMENT-QUESTION",
+      "componentType": "Textarea",
+      "mandatory": false,
+      "page": "41",
+      "maxLength": 2000,
+      "label": {
+        "value": "\"Avez-vous des remarques concernant l'enquête ou des commentaires ?\"",
+        "type": "VTL|MD"
+      },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "hierarchy": {
+        "sequence": {
+          "id": "COMMENT-SEQ",
+          "page": "40",
+          "label": { "value": "\"Commentaire\"", "type": "VTL|MD" }
+        }
+      },
+      "bindingDependencies": ["COMMENT_QE"],
+      "response": { "name": "COMMENT_QE" }
     }
   ],
   "variables": [
     {
       "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR1_1_1",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR2_1_2",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR3_1_3",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR1_2_1",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR2_2_2",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR3_2_3",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR1_3_1",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR2_3_2",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR3_3_3",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR1_4_1",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR2_4_2",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR3_4_3",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR1_5_1",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR2_5_2",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR3_5_3",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR1_6_1",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR2_6_2",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR3_6_3",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR1_7_1",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR2_7_2",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR3_7_3",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR1_8_1",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR2_8_2",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR3_8_3",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR1_9_1",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR2_9_2",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR3_9_3",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR1_10_1",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR2_10_2",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR3_10_3",
-      "componentRef": "j6qg8rc6",
+      "name": "COMMENT_QE",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3045,7 +3167,6 @@
     {
       "variableType": "COLLECTED",
       "name": "COMMENT",
-      "componentRef": "j6p3dkx6",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3058,7 +3179,6 @@
     {
       "variableType": "COLLECTED",
       "name": "COMMENT_MISSING",
-      "componentRef": "j6p3dkx6",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3071,7 +3191,6 @@
     {
       "variableType": "COLLECTED",
       "name": "READY",
-      "componentRef": "j6p0np9q",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3084,7 +3203,6 @@
     {
       "variableType": "COLLECTED",
       "name": "READY_MISSING",
-      "componentRef": "j6p0np9q",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3097,7 +3215,6 @@
     {
       "variableType": "COLLECTED",
       "name": "PRODUCER",
-      "componentRef": "j3343qhx",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3110,7 +3227,6 @@
     {
       "variableType": "COLLECTED",
       "name": "PRODUCER_MISSING",
-      "componentRef": "j3343qhx",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3123,7 +3239,6 @@
     {
       "variableType": "COLLECTED",
       "name": "SEASON_NUMBER",
-      "componentRef": "j6q9h8tj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3136,7 +3251,6 @@
     {
       "variableType": "COLLECTED",
       "name": "SEASON_NUMBER_MISSING",
-      "componentRef": "j6q9h8tj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3149,7 +3263,6 @@
     {
       "variableType": "COLLECTED",
       "name": "DATEFIRST",
-      "componentRef": "kiq71eoi",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3162,7 +3275,6 @@
     {
       "variableType": "COLLECTED",
       "name": "DATEFIRST_MISSING",
-      "componentRef": "kiq71eoi",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3175,7 +3287,6 @@
     {
       "variableType": "COLLECTED",
       "name": "DATEYYYYMM",
-      "componentRef": "k5nvty2o",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3188,7 +3299,6 @@
     {
       "variableType": "COLLECTED",
       "name": "DATEYYYYMM_MISSING",
-      "componentRef": "k5nvty2o",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3201,7 +3311,6 @@
     {
       "variableType": "COLLECTED",
       "name": "DATEYYYY",
-      "componentRef": "k5nw1fir",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3214,7 +3323,6 @@
     {
       "variableType": "COLLECTED",
       "name": "DATEYYYY_MISSING",
-      "componentRef": "k5nw1fir",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3227,7 +3335,6 @@
     {
       "variableType": "COLLECTED",
       "name": "DURATIONH",
-      "componentRef": "k5nw0w05",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3240,7 +3347,6 @@
     {
       "variableType": "COLLECTED",
       "name": "DURATIONH_MISSING",
-      "componentRef": "k5nw0w05",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3253,7 +3359,6 @@
     {
       "variableType": "COLLECTED",
       "name": "DURATIOND",
-      "componentRef": "k5nvu98z",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3266,7 +3371,6 @@
     {
       "variableType": "COLLECTED",
       "name": "DURATIOND_MISSING",
-      "componentRef": "k5nvu98z",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3279,7 +3383,6 @@
     {
       "variableType": "COLLECTED",
       "name": "DURATIONM",
-      "componentRef": "k5nw8ei1",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3292,7 +3395,6 @@
     {
       "variableType": "COLLECTED",
       "name": "DURATIONM_MISSING",
-      "componentRef": "k5nw8ei1",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3305,7 +3407,6 @@
     {
       "variableType": "COLLECTED",
       "name": "DURATIONY",
-      "componentRef": "k5nw9dk4",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3318,7 +3419,6 @@
     {
       "variableType": "COLLECTED",
       "name": "DURATIONY_MISSING",
-      "componentRef": "k5nw9dk4",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3331,7 +3431,6 @@
     {
       "variableType": "COLLECTED",
       "name": "AUDIENCE_SHARE",
-      "componentRef": "j6z06z1e",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3344,7 +3443,6 @@
     {
       "variableType": "COLLECTED",
       "name": "AUDIENCE_SHARE_MISSING",
-      "componentRef": "j6z06z1e",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3357,7 +3455,6 @@
     {
       "variableType": "COLLECTED",
       "name": "CITY",
-      "componentRef": "j3343clt",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3370,7 +3467,6 @@
     {
       "variableType": "COLLECTED",
       "name": "CITY_MISSING",
-      "componentRef": "j3343clt",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3383,7 +3479,6 @@
     {
       "variableType": "COLLECTED",
       "name": "MAYOR",
-      "componentRef": "j6qdfhvw",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3396,7 +3491,6 @@
     {
       "variableType": "COLLECTED",
       "name": "MAYOR_MISSING",
-      "componentRef": "j6qdfhvw",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3409,7 +3503,6 @@
     {
       "variableType": "COLLECTED",
       "name": "STATE",
-      "componentRef": "j4nw5cqz",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3422,7 +3515,6 @@
     {
       "variableType": "COLLECTED",
       "name": "STATE_MISSING",
-      "componentRef": "j4nw5cqz",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3435,7 +3527,6 @@
     {
       "variableType": "COLLECTED",
       "name": "PET1",
-      "componentRef": "j334akov",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3448,7 +3539,6 @@
     {
       "variableType": "COLLECTED",
       "name": "PET2",
-      "componentRef": "j334akov",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3461,7 +3551,6 @@
     {
       "variableType": "COLLECTED",
       "name": "PET3",
-      "componentRef": "j334akov",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3474,7 +3563,6 @@
     {
       "variableType": "COLLECTED",
       "name": "PET4",
-      "componentRef": "j334akov",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3487,7 +3575,6 @@
     {
       "variableType": "COLLECTED",
       "name": "PET_MISSING",
-      "componentRef": "j334akov",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3500,7 +3587,6 @@
     {
       "variableType": "COLLECTED",
       "name": "ICE_FLAVOUR_MISSING",
-      "componentRef": "j6p29i81",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3513,7 +3599,6 @@
     {
       "variableType": "COLLECTED",
       "name": "ICE_FLAVOUR1",
-      "componentRef": "j6p29i81",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3526,7 +3611,6 @@
     {
       "variableType": "COLLECTED",
       "name": "ICE_FLAVOUR2",
-      "componentRef": "j6p29i81",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3539,7 +3623,6 @@
     {
       "variableType": "COLLECTED",
       "name": "ICE_FLAVOUR3",
-      "componentRef": "j6p29i81",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3552,7 +3635,6 @@
     {
       "variableType": "COLLECTED",
       "name": "ICE_FLAVOUR4",
-      "componentRef": "j6p29i81",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3565,7 +3647,6 @@
     {
       "variableType": "COLLECTED",
       "name": "NUCLEAR_CHARACTER_MISSING",
-      "componentRef": "j6qefnga",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3578,7 +3659,6 @@
     {
       "variableType": "COLLECTED",
       "name": "NUCLEAR_CHARACTER1",
-      "componentRef": "j6qefnga",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3591,7 +3671,6 @@
     {
       "variableType": "COLLECTED",
       "name": "NUCLEAR_CHARACTER2",
-      "componentRef": "j6qefnga",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3604,7 +3683,6 @@
     {
       "variableType": "COLLECTED",
       "name": "NUCLEAR_CHARACTER3",
-      "componentRef": "j6qefnga",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3617,7 +3695,6 @@
     {
       "variableType": "COLLECTED",
       "name": "NUCLEAR_CHARACTER4",
-      "componentRef": "j6qefnga",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3630,7 +3707,6 @@
     {
       "variableType": "COLLECTED",
       "name": "BIRTH_CHARACTER_MISSING",
-      "componentRef": "j6yzoc6g",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3643,7 +3719,6 @@
     {
       "variableType": "COLLECTED",
       "name": "BIRTH_CHARACTER1",
-      "componentRef": "j6yzoc6g",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3656,7 +3731,6 @@
     {
       "variableType": "COLLECTED",
       "name": "BIRTH_CHARACTER2",
-      "componentRef": "j6yzoc6g",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3669,7 +3743,6 @@
     {
       "variableType": "COLLECTED",
       "name": "BIRTH_CHARACTER3",
-      "componentRef": "j6yzoc6g",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3682,7 +3755,6 @@
     {
       "variableType": "COLLECTED",
       "name": "BIRTH_CHARACTER4",
-      "componentRef": "j6yzoc6g",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3695,7 +3767,6 @@
     {
       "variableType": "COLLECTED",
       "name": "BIRTH_CHARACTER5",
-      "componentRef": "j6yzoc6g",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3708,7 +3779,6 @@
     {
       "variableType": "COLLECTED",
       "name": "PERCENTAGE_EXPENSES_MISSING",
-      "componentRef": "j4nwc63q",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3721,7 +3791,6 @@
     {
       "variableType": "COLLECTED",
       "name": "PERCENTAGE_EXPENSES11",
-      "componentRef": "j4nwc63q",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3734,7 +3803,6 @@
     {
       "variableType": "COLLECTED",
       "name": "PERCENTAGE_EXPENSES21",
-      "componentRef": "j4nwc63q",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3747,7 +3815,6 @@
     {
       "variableType": "COLLECTED",
       "name": "PERCENTAGE_EXPENSES31",
-      "componentRef": "j4nwc63q",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3760,7 +3827,6 @@
     {
       "variableType": "COLLECTED",
       "name": "PERCENTAGE_EXPENSES41",
-      "componentRef": "j4nwc63q",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3773,7 +3839,6 @@
     {
       "variableType": "COLLECTED",
       "name": "PERCENTAGE_EXPENSES51",
-      "componentRef": "j4nwc63q",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3786,7 +3851,6 @@
     {
       "variableType": "COLLECTED",
       "name": "PERCENTAGE_EXPENSES61",
-      "componentRef": "j4nwc63q",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3799,7 +3863,18 @@
     {
       "variableType": "COLLECTED",
       "name": "PERCENTAGE_EXPENSES71",
-      "componentRef": "j4nwc63q",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "PERCENTAGE_EXPENSES81",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3812,7 +3887,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LAST_FOOD_SHOPPING_MISSING",
-      "componentRef": "k9cg2q5t",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3825,7 +3899,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LAST_FOOD_SHOPPING11",
-      "componentRef": "k9cg2q5t",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3838,7 +3911,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LAST_FOOD_SHOPPING21",
-      "componentRef": "k9cg2q5t",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3851,7 +3923,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LAST_FOOD_SHOPPING31",
-      "componentRef": "k9cg2q5t",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3864,7 +3935,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LAST_FOOD_SHOPPING41",
-      "componentRef": "k9cg2q5t",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3877,7 +3947,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LAST_FOOD_SHOPPING51",
-      "componentRef": "k9cg2q5t",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3890,7 +3959,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LAST_FOOD_SHOPPING61",
-      "componentRef": "k9cg2q5t",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3903,7 +3971,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LAST_FOOD_SHOPPING71",
-      "componentRef": "k9cg2q5t",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3916,7 +3983,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LAST_FOOD_SHOPPING81",
-      "componentRef": "k9cg2q5t",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3929,7 +3995,6 @@
     {
       "variableType": "COLLECTED",
       "name": "CLOWNING_MISSING",
-      "componentRef": "kbkjvgel",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3942,7 +4007,6 @@
     {
       "variableType": "COLLECTED",
       "name": "CLOWNING11",
-      "componentRef": "kbkjvgel",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3955,7 +4019,6 @@
     {
       "variableType": "COLLECTED",
       "name": "CLOWNING12",
-      "componentRef": "kbkjvgel",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3968,7 +4031,6 @@
     {
       "variableType": "COLLECTED",
       "name": "CLOWNING21",
-      "componentRef": "kbkjvgel",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3981,7 +4043,6 @@
     {
       "variableType": "COLLECTED",
       "name": "CLOWNING22",
-      "componentRef": "kbkjvgel",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -3994,7 +4055,6 @@
     {
       "variableType": "COLLECTED",
       "name": "CLOWNING31",
-      "componentRef": "kbkjvgel",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4007,7 +4067,6 @@
     {
       "variableType": "COLLECTED",
       "name": "CLOWNING32",
-      "componentRef": "kbkjvgel",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4020,7 +4079,6 @@
     {
       "variableType": "COLLECTED",
       "name": "CLOWNING41",
-      "componentRef": "kbkjvgel",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4033,7 +4091,6 @@
     {
       "variableType": "COLLECTED",
       "name": "CLOWNING42",
-      "componentRef": "kbkjvgel",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4046,7 +4103,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL_MISSING",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4059,7 +4115,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL11",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4072,7 +4127,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL12",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4085,7 +4139,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL13",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4098,7 +4151,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL14",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4111,7 +4163,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL15",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4124,7 +4175,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL16",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4137,7 +4187,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL21",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4150,7 +4199,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL22",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4163,7 +4211,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL23",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4176,7 +4223,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL24",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4189,7 +4235,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL25",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4202,7 +4247,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL26",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4215,7 +4259,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL31",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4228,7 +4271,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL32",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4241,7 +4283,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL33",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4254,7 +4295,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL34",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4267,7 +4307,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL35",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4280,7 +4319,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL36",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4293,7 +4331,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL41",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4306,7 +4343,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL42",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4319,7 +4355,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL43",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4332,7 +4367,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL44",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4345,7 +4379,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL45",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4358,7 +4391,6 @@
     {
       "variableType": "COLLECTED",
       "name": "TRAVEL46",
-      "componentRef": "j6p2lwuj",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4371,7 +4403,6 @@
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHAR_MISSING",
-      "componentRef": "j6qg8rc6",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4384,46 +4415,18 @@
     {
       "variableType": "COLLECTED",
       "name": "FAVOURITE_CHAR1",
-      "componentRef": "j6qg8rc6",
       "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR2",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
-      }
-    },
-
-    {
-      "variableType": "COLLECTED",
-      "name": "FAVOURITE_CHAR3",
-      "componentRef": "j6qg8rc6",
-      "values": {
-        "PREVIOUS": null,
-        "COLLECTED": null,
-        "FORCED": null,
-        "EDITED": null,
-        "INPUTED": null
+        "PREVIOUS": [null],
+        "COLLECTED": [null],
+        "FORCED": [null],
+        "EDITED": [null],
+        "INPUTED": [null]
       }
     },
 
     {
       "variableType": "COLLECTED",
       "name": "FEELCHAREV_MISSING",
-      "componentRef": "jvxux0mi",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4436,7 +4439,6 @@
     {
       "variableType": "COLLECTED",
       "name": "FEELCHAREV1",
-      "componentRef": "jvxux0mi",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4449,7 +4451,6 @@
     {
       "variableType": "COLLECTED",
       "name": "FEELCHAREV2",
-      "componentRef": "jvxux0mi",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4462,7 +4463,6 @@
     {
       "variableType": "COLLECTED",
       "name": "FEELCHAREV3",
-      "componentRef": "jvxux0mi",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4475,7 +4475,6 @@
     {
       "variableType": "COLLECTED",
       "name": "FEELCHAREV4",
-      "componentRef": "jvxux0mi",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4488,7 +4487,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LEAVDURATION_MISSING",
-      "componentRef": "jvxwy68n",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4501,7 +4499,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LEAVDURATION11",
-      "componentRef": "jvxwy68n",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4514,7 +4511,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LEAVDURATION12",
-      "componentRef": "jvxwy68n",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4527,7 +4523,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LEAVDURATION21",
-      "componentRef": "jvxwy68n",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4540,7 +4535,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LEAVDURATION22",
-      "componentRef": "jvxwy68n",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4553,7 +4547,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LEAVDURATION31",
-      "componentRef": "jvxwy68n",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4566,7 +4559,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LEAVDURATION32",
-      "componentRef": "jvxwy68n",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4579,7 +4571,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LEAVDURATION41",
-      "componentRef": "jvxwy68n",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4592,7 +4583,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LEAVDURATION42",
-      "componentRef": "jvxwy68n",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4605,7 +4595,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LEAVDURATION51",
-      "componentRef": "jvxwy68n",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4618,7 +4607,6 @@
     {
       "variableType": "COLLECTED",
       "name": "LEAVDURATION52",
-      "componentRef": "jvxwy68n",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4631,7 +4619,6 @@
     {
       "variableType": "COLLECTED",
       "name": "NB_CHAR",
-      "componentRef": "kiq612ky",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4644,7 +4631,6 @@
     {
       "variableType": "COLLECTED",
       "name": "NB_CHAR_MISSING",
-      "componentRef": "kiq612ky",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4656,21 +4642,19 @@
 
     {
       "variableType": "COLLECTED",
-      "name": "LOOP_kiq7bjam_MISSING",
-      "componentRef": "kiq7bjam",
+      "name": "NAME_CHAR_MISSING",
       "values": {
-        "PREVIOUS": [null],
-        "COLLECTED": [null],
-        "FORCED": [null],
-        "EDITED": [null],
-        "INPUTED": [null]
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
       }
     },
 
     {
       "variableType": "COLLECTED",
       "name": "NAME_CHAR",
-      "componentRef": "kiq7bjam",
       "values": {
         "PREVIOUS": [null],
         "COLLECTED": [null],
@@ -4683,7 +4667,6 @@
     {
       "variableType": "COLLECTED",
       "name": "AGE_CHAR",
-      "componentRef": "kiq7bjam",
       "values": {
         "PREVIOUS": [null],
         "COLLECTED": [null],
@@ -4696,7 +4679,6 @@
     {
       "variableType": "COLLECTED",
       "name": "FAVCHAR",
-      "componentRef": "kiq7cbgo",
       "values": {
         "PREVIOUS": [null],
         "COLLECTED": [null],
@@ -4709,7 +4691,6 @@
     {
       "variableType": "COLLECTED",
       "name": "FAVCHAR_MISSING",
-      "componentRef": "kiq7cbgo",
       "values": {
         "PREVIOUS": [null],
         "COLLECTED": [null],
@@ -4722,7 +4703,6 @@
     {
       "variableType": "COLLECTED",
       "name": "MEMORY_CHAR",
-      "componentRef": "kiq7cbgo",
       "values": {
         "PREVIOUS": [null],
         "COLLECTED": [null],
@@ -4735,7 +4715,6 @@
     {
       "variableType": "COLLECTED",
       "name": "MEMORY_CHAR_MISSING",
-      "componentRef": "kiq7cbgo",
       "values": {
         "PREVIOUS": [null],
         "COLLECTED": [null],
@@ -4748,7 +4727,6 @@
     {
       "variableType": "COLLECTED",
       "name": "SURVEY_COMMENT",
-      "componentRef": "j6z0z3us",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4761,7 +4739,6 @@
     {
       "variableType": "COLLECTED",
       "name": "SURVEY_COMMENT_MISSING",
-      "componentRef": "j6z0z3us",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -4769,6 +4746,25 @@
         "EDITED": null,
         "INPUTED": null
       }
+    },
+
+    {
+      "variableType": "CALCULATED",
+      "name": "SUM_EXPENSES",
+      "expression": {
+        "value": "nvl(PERCENTAGE_EXPENSES11,0) + nvl(PERCENTAGE_EXPENSES21,0) + nvl(PERCENTAGE_EXPENSES31,0) + nvl(PERCENTAGE_EXPENSES41,0) + nvl(PERCENTAGE_EXPENSES51,0) + nvl(PERCENTAGE_EXPENSES61,0), + nvl(PERCENTAGE_EXPENSES71,0)",
+        "type": "VTL"
+      },
+      "bindingDependencies": [
+        "PERCENTAGE_EXPENSES11",
+        "PERCENTAGE_EXPENSES21",
+        "PERCENTAGE_EXPENSES31",
+        "PERCENTAGE_EXPENSES41",
+        "PERCENTAGE_EXPENSES51",
+        "PERCENTAGE_EXPENSES61",
+        "PERCENTAGE_EXPENSES71"
+      ],
+      "inFilter": "false"
     }
   ]
 }

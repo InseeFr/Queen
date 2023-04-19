@@ -1,13 +1,13 @@
 {
-  "id": "la6ni4pg",
+  "id": "l9zhp9sf",
   "modele": "RESPDESIGN",
-  "enoCoreVersion": "2.3.10-controls-type",
-  "lunaticModelVersion": "2.2.14-rc",
-  "generatingDate": "07-11-2022 10:30:09",
+  "enoCoreVersion": "2.4.1-pairwise",
+  "lunaticModelVersion": "2.3.2-rc4",
+  "generatingDate": "18-04-2023 12:52:48",
   "missing": true,
   "pagination": "question",
-  "maxPage": "35",
-  "label": { "value": "QTEST Questionnaire pour audit - Queen - sans tableau", "type": "VTL|MD" },
+  "maxPage": "48",
+  "label": { "value": "SNDI - Questionnaire pour Stromae V2 - audit", "type": "VTL|MD" },
   "components": [
     {
       "id": "jfaz9kv9",
@@ -60,7 +60,7 @@
       "page": "2",
       "maxLength": 5,
       "label": {
-        "value": "\"➡ \" || \"Je suis le libellé de la question de type texte de longueur inférieure à 250 caractères\"",
+        "value": "\"Je suis le libellé de la question de type texte de longueur inférieure à 250 caractères\"",
         "type": "VTL|MD"
       },
       "declarations": [
@@ -102,7 +102,7 @@
       "page": "3",
       "maxLength": 500,
       "label": {
-        "value": "➡ \"Je suis le libellé de la question de type texte de longueur supérieure à 250 caractères.Demain, dès l’aube, à l’heure où blanchit la campagne,Je partirai. Vois-tu, je sais que tu m’attends. J’irai par la forêt, j’irai par la montagne. Je ne puis demeurer loin de toi plus longtemps.Je marcherai les yeux fixés sur mes pensées, Sans rien voir au dehors, sans entendre aucun bruit, Seul, inconnu, le dos courbé, les mains croisées, Triste, et le jour pour moi sera comme la nuit.Je ne regarderai ni l’or du soir qui tombe, Ni les voiles au loin descendant vers Harfleur, Et quand j’arriverai, je mettrai sur ta tombe Un bouquet de houx vert et de bruyère en fleur.\"",
+        "value": "\"Je suis le libellé de la question de type texte de longueur supérieure à 250 caractères.Demain, dès l’aube, à l’heure où blanchit la campagne,Je partirai. Vois-tu, je sais que tu m’attends. J’irai par la forêt, j’irai par la montagne. Je ne puis demeurer loin de toi plus longtemps.Je marcherai les yeux fixés sur mes pensées, Sans rien voir au dehors, sans entendre aucun bruit, Seul, inconnu, le dos courbé, les mains croisées, Triste, et le jour pour moi sera comme la nuit.Je ne regarderai ni l’or du soir qui tombe, Ni les voiles au loin descendant vers Harfleur, Et quand j’arriverai, je mettrai sur ta tombe Un bouquet de houx vert et de bruyère en fleur.\"",
         "type": "VTL|MD"
       },
       "conditionFilter": { "value": "true", "type": "VTL" },
@@ -158,7 +158,7 @@
       "max": 9.99999999e8,
       "decimals": 0,
       "label": {
-        "value": "\"➡ \" || \"Numérique entier sans unité - grand (max= 999999999)\"",
+        "value": "\"Numérique entier sans unité - grand (max= 999999999)\"",
         "type": "VTL|MD"
       },
       "declarations": [
@@ -231,7 +231,7 @@
       "max": 1000,
       "decimals": 2,
       "label": {
-        "value": "\"➡ \" || \"Numérique décimal sans unité (entre 0 et 1000.00)\"",
+        "value": "\"Numérique décimal sans unité (entre 0 et 1000.00)\"",
         "type": "VTL|MD"
       },
       "declarations": [
@@ -250,7 +250,7 @@
           "declarationType": "HELP",
           "position": "AFTER_QUESTION_TEXT",
           "label": {
-            "value": "\"Test : saisir un nombre plus grand que celui de la question 3 et vérifier LE NON affichage du controle DANS QUEEN\"",
+            "value": "\"Test : saisir un nombre plus grand que celui de la question 3 et vérifier affichage du controle\"",
             "type": "VTL|MD"
           }
         }
@@ -314,7 +314,7 @@
       "max": 9999,
       "decimals": 0,
       "label": {
-        "value": "➡ \"Numérique max 9999 avec unité et infobulle sur le mot unité de cette question\"",
+        "value": "\"Numérique max 9999 avec unité et infobulle sur le mot unité de cette question\"",
         "type": "VTL|MD"
       },
       "conditionFilter": { "value": "true", "type": "VTL" },
@@ -392,7 +392,7 @@
       "page": "7",
       "min": "2000-01-01",
       "max": "2020-03-31",
-      "label": { "value": "\"➡ \" || \"Date jour\"", "type": "VTL|MD" },
+      "label": { "value": "\"Date jour\"", "type": "VTL|MD" },
       "conditionFilter": { "value": "true", "type": "VTL" },
       "controls": [
         {
@@ -431,11 +431,107 @@
     },
 
     {
+      "id": "k6c1guqb",
+      "componentType": "Datepicker",
+      "mandatory": false,
+      "page": "8",
+      "min": "2000-01",
+      "max": "2020-03",
+      "label": {
+        "value": "\"Date mois - pas encore fonctionnel donc tester affichage au format date jour\"",
+        "type": "VTL|MD"
+      },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "controls": [
+        {
+          "id": "k6c1guqb-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(DATEMOIS)) and (cast(DATEMOIS, date, \"YYYY-MM\")>cast(\"2020-03\", date, \"YYYY-MM\") or cast(DATEMOIS, date, \"YYYY-MM\")<cast(\"2000-01\", date, \"YYYY-MM\")))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"La date saisie doit être comprise entre 2000-01 et 2020-03.\"",
+            "type": "VTL|MD"
+          }
+        }
+      ],
+      "hierarchy": {
+        "sequence": {
+          "id": "jfaz9kv9",
+          "page": "1",
+          "label": {
+            "value": "\"I - \" || \"Questions ouvertes - Titre de la séquence\"",
+            "type": "VTL|MD"
+          }
+        },
+        "subSequence": {
+          "id": "jfjeuskc",
+          "page": "7",
+          "label": { "value": "Autres formats de réponse", "type": "VTL|MD" }
+        }
+      },
+      "missingResponse": { "name": "DATEMOIS_MISSING" },
+      "bindingDependencies": ["DATEMOIS_MISSING", "DATEMOIS"],
+      "dateFormat": "YYYY-MM",
+      "response": { "name": "DATEMOIS" }
+    },
+
+    {
+      "id": "k6c1che6",
+      "componentType": "Datepicker",
+      "mandatory": false,
+      "page": "9",
+      "min": "2000",
+      "max": "2020",
+      "label": {
+        "value": "\"Date année pas encore fonctionnel donc tester affichage au format date jour\"",
+        "type": "VTL|MD"
+      },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "controls": [
+        {
+          "id": "k6c1che6-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(DATEANNEE)) and (cast(DATEANNEE, date, \"YYYY\")>cast(\"2020\", date, \"YYYY\") or cast(DATEANNEE, date, \"YYYY\")<cast(\"2000\", date, \"YYYY\")))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"La date saisie doit être comprise entre 2000 et 2020.\"",
+            "type": "VTL|MD"
+          }
+        }
+      ],
+      "hierarchy": {
+        "sequence": {
+          "id": "jfaz9kv9",
+          "page": "1",
+          "label": {
+            "value": "\"I - \" || \"Questions ouvertes - Titre de la séquence\"",
+            "type": "VTL|MD"
+          }
+        },
+        "subSequence": {
+          "id": "jfjeuskc",
+          "page": "7",
+          "label": { "value": "Autres formats de réponse", "type": "VTL|MD" }
+        }
+      },
+      "missingResponse": { "name": "DATEANNEE_MISSING" },
+      "bindingDependencies": ["DATEANNEE_MISSING", "DATEANNEE"],
+      "dateFormat": "YYYY",
+      "response": { "name": "DATEANNEE" }
+    },
+
+    {
       "id": "jfjeud07",
       "componentType": "CheckboxBoolean",
       "mandatory": false,
-      "page": "8",
-      "label": { "value": "\"➡ \" || \"Booléen\"", "type": "VTL|MD" },
+      "page": "10",
+      "label": { "value": "\"Booléen\"", "type": "VTL|MD" },
       "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
@@ -460,7 +556,7 @@
     {
       "id": "jfjew4oy",
       "componentType": "Sequence",
-      "page": "9",
+      "page": "11",
       "label": {
         "value": "\"II - \" || \"Questions à choix unique et questions à choix multiple\"",
         "type": "VTL|MD"
@@ -469,7 +565,7 @@
       "hierarchy": {
         "sequence": {
           "id": "jfjew4oy",
-          "page": "9",
+          "page": "11",
           "label": {
             "value": "\"II - \" || \"Questions à choix unique et questions à choix multiple\"",
             "type": "VTL|MD"
@@ -481,13 +577,13 @@
     {
       "id": "jfkxouu8",
       "componentType": "Subsequence",
-      "goToPage": "10",
+      "goToPage": "12",
       "label": { "value": "Questions à choix unique", "type": "VTL|MD" },
       "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "jfjew4oy",
-          "page": "9",
+          "page": "11",
           "label": {
             "value": "\"II - \" || \"Questions à choix unique et questions à choix multiple\"",
             "type": "VTL|MD"
@@ -495,7 +591,7 @@
         },
         "subSequence": {
           "id": "jfkxouu8",
-          "page": "10",
+          "page": "12",
           "label": { "value": "Questions à choix unique", "type": "VTL|MD" }
         }
       }
@@ -505,16 +601,16 @@
       "id": "jfjepz6i",
       "componentType": "Radio",
       "mandatory": false,
-      "page": "10",
+      "page": "12",
       "label": {
-        "value": "\"➡ \" || \"Question à choix unique / présentation bouton radio\"",
+        "value": "\"Question à choix unique / présentation bouton radio\"",
         "type": "VTL|MD"
       },
       "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "jfjew4oy",
-          "page": "9",
+          "page": "11",
           "label": {
             "value": "\"II - \" || \"Questions à choix unique et questions à choix multiple\"",
             "type": "VTL|MD"
@@ -522,7 +618,7 @@
         },
         "subSequence": {
           "id": "jfkxouu8",
-          "page": "10",
+          "page": "12",
           "label": { "value": "Questions à choix unique", "type": "VTL|MD" }
         }
       },
@@ -582,16 +678,16 @@
       "id": "k6gik8v5",
       "componentType": "CheckboxOne",
       "mandatory": false,
-      "page": "11",
+      "page": "13",
       "label": {
-        "value": "\"➡ \" || \"Question à choix unique - présentation case à cocher décochable\"",
+        "value": "\"Question à choix unique - présentation case à cocher décochable\"",
         "type": "VTL|MD"
       },
       "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "jfjew4oy",
-          "page": "9",
+          "page": "11",
           "label": {
             "value": "\"II - \" || \"Questions à choix unique et questions à choix multiple\"",
             "type": "VTL|MD"
@@ -599,7 +695,7 @@
         },
         "subSequence": {
           "id": "jfkxouu8",
-          "page": "10",
+          "page": "12",
           "label": { "value": "Questions à choix unique", "type": "VTL|MD" }
         }
       },
@@ -659,16 +755,16 @@
       "id": "k6cc6f8r",
       "componentType": "CheckboxOne",
       "mandatory": false,
-      "page": "12",
+      "page": "14",
       "label": {
-        "value": "\"➡ \" || \"Question à choix unique - présentation images - non fonc Lunatic (Symboles en attendant) - besoin Conjoncture\"",
+        "value": "\"Question à choix unique - présentation images - non fonc Lunatic (Symboles en attendant) - besoin Conjoncture\"",
         "type": "VTL|MD"
       },
       "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "jfjew4oy",
-          "page": "9",
+          "page": "11",
           "label": {
             "value": "\"II - \" || \"Questions à choix unique et questions à choix multiple\"",
             "type": "VTL|MD"
@@ -676,7 +772,7 @@
         },
         "subSequence": {
           "id": "jfkxouu8",
-          "page": "10",
+          "page": "12",
           "label": { "value": "Questions à choix unique", "type": "VTL|MD" }
         }
       },
@@ -695,19 +791,19 @@
     },
 
     {
-      "id": "jfjfae9f",
-      "componentType": "Dropdown",
+      "id": "jfjero7b",
+      "componentType": "CheckboxOne",
       "mandatory": false,
-      "page": "13",
+      "page": "15",
       "label": {
-        "value": "\"➡ \" || \"Question à choix unique - présentation liste déroulante\"",
+        "value": "\"Question à choix unique - présentation case à cocher + autre précisez (non fonc Lunatic)\"",
         "type": "VTL|MD"
       },
       "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "jfjew4oy",
-          "page": "9",
+          "page": "11",
           "label": {
             "value": "\"II - \" || \"Questions à choix unique et questions à choix multiple\"",
             "type": "VTL|MD"
@@ -715,7 +811,76 @@
         },
         "subSequence": {
           "id": "jfkxouu8",
-          "page": "10",
+          "page": "12",
+          "label": { "value": "Questions à choix unique", "type": "VTL|MD" }
+        }
+      },
+      "missingResponse": { "name": "CHECKBOX_AUTRE_MISSING" },
+      "bindingDependencies": ["CHECKBOX_AUTRE_MISSING", "CHECKBOX_AUTRE"],
+      "options": [
+        { "value": "1", "label": { "value": "bleu", "type": "VTL|MD" } },
+
+        { "value": "2", "label": { "value": "rouge", "type": "VTL|MD" } },
+
+        { "value": "3", "label": { "value": "autre", "type": "VTL|MD" } }
+      ],
+      "response": { "name": "CHECKBOX_AUTRE" }
+    },
+
+    {
+      "id": "l8u7iy3l",
+      "componentType": "Input",
+      "mandatory": false,
+      "page": "16",
+      "maxLength": 249,
+      "label": { "value": "\"Autres préciser\"", "type": "VTL|MD" },
+      "conditionFilter": {
+        "value": "(CHECKBOX_AUTRE = \"3\")",
+        "type": "VTL",
+        "bindingDependencies": ["CHECKBOX_AUTRE"]
+      },
+      "hierarchy": {
+        "sequence": {
+          "id": "jfjew4oy",
+          "page": "11",
+          "label": {
+            "value": "\"II - \" || \"Questions à choix unique et questions à choix multiple\"",
+            "type": "VTL|MD"
+          }
+        },
+        "subSequence": {
+          "id": "jfkxouu8",
+          "page": "12",
+          "label": { "value": "Questions à choix unique", "type": "VTL|MD" }
+        }
+      },
+      "missingResponse": { "name": "AUTRE_PRECISER_MISSING" },
+      "bindingDependencies": ["AUTRE_PRECISER_MISSING", "AUTRE_PRECISER"],
+      "response": { "name": "AUTRE_PRECISER" }
+    },
+
+    {
+      "id": "jfjfae9f",
+      "componentType": "Dropdown",
+      "mandatory": false,
+      "page": "17",
+      "label": {
+        "value": "\"Question à choix unique - présentation liste déroulante\"",
+        "type": "VTL|MD"
+      },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "hierarchy": {
+        "sequence": {
+          "id": "jfjew4oy",
+          "page": "11",
+          "label": {
+            "value": "\"II - \" || \"Questions à choix unique et questions à choix multiple\"",
+            "type": "VTL|MD"
+          }
+        },
+        "subSequence": {
+          "id": "jfkxouu8",
+          "page": "12",
           "label": { "value": "Questions à choix unique", "type": "VTL|MD" }
         }
       },
@@ -929,19 +1094,19 @@
 
     {
       "id": "k6ccoydl",
-      "componentType": "Suggester",
+      "componentType": "Input",
       "mandatory": false,
-      "page": "14",
+      "page": "18",
       "maxLength": 249,
       "label": {
-        "value": "\"➡ \" || \"Question à choix unique - présentation autocomplétion, par TS\"",
+        "value": "\"Question à choix unique - présentation autocomplétion, par TS\"",
         "type": "VTL|MD"
       },
       "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "jfjew4oy",
-          "page": "9",
+          "page": "11",
           "label": {
             "value": "\"II - \" || \"Questions à choix unique et questions à choix multiple\"",
             "type": "VTL|MD"
@@ -949,12 +1114,11 @@
         },
         "subSequence": {
           "id": "jfkxouu8",
-          "page": "10",
+          "page": "12",
           "label": { "value": "Questions à choix unique", "type": "VTL|MD" }
         }
       },
       "missingResponse": { "name": "AUTOCOMPL_MISSING" },
-      "storeName": "L_COMMUNEPASSEE-1-1-0",
       "bindingDependencies": ["AUTOCOMPL_MISSING", "AUTOCOMPL"],
       "response": { "name": "AUTOCOMPL" }
     },
@@ -962,13 +1126,13 @@
     {
       "id": "jfkxuinz",
       "componentType": "Subsequence",
-      "goToPage": "15",
+      "goToPage": "19",
       "label": { "value": "Questions à choix multiple", "type": "VTL|MD" },
       "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "jfjew4oy",
-          "page": "9",
+          "page": "11",
           "label": {
             "value": "\"II - \" || \"Questions à choix unique et questions à choix multiple\"",
             "type": "VTL|MD"
@@ -976,7 +1140,7 @@
         },
         "subSequence": {
           "id": "jfkxuinz",
-          "page": "15",
+          "page": "19",
           "label": { "value": "Questions à choix multiple", "type": "VTL|MD" }
         }
       }
@@ -985,16 +1149,13 @@
     {
       "id": "jfkxh2lf",
       "componentType": "CheckboxGroup",
-      "page": "15",
-      "label": {
-        "value": "\"➡ \" || \"Question à choix multiple - réponse booléen\"",
-        "type": "VTL|MD"
-      },
+      "page": "19",
+      "label": { "value": "\"Question à choix multiple - réponse booléen\"", "type": "VTL|MD" },
       "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "jfjew4oy",
-          "page": "9",
+          "page": "11",
           "label": {
             "value": "\"II - \" || \"Questions à choix unique et questions à choix multiple\"",
             "type": "VTL|MD"
@@ -1002,7 +1163,7 @@
         },
         "subSequence": {
           "id": "jfkxuinz",
-          "page": "15",
+          "page": "19",
           "label": { "value": "Questions à choix multiple", "type": "VTL|MD" }
         }
       },
@@ -1085,17 +1246,17 @@
       "id": "jfkxybfe",
       "componentType": "Table",
       "mandatory": false,
-      "page": "16",
+      "page": "20",
       "positioning": "HORIZONTAL",
       "label": {
-        "value": "\"➡ \" || \"Question à choix multiple - réponse oui/non case à cocher\"",
+        "value": "\"Question à choix multiple - réponse oui/non case à cocher\"",
         "type": "VTL|MD"
       },
       "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "jfjew4oy",
-          "page": "9",
+          "page": "11",
           "label": {
             "value": "\"II - \" || \"Questions à choix unique et questions à choix multiple\"",
             "type": "VTL|MD"
@@ -1103,7 +1264,7 @@
         },
         "subSequence": {
           "id": "jfkxuinz",
-          "page": "15",
+          "page": "19",
           "label": { "value": "Questions à choix multiple", "type": "VTL|MD" }
         }
       },
@@ -1223,17 +1384,17 @@
       "id": "jfkyw9o1",
       "componentType": "Table",
       "mandatory": false,
-      "page": "17",
+      "page": "21",
       "positioning": "HORIZONTAL",
       "label": {
-        "value": "\"➡ \" || \"Question à choix multiple - réponse oui/non radio\"",
+        "value": "\"Question à choix multiple - réponse oui/non radio\"",
         "type": "VTL|MD"
       },
       "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "jfjew4oy",
-          "page": "9",
+          "page": "11",
           "label": {
             "value": "\"II - \" || \"Questions à choix unique et questions à choix multiple\"",
             "type": "VTL|MD"
@@ -1241,7 +1402,7 @@
         },
         "subSequence": {
           "id": "jfkxuinz",
-          "page": "15",
+          "page": "19",
           "label": { "value": "Questions à choix multiple", "type": "VTL|MD" }
         }
       },
@@ -1419,20 +1580,2898 @@
     },
 
     {
+      "id": "jfkyvabw",
+      "componentType": "Sequence",
+      "page": "22",
+      "label": { "value": "\"III - \" || \"Tableaux\"", "type": "VTL|MD" },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "hierarchy": {
+        "sequence": {
+          "id": "jfkyvabw",
+          "page": "22",
+          "label": { "value": "\"III - \" || \"Tableaux\"", "type": "VTL|MD" }
+        }
+      }
+    },
+
+    {
+      "id": "l8u8d67h",
+      "componentType": "Table",
+      "mandatory": false,
+      "page": "23",
+      "positioning": "HORIZONTAL",
+      "label": {
+        "value": "\"Tableau TIC - répartition du nb habitants, comparaison question INTEGER\"",
+        "type": "VTL|MD"
+      },
+      "declarations": [
+        {
+          "id": "l8u8d67h-l8u8f3sa",
+          "declarationType": "HELP",
+          "position": "AFTER_QUESTION_TEXT",
+          "label": {
+            "value": "\"Rappel de la valeur collectée INTEGER = \" || cast(INTEGER,string)",
+            "type": "VTL|MD"
+          }
+        }
+      ],
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "controls": [
+        {
+          "id": "l8u8d67h-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAUTIC11)) and (0>TABLEAUTIC11 or 20<TABLEAUTIC11))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 20.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "l8u8d67h-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAUTIC11))  and round(TABLEAUTIC11,0)<>TABLEAUTIC11)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "l8u8d67h-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAUTIC21)) and (0>TABLEAUTIC21 or 20<TABLEAUTIC21))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 20.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "l8u8d67h-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAUTIC21))  and round(TABLEAUTIC21,0)<>TABLEAUTIC21)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "l8u8d67h-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAUTIC31)) and (0>TABLEAUTIC31 or 20<TABLEAUTIC31))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 20.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "l8u8d67h-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAUTIC31))  and round(TABLEAUTIC31,0)<>TABLEAUTIC31)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "l8u8d67h-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAUTIC41)) and (0>TABLEAUTIC41 or 20<TABLEAUTIC41))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 20.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "l8u8d67h-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAUTIC41))  and round(TABLEAUTIC41,0)<>TABLEAUTIC41)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        }
+      ],
+      "hierarchy": {
+        "sequence": {
+          "id": "jfkyvabw",
+          "page": "22",
+          "label": { "value": "\"III - \" || \"Tableaux\"", "type": "VTL|MD" }
+        }
+      },
+      "missingResponse": { "name": "TABLEAUTIC_MISSING" },
+      "bindingDependencies": [
+        "INTEGER",
+        "TABLEAUTIC_MISSING",
+        "TABLEAUTIC11",
+        "TABLEAUTIC21",
+        "TABLEAUTIC31",
+        "TABLEAUTIC41"
+      ],
+      "header": [
+        { "label": { "value": "", "type": "VTL|MD" } },
+
+        { "label": { "value": "\"Nombre de personnes, entre 0 et 20\"", "type": "VTL|MD" } }
+      ],
+      "body": [
+        [
+          { "value": "1", "label": { "value": "\"moins de 15\"", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 20,
+            "decimals": 0,
+            "id": "l8u8d67h-QOP-l8u8ju3p",
+            "response": { "name": "TABLEAUTIC11" },
+            "bindingDependencies": ["TABLEAUTIC11"]
+          }
+        ],
+
+        [
+          { "value": "2", "label": { "value": "\"de 16 à 17 ans\"", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 20,
+            "decimals": 0,
+            "id": "l8u8d67h-QOP-l8u8ezod",
+            "response": { "name": "TABLEAUTIC21" },
+            "bindingDependencies": ["TABLEAUTIC21"]
+          }
+        ],
+
+        [
+          { "value": "3", "label": { "value": "\"de 18 à 19 ans\"", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 20,
+            "decimals": 0,
+            "id": "l8u8d67h-QOP-l8u85xql",
+            "response": { "name": "TABLEAUTIC31" },
+            "bindingDependencies": ["TABLEAUTIC31"]
+          }
+        ],
+
+        [
+          { "value": "4", "label": { "value": "\"20 et plus\"", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 20,
+            "decimals": 0,
+            "id": "l8u8d67h-QOP-l8u80yaz",
+            "response": { "name": "TABLEAUTIC41" },
+            "bindingDependencies": ["TABLEAUTIC41"]
+          }
+        ]
+      ]
+    },
+
+    {
+      "id": "jfkzltkm",
+      "componentType": "Table",
+      "mandatory": false,
+      "page": "24",
+      "positioning": "HORIZONTAL",
+      "label": { "value": "\"Tableau un axe simple, une mesure, sans unité\"", "type": "VTL|MD" },
+      "declarations": [
+        {
+          "id": "jfkzltkm-l8ubvmec",
+          "declarationType": "HELP",
+          "position": "AFTER_QUESTION_TEXT",
+          "label": { "value": "\"COntrole sur somme des lignes > 100\"", "type": "VTL|MD" }
+        }
+      ],
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "controls": [
+        {
+          "id": "jfkzltkm-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A1M11)) and (0>TABLEAU1A1M11 or 999<TABLEAU1A1M11))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 999.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzltkm-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A1M11))  and round(TABLEAU1A1M11,0)<>TABLEAU1A1M11)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzltkm-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A1M21)) and (0>TABLEAU1A1M21 or 999<TABLEAU1A1M21))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 999.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzltkm-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A1M21))  and round(TABLEAU1A1M21,0)<>TABLEAU1A1M21)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzltkm-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A1M31)) and (0>TABLEAU1A1M31 or 999<TABLEAU1A1M31))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 999.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzltkm-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A1M31))  and round(TABLEAU1A1M31,0)<>TABLEAU1A1M31)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzltkm-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A1M41)) and (0>TABLEAU1A1M41 or 999<TABLEAU1A1M41))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 999.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzltkm-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A1M41))  and round(TABLEAU1A1M41,0)<>TABLEAU1A1M41)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzltkm-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A1M51)) and (0>TABLEAU1A1M51 or 999<TABLEAU1A1M51))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 999.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzltkm-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A1M51))  and round(TABLEAU1A1M51,0)<>TABLEAU1A1M51)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        }
+      ],
+      "hierarchy": {
+        "sequence": {
+          "id": "jfkyvabw",
+          "page": "22",
+          "label": { "value": "\"III - \" || \"Tableaux\"", "type": "VTL|MD" }
+        }
+      },
+      "missingResponse": { "name": "TABLEAU1A1M_MISSING" },
+      "bindingDependencies": [
+        "TABLEAU1A1M_MISSING",
+        "TABLEAU1A1M11",
+        "TABLEAU1A1M21",
+        "TABLEAU1A1M31",
+        "TABLEAU1A1M41",
+        "TABLEAU1A1M51"
+      ],
+      "header": [
+        { "label": { "value": "", "type": "VTL|MD" } },
+
+        { "label": { "value": "Mesure de type numérique", "type": "VTL|MD" } }
+      ],
+      "body": [
+        [
+          { "value": "1", "label": { "value": "choix 1", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 999,
+            "decimals": 0,
+            "id": "jfkzltkm-QOP-kfs6nvkt",
+            "response": { "name": "TABLEAU1A1M11" },
+            "bindingDependencies": ["TABLEAU1A1M11"]
+          }
+        ],
+
+        [
+          { "value": "2", "label": { "value": "choix 2", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 999,
+            "decimals": 0,
+            "id": "jfkzltkm-QOP-kfs789y1",
+            "response": { "name": "TABLEAU1A1M21" },
+            "bindingDependencies": ["TABLEAU1A1M21"]
+          }
+        ],
+
+        [
+          { "value": "3", "label": { "value": "choix 3", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 999,
+            "decimals": 0,
+            "id": "jfkzltkm-QOP-kfs74fzv",
+            "response": { "name": "TABLEAU1A1M31" },
+            "bindingDependencies": ["TABLEAU1A1M31"]
+          }
+        ],
+
+        [
+          { "value": "4", "label": { "value": "choix 4", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 999,
+            "decimals": 0,
+            "id": "jfkzltkm-QOP-kfs752q3",
+            "response": { "name": "TABLEAU1A1M41" },
+            "bindingDependencies": ["TABLEAU1A1M41"]
+          }
+        ],
+
+        [
+          { "value": "5", "label": { "value": "choix 5", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 999,
+            "decimals": 0,
+            "id": "jfkzltkm-QOP-kfs70f2t",
+            "response": { "name": "TABLEAU1A1M51" },
+            "bindingDependencies": ["TABLEAU1A1M51"]
+          }
+        ]
+      ]
+    },
+
+    {
+      "id": "jfkzpexn",
+      "componentType": "Table",
+      "mandatory": false,
+      "page": "25",
+      "positioning": "HORIZONTAL",
+      "label": {
+        "value": "\"Tableau un axe simple, plusieurs mesures, sans unité\"",
+        "type": "VTL|MD"
+      },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "controls": [
+        {
+          "id": "jfkzpexn-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A3M11)) and (0>TABLEAU1A3M11 or 999<TABLEAU1A3M11))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 999.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzpexn-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A3M11))  and round(TABLEAU1A3M11,0)<>TABLEAU1A3M11)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzpexn-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A3M21)) and (0>TABLEAU1A3M21 or 999<TABLEAU1A3M21))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 999.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzpexn-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A3M21))  and round(TABLEAU1A3M21,0)<>TABLEAU1A3M21)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzpexn-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A3M31)) and (0>TABLEAU1A3M31 or 999<TABLEAU1A3M31))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 999.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzpexn-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A3M31))  and round(TABLEAU1A3M31,0)<>TABLEAU1A3M31)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzpexn-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A3M41)) and (0>TABLEAU1A3M41 or 999<TABLEAU1A3M41))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 999.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzpexn-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A3M41))  and round(TABLEAU1A3M41,0)<>TABLEAU1A3M41)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzpexn-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A3M51)) and (0>TABLEAU1A3M51 or 999<TABLEAU1A3M51))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 999.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzpexn-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1A3M51))  and round(TABLEAU1A3M51,0)<>TABLEAU1A3M51)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        }
+      ],
+      "hierarchy": {
+        "sequence": {
+          "id": "jfkyvabw",
+          "page": "22",
+          "label": { "value": "\"III - \" || \"Tableaux\"", "type": "VTL|MD" }
+        }
+      },
+      "missingResponse": { "name": "TABLEAU1A3M_MISSING" },
+      "bindingDependencies": [
+        "TABLEAU1A3M_MISSING",
+        "TABLEAU1A3M11",
+        "TABLEAU1A3M12",
+        "TABLEAU1A3M13",
+        "TABLEAU1A3M21",
+        "TABLEAU1A3M22",
+        "TABLEAU1A3M23",
+        "TABLEAU1A3M31",
+        "TABLEAU1A3M32",
+        "TABLEAU1A3M33",
+        "TABLEAU1A3M41",
+        "TABLEAU1A3M42",
+        "TABLEAU1A3M43",
+        "TABLEAU1A3M51",
+        "TABLEAU1A3M52",
+        "TABLEAU1A3M53"
+      ],
+      "header": [
+        { "label": { "value": "", "type": "VTL|MD" } },
+
+        { "label": { "value": "Mesure de type numérique", "type": "VTL|MD" } },
+
+        { "label": { "value": "Mesure de type liste", "type": "VTL|MD" } },
+
+        { "label": { "value": "Mesure de type texte", "type": "VTL|MD" } }
+      ],
+      "body": [
+        [
+          { "value": "1", "label": { "value": "choix 1", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 999,
+            "decimals": 0,
+            "id": "jfkzpexn-QOP-kfs6zwqz",
+            "response": { "name": "TABLEAU1A3M11" },
+            "bindingDependencies": ["TABLEAU1A3M11"]
+          },
+
+          {
+            "componentType": "CheckboxOne",
+            "id": "jfkzpexn-QOP-kfs76fb2",
+            "options": [
+              { "value": "1", "label": { "value": "Oui", "type": "VTL|MD" } },
+
+              { "value": "2", "label": { "value": "Non", "type": "VTL|MD" } }
+            ],
+            "response": { "name": "TABLEAU1A3M12" },
+            "bindingDependencies": ["TABLEAU1A3M12"]
+          },
+
+          {
+            "componentType": "Input",
+            "maxLength": 25,
+            "id": "jfkzpexn-QOP-kfs6rhps",
+            "response": { "name": "TABLEAU1A3M13" },
+            "bindingDependencies": ["TABLEAU1A3M13"]
+          }
+        ],
+
+        [
+          { "value": "2", "label": { "value": "choix 2", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 999,
+            "decimals": 0,
+            "id": "jfkzpexn-QOP-kfs6n365",
+            "response": { "name": "TABLEAU1A3M21" },
+            "bindingDependencies": ["TABLEAU1A3M21"]
+          },
+
+          {
+            "componentType": "CheckboxOne",
+            "id": "jfkzpexn-QOP-kfs6p4en",
+            "options": [
+              { "value": "1", "label": { "value": "Oui", "type": "VTL|MD" } },
+
+              { "value": "2", "label": { "value": "Non", "type": "VTL|MD" } }
+            ],
+            "response": { "name": "TABLEAU1A3M22" },
+            "bindingDependencies": ["TABLEAU1A3M22"]
+          },
+
+          {
+            "componentType": "Input",
+            "maxLength": 25,
+            "id": "jfkzpexn-QOP-kfs6qqki",
+            "response": { "name": "TABLEAU1A3M23" },
+            "bindingDependencies": ["TABLEAU1A3M23"]
+          }
+        ],
+
+        [
+          { "value": "3", "label": { "value": "choix 3", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 999,
+            "decimals": 0,
+            "id": "jfkzpexn-QOP-kfs6r9ry",
+            "response": { "name": "TABLEAU1A3M31" },
+            "bindingDependencies": ["TABLEAU1A3M31"]
+          },
+
+          {
+            "componentType": "CheckboxOne",
+            "id": "jfkzpexn-QOP-kfs6plyt",
+            "options": [
+              { "value": "1", "label": { "value": "Oui", "type": "VTL|MD" } },
+
+              { "value": "2", "label": { "value": "Non", "type": "VTL|MD" } }
+            ],
+            "response": { "name": "TABLEAU1A3M32" },
+            "bindingDependencies": ["TABLEAU1A3M32"]
+          },
+
+          {
+            "componentType": "Input",
+            "maxLength": 25,
+            "id": "jfkzpexn-QOP-kfs6yj1e",
+            "response": { "name": "TABLEAU1A3M33" },
+            "bindingDependencies": ["TABLEAU1A3M33"]
+          }
+        ],
+
+        [
+          { "value": "4", "label": { "value": "choix 4", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 999,
+            "decimals": 0,
+            "id": "jfkzpexn-QOP-kfs70a3j",
+            "response": { "name": "TABLEAU1A3M41" },
+            "bindingDependencies": ["TABLEAU1A3M41"]
+          },
+
+          {
+            "componentType": "CheckboxOne",
+            "id": "jfkzpexn-QOP-kfs71729",
+            "options": [
+              { "value": "1", "label": { "value": "Oui", "type": "VTL|MD" } },
+
+              { "value": "2", "label": { "value": "Non", "type": "VTL|MD" } }
+            ],
+            "response": { "name": "TABLEAU1A3M42" },
+            "bindingDependencies": ["TABLEAU1A3M42"]
+          },
+
+          {
+            "componentType": "Input",
+            "maxLength": 25,
+            "id": "jfkzpexn-QOP-kfs6tod7",
+            "response": { "name": "TABLEAU1A3M43" },
+            "bindingDependencies": ["TABLEAU1A3M43"]
+          }
+        ],
+
+        [
+          { "value": "5", "label": { "value": "choix 5", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 999,
+            "decimals": 0,
+            "id": "jfkzpexn-QOP-kfs6s3d1",
+            "response": { "name": "TABLEAU1A3M51" },
+            "bindingDependencies": ["TABLEAU1A3M51"]
+          },
+
+          {
+            "componentType": "CheckboxOne",
+            "id": "jfkzpexn-QOP-kfs6oml8",
+            "options": [
+              { "value": "1", "label": { "value": "Oui", "type": "VTL|MD" } },
+
+              { "value": "2", "label": { "value": "Non", "type": "VTL|MD" } }
+            ],
+            "response": { "name": "TABLEAU1A3M52" },
+            "bindingDependencies": ["TABLEAU1A3M52"]
+          },
+
+          {
+            "componentType": "Input",
+            "maxLength": 25,
+            "id": "jfkzpexn-QOP-kfs6vpzt",
+            "response": { "name": "TABLEAU1A3M53" },
+            "bindingDependencies": ["TABLEAU1A3M53"]
+          }
+        ]
+      ]
+    },
+
+    {
+      "id": "jfkzttm3",
+      "componentType": "Table",
+      "mandatory": false,
+      "page": "26",
+      "positioning": "HORIZONTAL",
+      "label": {
+        "value": "\"Tableau 2 axes - 1 mesure de type numérique, sans unité\"",
+        "type": "VTL|MD"
+      },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "controls": [
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A11)) and (0>TABLEAU2A11 or 100<TABLEAU2A11))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A11))  and round(TABLEAU2A11,0)<>TABLEAU2A11)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A12)) and (0>TABLEAU2A12 or 100<TABLEAU2A12))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A12))  and round(TABLEAU2A12,0)<>TABLEAU2A12)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A13)) and (0>TABLEAU2A13 or 100<TABLEAU2A13))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A13))  and round(TABLEAU2A13,0)<>TABLEAU2A13)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A14)) and (0>TABLEAU2A14 or 100<TABLEAU2A14))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A14))  and round(TABLEAU2A14,0)<>TABLEAU2A14)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A15)) and (0>TABLEAU2A15 or 100<TABLEAU2A15))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A15))  and round(TABLEAU2A15,0)<>TABLEAU2A15)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A21)) and (0>TABLEAU2A21 or 100<TABLEAU2A21))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A21))  and round(TABLEAU2A21,0)<>TABLEAU2A21)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A22)) and (0>TABLEAU2A22 or 100<TABLEAU2A22))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A22))  and round(TABLEAU2A22,0)<>TABLEAU2A22)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A23)) and (0>TABLEAU2A23 or 100<TABLEAU2A23))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A23))  and round(TABLEAU2A23,0)<>TABLEAU2A23)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A24)) and (0>TABLEAU2A24 or 100<TABLEAU2A24))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A24))  and round(TABLEAU2A24,0)<>TABLEAU2A24)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A25)) and (0>TABLEAU2A25 or 100<TABLEAU2A25))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A25))  and round(TABLEAU2A25,0)<>TABLEAU2A25)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A31)) and (0>TABLEAU2A31 or 100<TABLEAU2A31))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A31))  and round(TABLEAU2A31,0)<>TABLEAU2A31)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A32)) and (0>TABLEAU2A32 or 100<TABLEAU2A32))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A32))  and round(TABLEAU2A32,0)<>TABLEAU2A32)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A33)) and (0>TABLEAU2A33 or 100<TABLEAU2A33))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A33))  and round(TABLEAU2A33,0)<>TABLEAU2A33)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A34)) and (0>TABLEAU2A34 or 100<TABLEAU2A34))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A34))  and round(TABLEAU2A34,0)<>TABLEAU2A34)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A35)) and (0>TABLEAU2A35 or 100<TABLEAU2A35))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A35))  and round(TABLEAU2A35,0)<>TABLEAU2A35)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A41)) and (0>TABLEAU2A41 or 100<TABLEAU2A41))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A41))  and round(TABLEAU2A41,0)<>TABLEAU2A41)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A42)) and (0>TABLEAU2A42 or 100<TABLEAU2A42))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A42))  and round(TABLEAU2A42,0)<>TABLEAU2A42)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A43)) and (0>TABLEAU2A43 or 100<TABLEAU2A43))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A43))  and round(TABLEAU2A43,0)<>TABLEAU2A43)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A44)) and (0>TABLEAU2A44 or 100<TABLEAU2A44))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A44))  and round(TABLEAU2A44,0)<>TABLEAU2A44)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A45)) and (0>TABLEAU2A45 or 100<TABLEAU2A45))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A45))  and round(TABLEAU2A45,0)<>TABLEAU2A45)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A51)) and (0>TABLEAU2A51 or 100<TABLEAU2A51))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A51))  and round(TABLEAU2A51,0)<>TABLEAU2A51)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A52)) and (0>TABLEAU2A52 or 100<TABLEAU2A52))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A52))  and round(TABLEAU2A52,0)<>TABLEAU2A52)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A53)) and (0>TABLEAU2A53 or 100<TABLEAU2A53))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A53))  and round(TABLEAU2A53,0)<>TABLEAU2A53)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A54)) and (0>TABLEAU2A54 or 100<TABLEAU2A54))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A54))  and round(TABLEAU2A54,0)<>TABLEAU2A54)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A55)) and (0>TABLEAU2A55 or 100<TABLEAU2A55))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A55))  and round(TABLEAU2A55,0)<>TABLEAU2A55)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A61)) and (0>TABLEAU2A61 or 100<TABLEAU2A61))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A61))  and round(TABLEAU2A61,0)<>TABLEAU2A61)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A62)) and (0>TABLEAU2A62 or 100<TABLEAU2A62))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A62))  and round(TABLEAU2A62,0)<>TABLEAU2A62)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A63)) and (0>TABLEAU2A63 or 100<TABLEAU2A63))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A63))  and round(TABLEAU2A63,0)<>TABLEAU2A63)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A64)) and (0>TABLEAU2A64 or 100<TABLEAU2A64))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A64))  and round(TABLEAU2A64,0)<>TABLEAU2A64)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A65)) and (0>TABLEAU2A65 or 100<TABLEAU2A65))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A65))  and round(TABLEAU2A65,0)<>TABLEAU2A65)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A71)) and (0>TABLEAU2A71 or 100<TABLEAU2A71))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A71))  and round(TABLEAU2A71,0)<>TABLEAU2A71)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A72)) and (0>TABLEAU2A72 or 100<TABLEAU2A72))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A72))  and round(TABLEAU2A72,0)<>TABLEAU2A72)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A73)) and (0>TABLEAU2A73 or 100<TABLEAU2A73))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A73))  and round(TABLEAU2A73,0)<>TABLEAU2A73)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A74)) and (0>TABLEAU2A74 or 100<TABLEAU2A74))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A74))  and round(TABLEAU2A74,0)<>TABLEAU2A74)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A75)) and (0>TABLEAU2A75 or 100<TABLEAU2A75))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A75))  and round(TABLEAU2A75,0)<>TABLEAU2A75)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A81)) and (0>TABLEAU2A81 or 100<TABLEAU2A81))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A81))  and round(TABLEAU2A81,0)<>TABLEAU2A81)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A82)) and (0>TABLEAU2A82 or 100<TABLEAU2A82))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A82))  and round(TABLEAU2A82,0)<>TABLEAU2A82)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A83)) and (0>TABLEAU2A83 or 100<TABLEAU2A83))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A83))  and round(TABLEAU2A83,0)<>TABLEAU2A83)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A84)) and (0>TABLEAU2A84 or 100<TABLEAU2A84))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A84))  and round(TABLEAU2A84,0)<>TABLEAU2A84)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A85)) and (0>TABLEAU2A85 or 100<TABLEAU2A85))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 100.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzttm3-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU2A85))  and round(TABLEAU2A85,0)<>TABLEAU2A85)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        }
+      ],
+      "hierarchy": {
+        "sequence": {
+          "id": "jfkyvabw",
+          "page": "22",
+          "label": { "value": "\"III - \" || \"Tableaux\"", "type": "VTL|MD" }
+        }
+      },
+      "missingResponse": { "name": "TABLEAU2A_MISSING" },
+      "bindingDependencies": [
+        "TABLEAU2A_MISSING",
+        "TABLEAU2A11",
+        "TABLEAU2A12",
+        "TABLEAU2A13",
+        "TABLEAU2A14",
+        "TABLEAU2A15",
+        "TABLEAU2A21",
+        "TABLEAU2A22",
+        "TABLEAU2A23",
+        "TABLEAU2A24",
+        "TABLEAU2A25",
+        "TABLEAU2A31",
+        "TABLEAU2A32",
+        "TABLEAU2A33",
+        "TABLEAU2A34",
+        "TABLEAU2A35",
+        "TABLEAU2A41",
+        "TABLEAU2A42",
+        "TABLEAU2A43",
+        "TABLEAU2A44",
+        "TABLEAU2A45",
+        "TABLEAU2A51",
+        "TABLEAU2A52",
+        "TABLEAU2A53",
+        "TABLEAU2A54",
+        "TABLEAU2A55",
+        "TABLEAU2A61",
+        "TABLEAU2A62",
+        "TABLEAU2A63",
+        "TABLEAU2A64",
+        "TABLEAU2A65",
+        "TABLEAU2A71",
+        "TABLEAU2A72",
+        "TABLEAU2A73",
+        "TABLEAU2A74",
+        "TABLEAU2A75",
+        "TABLEAU2A81",
+        "TABLEAU2A82",
+        "TABLEAU2A83",
+        "TABLEAU2A84",
+        "TABLEAU2A85"
+      ],
+      "header": [
+        { "label": { "value": "", "type": "VTL|MD" } },
+
+        { "label": { "value": "choix 1", "type": "VTL|MD" } },
+
+        { "label": { "value": "choix 2", "type": "VTL|MD" } },
+
+        { "label": { "value": "choix 3", "type": "VTL|MD" } },
+
+        { "label": { "value": "choix 4", "type": "VTL|MD" } },
+
+        { "label": { "value": "choix 5", "type": "VTL|MD" } }
+      ],
+      "body": [
+        [
+          {
+            "value": "1",
+            "label": { "value": "code1 : le libellé du code 1 contient du gras", "type": "VTL|MD" }
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs74dod",
+            "response": { "name": "TABLEAU2A11" },
+            "bindingDependencies": ["TABLEAU2A11"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs714gr",
+            "response": { "name": "TABLEAU2A12" },
+            "bindingDependencies": ["TABLEAU2A12"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6yh8c",
+            "response": { "name": "TABLEAU2A13" },
+            "bindingDependencies": ["TABLEAU2A13"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6wx2s",
+            "response": { "name": "TABLEAU2A14" },
+            "bindingDependencies": ["TABLEAU2A14"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6ycig",
+            "response": { "name": "TABLEAU2A15" },
+            "bindingDependencies": ["TABLEAU2A15"]
+          }
+        ],
+
+        [
+          {
+            "value": "2",
+            "label": {
+              "value": "code2 le libellé du code 2 contient de l’italique",
+              "type": "VTL|MD"
+            }
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6p839",
+            "response": { "name": "TABLEAU2A21" },
+            "bindingDependencies": ["TABLEAU2A21"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6qzke",
+            "response": { "name": "TABLEAU2A22" },
+            "bindingDependencies": ["TABLEAU2A22"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6wcke",
+            "response": { "name": "TABLEAU2A23" },
+            "bindingDependencies": ["TABLEAU2A23"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6swtm",
+            "response": { "name": "TABLEAU2A24" },
+            "bindingDependencies": ["TABLEAU2A24"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6wkxw",
+            "response": { "name": "TABLEAU2A25" },
+            "bindingDependencies": ["TABLEAU2A25"]
+          }
+        ],
+
+        [
+          {
+            "value": "3",
+            "label": {
+              "value": "code3 : le libellé du code 3 contient du gras et de l’italique",
+              "type": "VTL|MD"
+            }
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs74pe1",
+            "response": { "name": "TABLEAU2A31" },
+            "bindingDependencies": ["TABLEAU2A31"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6r6v2",
+            "response": { "name": "TABLEAU2A32" },
+            "bindingDependencies": ["TABLEAU2A32"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs71abh",
+            "response": { "name": "TABLEAU2A33" },
+            "bindingDependencies": ["TABLEAU2A33"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs71r6u",
+            "response": { "name": "TABLEAU2A34" },
+            "bindingDependencies": ["TABLEAU2A34"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs70wj3",
+            "response": { "name": "TABLEAU2A35" },
+            "bindingDependencies": ["TABLEAU2A35"]
+          }
+        ],
+
+        [
+          {
+            "value": "4",
+            "label": {
+              "value": "code4 : le libellé du code 4 contient du gras italique",
+              "type": "VTL|MD"
+            }
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6std4",
+            "response": { "name": "TABLEAU2A41" },
+            "bindingDependencies": ["TABLEAU2A41"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6wteu",
+            "response": { "name": "TABLEAU2A42" },
+            "bindingDependencies": ["TABLEAU2A42"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6o4tr",
+            "response": { "name": "TABLEAU2A43" },
+            "bindingDependencies": ["TABLEAU2A43"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs70s5e",
+            "response": { "name": "TABLEAU2A44" },
+            "bindingDependencies": ["TABLEAU2A44"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs73tkt",
+            "response": { "name": "TABLEAU2A45" },
+            "bindingDependencies": ["TABLEAU2A45"]
+          }
+        ],
+
+        [
+          {
+            "value": "5",
+            "label": {
+              "value": "code5 : le libellé du code 5 contient des retours à la ligne ligne 2 ligne 3",
+              "type": "VTL|MD"
+            }
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs765pz",
+            "response": { "name": "TABLEAU2A51" },
+            "bindingDependencies": ["TABLEAU2A51"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6vlxk",
+            "response": { "name": "TABLEAU2A52" },
+            "bindingDependencies": ["TABLEAU2A52"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs70fpo",
+            "response": { "name": "TABLEAU2A53" },
+            "bindingDependencies": ["TABLEAU2A53"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6yf0h",
+            "response": { "name": "TABLEAU2A54" },
+            "bindingDependencies": ["TABLEAU2A54"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs72bf8",
+            "response": { "name": "TABLEAU2A55" },
+            "bindingDependencies": ["TABLEAU2A55"]
+          }
+        ],
+
+        [
+          { "value": "6", "label": { "value": "code6", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6psi9",
+            "response": { "name": "TABLEAU2A61" },
+            "bindingDependencies": ["TABLEAU2A61"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs714kn",
+            "response": { "name": "TABLEAU2A62" },
+            "bindingDependencies": ["TABLEAU2A62"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs770cc",
+            "response": { "name": "TABLEAU2A63" },
+            "bindingDependencies": ["TABLEAU2A63"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs75dsl",
+            "response": { "name": "TABLEAU2A64" },
+            "bindingDependencies": ["TABLEAU2A64"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6pfhm",
+            "response": { "name": "TABLEAU2A65" },
+            "bindingDependencies": ["TABLEAU2A65"]
+          }
+        ],
+
+        [
+          {
+            "value": "7",
+            "label": { "value": "code7 le code 7 porte une infobulle", "type": "VTL|MD" }
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6oi5b",
+            "response": { "name": "TABLEAU2A71" },
+            "bindingDependencies": ["TABLEAU2A71"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs74cck",
+            "response": { "name": "TABLEAU2A72" },
+            "bindingDependencies": ["TABLEAU2A72"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6zzlh",
+            "response": { "name": "TABLEAU2A73" },
+            "bindingDependencies": ["TABLEAU2A73"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs77kxk",
+            "response": { "name": "TABLEAU2A74" },
+            "bindingDependencies": ["TABLEAU2A74"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6wdle",
+            "response": { "name": "TABLEAU2A75" },
+            "bindingDependencies": ["TABLEAU2A75"]
+          }
+        ],
+
+        [
+          { "value": "8", "label": { "value": "code8", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6o718",
+            "response": { "name": "TABLEAU2A81" },
+            "bindingDependencies": ["TABLEAU2A81"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6uhz5",
+            "response": { "name": "TABLEAU2A82" },
+            "bindingDependencies": ["TABLEAU2A82"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs6r0f9",
+            "response": { "name": "TABLEAU2A83" },
+            "bindingDependencies": ["TABLEAU2A83"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs751qu",
+            "response": { "name": "TABLEAU2A84" },
+            "bindingDependencies": ["TABLEAU2A84"]
+          },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 100,
+            "decimals": 0,
+            "id": "jfkzttm3-QOP-kfs77396",
+            "response": { "name": "TABLEAU2A85" },
+            "bindingDependencies": ["TABLEAU2A85"]
+          }
+        ]
+      ]
+    },
+
+    {
+      "id": "jfkzrwce",
+      "componentType": "Table",
+      "mandatory": false,
+      "page": "27",
+      "positioning": "HORIZONTAL",
+      "label": {
+        "value": "\"Tableau 1 axe avec hiérarchie , 1 mesure, avec unité\"",
+        "type": "VTL|MD"
+      },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "controls": [
+        {
+          "id": "jfkzrwce-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1AH1M11)) and (0>TABLEAU1AH1M11 or 999<TABLEAU1AH1M11))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 999.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzrwce-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1AH1M11))  and round(TABLEAU1AH1M11,0)<>TABLEAU1AH1M11)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzrwce-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1AH1M21)) and (0>TABLEAU1AH1M21 or 999<TABLEAU1AH1M21))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 999.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzrwce-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1AH1M21))  and round(TABLEAU1AH1M21,0)<>TABLEAU1AH1M21)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzrwce-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1AH1M31)) and (0>TABLEAU1AH1M31 or 999<TABLEAU1AH1M31))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 999.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzrwce-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1AH1M31))  and round(TABLEAU1AH1M31,0)<>TABLEAU1AH1M31)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzrwce-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1AH1M41)) and (0>TABLEAU1AH1M41 or 999<TABLEAU1AH1M41))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 999.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzrwce-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1AH1M41))  and round(TABLEAU1AH1M41,0)<>TABLEAU1AH1M41)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzrwce-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1AH1M51)) and (0>TABLEAU1AH1M51 or 999<TABLEAU1AH1M51))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 999.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzrwce-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1AH1M51))  and round(TABLEAU1AH1M51,0)<>TABLEAU1AH1M51)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzrwce-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1AH1M61)) and (0>TABLEAU1AH1M61 or 999<TABLEAU1AH1M61))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 999.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "jfkzrwce-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAU1AH1M61))  and round(TABLEAU1AH1M61,0)<>TABLEAU1AH1M61)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        }
+      ],
+      "hierarchy": {
+        "sequence": {
+          "id": "jfkyvabw",
+          "page": "22",
+          "label": { "value": "\"III - \" || \"Tableaux\"", "type": "VTL|MD" }
+        }
+      },
+      "missingResponse": { "name": "TABLEAU1AH1M_MISSING" },
+      "bindingDependencies": [
+        "TABLEAU1AH1M_MISSING",
+        "TABLEAU1AH1M11",
+        "TABLEAU1AH1M21",
+        "TABLEAU1AH1M31",
+        "TABLEAU1AH1M41",
+        "TABLEAU1AH1M51",
+        "TABLEAU1AH1M61"
+      ],
+      "header": [
+        { "colspan": 2, "label": { "value": "", "type": "VTL|MD" } },
+
+        { "label": { "value": "Mesure de type numérique avec unité", "type": "VTL|MD" } }
+      ],
+      "body": [
+        [
+          { "rowspan": 2, "value": "10", "label": { "value": "code1", "type": "VTL|MD" } },
+
+          { "value": "11", "label": { "value": "code 1 1", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 999,
+            "decimals": 0,
+            "id": "jfkzrwce-QOP-kfs70aez",
+            "unit": "k€",
+            "response": { "name": "TABLEAU1AH1M11" },
+            "bindingDependencies": ["TABLEAU1AH1M11"]
+          }
+        ],
+
+        [
+          { "value": "12", "label": { "value": "code 1 2", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 999,
+            "decimals": 0,
+            "id": "jfkzrwce-QOP-kfs6o7rs",
+            "unit": "k€",
+            "response": { "name": "TABLEAU1AH1M21" },
+            "bindingDependencies": ["TABLEAU1AH1M21"]
+          }
+        ],
+
+        [
+          { "rowspan": 3, "value": "20", "label": { "value": "code2", "type": "VTL|MD" } },
+
+          { "value": "21", "label": { "value": "code 2 1", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 999,
+            "decimals": 0,
+            "id": "jfkzrwce-QOP-kfs72t19",
+            "unit": "k€",
+            "response": { "name": "TABLEAU1AH1M31" },
+            "bindingDependencies": ["TABLEAU1AH1M31"]
+          }
+        ],
+
+        [
+          { "value": "22", "label": { "value": "code 2 2", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 999,
+            "decimals": 0,
+            "id": "jfkzrwce-QOP-kfs77h7l",
+            "unit": "k€",
+            "response": { "name": "TABLEAU1AH1M41" },
+            "bindingDependencies": ["TABLEAU1AH1M41"]
+          }
+        ],
+
+        [
+          { "value": "23", "label": { "value": "code 2 3", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 999,
+            "decimals": 0,
+            "id": "jfkzrwce-QOP-kfs6vcz9",
+            "unit": "k€",
+            "response": { "name": "TABLEAU1AH1M51" },
+            "bindingDependencies": ["TABLEAU1AH1M51"]
+          }
+        ],
+
+        [
+          { "colspan": 2, "value": "30", "label": { "value": "code 3", "type": "VTL|MD" } },
+
+          {
+            "componentType": "InputNumber",
+            "min": 0,
+            "max": 999,
+            "decimals": 0,
+            "id": "jfkzrwce-QOP-kfs7347h",
+            "unit": "k€",
+            "response": { "name": "TABLEAU1AH1M61" },
+            "bindingDependencies": ["TABLEAU1AH1M61"]
+          }
+        ]
+      ]
+    },
+
+    {
+      "id": "k6c6kj14",
+      "componentType": "RosterForLoop",
+      "mandatory": false,
+      "page": "28",
+      "positioning": "HORIZONTAL",
+      "label": {
+        "value": "\"Tableau dynamique jusque 5 lignes, 2 mesures dont une unité, KO pour l’instant\"",
+        "type": "VTL|MD"
+      },
+      "conditionFilter": { "value": "true", "type": "VTL" },
+      "controls": [
+        {
+          "id": "k6c6kj14-format-borne-inf-sup",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAUDYN2)) and (0>TABLEAUDYN2 or 120<TABLEAUDYN2))",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\" La valeur doit être comprise entre 0 et 120.\"",
+            "type": "VTL|MD"
+          }
+        },
+
+        {
+          "id": "k6c6kj14-format-decimal",
+          "typeOfControl": "FORMAT",
+          "criticality": "ERROR",
+          "control": {
+            "value": "not(not(isnull(TABLEAUDYN2))  and round(TABLEAUDYN2,0)<>TABLEAUDYN2)",
+            "type": "VTL"
+          },
+          "errorMessage": {
+            "value": "\"Le nombre doit comporter au maximum 0 chiffre(s) après la virgule.\"",
+            "type": "VTL|MD"
+          }
+        }
+      ],
+      "hierarchy": {
+        "sequence": {
+          "id": "jfkyvabw",
+          "page": "22",
+          "label": { "value": "\"III - \" || \"Tableaux\"", "type": "VTL|MD" }
+        }
+      },
+      "missingResponse": { "name": "TABLEAUDYN_MISSING" },
+      "bindingDependencies": ["TABLEAUDYN_MISSING", "TABLEAUDYN1", "TABLEAUDYN2"],
+      "lines": { "min": { "value": "2", "type": "VTL" }, "max": { "value": "2", "type": "VTL" } },
+      "header": [
+        { "label": { "value": "Mesure de type texte", "type": "VTL|MD" } },
+
+        { "label": { "value": "Mesure de type numérique unité", "type": "VTL|MD" } }
+      ],
+      "components": [
+        {
+          "componentType": "Input",
+          "maxLength": 25,
+          "id": "k6c6kj14-QOP-lfrzor4e",
+          "response": { "name": "TABLEAUDYN1" },
+          "bindingDependencies": ["TABLEAUDYN1"]
+        },
+
+        {
+          "componentType": "InputNumber",
+          "min": 0,
+          "max": 120,
+          "decimals": 0,
+          "id": "k6c6kj14-QOP-lfs02t30",
+          "unit": "k€",
+          "response": { "name": "TABLEAUDYN2" },
+          "bindingDependencies": ["TABLEAUDYN2"]
+        }
+      ]
+    },
+
+    {
       "id": "k3opdj10",
       "componentType": "Sequence",
-      "page": "18",
+      "page": "31",
       "label": {
-        "value": "\"III - \" || \"Séquence personnalisée et comportant des filtres\"",
+        "value": "\"IV - \" || \"Séquence personnalisée et comportant des filtres\"",
         "type": "VTL|MD"
       },
       "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "k3opdj10",
-          "page": "18",
+          "page": "31",
           "label": {
-            "value": "\"III - \" || \"Séquence personnalisée et comportant des filtres\"",
+            "value": "\"IV - \" || \"Séquence personnalisée et comportant des filtres\"",
             "type": "VTL|MD"
           }
         }
@@ -1443,9 +4482,9 @@
       "id": "k6c3ia6n",
       "componentType": "Input",
       "mandatory": false,
-      "page": "19",
+      "page": "32",
       "maxLength": 25,
-      "label": { "value": "\"➡ \" || \"Quel est votre prénom ? \"", "type": "VTL|MD" },
+      "label": { "value": "\"Quel est votre prénom ? \"", "type": "VTL|MD" },
       "declarations": [
         {
           "id": "k6c3ia6n-kzf8uqsy",
@@ -1458,9 +4497,9 @@
       "hierarchy": {
         "sequence": {
           "id": "k3opdj10",
-          "page": "18",
+          "page": "31",
           "label": {
-            "value": "\"III - \" || \"Séquence personnalisée et comportant des filtres\"",
+            "value": "\"IV - \" || \"Séquence personnalisée et comportant des filtres\"",
             "type": "VTL|MD"
           }
         }
@@ -1474,16 +4513,16 @@
       "id": "k6gjzooe",
       "componentType": "Input",
       "mandatory": false,
-      "page": "20",
+      "page": "33",
       "maxLength": 80,
-      "label": { "value": "\"➡ \" || \"Quelle est votre adresse email ?\"", "type": "VTL|MD" },
+      "label": { "value": "\"Quelle est votre adresse email ?\"", "type": "VTL|MD" },
       "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "k3opdj10",
-          "page": "18",
+          "page": "31",
           "label": {
-            "value": "\"III - \" || \"Séquence personnalisée et comportant des filtres\"",
+            "value": "\"IV - \" || \"Séquence personnalisée et comportant des filtres\"",
             "type": "VTL|MD"
           }
         }
@@ -1496,8 +4535,8 @@
     {
       "id": "k3opeux2",
       "componentType": "Subsequence",
-      "page": "21",
-      "goToPage": "21",
+      "page": "34",
+      "goToPage": "34",
       "label": { "value": "\"Description socio démo de \"|| PRENOM", "type": "VTL|MD" },
       "declarations": [
         {
@@ -1514,15 +4553,15 @@
       "hierarchy": {
         "sequence": {
           "id": "k3opdj10",
-          "page": "18",
+          "page": "31",
           "label": {
-            "value": "\"III - \" || \"Séquence personnalisée et comportant des filtres\"",
+            "value": "\"IV - \" || \"Séquence personnalisée et comportant des filtres\"",
             "type": "VTL|MD"
           }
         },
         "subSequence": {
           "id": "k3opeux2",
-          "page": "21",
+          "page": "34",
           "label": { "value": "\"Description socio démo de \"|| PRENOM", "type": "VTL|MD" }
         }
       },
@@ -1533,18 +4572,15 @@
       "id": "k6c6mt9g",
       "componentType": "CheckboxOne",
       "mandatory": false,
-      "page": "22",
-      "label": {
-        "value": "\"➡ \" || \"Bonjour \" || PRENOM || \", êtes vous majeur ?\"",
-        "type": "VTL|MD"
-      },
+      "page": "35",
+      "label": { "value": "\"Bonjour \" || PRENOM || \", êtes vous majeur ?\"", "type": "VTL|MD" },
       "declarations": [
         {
           "id": "k6c6mt9g-k6cbmkuw",
           "declarationType": "INSTRUCTION",
           "position": "AFTER_QUESTION_TEXT",
           "label": {
-            "value": "\"Si vous répondez oui, alors les questions 27/28 apparaîtront\"",
+            "value": "Si vous répondez oui, alors la question 32/33 apparaîtra",
             "type": "VTL|MD"
           }
         }
@@ -1553,15 +4589,15 @@
       "hierarchy": {
         "sequence": {
           "id": "k3opdj10",
-          "page": "18",
+          "page": "31",
           "label": {
-            "value": "\"III - \" || \"Séquence personnalisée et comportant des filtres\"",
+            "value": "\"IV - \" || \"Séquence personnalisée et comportant des filtres\"",
             "type": "VTL|MD"
           }
         },
         "subSequence": {
           "id": "k3opeux2",
-          "page": "21",
+          "page": "34",
           "label": { "value": "\"Description socio démo de \"|| PRENOM", "type": "VTL|MD" }
         }
       },
@@ -1579,13 +4615,10 @@
       "id": "k6c36b39",
       "componentType": "Datepicker",
       "mandatory": false,
-      "page": "23",
+      "page": "36",
       "min": "1900",
       "max": "2020",
-      "label": {
-        "value": "\"➡ \" || PRENOM ||\", quelle est votre date de naissance ?\"",
-        "type": "VTL|MD"
-      },
+      "label": { "value": "PRENOM ||\", quelle est votre date de naissance ?\"", "type": "VTL|MD" },
       "declarations": [
         {
           "id": "k6c36b39-kzf8r6ee",
@@ -1627,15 +4660,15 @@
       "hierarchy": {
         "sequence": {
           "id": "k3opdj10",
-          "page": "18",
+          "page": "31",
           "label": {
-            "value": "\"III - \" || \"Séquence personnalisée et comportant des filtres\"",
+            "value": "\"IV - \" || \"Séquence personnalisée et comportant des filtres\"",
             "type": "VTL|MD"
           }
         },
         "subSequence": {
           "id": "k3opeux2",
-          "page": "21",
+          "page": "34",
           "label": { "value": "\"Description socio démo de \"|| PRENOM", "type": "VTL|MD" }
         }
       },
@@ -1649,21 +4682,21 @@
       "id": "k6c7mdcb",
       "componentType": "CheckboxOne",
       "mandatory": false,
-      "page": "24",
-      "label": { "value": "\"➡ \" || \"Quel est votre sexe ?\"", "type": "VTL|MD" },
+      "page": "37",
+      "label": { "value": "\"Quel est votre sexe ?\"", "type": "VTL|MD" },
       "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "k3opdj10",
-          "page": "18",
+          "page": "31",
           "label": {
-            "value": "\"III - \" || \"Séquence personnalisée et comportant des filtres\"",
+            "value": "\"IV - \" || \"Séquence personnalisée et comportant des filtres\"",
             "type": "VTL|MD"
           }
         },
         "subSequence": {
           "id": "k3opeux2",
-          "page": "21",
+          "page": "34",
           "label": { "value": "\"Description socio démo de \"|| PRENOM", "type": "VTL|MD" }
         }
       },
@@ -1680,7 +4713,7 @@
     {
       "id": "k6c9b3d2",
       "componentType": "Subsequence",
-      "goToPage": "25",
+      "goToPage": "38",
       "label": {
         "value": "Sous module masqué par défaut, qui s’affiche lorsque l’individu coche majeur",
         "type": "VTL|MD"
@@ -1693,15 +4726,15 @@
       "hierarchy": {
         "sequence": {
           "id": "k3opdj10",
-          "page": "18",
+          "page": "31",
           "label": {
-            "value": "\"III - \" || \"Séquence personnalisée et comportant des filtres\"",
+            "value": "\"IV - \" || \"Séquence personnalisée et comportant des filtres\"",
             "type": "VTL|MD"
           }
         },
         "subSequence": {
           "id": "k6c9b3d2",
-          "page": "25",
+          "page": "38",
           "label": {
             "value": "Sous module masqué par défaut, qui s’affiche lorsque l’individu coche majeur",
             "type": "VTL|MD"
@@ -1714,10 +4747,10 @@
       "id": "k6c9pbc3",
       "componentType": "Textarea",
       "mandatory": false,
-      "page": "25",
+      "page": "38",
       "maxLength": 255,
       "label": {
-        "value": "\"➡ \" || \"Question masquée par défaut, qui s’affiche lorsque l’individu coche majeur\"",
+        "value": "\"Question masquée par défaut, qui s’affiche lorsque l’individu coche majeur\"",
         "type": "VTL|MD"
       },
       "declarations": [
@@ -1725,7 +4758,7 @@
           "id": "k6c9pbc3-kzfa7bm2",
           "declarationType": "HELP",
           "position": "AFTER_QUESTION_TEXT",
-          "label": { "value": "Si a coché Homme, la question 33 disparaitra", "type": "VTL|MD" }
+          "label": { "value": "Si a coché Homme, la question 34 disparaitra", "type": "VTL|MD" }
         }
       ],
       "conditionFilter": {
@@ -1736,15 +4769,15 @@
       "hierarchy": {
         "sequence": {
           "id": "k3opdj10",
-          "page": "18",
+          "page": "31",
           "label": {
-            "value": "\"III - \" || \"Séquence personnalisée et comportant des filtres\"",
+            "value": "\"IV - \" || \"Séquence personnalisée et comportant des filtres\"",
             "type": "VTL|MD"
           }
         },
         "subSequence": {
           "id": "k6c9b3d2",
-          "page": "25",
+          "page": "38",
           "label": {
             "value": "Sous module masqué par défaut, qui s’affiche lorsque l’individu coche majeur",
             "type": "VTL|MD"
@@ -1759,28 +4792,28 @@
     {
       "id": "k6c971cz",
       "componentType": "Subsequence",
-      "goToPage": "26",
+      "goToPage": "39",
       "label": {
         "value": "Sous module affiché par défaut, filtré si l’individu est un homme",
         "type": "VTL|MD"
       },
       "conditionFilter": {
-        "value": "(MAJEUR=\"1\") and (isnull(SEXE) or SEXE=\"2\")",
+        "value": "(MAJEUR=\"1\") and (nvl(SEXE,\"2\") = \"2\")",
         "type": "VTL",
         "bindingDependencies": ["MAJEUR", "SEXE"]
       },
       "hierarchy": {
         "sequence": {
           "id": "k3opdj10",
-          "page": "18",
+          "page": "31",
           "label": {
-            "value": "\"III - \" || \"Séquence personnalisée et comportant des filtres\"",
+            "value": "\"IV - \" || \"Séquence personnalisée et comportant des filtres\"",
             "type": "VTL|MD"
           }
         },
         "subSequence": {
           "id": "k6c971cz",
-          "page": "26",
+          "page": "39",
           "label": {
             "value": "Sous module affiché par défaut, filtré si l’individu est un homme",
             "type": "VTL|MD"
@@ -1793,29 +4826,29 @@
       "id": "k6c9al86",
       "componentType": "Textarea",
       "mandatory": false,
-      "page": "26",
+      "page": "39",
       "maxLength": 255,
       "label": {
-        "value": "\"➡ \" || \"Question affichée par défaut, filtrée si l’individu est un homme\"",
+        "value": "\"Question affichée par défaut, filtrée si l’individu est un homme\"",
         "type": "VTL|MD"
       },
       "conditionFilter": {
-        "value": "(MAJEUR=\"1\") and (isnull(SEXE) or SEXE=\"2\")",
+        "value": "(MAJEUR=\"1\") and (nvl(SEXE,\"2\") = \"2\")",
         "type": "VTL",
         "bindingDependencies": ["MAJEUR", "SEXE"]
       },
       "hierarchy": {
         "sequence": {
           "id": "k3opdj10",
-          "page": "18",
+          "page": "31",
           "label": {
-            "value": "\"III - \" || \"Séquence personnalisée et comportant des filtres\"",
+            "value": "\"IV - \" || \"Séquence personnalisée et comportant des filtres\"",
             "type": "VTL|MD"
           }
         },
         "subSequence": {
           "id": "k6c971cz",
-          "page": "26",
+          "page": "39",
           "label": {
             "value": "Sous module affiché par défaut, filtré si l’individu est un homme",
             "type": "VTL|MD"
@@ -1830,18 +4863,18 @@
     {
       "id": "l262oeox",
       "componentType": "Sequence",
-      "page": "27",
+      "page": "40",
       "label": {
-        "value": "\"IV - \" || \"PERSO - Composition du ménage - boucle type logement\"",
+        "value": "\"V - \" || \"PERSO - Composition du ménage - boucle type logement\"",
         "type": "VTL|MD"
       },
       "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "l262oeox",
-          "page": "27",
+          "page": "40",
           "label": {
-            "value": "\"IV - \" || \"PERSO - Composition du ménage - boucle type logement\"",
+            "value": "\"V - \" || \"PERSO - Composition du ménage - boucle type logement\"",
             "type": "VTL|MD"
           }
         }
@@ -1851,8 +4884,8 @@
     {
       "id": "k6c75pyx",
       "componentType": "Subsequence",
-      "page": "28",
-      "goToPage": "28",
+      "page": "41",
+      "goToPage": "41",
       "label": { "value": "Description de votre ménage", "type": "VTL|MD" },
       "declarations": [
         {
@@ -1869,15 +4902,15 @@
       "hierarchy": {
         "sequence": {
           "id": "l262oeox",
-          "page": "27",
+          "page": "40",
           "label": {
-            "value": "\"IV - \" || \"PERSO - Composition du ménage - boucle type logement\"",
+            "value": "\"V - \" || \"PERSO - Composition du ménage - boucle type logement\"",
             "type": "VTL|MD"
           }
         },
         "subSequence": {
           "id": "k6c75pyx",
-          "page": "28",
+          "page": "41",
           "label": { "value": "Description de votre ménage", "type": "VTL|MD" }
         }
       },
@@ -1888,12 +4921,12 @@
       "id": "k6c748uq",
       "componentType": "InputNumber",
       "mandatory": false,
-      "page": "29",
+      "page": "42",
       "min": 0,
       "max": 20,
       "decimals": 0,
       "label": {
-        "value": "\"➡ \" || \"Combien de personnes vivent dans votre logement, y compris vous ?\"",
+        "value": "\"Combien de personnes vivent dans votre logement, y compris vous ?\"",
         "type": "VTL|MD"
       },
       "conditionFilter": { "value": "true", "type": "VTL" },
@@ -1929,15 +4962,15 @@
       "hierarchy": {
         "sequence": {
           "id": "l262oeox",
-          "page": "27",
+          "page": "40",
           "label": {
-            "value": "\"IV - \" || \"PERSO - Composition du ménage - boucle type logement\"",
+            "value": "\"V - \" || \"PERSO - Composition du ménage - boucle type logement\"",
             "type": "VTL|MD"
           }
         },
         "subSequence": {
           "id": "k6c75pyx",
-          "page": "28",
+          "page": "41",
           "label": { "value": "Description de votre ménage", "type": "VTL|MD" }
         }
       },
@@ -1950,14 +4983,11 @@
       "id": "k6c7oj3o",
       "componentType": "InputNumber",
       "mandatory": false,
-      "page": "30",
+      "page": "43",
       "min": 0,
       "max": 20,
       "decimals": 0,
-      "label": {
-        "value": "\"➡ \" || \"Combien avez vous d’enfants à charge ?\"",
-        "type": "VTL|MD"
-      },
+      "label": { "value": "\"Combien avez vous d’enfants à charge ?\"", "type": "VTL|MD" },
       "declarations": [
         {
           "id": "k6c7oj3o-kzf9l7fc",
@@ -2009,15 +5039,15 @@
       "hierarchy": {
         "sequence": {
           "id": "l262oeox",
-          "page": "27",
+          "page": "40",
           "label": {
-            "value": "\"IV - \" || \"PERSO - Composition du ménage - boucle type logement\"",
+            "value": "\"V - \" || \"PERSO - Composition du ménage - boucle type logement\"",
             "type": "VTL|MD"
           }
         },
         "subSequence": {
           "id": "k6c75pyx",
-          "page": "28",
+          "page": "41",
           "label": { "value": "Description de votre ménage", "type": "VTL|MD" }
         }
       },
@@ -2029,16 +5059,16 @@
     {
       "id": "l8uayz0h",
       "componentType": "Loop",
-      "page": "31",
+      "page": "44",
       "depth": 1,
       "paginatedLoop": false,
       "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "l262oeox",
-          "page": "27",
+          "page": "40",
           "label": {
-            "value": "\"IV - \" || \"PERSO - Composition du ménage - boucle type logement\"",
+            "value": "\"V - \" || \"PERSO - Composition du ménage - boucle type logement\"",
             "type": "VTL|MD"
           }
         }
@@ -2054,22 +5084,22 @@
         {
           "id": "l8uaq797",
           "componentType": "Subsequence",
-          "page": "31",
-          "goToPage": "31",
+          "page": "44",
+          "goToPage": "44",
           "label": { "value": "Décrire chaque habitant", "type": "VTL|MD" },
           "conditionFilter": { "value": "true", "type": "VTL" },
           "hierarchy": {
             "sequence": {
               "id": "l262oeox",
-              "page": "27",
+              "page": "40",
               "label": {
-                "value": "\"IV - \" || \"PERSO - Composition du ménage - boucle type logement\"",
+                "value": "\"V - \" || \"PERSO - Composition du ménage - boucle type logement\"",
                 "type": "VTL|MD"
               }
             },
             "subSequence": {
               "id": "l8uaq797",
-              "page": "31",
+              "page": "44",
               "label": { "value": "Décrire chaque habitant", "type": "VTL|MD" }
             }
           },
@@ -2080,22 +5110,22 @@
           "id": "k6ca0fk1",
           "componentType": "Input",
           "mandatory": false,
-          "page": "31",
+          "page": "44",
           "maxLength": 249,
-          "label": { "value": "\"➡ \" || \"Nom\"", "type": "VTL|MD" },
+          "label": { "value": "\"Nom\"", "type": "VTL|MD" },
           "conditionFilter": { "value": "true", "type": "VTL" },
           "hierarchy": {
             "sequence": {
               "id": "l262oeox",
-              "page": "27",
+              "page": "40",
               "label": {
-                "value": "\"IV - \" || \"PERSO - Composition du ménage - boucle type logement\"",
+                "value": "\"V - \" || \"PERSO - Composition du ménage - boucle type logement\"",
                 "type": "VTL|MD"
               }
             },
             "subSequence": {
               "id": "l8uaq797",
-              "page": "31",
+              "page": "44",
               "label": { "value": "Décrire chaque habitant", "type": "VTL|MD" }
             }
           },
@@ -2107,11 +5137,11 @@
           "id": "l8uav5ld",
           "componentType": "InputNumber",
           "mandatory": false,
-          "page": "31",
+          "page": "44",
           "min": 0,
           "max": 100,
           "decimals": 0,
-          "label": { "value": "\"➡ \" || \"Age entre 0 et 100\"", "type": "VTL|MD" },
+          "label": { "value": "\"Age entre 0 et 100\"", "type": "VTL|MD" },
           "conditionFilter": { "value": "true", "type": "VTL" },
           "controls": [
             {
@@ -2145,15 +5175,15 @@
           "hierarchy": {
             "sequence": {
               "id": "l262oeox",
-              "page": "27",
+              "page": "40",
               "label": {
-                "value": "\"IV - \" || \"PERSO - Composition du ménage - boucle type logement\"",
+                "value": "\"V - \" || \"PERSO - Composition du ménage - boucle type logement\"",
                 "type": "VTL|MD"
               }
             },
             "subSequence": {
               "id": "l8uaq797",
-              "page": "31",
+              "page": "44",
               "label": { "value": "Décrire chaque habitant", "type": "VTL|MD" }
             }
           },
@@ -2167,7 +5197,7 @@
     {
       "id": "kfs6ox4i",
       "componentType": "Loop",
-      "page": "32",
+      "page": "45",
       "maxPage": "1",
       "depth": 1,
       "paginatedLoop": true,
@@ -2175,9 +5205,9 @@
       "hierarchy": {
         "sequence": {
           "id": "l262oeox",
-          "page": "27",
+          "page": "40",
           "label": {
-            "value": "\"IV - \" || \"PERSO - Composition du ménage - boucle type logement\"",
+            "value": "\"V - \" || \"PERSO - Composition du ménage - boucle type logement\"",
             "type": "VTL|MD"
           }
         }
@@ -2188,21 +5218,21 @@
         {
           "id": "kzf9qrnj",
           "componentType": "Subsequence",
-          "goToPage": "32.1",
+          "goToPage": "45.1",
           "label": { "value": "\"Questionnaire individuel de \" || THL_PRENOM", "type": "VTL|MD" },
           "conditionFilter": { "value": "true", "type": "VTL" },
           "hierarchy": {
             "sequence": {
               "id": "l262oeox",
-              "page": "27",
+              "page": "40",
               "label": {
-                "value": "\"IV - \" || \"PERSO - Composition du ménage - boucle type logement\"",
+                "value": "\"V - \" || \"PERSO - Composition du ménage - boucle type logement\"",
                 "type": "VTL|MD"
               }
             },
             "subSequence": {
               "id": "kzf9qrnj",
-              "page": "32.1",
+              "page": "45.1",
               "label": {
                 "value": "\"Questionnaire individuel de \" || THL_PRENOM",
                 "type": "VTL|MD"
@@ -2216,12 +5246,12 @@
           "id": "k6ccf759",
           "componentType": "InputNumber",
           "mandatory": false,
-          "page": "32.1",
+          "page": "45.1",
           "min": 0,
           "max": 300,
           "decimals": 0,
           "label": {
-            "value": "\"➡ \" || THL_PRENOM || \", quelle est votre taille en centimètres ?\"",
+            "value": "THL_PRENOM || \", quelle est votre taille en centimètres ?\"",
             "type": "VTL|MD"
           },
           "declarations": [
@@ -2265,15 +5295,15 @@
           "hierarchy": {
             "sequence": {
               "id": "l262oeox",
-              "page": "27",
+              "page": "40",
               "label": {
-                "value": "\"IV - \" || \"PERSO - Composition du ménage - boucle type logement\"",
+                "value": "\"V - \" || \"PERSO - Composition du ménage - boucle type logement\"",
                 "type": "VTL|MD"
               }
             },
             "subSequence": {
               "id": "kzf9qrnj",
-              "page": "32.1",
+              "page": "45.1",
               "label": {
                 "value": "\"Questionnaire individuel de \" || THL_PRENOM",
                 "type": "VTL|MD"
@@ -2291,14 +5321,14 @@
     {
       "id": "l8uan6l7",
       "componentType": "Sequence",
-      "page": "33",
-      "label": { "value": "\"V - \" || \"FIN QUESTIONNAIRE\"", "type": "VTL|MD" },
+      "page": "46",
+      "label": { "value": "\"VI - \" || \"FIN QUESTIONNAIRE\"", "type": "VTL|MD" },
       "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "l8uan6l7",
-          "page": "33",
-          "label": { "value": "\"V - \" || \"FIN QUESTIONNAIRE\"", "type": "VTL|MD" }
+          "page": "46",
+          "label": { "value": "\"VI - \" || \"FIN QUESTIONNAIRE\"", "type": "VTL|MD" }
         }
       }
     },
@@ -2306,13 +5336,13 @@
     {
       "id": "COMMENT-SEQ",
       "componentType": "Sequence",
-      "page": "34",
+      "page": "47",
       "label": { "value": "\"Commentaire\"", "type": "VTL|MD" },
       "conditionFilter": { "value": "true", "type": "VTL" },
       "hierarchy": {
         "sequence": {
           "id": "COMMENT-SEQ",
-          "page": "34",
+          "page": "47",
           "label": { "value": "\"Commentaire\"", "type": "VTL|MD" }
         }
       }
@@ -2322,7 +5352,7 @@
       "id": "COMMENT-QUESTION",
       "componentType": "Textarea",
       "mandatory": false,
-      "page": "35",
+      "page": "48",
       "maxLength": 2000,
       "label": {
         "value": "\"Avez-vous des remarques concernant l'enquête ou des commentaires ?\"",
@@ -2332,25 +5362,12 @@
       "hierarchy": {
         "sequence": {
           "id": "COMMENT-SEQ",
-          "page": "34",
+          "page": "47",
           "label": { "value": "\"Commentaire\"", "type": "VTL|MD" }
         }
       },
       "bindingDependencies": ["COMMENT_QE"],
       "response": { "name": "COMMENT_QE" }
-    }
-  ],
-  "suggesters": [
-    {
-      "name": "L_COMMUNEPASSEE-1-1-0",
-      "fields": [
-        { "name": "label", "rules": "soft" },
-
-        { "name": "id", "rules": "soft" }
-      ],
-      "order": { "field": "label", "type": "ascending" },
-      "queryParser": { "type": "soft" },
-      "version": "1"
     }
   ],
   "variables": [
@@ -2512,6 +5529,54 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "DATEMOIS",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "DATEMOIS_MISSING",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "DATEANNEE",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "DATEANNEE_MISSING",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "BOOLEEN",
       "values": {
         "PREVIOUS": null,
@@ -2597,6 +5662,54 @@
     {
       "variableType": "COLLECTED",
       "name": "IMAGE_MISSING",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "CHECKBOX_AUTRE",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "CHECKBOX_AUTRE_MISSING",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "AUTRE_PRECISER",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "AUTRE_PRECISER_MISSING",
       "values": {
         "PREVIOUS": null,
         "COLLECTED": null,
@@ -2944,6 +6057,942 @@
 
     {
       "variableType": "COLLECTED",
+      "name": "TABLEAUTIC_MISSING",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAUTIC11",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAUTIC21",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAUTIC31",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAUTIC41",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A1M_MISSING",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A1M11",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A1M21",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A1M31",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A1M41",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A1M51",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A3M_MISSING",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A3M11",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A3M12",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A3M13",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A3M21",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A3M22",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A3M23",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A3M31",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A3M32",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A3M33",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A3M41",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A3M42",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A3M43",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A3M51",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A3M52",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1A3M53",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A_MISSING",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A11",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A12",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A13",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A14",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A15",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A21",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A22",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A23",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A24",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A25",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A31",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A32",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A33",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A34",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A35",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A41",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A42",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A43",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A44",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A45",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A51",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A52",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A53",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A54",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A55",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A61",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A62",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A63",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A64",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A65",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A71",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A72",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A73",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A74",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A75",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A81",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A82",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A83",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A84",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU2A85",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1AH1M_MISSING",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1AH1M11",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1AH1M21",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1AH1M31",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1AH1M41",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1AH1M51",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAU1AH1M61",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAUDYN_MISSING",
+      "values": {
+        "PREVIOUS": null,
+        "COLLECTED": null,
+        "FORCED": null,
+        "EDITED": null,
+        "INPUTED": null
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAUDYN1",
+      "values": {
+        "PREVIOUS": [null],
+        "COLLECTED": [null],
+        "FORCED": [null],
+        "EDITED": [null],
+        "INPUTED": [null]
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
+      "name": "TABLEAUDYN2",
+      "values": {
+        "PREVIOUS": [null],
+        "COLLECTED": [null],
+        "FORCED": [null],
+        "EDITED": [null],
+        "INPUTED": [null]
+      }
+    },
+
+    {
+      "variableType": "COLLECTED",
       "name": "PRENOM",
       "values": {
         "PREVIOUS": null,
@@ -3241,112 +7290,11 @@
       "variableType": "CALCULATED",
       "name": "CIVILITE",
       "expression": {
-        "value": "if (nvl(SEXE,\"\") = \"1\") then \"monsieur\" else if (nvl(SEXE,\"\") = \"2\") then \"madame\" else \"\"",
+        "value": "if (nvl(SEXE,\"\") = \"1\") then 'monsieur' else if (nvl(SEXE,\"\") = \"2\") then 'madame' else \"\"",
         "type": "VTL"
       },
       "bindingDependencies": ["SEXE"],
       "inFilter": "false"
     }
-  ],
-  "cleaning": {
-    "MAJEUR": {
-      "QMASQUEE": "(MAJEUR=\"1\")",
-      "QFILTRE": "(MAJEUR=\"1\") and (isnull(SEXE) or SEXE=\"2\")"
-    },
-    "SEXE": { "QFILTRE": "(MAJEUR=\"1\") and (isnull(SEXE) or SEXE=\"2\")" }
-  },
-  "missingBlock": {
-    "TEXTECOURT_MISSING": ["TEXTECOURT"],
-    "TEXTECOURT": ["TEXTECOURT_MISSING"],
-    "TEXTELONG_MISSING": ["TEXTELONG"],
-    "TEXTELONG": ["TEXTELONG_MISSING"],
-    "INTEGER_MISSING": ["INTEGER"],
-    "INTEGER": ["INTEGER_MISSING"],
-    "FLOAT_MISSING": ["FLOAT"],
-    "FLOAT": ["FLOAT_MISSING"],
-    "UNIT_MISSING": ["UNIT"],
-    "UNIT": ["UNIT_MISSING"],
-    "DATE_MISSING": ["DATE"],
-    "DATE": ["DATE_MISSING"],
-    "BOOLEEN_MISSING": ["BOOLEEN"],
-    "BOOLEEN": ["BOOLEEN_MISSING"],
-    "RADIO_MISSING": ["RADIO"],
-    "RADIO": ["RADIO_MISSING"],
-    "CHECKBOX_MISSING": ["CHECKBOX"],
-    "CHECKBOX": ["CHECKBOX_MISSING"],
-    "IMAGE_MISSING": ["IMAGE"],
-    "IMAGE": ["IMAGE_MISSING"],
-    "DROPDOWN_MISSING": ["DROPDOWN"],
-    "DROPDOWN": ["DROPDOWN_MISSING"],
-    "AUTOCOMPL_MISSING": ["AUTOCOMPL"],
-    "AUTOCOMPL": ["AUTOCOMPL_MISSING"],
-    "QCM_B_MISSING": [
-      "QCM_B1",
-      "QCM_B2",
-      "QCM_B3",
-      "QCM_B4",
-      "QCM_B5",
-      "QCM_B6",
-      "QCM_B7",
-      "QCM_B8"
-    ],
-    "QCM_B1": ["QCM_B_MISSING"],
-    "QCM_B2": ["QCM_B_MISSING"],
-    "QCM_B3": ["QCM_B_MISSING"],
-    "QCM_B4": ["QCM_B_MISSING"],
-    "QCM_B5": ["QCM_B_MISSING"],
-    "QCM_B6": ["QCM_B_MISSING"],
-    "QCM_B7": ["QCM_B_MISSING"],
-    "QCM_B8": ["QCM_B_MISSING"],
-    "QCM_ON_MISSING": ["QCM_ON1", "QCM_ON2", "QCM_ON3", "QCM_ON4", "QCM_ON5"],
-    "QCM_ON1": ["QCM_ON_MISSING"],
-    "QCM_ON2": ["QCM_ON_MISSING"],
-    "QCM_ON3": ["QCM_ON_MISSING"],
-    "QCM_ON4": ["QCM_ON_MISSING"],
-    "QCM_ON5": ["QCM_ON_MISSING"],
-    "QCM_ONR_MISSING": [
-      "QCM_ONR1",
-      "QCM_ONR2",
-      "QCM_ONR3",
-      "QCM_ONR4",
-      "QCM_ONR5",
-      "QCM_ONR6",
-      "QCM_ONR7",
-      "QCM_ONR8"
-    ],
-    "QCM_ONR1": ["QCM_ONR_MISSING"],
-    "QCM_ONR2": ["QCM_ONR_MISSING"],
-    "QCM_ONR3": ["QCM_ONR_MISSING"],
-    "QCM_ONR4": ["QCM_ONR_MISSING"],
-    "QCM_ONR5": ["QCM_ONR_MISSING"],
-    "QCM_ONR6": ["QCM_ONR_MISSING"],
-    "QCM_ONR7": ["QCM_ONR_MISSING"],
-    "QCM_ONR8": ["QCM_ONR_MISSING"],
-    "PRENOM_MISSING": ["PRENOM"],
-    "PRENOM": ["PRENOM_MISSING"],
-    "EMAIL_MISSING": ["EMAIL"],
-    "EMAIL": ["EMAIL_MISSING"],
-    "MAJEUR_MISSING": ["MAJEUR"],
-    "MAJEUR": ["MAJEUR_MISSING"],
-    "NAISSANCE_MISSING": ["NAISSANCE"],
-    "NAISSANCE": ["NAISSANCE_MISSING"],
-    "SEXE_MISSING": ["SEXE"],
-    "SEXE": ["SEXE_MISSING"],
-    "QMASQUEE_MISSING": ["QMASQUEE"],
-    "QMASQUEE": ["QMASQUEE_MISSING"],
-    "QFILTRE_MISSING": ["QFILTRE"],
-    "QFILTRE": ["QFILTRE_MISSING"],
-    "NBPERS_MISSING": ["NBPERS"],
-    "NBPERS": ["NBPERS_MISSING"],
-    "NBENFANT_MISSING": ["NBENFANT"],
-    "NBENFANT": ["NBENFANT_MISSING"],
-    "THL_PRENOM_MISSING": ["THL_PRENOM", "THL_AGE"],
-    "THL_PRENOM": ["THL_PRENOM_MISSING"],
-    "THL_AGE": ["THL_PRENOM_MISSING"],
-    "TAILLE_MISSING": ["TAILLE"],
-    "TAILLE": ["TAILLE_MISSING"]
-  },
-  "resizing": {
-    "NBPERS": { "size": "nvl(NBPERS,1)", "variables": ["THL_PRENOM", "THL_AGE", "TAILLE"] }
-  }
+  ]
 }
