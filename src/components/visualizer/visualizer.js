@@ -12,6 +12,7 @@ import QuestionnaireForm from './questionnaireForm';
 const Visualizer = () => {
   const { apiUrl, standalone } = useContext(AppContext);
 
+  const [init, setInit] = useState(false);
   const [surveyUnit, setSurveyUnit] = useState(undefined);
   const [error, setError] = useState(null);
   const [source, setSource] = useState(null);
@@ -22,7 +23,7 @@ const Visualizer = () => {
     dataUrl
   );
 
-  const [suggesters] = useState(nomenclatures);
+  const [suggesters, setSuggesters] = useState(null);
   const history = useHistory();
 
   const createFakeSurveyUnit = surveyUnit => {
@@ -35,16 +36,18 @@ const Visualizer = () => {
   };
 
   useEffect(() => {
-    if (questionnaireUrl && questionnaire && suData) {
+    if (!init && questionnaireUrl && questionnaire && suData && nomenclatures) {
       const { valid, error: questionnaireError } = checkQuestionnaire(questionnaire);
       if (valid) {
         setSource(questionnaire);
         setSurveyUnit(createFakeSurveyUnit(suData));
+        setSuggesters(nomenclatures);
+        setInit(true);
       } else {
         setError(questionnaireError);
       }
     }
-  }, [questionnaireUrl, questionnaire, suData, apiUrl]);
+  }, [questionnaireUrl, questionnaire, suData, apiUrl, nomenclatures, init]);
 
   useEffect(() => {
     if (errorMessage) setError(errorMessage);
@@ -60,7 +63,7 @@ const Visualizer = () => {
     <>
       {loadingMessage && <Preloader message={loadingMessage} />}
       {error && <Error message={error} />}
-      {questionnaireUrl && source && surveyUnit && suggesters && (
+      {init && questionnaireUrl && source && surveyUnit && suggesters && (
         <Orchestrator
           surveyUnit={surveyUnit}
           source={source}
