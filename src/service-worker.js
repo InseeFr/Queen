@@ -12,7 +12,7 @@ import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { createHandlerBoundToURL, precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { CacheFirst, NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies';
+import { CacheFirst, NetworkFirst, NetworkOnly, StaleWhileRevalidate } from 'workbox-strategies';
 
 clientsClaim();
 
@@ -61,7 +61,7 @@ registerRoute(
     ],
   })
 );
-
+const getOnlineFile = url => url.concat('/online.json');
 const getUrlRegex = function (url) {
   return url.replace('http', '^http').concat('/(.*)((.js)|(.png)|(.svg))');
 };
@@ -70,6 +70,15 @@ const getUrlRegexJson = function (url) {
   return url.replace('http', '^http').concat('/(.*)(.json)');
 };
 const configurationCacheName = 'queen-cache';
+
+// don't cache onlineFile
+registerRoute(
+  new RegExp(getOnlineFile(self.location.origin)),
+  new NetworkOnly({
+    // set to 5 sec timeout (default is 300sec)
+    networkTimeoutSeconds: 5,
+  })
+);
 
 registerRoute(
   new RegExp(getUrlRegexJson(self.location.origin)),
