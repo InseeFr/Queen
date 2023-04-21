@@ -6,11 +6,11 @@ const { NetworkFirst, CacheFirst, NetworkOnly } = workbox.strategies;
 
 /* Custom timeout network, default is 300 sec -> to long */
 /* Timeout in seconds for questionnaire before fallback to cache */
-const NETWORK_TIMEOUT_QUESTIONNAIRE = 8;
+const QUEEN_NETWORK_TIMEOUT_QUESTIONNAIRE = 8;
 /* Timeout in seconds for online status before failure */
-const NETWORK_TIMEOUT_ONLINE_STATUS = 5;
+const QUEEN_NETWORK_TIMEOUT_ONLINE_STATUS = 5;
 
-const getOnlineFile = url => url.concat('/online.json');
+const getQueenOnlineFile = url => url.concat('/online.json');
 
 const getQueenUrlRegex = url => {
   return url.replace('http', '^http').concat('/(.*)((.js)|(.png)|(.svg))');
@@ -31,9 +31,9 @@ const queenCacheName = 'queen-cache';
 console.log('"Loading Queen SW into another SW"');
 
 registerRoute(
-  new RegExp(getOnlineFile(self._QUEEN_URL)),
+  new RegExp(getQueenOnlineFile(self._QUEEN_URL)),
   new NetworkOnly({
-    networkTimeoutSeconds: NETWORK_TIMEOUT_ONLINE_STATUS,
+    networkTimeoutSeconds: QUEEN_NETWORK_TIMEOUT_QUESTIONNAIRE,
   })
 );
 
@@ -41,7 +41,7 @@ registerRoute(
   new RegExp(getQueenUrlRegexJson(self._QUEEN_URL)),
   new NetworkFirst({
     cacheName: queenCacheName,
-    networkTimeoutSeconds: NETWORK_TIMEOUT_QUESTIONNAIRE,
+    networkTimeoutSeconds: QUEEN_NETWORK_TIMEOUT_QUESTIONNAIRE,
     plugins: [
       new CacheableResponsePlugin({
         statuses: [0, 200],
@@ -66,7 +66,7 @@ registerRoute(
   new RegExp(getRequiredResourceUrlRegex()),
   new NetworkFirst({
     cacheName: 'queen-required-resource',
-    networkTimeoutSeconds: NETWORK_TIMEOUT_QUESTIONNAIRE,
+    networkTimeoutSeconds: QUEEN_NETWORK_TIMEOUT_QUESTIONNAIRE,
     plugins: [
       new CacheableResponsePlugin({
         statuses: [0, 200],
@@ -79,7 +79,7 @@ registerRoute(
   new RegExp(getQuestionnaireUrlRegex()),
   new NetworkFirst({
     cacheName: 'queen-questionnaire',
-    networkTimeoutSeconds: NETWORK_TIMEOUT_QUESTIONNAIRE,
+    networkTimeoutSeconds: QUEEN_NETWORK_TIMEOUT_QUESTIONNAIRE,
     plugins: [
       new CacheableResponsePlugin({
         statuses: [0, 200],
