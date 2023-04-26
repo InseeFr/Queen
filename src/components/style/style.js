@@ -18,6 +18,9 @@ const StyleProvider = ({ children }) => {
           },
           declarations: {
             main: '#085394',
+            instruction: '#085394',
+            codecard: '#085394',
+            statement: '#085394',
             help: 'black',
           },
           background: {

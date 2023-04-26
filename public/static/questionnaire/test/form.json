@@ -177,13 +177,25 @@
         {
           "declarationType": "INSTRUCTION",
           "id": "kmp26pus-kod7urfd",
-          "label": "Je suis une consigne CAPI CATI CAWI PAPI",
+          "label": "Je suis une consigne CAPI CATI CAWI PAPI (instruction)",
           "position": "AFTER_QUESTION_TEXT"
         },
         {
           "declarationType": "HELP",
           "id": "kmp26pus-kod7z6cs",
-          "label": "Je suis une aide CAPI CATI CAWI PAPI",
+          "label": "Je suis une aide CAPI CATI CAWI PAPI (help)",
+          "position": "AFTER_QUESTION_TEXT"
+        },
+        {
+          "declarationType": "CODECARD",
+          "id": "jjy309ac-kowww4jq",
+          "label": "je suis une carte code CAPI (codecard)",
+          "position": "AFTER_QUESTION_TEXT"
+        },
+        {
+          "declarationType": "STATEMENT",
+          "id": "kocwuwjx-SI",
+          "label": "Je suis une aide AVANT APRES PAPI CAWI (statement)",
           "position": "AFTER_QUESTION_TEXT"
         }
       ]
