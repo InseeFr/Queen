@@ -711,7 +711,8 @@
 
         { "value": "00002", "label": { "value": "Shelbyville", "type": "VTL|MD" } },
 
-        { "value": "03", "label": { "value": "Seinfeld", "type": "VTL|MD" } }
+        { "value": "03", "label": { "value": "Seinfeld", "type": "VTL|MD" } },
+        { "value": "04", "label": { "value": "Simpsonsville", "type": "VTL|MD" } }
       ],
       "response": { "name": "CITY" }
     },

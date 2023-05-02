@@ -29,11 +29,17 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       margin: '0',
     },
     /* Firefox */
-    '& input[type=text]': { minWidth: '40%' },
+    '& input[type=text]': {
+      minWidth: '40%',
+      borderRadius: '10px',
+      border: '1px solid black',
+    },
     '& input[type=number]': {
       MozAppearance: 'textfield',
-      marginLeft: '2em',
+      marginLeft: '1em',
       height: '2em',
+      borderRadius: '10px',
+      border: '1px solid black',
     },
 
     // to replace checkbox by svg
@@ -151,15 +157,12 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       '& .checkbox-modality': {
         display: 'inline-block',
         width: '40%',
-        margin: '4px',
         [theme.breakpoints.down('xs')]: {
           display: 'block',
           width: '70%',
-          margin: '8px',
         },
       },
     },
-
     '& fieldset': {
       padding: 0,
       margin: 0,
@@ -168,12 +171,11 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
       '& .field-container': {
         marginTop: 0,
       },
-
       '& .checkbox-modality, & .radio-modality': {
         borderRadius: '5px',
         border: `1px solid ${borderColorCheckbox}`,
         backgroundColor: `${backgroundColorCheckbox}`,
-        margin: '8px',
+        marginBottom: '12px',
         width: '70%',
         padding: '0.5em',
 
@@ -184,15 +186,14 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         '& > .lunatic-input-checkbox': {
           display: 'inline-flex',
           alignItems: 'center',
-          padding: '0.5em 0.5em 0.5em 0.6em',
+          // padding: '0.5em 0.5em 0.5em 0.6em',
           position: 'relative',
           // right: '1.3em',
-          width: '92%',
+          // width: '92%',
           [theme.breakpoints.down('md')]: {
             width: '85%',
           },
         },
-
         '&:hover span': {
           color: `${modalityLabelColorChecked}`,
           fontWeight: 'bold',
@@ -251,7 +252,6 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
     },
 
     // lunatic label
-
     '& .lunatic-input , .lunatic-textarea, .lunatic-input-number': {
       '& .lunatic-label': {
         display: 'block',
@@ -518,7 +518,28 @@ export const useCustomLunaticStyles = makeStyles(theme => ({
         },
       },
     },
-
+    '& .lunatic-combo-box-container': {
+      '& .lunatic-combo-box': {
+        '& .lunatic-combo-box-content': {
+          width: '90%',
+          marginTop: '1em',
+          '$.focused': {
+            width: '90%',
+            marginTop: '1em',
+          },
+        },
+      },
+    },
+    '& .lunatic-combo-box-fab': {
+      right: '15em',
+      top: '3.3em',
+    },
+    '& .lunatic-checkbox-group-option': {
+      fontSize: '16px',
+    },
+    '& .lunatic-radio-group-option': {
+      fontSize: '16px',
+    },
     // '& .lunatic-suggester-option': {
     //   textOverflow: 'ellipsis',
     //   whiteSpace: 'nowrap',

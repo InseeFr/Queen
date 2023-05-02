@@ -72,12 +72,6 @@
           "position": "AFTER_QUESTION_TEXT"
         },
         {
-          "declarationType": "CODECARD",
-          "id": "jjy2j3hv-kocpy9pe",
-          "label": "Je suis une carte code CATI CAPI",
-          "position": "AFTER_QUESTION_TEXT"
-        },
-        {
           "declarationType": "HELP",
           "id": "jjy2j3hv-krlygnqz",
           "label": "Je suis une aide / help CATI CAPI donc en noir",
@@ -87,6 +81,12 @@
           "declarationType": "INSTRUCTION",
           "id": "jjy2j3hv-krlyj1im",
           "label": "Je suis une consigne CATI CAPI",
+          "position": "AFTER_QUESTION_TEXT"
+        },
+        {
+          "declarationType": "CODECARD",
+          "id": "jjy2j3hv-kocpy9pe",
+          "label": "Je suis une carte code CATI CAPI",
           "position": "AFTER_QUESTION_TEXT"
         }
       ]
