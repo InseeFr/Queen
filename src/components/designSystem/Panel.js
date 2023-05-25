@@ -75,7 +75,7 @@ export const Panel = ({
   }, [currentPanel]);
 
   const isNothingToDisplay = vars =>
-    Object.entries(variables).filter(([key, value]) => !!value).length === 0;
+    Object.entries(vars).filter(([key, value]) => !!value).length === 0;
 
   const emptyData = isNothingToDisplay(variables);
 

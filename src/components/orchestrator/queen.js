@@ -1,22 +1,24 @@
-import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import PropTypes from 'prop-types';
-import * as lunatic from '@inseefr/lunatic';
 import * as UQ from 'utils/questionnaire';
-import { DIRECT_CONTINUE_COMPONENTS } from 'utils/constants';
-import Header from './header';
-import ContinueButton from './buttons/continue';
-import NavBar from './navBar';
-import { useCustomLunaticStyles } from './lunaticStyle/style';
-import { useStyles } from './orchestrator.style';
-import SimpleLoader from 'components/shared/preloader/simple';
+import * as lunatic from '@inseefr/lunatic';
+
 import {
   COMPLETED,
-  useQuestionnaireState,
   VALIDATED,
+  useQuestionnaireState,
   useValidatedPages,
 } from 'utils/hook/questionnaire';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
+import ContinueButton from './buttons/continue';
 import D from 'i18n';
+import { DIRECT_CONTINUE_COMPONENTS } from 'utils/constants';
+import Header from './header';
+import NavBar from './navBar';
 import { Panel } from 'components/designSystem';
+import PropTypes from 'prop-types';
+import SimpleLoader from 'components/shared/preloader/simple';
+import { useCustomLunaticStyles } from './lunaticStyle/style';
+import { useStyles } from './orchestrator.style';
 
 export const OrchestratorContext = React.createContext();
 
@@ -272,7 +274,7 @@ const QueenOrchestrator = ({
 
   const [expanded, setExpanded] = useState(false);
 
-  const handleChangePanel = panel => (event, newExpanded) => {
+  const handleChangePanel = panel => (_, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
 
@@ -344,7 +346,7 @@ const QueenOrchestrator = ({
                           return null;
                         })}
                         variables={Object.entries(responseBindings).reduce((acc, [key, value]) => {
-                          return { ...acc, [key]: value[ind] };
+                          return { ...acc, [key]: Array.isArray(value) ? value[ind] : value };
                         }, {})}
                         setPage={setPage}
                         goToSeePage={allFirstLoopPages[ind]}

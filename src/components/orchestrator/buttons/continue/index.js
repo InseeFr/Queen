@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import D from 'i18n';
 import { useStyles } from './continue.style';
 import { OrchestratorContext } from 'components/orchestrator/queen';
+import { paradataHandler, SIMPLE_CLICK_EVENT } from 'utils/events';
 
 const ButtonContinue = ({ setPendingChangePage }) => {
   const { readonly, isLastPage, page } = useContext(OrchestratorContext);
@@ -16,12 +17,23 @@ const ButtonContinue = ({ setPendingChangePage }) => {
 
   const continueButtonRef = useRef();
 
+  const utilInfo = type => {
+    return {
+      ...SIMPLE_CLICK_EVENT,
+      idParadataObject: `${type}-button`,
+      page: page,
+    };
+  };
+
   const [pageChanging, setPageChanging] = useState(null);
 
   const localPageNext = () => setPageChanging('next');
+
   const localFinalQuit = () => setPageChanging('quit');
 
-  const pageNextFunction = isLastPage ? localFinalQuit : localPageNext;
+  const pageNextFunction = isLastPage
+    ? paradataHandler(localFinalQuit)(utilInfo('end-survey'))
+    : paradataHandler(localPageNext)(utilInfo('next-button'));
 
   const [focus, setFocus] = useState(false);
   const onfocus = value => () => setFocus(value);
