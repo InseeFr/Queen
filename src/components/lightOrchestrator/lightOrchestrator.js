@@ -2,14 +2,14 @@ import * as lunatic from '@inseefr/lunatic';
 
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import D from 'i18n';
-import { componentHasResponse } from 'utils/components/deduceState';
-import { LoopPanel } from './LoopPanel';
 import ButtonContinue from './buttons/continue/index';
 import { ComponentDisplayer } from './componentDisplayer';
+import D from 'i18n';
 import Header from './header';
-import { useStyles } from './lightOrchestrator.style';
+import { LoopPanel } from './LoopPanel';
 import NavBar from './navBar';
+import { componentHasResponse } from 'utils/components/deduceState';
+import { useStyles } from './lightOrchestrator.style';
 
 function onLogChange(response, value, args) {
   console.log('onChange', { response, value, args });
@@ -244,7 +244,7 @@ function LightOrchestrator({
             readonly={readonly}
             isLastPage={isLastPage}
             page={page}
-            quit={quit}
+            quit={memoDefinitiveQuit}
             goNext={goNextPage}
             rereading={!isLastReachedPage}
             isLastReachedPage={isLastReachedPage}
