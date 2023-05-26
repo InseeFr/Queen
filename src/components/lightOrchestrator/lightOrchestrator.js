@@ -143,7 +143,11 @@ function LightOrchestrator({
       return;
     }
     // no page change => no save needed
-    if (previousPager.current.page === pager.page) {
+    if (
+      previousPager.current.page === pager.page &&
+      previousPager.current.subPage === pager.subPage &&
+      previousPager.current.iteration === pager.iteration
+    ) {
       return;
     }
     // page change : update current pager then save
@@ -174,9 +178,14 @@ function LightOrchestrator({
 
   const trueGoToPage = useCallback(
     targetPage => {
-      console.log('go to page', targetPage);
       if (typeof targetPage === 'string') {
-        goToPage({ page: targetPage });
+        if (targetPage.includes('#') && targetPage.includes('.')) {
+          const [foundPage, foundSubPage, foundIteration] = targetPage.split(/\W+/);
+          // lunatic way of page numbering
+          goToPage({ page: foundPage, iteration: foundIteration - 1, subPage: foundSubPage - 1 });
+        } else {
+          goToPage({ page: targetPage, subPage: undefined, iteration: undefined });
+        }
       } else {
         const { page, iteration, subPage } = targetPage;
         goToPage({ page: page, iteration: iteration, subPage: subPage });
@@ -203,7 +212,24 @@ function LightOrchestrator({
   } = source;
 
   if (previousPager === undefined) return null;
-  const isLastReachedPage = pager ? pager.page === pager.lastReachedPage : false;
+
+  // lastReachedpage can have values like "35" or like "35.1#1"
+  const checkIfLastReachedPage = () => {
+    if (pager === undefined || pager.lastReachedPage === undefined) {
+      return false;
+    }
+    const splittedPagerLRP = pager.lastReachedPage.split(/\W+/);
+    if (splittedPagerLRP.length === 1) {
+      return pager.page === pager.lastReachedPage;
+    }
+    const [lastPage, lastSubPage, lastIteration] = splittedPagerLRP;
+    return (
+      pager.page === lastPage &&
+      pager.iteration === lastIteration - 1 &&
+      pager.subPage === lastSubPage - 1
+    );
+  };
+  const isLastReachedPage = pager !== undefined ? checkIfLastReachedPage() : false;
   const { maxPage, page, subPage, nbSubPages, iteration, nbIterations } = pager;
 
   return (
