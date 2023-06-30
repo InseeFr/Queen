@@ -107,6 +107,7 @@
     ]
   },
   "devDependencies": {
+    "@playwright/test": "^1.35.1",
     "@types/react": "^16.9.23",
     "@welldone-software/why-did-you-render": "^6.2.3",
     "copy-and-watch": "^0.1.4",
